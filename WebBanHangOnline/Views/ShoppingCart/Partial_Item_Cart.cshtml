@@ -1,0 +1,65 @@
+﻿@model IEnumerable<WebBanHangOnline.Models.ShoppingCartItem>
+
+@if (Model != null && Model.Any())
+{
+    var i = 0;
+    var tongtien = 0;
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th class="text-center">STT</th>
+                    <th class="text-center">Ảnh sản phẩm</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Danh mục</th>
+                    <th class="text-center">Giá</th>
+                    <th class="text-center" width="100">Số lượng</th>
+                    <th class="text-center">Thành tiền</th>
+                    <th width="160"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    tongtien += item.TotalPrice;
+                    <tr id="trow_@item.ProductId">
+                        <td class="text-center">@(i + 1)</td>
+                        <td class="text-center">
+                            <img src="@item.ProductImg" width="60" />
+                        </td>
+                        <td>
+                            <a href="/chi-tiet/@item.Alias-p@(item.ProductId)">
+                                @item.ProductName
+                            </a>
+                        </td>
+                        <td>@item.CategoryName</td>
+                        <td class="text-right">@string.Format("{0:N0}", item.Price)<u>đ</u></td>
+                        <td class="text-center">
+                            <input type="number" min="1" class="form-control" id="Quantity_@item.ProductId" value="@item.Quantity" />
+                        </td>
+                        <td class="text-right font-weight-bold">@string.Format("{0:N0}", item.TotalPrice)<u>đ</u></td>
+                        <td>
+                            <a href="#" data-id="@item.ProductId" class="btn btn-sm btn-danger btnDelete">Xóa</a>
+                            <a href="#" data-id="@item.ProductId" class="btn btn-sm btn-primary btnUpdate">Cập nhật</a>
+                        </td>
+                    </tr>
+                    i++;
+                }
+                <tr class="font-weight-bold">
+                    <td colspan="6" class="text-right">Tổng tiền: </td>
+                    <td class="text-right">@string.Format("{0:N0}", tongtien)<u>đ</u></td>
+                    <td></td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <h3 class="text-center">Giỏ hàng của bạn đang trống!</h3>
+    <div class="row d-flex justify-content-center">
+        <a href="/danh-muc-san-pham/san-pham" class="btn red_button text-white px-4">MUA NGAY</a>
+    </div>
+}
+

@@ -1,0 +1,58 @@
+﻿@model IEnumerable<WebBanHangOnline.Models.EF.Order>
+@{
+    ViewBag.Title = "Lịch sử mua hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_styles.css">
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_responsive.css">
+
+<div class="container product_section_container">
+    <div class="breadcrumbs d-flex flex-row align-items-center">
+        <ul>
+            <li><a href="/">Trang chủ</a></li>
+            <li class="active"><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i>Đơn mua</a></li>
+        </ul>
+    </div>
+    <h2 id="title">@ViewBag.Title</h2>
+    <div class="row">
+        <div class="col-md-12">
+            @if (Model != null && Model.Any())
+            {
+                var i = 1;                
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Mã đơn hàng</th>
+                            <th>Ngày tạo</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@i</td>
+                                <td>@item.Code</td>
+                                <td>@item.CreatedDate.ToString("dd/MM/yyyy, HH:mm")</td>
+                                <td>
+                                    <a href="/@item.Code-o@(item.Id)" class="btn red_button text-white px-4">Xem chi tiết</a>
+                                </td>
+                            </tr>
+                            i++;
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <h3 class="text-center">Bạn chưa có đơn hàng nào!</h3>
+                <div class="row d-flex justify-content-center">
+                    <a href="/danh-muc-san-pham/san-pham" class="btn red_button text-white px-4">MUA NGAY</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
