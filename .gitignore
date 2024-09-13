@@ -372,3 +372,6 @@ FodyWeavers.xsd
 
 # Ignore the web.config file
 [Ww]eb.config
+/WebBanHangOnline/Web.config
+/WebBanHangOnline/Web.Debug.config
+/WebBanHangOnline/Web.Release.config
