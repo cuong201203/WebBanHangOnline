@@ -371,7 +371,6 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # Ignore the web.config file
-[Ww]eb.config
-/WebBanHangOnline/Web.config
-/WebBanHangOnline/Web.Debug.config
-/WebBanHangOnline/Web.Release.config
+Web.config
+Web.Debug.config
+Web.Release.config
