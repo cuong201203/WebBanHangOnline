@@ -5,20 +5,96 @@
 <link rel="stylesheet" type="text/css" href="~/Content/assets/styles/responsive.css">
 
 <!-- Slider -->
+@*<div class="main_slider" style="background-image:url(/Content/assets/images/slider_1.jpg)">
+        <div class="container fill_height">
+            <div class="row align-items-center fill_height">
+                <div class="col">
+                    <div class="main_slider_content">
+                        <h6>Spring / Summer Collection 2017</h6>
+                        <h1>Get up to 30% Off New Arrivals</h1>
+                        <div class="red_button shop_now_button"><a href="#">shop now</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>*@
 
-<div class="main_slider" style="background-image:url(/Content/assets/images/slider_1.jpg)">
-    <div class="container fill_height">
-        <div class="row align-items-center fill_height">
-            <div class="col">
-                <div class="main_slider_content">
-                    <h6>Spring / Summer Collection 2017</h6>
-                    <h1>Get up to 30% Off New Arrivals</h1>
-                    <div class="red_button shop_now_button"><a href="#">shop now</a></div>
+<div id="customCarousel" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+        <li data-target="#customCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#customCarousel" data-slide-to="1"></li>
+        <li data-target="#customCarousel" data-slide-to="2"></li>
+    </ol>
+
+    <!-- Carousel items -->
+    <div class="carousel-inner">
+        <!-- Carousel item 1 -->
+        <div class="carousel-item active">
+            @*<div class="main_slider" style="background-image:url(/Content/assets/images/slider_1.jpg)">*@
+            <div class="main_slider" style="background-image: url(https://theme.hstatic.net/200000627825/1001001918/14/home_category_2_banner.jpg?v=292)">
+                <div class="container fill_height">
+                    <div class="row align-items-center fill_height">
+                        <div class="col">
+                            <div class="main_slider_content">
+                                @*<h6>Spring / Summer Collection 2017</h6>
+                                <h1>Get up to 30% Off New Arrivals</h1>
+                                <div class="red_button shop_now_button"><a href="#">shop now</a></div>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Carousel item 2 -->
+        <div class="carousel-item">
+            <div class="main_slider" style="background-image: url(https://theme.hstatic.net/200000627825/1001001918/14/home_category_4_banner.jpg?v=292)">
+                <div class="container fill_height">
+                    <div class="row align-items-center fill_height">
+                        <div class="col">
+                            <div class="main_slider_content">
+                                @*<h6>Spring / Summer Collection 2017</h6>
+                                <h1>Get up to 30% Off New Arrivals</h1>
+                                <div class="red_button shop_now_button"><a href="#">shop now</a></div>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Carousel item 3 -->
+        <div class="carousel-item">
+            <div class="main_slider" style="background-image: url(https://theme.hstatic.net/200000627825/1001001918/14/home_category_3_banner.jpg?v=292)">
+                <div class="container fill_height">
+                    <div class="row align-items-center fill_height">
+                        <div class="col">
+                            <div class="main_slider_content">
+                                @*<h6>Spring / Summer Collection 2017</h6>
+                                <h1>Get up to 30% Off New Arrivals</h1>
+                                <div class="red_button shop_now_button"><a href="#">shop now</a></div>*@
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Controls -->
+    <a class="carousel-control-prev" href="#customCarousel" role="button" data-slide="prev">
+        <span style="width: 50px; height: 50px; background-color: gray;" class="d-flex justify-content-center align-items-center rounded-circle">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        </span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#customCarousel" role="button" data-slide="next">
+        <span style="width: 50px; height: 50px; background-color: gray;" class="d-flex justify-content-center align-items-center rounded-circle">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        </span>
+        <span class="sr-only">Next</span>
+    </a>
 </div>
+
 
 <!-- Banner -->
 @Html.Action("MenuProductCategory", "Menu")
@@ -107,17 +183,64 @@
                 </div>
             </div>
             @*<div class="col-lg-3 benefit_col">
-                <div class="benefit_item d-flex flex-row align-items-center">
-                    <div class="benefit_icon"><i class="fa fa-clock-o" aria-hidden="true"></i></div>
-                    <div class="benefit_content">
-                        <h6>opening all week</h6>
-                        <p>8AM - 09PM</p>
+                    <div class="benefit_item d-flex flex-row align-items-center">
+                        <div class="benefit_icon"><i class="fa fa-clock-o" aria-hidden="true"></i></div>
+                        <div class="benefit_content">
+                            <h6>opening all week</h6>
+                            <p>8AM - 09PM</p>
+                        </div>
                     </div>
-                </div>
-            </div>*@
+                </div>*@
         </div>
     </div>
 </div>
 
 <!-- Blogs -->
 @Html.Action("Partial_News_Home", "News")
+
+@section scripts {
+    <!-- Custom JS for swipe -->
+    <script>
+        var carousel = document.getElementById('customCarousel');
+        var startX, endX;
+
+        // Handle touch events for swipe on mobile
+        carousel.addEventListener('touchstart', function (e) {
+            startX = e.touches[0].clientX;
+        });
+
+        carousel.addEventListener('touchmove', function (e) {
+            endX = e.touches[0].clientX;
+        });
+
+        carousel.addEventListener('touchend', function (e) {
+            handleSwipe();
+        });
+
+        // Handle mouse events for swipe on desktop
+        carousel.addEventListener('mousedown', function (e) {
+            startX = e.clientX;
+        });
+
+        carousel.addEventListener('mousemove', function (e) {
+            if (startX) {
+                endX = e.clientX;
+            }
+        });
+
+        carousel.addEventListener('mouseup', function (e) {
+            handleSwipe();
+            startX = null;
+        });
+
+        function handleSwipe() {
+            var threshold = 100; // swipe threshold in pixels
+            if (startX && endX) {
+                if (endX - startX > threshold) {
+                    $('#customCarousel').carousel('prev'); // swipe right to go to the previous item
+                } else if (startX - endX > threshold) {
+                    $('#customCarousel').carousel('next'); // swipe left to go to the next item
+                }
+            }
+        }</script>
+}
