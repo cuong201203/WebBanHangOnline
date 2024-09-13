@@ -3629,7 +3629,7 @@
     <Content Include="Uploads\_thumbs\Images\3c8.jpg" />
     <Content Include="Uploads\_thumbs\Images\9ceaf47e37bd7cb7ff73584d1453cd6b.gif" />
     <Content Include="Uploads\_thumbs\Images\cat-vibe.gif" />
-    <Content Include="Web.config" />
+    <None Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
