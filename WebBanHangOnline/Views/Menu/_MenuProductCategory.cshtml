@@ -2,7 +2,14 @@
 
 @if (Model != null && Model.Any())
 {
-    <div class="banner">
+    <div class="row">
+        <div class="col text-center">
+            <div class="section_title new_arrivals_title">
+                <h2>Danh mục nổi bật</h2>
+            </div>
+        </div>
+    </div>
+    <div class="banner mt-5">
         <div class="container">
             <div class="row">
                 @foreach (var item in Model)
@@ -16,19 +23,19 @@
                     </div>
                 }
                 @*<div class="col-md-4">
-                    <div class="banner_item align-items-center" style="background-image: url(/Content/assets/images/banner_2.jpg) ">
-                        <div class="banner_category">
-                            <a href="categories.html">accessories's</a>
+                        <div class="banner_item align-items-center" style="background-image: url(/Content/assets/images/banner_2.jpg) ">
+                            <div class="banner_category">
+                                <a href="categories.html">accessories's</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="banner_item align-items-center" style="background-image: url(/Content/assets/images/banner_3.jpg)">
-                        <div class="banner_category">
-                            <a href="categories.html">men's</a>
+                    <div class="col-md-4">
+                        <div class="banner_item align-items-center" style="background-image: url(/Content/assets/images/banner_3.jpg)">
+                            <div class="banner_category">
+                                <a href="categories.html">men's</a>
+                            </div>
                         </div>
-                    </div>
-                </div>*@
+                    </div>*@
             </div>
         </div>
     </div>
