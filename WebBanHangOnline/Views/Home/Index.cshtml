@@ -33,7 +33,7 @@
         <!-- Carousel item 1 -->
         <div class="carousel-item active">
             @*<div class="main_slider" style="background-image:url(/Content/assets/images/slider_1.jpg)">*@
-            <div class="main_slider" style="background-image: url(https://image.cocoonvietnam.com/uploads/banner_green_living_ca9790eb2d.jpg)">
+            <div class="main_slider" style="background-image: url(/Uploads/images/Ads/adv-1.jpg)">
                 <div class="container fill_height">
                     <div class="row align-items-center fill_height">
                         <div class="col">
@@ -49,14 +49,14 @@
         </div>
         <!-- Carousel item 2 -->
         <div class="carousel-item">
-            <div class="main_slider" style="background-image: url(https://oriagency.vn/upload/images/chien-luoc-marketing-cua-cocoon-1.png)">
+            <div class="main_slider" style="background-image: url(/Uploads/images/Ads/adv-2.jpg)">
                 <div class="container fill_height">
                     <div class="row align-items-center fill_height">
                         <div class="col">
                             <div class="main_slider_content">
                                 @*<h6>Spring / Summer Collection 2017</h6>
-                                <h1>Get up to 30% Off New Arrivals</h1>
-                                <div class="red_button shop_now_button"><a href="#">shop now</a></div>*@
+                        <h1>Get up to 30% Off New Arrivals</h1>
+                        <div class="red_button shop_now_button"><a href="#">shop now</a></div>*@
                             </div>
                         </div>
                     </div>
@@ -65,7 +65,7 @@
         </div>
         <!-- Carousel item 3 -->
         <div class="carousel-item">
-            <div class="main_slider" style="background-image: url(https://guo.vn/wp-content/uploads/2023/05/Review-dau-tay-trang-cocoon.png)">
+            <div class="main_slider" style="background-image: url(/Uploads/images/Ads/adv-3.jpg)">
                 <div class="container fill_height">
                     <div class="row align-items-center fill_height">
                         <div class="col">
@@ -83,13 +83,13 @@
 
     <!-- Controls -->
     <a class="carousel-control-prev" href="#customCarousel" role="button" data-slide="prev">
-        <span style="width: 50px; height: 50px; background-color: black; margin-top: 100px; margin-left: -30px;" class="d-flex justify-content-center align-items-center rounded-circle">
+        <span style="width: 50px; height: 50px; background-color: black; margin-top: 100px; margin-left: -20px;" class="d-flex justify-content-center align-items-center rounded-circle">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         </span>
         <span class="sr-only">Previous</span>
     </a>
     <a class="carousel-control-next" href="#customCarousel" role="button" data-slide="next">
-        <span style="width: 50px; height: 50px; background-color: black; margin-top: 100px; margin-right: -30px; " class="d-flex justify-content-center align-items-center rounded-circle">
+        <span style="width: 50px; height: 50px; background-color: black; margin-top: 100px; margin-right: -20px; " class="d-flex justify-content-center align-items-center rounded-circle">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
         </span>
         <span class="sr-only">Next</span>
@@ -115,15 +115,16 @@
         <div class="row align-items-center">
             <div class="col-lg-6">
                 <div class="deal_ofthe_week_img">
-                    <img src="~/Content/assets/images/deal_ofthe_week.png" alt="">
+                    @*<img src="~/Content/assets/images/deal_ofthe_week.png" alt="">*@
+                    <img id="best_seller_img" class="w-100" src="https://product.hstatic.net/200000551679/product/z4322607361459_b69237fdb6f428f70706ab0948879904_145ead8b07_929207aef5bf43fea6ae3bffca543d7e_1024x1024.jpg" alt="">
                 </div>
             </div>
             <div class="col-lg-6 text-right deal_ofthe_week_col">
-                <div class="deal_ofthe_week_content d-flex flex-column align-items-center float-right">
+                <div class="deal_ofthe_week_content d-flex flex-column align-items-center py-2" style="background-color: rgba(242, 242, 242, 0.8);">
                     <div class="section_title">
-                        <h2>Deal Of The Week</h2>
+                        <h2>Sản Phẩm Nổi Bật</h2>
                     </div>
-                    <ul class="timer">
+                    @*<ul class="timer">
                         <li class="d-inline-flex flex-column justify-content-center align-items-center">
                             <div id="day" class="timer_num">03</div>
                             <div class="timer_unit">Day</div>
@@ -140,15 +141,21 @@
                             <div id="second" class="timer_num">23</div>
                             <div class="timer_unit">Sec</div>
                         </li>
-                    </ul>
-                    <div class="red_button deal_ofthe_week_button"><a href="#">shop now</a></div>
+                    </ul>*@
+                    <div class="timer" style="text-align: center !important;">
+                        <h3>Nước Dưỡng Tóc Tinh Dầu Bưởi</h3>
+                        <div class="mt-3 px-5 text-center" style="font-size: 16px;">
+                            Tinh dầu vỏ bưởi đồng vận cùng các hoạt chất tiên tiến gồm Vitamin B5, Xylishine, Baicapil và Bisabolol giúp giảm gãy rụng và tăng cường sự phát triển của mái tóc.
+                        </div>
+                    </div>
+                    <div class="red_button shop_now_button"><a href="/chi-tiet/nuoc-duong-toc-tinh-dau-buoi-310ml-p11">mua ngay</a></div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Best Sellers -->
+<!-- On Sale -->
 @Html.Action("Partial_ProductSales", "Product")
 
 <!-- Benefit -->
@@ -243,5 +250,27 @@
                     $('#customCarousel').carousel('next'); // swipe left to go to the next item
                 }
             }
-        }</script>
+        }
+        $(document).ready(function () {
+            // Lưu src gốc của ảnh
+            var originalSrc = $('#best_seller_img').attr('src');
+
+            // Thay đổi src khi hover vào ảnh
+            $('#best_seller_img').hover(
+                function () {
+                    // Khi hover vào ảnh
+                    $(this).stop(true, true).fadeOut(200, function () {
+                        $(this).attr('src', '/Uploads/images/BestSeller/best-seller-1.jpg').fadeIn(200);
+                    });
+                },
+                function () {
+                    // Khi rời khỏi ảnh
+                    $(this).stop(true, true).fadeOut(200, function () {
+                        $(this).attr('src', originalSrc).fadeIn(200);
+                    });
+                }
+            );
+        });
+
+    </script>
 }
