@@ -24,7 +24,7 @@ namespace WebBanHangOnline.Controllers
 
         public ActionResult MenuProductCategory()
         {
-            var items = db.ProductCategories.Take(3).ToList();
+            var items = db.ProductCategories.Take(4).ToList();
             return PartialView("_MenuProductCategory", items);
         }
 

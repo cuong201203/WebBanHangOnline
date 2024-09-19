@@ -6,7 +6,7 @@
             @*<img src="~/Content/clients/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">*@
         </div>
         <div class="info">
-            <a href="#" class="d-block">Xin chào @User.Identity.Name</a>
+            <a href="#" class="d-block">Xin chào <b class="text-white">@User.Identity.Name</b></a>
         </div>
     </div>
 
@@ -31,7 +31,7 @@
             {
                 <li class="nav-item">
                     <a href="/admin/statistical" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon fas fa-chart-bar"></i>
                         <p>
                             Thống kê
                             @*<span class="right badge badge-danger">New</span>*@
@@ -40,7 +40,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="/admin/category" class="nav-link">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <i class="nav-icon fas fa-list-ol"></i>
                         <p>
                             Danh mục
                             @*<i class="right fas fa-angle-left"></i>*@
@@ -69,7 +69,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="/admin/role" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon fas fa-user-tag"></i>
                         <p>
                             Quyền
                             @*<span class="right badge badge-danger">New</span>*@
@@ -79,7 +79,7 @@
             }
             <li class="nav-item">
                 <a href="/admin/news" class="nav-link">
-                    <i class="nav-icon fas fa-th"></i>
+                    <i class="nav-icon fas fa-newspaper"></i>
                     <p>
                         Tin tức
                         @*<span class="right badge badge-danger">New</span>*@
@@ -99,7 +99,7 @@
             {
                 <li class="nav-item">
                     <a href="/admin/order" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon fas fa-file-invoice-dollar"></i>
                         <p>
                             Đơn hàng
                             @*<span class="right badge badge-danger">New</span>*@
@@ -118,7 +118,7 @@
             </li>-->
             <li class="nav-item">
                 <a href="/admin" class="nav-link">
-                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                    <i class="nav-icon fas fa-th"></i>
                     <p>
                         Quản lý sản phẩm
                         <i class="right fas fa-angle-left"></i>
@@ -128,15 +128,15 @@
                     @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
                     {
                         <li class="nav-item">
-                            <a href="/admin/productcategory" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
+                            <a href="/admin/productcategory" class="nav-link" style="padding-left: 30px;">
+                                <i class="nav-icon fas fa-caret-right"></i>
                                 <p>Danh mục sản phẩm</p>
                             </a>
                         </li>
                     }
                     <li class="nav-item">
-                        <a href="/admin/product" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
+                        <a href="/admin/product" class="nav-link" style="padding-left: 30px;">
+                            <i class="nav-icon fas fa-caret-right"></i>
                             <p>Sản phẩm</p>
                         </a>
                     </li>
@@ -155,7 +155,7 @@
             {
                 <li class="nav-item">
                     <a href="/admin/account" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon fas fa-users"></i>
                         <p>
                             Tài khoản
                             @*<span class="right badge badge-danger">New</span>*@
@@ -165,7 +165,7 @@
             }
             <li class="nav-item">
                 <a href="javascript:document.getElementById('logOffForm').submit()" class="nav-link">
-                    <i class="nav-icon fas fa-th"></i>
+                    <i class="nav-icon fas fa-sign-out-alt"></i>
                     <p>
                         Đăng xuất
                         @*<span class="right badge badge-danger">New</span>*@
