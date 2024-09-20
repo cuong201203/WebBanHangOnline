@@ -27,7 +27,7 @@
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="/admin/home">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/admin/home">Trang chủ</a></li>
                     <li class="breadcrumb-item active">Tin tức</li>
                 </ol>
             </div>
@@ -54,7 +54,7 @@
                     @using (Html.BeginForm("Index", "News", FormMethod.Get, new { }))
                     {
                         <div class="input-group input-group-sm">
-                            @Html.TextBox("searchText", null, new { @class = "form-control" })
+                            @Html.TextBox("searchText", null, new { @class = "form-control", @placeholder = "Tìm kiếm tin tức..." })
                             <span class="input-group-append">
                                 <button type="submit" class="btn btn-info btn-flat">Tìm kiếm</button>
                             </span>
