@@ -56,7 +56,7 @@ namespace WebBanHangOnline.Controllers
             }
         }
 
-        public async Task<ActionResult> Profile()
+        public new async Task<ActionResult> Profile()
         {
             var user = await UserManager.FindByNameAsync(User.Identity.Name);
             var item = new CreateAccountViewModel();
