@@ -17,18 +17,26 @@
                         <div class="owl-carousel owl-theme product_slider">
                             @foreach (var item in Model)
                             {
-                                var strImage = "";
+                                var defaultImage = "";
+                                var hoverImage = "";
                                 var img = item.ProductImage.FirstOrDefault(x => x.IsDefault);
+                                var hoverImg = item.ProductImage.Skip(2).FirstOrDefault(); // Lấy ảnh thứ hai
+
                                 if (img != null)
                                 {
-                                    strImage = img.Image;
+                                    defaultImage = img.Image;
                                 }
+                                if (hoverImg != null)
+                                {
+                                    hoverImage = hoverImg.Image;
+                                }
+
                                 <div class="owl-item product_slider_item">
                                     <div class="product-item women" style="border-left: 5px solid white;">
                                         <div class="product discount">
                                             <div class="product_image">
                                                 <a href="/chi-tiet/@item.Alias-p@(item.Id)">
-                                                    <img src="@strImage" alt="">
+                                                    <img src="@defaultImage" alt="@item.Title" data-src="@defaultImage" data-src-hover="@hoverImage">
                                                 </a>
                                             </div>
                                             <div class="favorite favorite_left"></div>
@@ -52,7 +60,6 @@
                         </div>
 
                         <!-- Slider Navigation -->
-
                         <div class="product_slider_nav_left product_slider_nav d-flex align-items-center justify-content-center flex-column">
                             <i class="fa fa-chevron-left" aria-hidden="true"></i>
                         </div>
@@ -65,3 +72,24 @@
         </div>
     </div>
 }
+
+<script>
+    $(document).ready(function() {
+        $('.product_image img').hover(
+            function() {
+                // Khi hover vào ảnh
+                var hoverSrc = $(this).data('src-hover');
+                $(this).stop().fadeTo(300, 0.5, function() {
+                    $(this).attr('src', hoverSrc).stop().fadeTo(300, 1);
+                });
+            },
+            function() {
+                // Khi rời khỏi ảnh
+                var defaultSrc = $(this).data('src');
+                $(this).stop().fadeTo(300, 0.5, function() {
+                    $(this).attr('src', defaultSrc).stop().fadeTo(300, 1);
+                });
+            }
+        );
+    });
+</script>

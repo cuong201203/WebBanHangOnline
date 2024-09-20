@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="Colo Shop Template">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    @*<link rel="icon" type="image/x-icon" href="~/Uploads/images/favicon.ico">*@
     <link rel="stylesheet" type="text/css" href="~/Content/assets/styles/bootstrap4/bootstrap.min.css">
     <link href="~/Content/assets/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="~/Content/assets/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
@@ -39,7 +40,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="top_nav_left">hotline: 0968.4484.698</div>
+                            <div class="top_nav_left">hotline: 19009300</div>
                         </div>
                         <div class="col-md-6 text-right">
                             <div class="top_nav_right">
@@ -123,7 +124,14 @@
                             <nav class="navbar">
                                 @Html.Action("MenuTop", "Menu")
                                 <ul class="navbar_user">
-                                    @*<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>*@
+                                    <li id="search_btn">
+                                        <a href="#"><i class="fa fa-search" aria-hidden="true"></i></a>
+                                    </li>
+                                    <!-- Popup tìm kiếm -->
+                                    <div id="search_popup" class="rounded" style="display:none; position:absolute; right:0; margin: 10px 20px 0; width:350px; background-color:white; border:1px solid #ddd; padding:20px;">
+                                        <input type="text" id="search_input" placeholder="Tìm kiếm sản phẩm..." style="width: 100%; border: none; border-bottom: 1px solid #fe4c50;" class="p-2">
+                                        <div id="search_results" style="max-height:200px; overflow-y:auto; margin-top:10px; padding-right: 10px; text-align: left;"></div>
+                                    </div>
                                     @*<li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>*@
                                     <li class="checkout">
                                         <a href="/gio-hang">
@@ -169,25 +177,25 @@
         @RenderBody()
         <!-- Newsletter -->
         <div class="newsletter py-2">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">
-                                <h4>Đăng Ký Nhận Tin Mới Nhất</h4>
-                                <p class="text-left mt-2">Đăng ký để nhận thông tin liên lạc về các sản phẩm, dịch vụ, cửa hàng, sự kiện và các vấn đề đáng quan tâm của Cocoon</p>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">
+                            <h4>Đăng Ký Nhận Tin Mới Nhất</h4>
+                            <p class="text-left mt-2">Đăng ký để nhận thông tin liên lạc về các sản phẩm, dịch vụ, cửa hàng, sự kiện và các vấn đề đáng quan tâm của Cocoon</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <form action="post">
+                            <div class="newsletter_form d-flex flex-md-row flex-column flex-xs-column align-items-center justify-content-lg-end justify-content-center">
+                                <input id="newsletter_email" type="email" placeholder="Email của bạn" required="required" data-error="Valid email is required.">
+                                <button id="newsletter_submit" type="submit" class="newsletter_submit_btn trans_300" value="Submit">Đăng ký</button>
                             </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <form action="post">
-                                <div class="newsletter_form d-flex flex-md-row flex-column flex-xs-column align-items-center justify-content-lg-end justify-content-center">
-                                    <input id="newsletter_email" type="email" placeholder="Email của bạn" required="required" data-error="Valid email is required.">
-                                    <button id="newsletter_submit" type="submit" class="newsletter_submit_btn trans_300" value="Submit">Đăng ký</button>
-                                </div>
-                            </form>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
+        </div>
 
         <!-- Footer -->
 
@@ -241,6 +249,46 @@
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
     @*@Scripts.Render("~/bundles/bootstrap")*@
     <script src="~/Scripts/jsShopping.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Hiển thị popup khi nhấn vào nút Search
+            $('#search_btn').click(function () {
+                $('#search_popup').toggle(); // Ẩn/Hiện popup
+                $('#search_input').focus();  // Focus vào ô input
+            });
+
+            // Xử lý sự kiện khi nhập liệu vào ô tìm kiếm
+            $('#search_input').on('input', function () {
+                var query = $(this).val();
+                if (query.length > 0) {
+                    $.ajax({
+                        url: '@Url.Action("SearchProducts", "Product")', // Đường dẫn đến action tìm kiếm
+                        type: 'GET',
+                        data: { searchTerm: query },
+                        success: function (data) {
+                            $('#search_results').html(''); // Xóa kết quả cũ
+                            data.forEach(function (item) {
+                                $('#search_results').append('<p><a style="color: black; font-family: Tahoma, Geneva, Verdana, sans-serif;" href="/chi-tiet/' + item.Alias + '-p' + item.Id + '">' + item.Title + '</a></p>');
+                            });
+                        }
+                    });
+                } else {
+                    $('#search_results').html(''); // Nếu ô input trống, xóa kết quả
+                }
+            });
+
+            // Xử lý sự kiện nhấp chuột bên ngoài popup
+            $(document).mouseup(function (e) {
+                var container = $("#search_popup");
+
+                // Kiểm tra nếu nhấp chuột bên ngoài popup và nút tìm kiếm
+                if (!container.is(e.target) && container.has(e.target).length === 0 && !$('#search_btn').is(e.target)) {
+                    container.hide(); // Ẩn popup
+                }
+            });
+        });
+    </script>
     @RenderSection("scripts", required: false)
 </body>
 </html>
