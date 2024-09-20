@@ -193,6 +193,7 @@
     <Compile Include="Attributes\CustomAuthorizeAttribute.cs" />
     <Compile Include="Common\Common.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdvController.cs" />
     <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -3699,6 +3700,7 @@
     <Content Include="Views\ReviewProduct\_LoadReview.cshtml" />
     <Content Include="Views\Account\OrderHistory.cshtml" />
     <Content Include="Views\Account\OrderDetail.cshtml" />
+    <Content Include="Views\Adv\Partial_AdvCarousel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -19,82 +19,8 @@
         </div>
     </div>*@
 
-
-<div id="customCarousel" class="carousel slide" data-ride="carousel">
-    <!-- Indicators -->
-    <ol class="carousel-indicators">
-        <li data-target="#customCarousel" data-slide-to="0" class="active"></li>
-        <li data-target="#customCarousel" data-slide-to="1"></li>
-        <li data-target="#customCarousel" data-slide-to="2"></li>
-    </ol>
-
-    <!-- Carousel items -->
-    <div class="carousel-inner">
-        <!-- Carousel item 1 -->
-        <div class="carousel-item active">
-            @*<div class="main_slider" style="background-image:url(/Content/assets/images/slider_1.jpg)">*@
-            <div class="main_slider" style="background-image: url(/Uploads/images/Ads/adv-1.jpg)">
-                <div class="container fill_height">
-                    <div class="row align-items-center fill_height">
-                        <div class="col">
-                            <div class="main_slider_content">
-                                @*<h6>Spring / Summer Collection 2017</h6>
-                                <h1>Get up to 30% Off New Arrivals</h1>
-                                <div class="red_button shop_now_button"><a href="#">shop now</a></div>*@
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Carousel item 2 -->
-        <div class="carousel-item">
-            <div class="main_slider" style="background-image: url(/Uploads/images/Ads/adv-2.jpg)">
-                <div class="container fill_height">
-                    <div class="row align-items-center fill_height">
-                        <div class="col">
-                            <div class="main_slider_content">
-                                @*<h6>Spring / Summer Collection 2017</h6>
-                        <h1>Get up to 30% Off New Arrivals</h1>
-                        <div class="red_button shop_now_button"><a href="#">shop now</a></div>*@
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Carousel item 3 -->
-        <div class="carousel-item">
-            <div class="main_slider" style="background-image: url(/Uploads/images/Ads/adv-3.jpg)">
-                <div class="container fill_height">
-                    <div class="row align-items-center fill_height">
-                        <div class="col">
-                            <div class="main_slider_content">
-                                @*<h6>Spring / Summer Collection 2017</h6>
-                                <h1>Get up to 30% Off New Arrivals</h1>
-                                <div class="red_button shop_now_button"><a href="#">shop now</a></div>*@
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Controls -->
-    <a class="carousel-control-prev" href="#customCarousel" role="button" data-slide="prev">
-        <span style="width: 50px; height: 50px; background-color: black; margin-top: 100px; margin-left: -20px;" class="d-flex justify-content-center align-items-center rounded-circle">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        </span>
-        <span class="sr-only">Previous</span>
-    </a>
-    <a class="carousel-control-next" href="#customCarousel" role="button" data-slide="next">
-        <span style="width: 50px; height: 50px; background-color: black; margin-top: 100px; margin-right: -20px; " class="d-flex justify-content-center align-items-center rounded-circle">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        </span>
-        <span class="sr-only">Next</span>
-    </a>
-</div>
+<!-- Adv Carousel -->
+@Html.Action("Partial_AdvCarousel", "Adv")
 
 
 <!-- Banner -->
@@ -125,23 +51,23 @@
                         <h2>Sản Phẩm Nổi Bật</h2>
                     </div>
                     @*<ul class="timer">
-                        <li class="d-inline-flex flex-column justify-content-center align-items-center">
-                            <div id="day" class="timer_num">03</div>
-                            <div class="timer_unit">Day</div>
-                        </li>
-                        <li class="d-inline-flex flex-column justify-content-center align-items-center">
-                            <div id="hour" class="timer_num">15</div>
-                            <div class="timer_unit">Hours</div>
-                        </li>
-                        <li class="d-inline-flex flex-column justify-content-center align-items-center">
-                            <div id="minute" class="timer_num">45</div>
-                            <div class="timer_unit">Mins</div>
-                        </li>
-                        <li class="d-inline-flex flex-column justify-content-center align-items-center">
-                            <div id="second" class="timer_num">23</div>
-                            <div class="timer_unit">Sec</div>
-                        </li>
-                    </ul>*@
+                            <li class="d-inline-flex flex-column justify-content-center align-items-center">
+                                <div id="day" class="timer_num">03</div>
+                                <div class="timer_unit">Day</div>
+                            </li>
+                            <li class="d-inline-flex flex-column justify-content-center align-items-center">
+                                <div id="hour" class="timer_num">15</div>
+                                <div class="timer_unit">Hours</div>
+                            </li>
+                            <li class="d-inline-flex flex-column justify-content-center align-items-center">
+                                <div id="minute" class="timer_num">45</div>
+                                <div class="timer_unit">Mins</div>
+                            </li>
+                            <li class="d-inline-flex flex-column justify-content-center align-items-center">
+                                <div id="second" class="timer_num">23</div>
+                                <div class="timer_unit">Sec</div>
+                            </li>
+                        </ul>*@
                     <div class="timer" style="text-align: center !important;">
                         <h3>Nước Dưỡng Tóc Tinh Dầu Bưởi</h3>
                         <div class="mt-3 px-5 text-center" style="font-size: 16px;">
