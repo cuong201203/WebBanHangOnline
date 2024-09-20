@@ -1,7 +1,7 @@
-﻿@model PagedList.PagedList<WebBanHangOnline.Models.EF.News>
+﻿@model PagedList.PagedList<WebBanHangOnline.Models.EF.Adv>
 @using PagedList.Mvc;
 @{
-    ViewBag.Title = "Quản lý tin tức";
+    ViewBag.Title = "Quản lý quảng cáo";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
@@ -14,7 +14,7 @@
             <a href="/admin/home" class="nav-link">Trang chủ</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="/admin/news" class="nav-link">Tin tức</a>
+            <a href="/admin/adv" class="nav-link">Quảng cáo</a>
         </li>
     </ul>
 }
@@ -28,7 +28,7 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="/admin/home">Trang chủ</a></li>
-                    <li class="breadcrumb-item active">Tin tức</li>
+                    <li class="breadcrumb-item active">Quảng cáo</li>
                 </ol>
             </div>
         </div>
@@ -41,20 +41,20 @@
     <!-- Default box -->
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Danh sách tin tức</h3>
+            <h3 class="card-title">Danh sách quảng cáo</h3>
 
             <div class="card-tools">
-                <a href="/admin/news/add" class="btn btn-primary">Thêm mới</a>
+                <a href="/admin/adv/add" class="btn btn-primary">Thêm mới</a>
                 <a href="#" class="btn btn-danger" id="btnDeleteAll">Xóa</a>
             </div>
         </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-md-5 pb-4">
-                    @using (Html.BeginForm("Index", "News", FormMethod.Get, new { }))
+                    @using (Html.BeginForm("Index", "Adv", FormMethod.Get, new { }))
                     {
                         <div class="input-group input-group-sm">
-                            @Html.TextBox("searchText", null, new { @class = "form-control", @placeholder = "Tìm kiếm tin tức..." })
+                            @Html.TextBox("searchText", null, new { @class = "form-control", @placeholder = "Tìm kiếm quảng cáo..." })
                             <span class="input-group-append">
                                 <button type="submit" class="btn btn-info btn-flat">Tìm kiếm</button>
                             </span>
@@ -69,10 +69,10 @@
                             <th><input type="checkbox" id="selectAll" /></th>
                             <th>STT</th>
                             <th>Hình ảnh</th>
-                            <th>Tiêu đề</th>
+                            <th>Tiêu đề phụ</th>
+                            <th>Tiêu đề chính</th>
                             <th>Ngày tạo</th>
                             <th class="text-center">Hiển thị</th>
-                            <th class="text-center">Home</th>
                             <th style="width: 110px;"></th>
                         </tr>
                     </thead>
@@ -83,23 +83,20 @@
                             foreach (var item in Model)
                             {
                                 var strCheck = item.IsActive ? "<i class='fa fa-check text-success'></i>" : "<i class='fa fa-times text-danger'></i>";
-                                var strCheckHome = item.IsHome ? "<i class='fa fa-check text-success'></i>" : "<i class='fa fa-times text-danger'></i>";
                                 <tr id="trow_@item.Id">
                                     <td><input type="checkbox" class="cbkItem" value="@item.Id" /></td>
                                     <td>@i</td>
                                     <td>
                                         <img src="@item.Image" width="50" />
                                     </td>
+                                    <td>@item.SubTitle</td>
                                     <td>@item.Title</td>
                                     <td>@item.CreatedDate.ToString("dd/MM/yyyy")</td>
                                     <td class="text-center">
                                         <a href="#" data-id="@item.Id" class="btnActive">@Html.Raw(strCheck)</a>
                                     </td>
-                                    <td class="text-center">
-                                        <a href="#" data-id="@item.Id" class="btnHome">@Html.Raw(strCheckHome)</a>
-                                    </td>
                                     <td>
-                                        <a href="/admin/news/edit/@item.Id" class="btn btn-sm btn-primary">Sửa</a>
+                                        <a href="/admin/adv/edit/@item.Id" class="btn btn-sm btn-primary">Sửa</a>
                                         <a href="#" data-id="@item.Id" class="btn btn-sm btn-danger btnDelete">Xóa</a>
                                     </td>
                                 </tr>
@@ -138,7 +135,7 @@
                 var conf = confirm('Bạn có muốn xóa bản ghi này không?');
                 if (conf === true) {
                     $.ajax({
-                        url: '/admin/news/delete',
+                        url: '/admin/adv/delete',
                         type: 'POST',
                         data: { id: id },
                         success: function (result) {
@@ -159,32 +156,12 @@
                 var btn = $(this);
                 var id = btn.data('id');
                 $.ajax({
-                    url: '/admin/news/IsActive',
+                    url: '/admin/adv/IsActive',
                     type: 'POST',
                     data: { id: id },
                     success: function (result) {
                         if (result.success) {
                             if (result.isActive) {
-                                btn.html("<i class='fa fa-check text-success'></i>");
-                            }
-                            else {
-                                btn.html("<i class='fa fa-times text-danger'></i>");
-                            }
-                        }
-                    }
-                });
-            });
-            $('body').on('click', '.btnHome', function (e) {
-                e.preventDefault();
-                var btn = $(this);
-                var id = btn.data('id');
-                $.ajax({
-                    url: '/admin/news/IsHome',
-                    type: 'POST',
-                    data: { id: id },
-                    success: function (result) {
-                        if (result.success) {
-                            if (result.isHome) {
                                 btn.html("<i class='fa fa-check text-success'></i>");
                             }
                             else {
@@ -229,7 +206,7 @@
                     var conf = confirm('Bạn có muốn xóa (các) bản ghi này không?');
                     if (conf === true) {
                         $.ajax({
-                            url: '/admin/news/deleteAll',
+                            url: '/admin/adv/deleteAll',
                             type: 'POST',
                             data: { ids: str },
                             success: function (result) {

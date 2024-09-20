@@ -16,8 +16,13 @@ namespace WebBanHangOnline.Models.EF
 
         [Required]
         [StringLength(150)]
+        public string SubTitle { get; set; }
+
+        [Required]
+        [StringLength(150)]
         public string Title { get; set; }
 
+        [Required]
         [StringLength(500)]
         public string Description { get; set; }
 
@@ -26,6 +31,7 @@ namespace WebBanHangOnline.Models.EF
 
         [StringLength(500)]
         public string Link { get; set; }
+        public bool IsActive { get; set; }
         public int Type { get; set; }
     }
 }
