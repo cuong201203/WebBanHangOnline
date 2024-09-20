@@ -1,6 +1,6 @@
-﻿@model WebBanHangOnline.Models.EF.News
+﻿@model WebBanHangOnline.Models.EF.Adv
 @{
-    ViewBag.Title = "Cập nhật tin tức";
+    ViewBag.Title = "Cập nhật quảng cáo";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
@@ -13,7 +13,7 @@
             <a href="/admin" class="nav-link">Trang chủ</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="/admin/news" class="nav-link">Tin tức</a>
+            <a href="/admin/adv" class="nav-link">Quảng cáo</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
             <a href="#" class="nav-link">Cập nhật</a>
@@ -30,7 +30,7 @@
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="/admin/news">Tin tức</a></li>
+                    <li class="breadcrumb-item"><a href="/admin/adv">Quảng cáo</a></li>
                     <li class="breadcrumb-item active">Cập nhật</li>
                 </ol>
             </div>
@@ -44,25 +44,29 @@
     <!-- Default box -->
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Thông tin tin tức</h3>
+            <h3 class="card-title">Thông tin quảng cáo</h3>
 
         </div>
         <div class="card-body">
             @if (Model != null)
             {
                 <div class="bs-stepper-content">
-                    @using (Html.BeginForm("Edit", "News", FormMethod.Post, new { }))
+                    @using (Html.BeginForm("Edit", "Adv", FormMethod.Post, new { }))
                     {
                         @Html.AntiForgeryToken()
                         @Html.ValidationSummary(true)
                         @Html.HiddenFor(x => x.Id)
-                        @Html.HiddenFor(x => x.CategoryId)
                         @Html.HiddenFor(x => x.CreatedDate)
                         <!-- your steps content here -->
                     <div id="logins-part" class="content active dstepper-block" role="tabpanel" aria-labelledby="logins-part-trigger">
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Tiêu đề</label>
-                            @Html.TextBoxFor(x => x.Title, new { @class = "form-control", @placeholder = "Tiêu đề" })
+                            <label for="exampleInputEmail1">Tiêu đề phụ</label>
+                            @Html.TextBoxFor(x => x.SubTitle, new { @class = "form-control", @placeholder = "Tiêu đề phụ" })
+                            @Html.ValidationMessageFor(x => x.SubTitle, null, new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Tiêu đề chính</label>
+                            @Html.TextBoxFor(x => x.Title, new { @class = "form-control", @placeholder = "Tiêu đề chính" })
                             @Html.ValidationMessageFor(x => x.Title, null, new { @class = "text-danger" })
                         </div>
                         <div class="form-group">
@@ -81,32 +85,17 @@
                             @Html.TextAreaFor(x => x.Description, new { @class = "form-control" })
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputPassword1">Chi tiết</label>
-                            @Html.TextAreaFor(x => x.Detail, new { @class = "form-control", @id = "txtDetail" })
+                            <label for="exampleInputEmail1">Liên kết</label>
+                            @Html.TextBoxFor(x => x.Link, new { @class = "form-control", @placeholder = "Liên kết" })
+                            @Html.ValidationMessageFor(x => x.Link, null, new { @class = "text-danger" })
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Hiển thị</label>
                             @Html.CheckBoxFor(x => x.IsActive)
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputPassword1">Home</label>
-                            @Html.CheckBoxFor(x => x.IsHome)
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Tiêu đề SEO</label>
-                            @Html.TextAreaFor(x => x.SeoTitle, new { @class = "form-control" })
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Mô tả SEO</label>
-                            @Html.TextAreaFor(x => x.SeoDescription, new { @class = "form-control" })
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Từ khóa SEO</label>
-                            @Html.TextAreaFor(x => x.SeoKeywords, new { @class = "form-control" })
-                        </div>
-                        <div class="form-group">
                             <button type="submit" class="btn btn-primary">Lưu</button>
-                            <a href="/admin/news" class="btn btn-danger">Quay lại</a>
+                            <a href="/admin/adv" class="btn btn-danger">Quay lại</a>
                         </div>
                     </div>
                     }

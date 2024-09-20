@@ -173,6 +173,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AccountController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdvController.cs" />
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\NewsController.cs" />
@@ -287,6 +288,14 @@
     <Compile Include="Migrations\202409071516599_UpdateOrderDetail1.cs" />
     <Compile Include="Migrations\202409071516599_UpdateOrderDetail1.designer.cs">
       <DependentUpon>202409071516599_UpdateOrderDetail1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202409200854224_UpdateAdv.cs" />
+    <Compile Include="Migrations\202409200854224_UpdateAdv.designer.cs">
+      <DependentUpon>202409200854224_UpdateAdv.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202409200938324_UpdateAdv1.cs" />
+    <Compile Include="Migrations\202409200938324_UpdateAdv1.designer.cs">
+      <DependentUpon>202409200938324_UpdateAdv1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -3588,6 +3597,16 @@
     <Content Include="Content\assets\plugins\moment\locales.min.js.map" />
     <Content Include="Content\assets\plugins\moment\moment-with-locales.min.js.map" />
     <Content Include="Content\assets\plugins\moment\moment.min.js.map" />
+
+    <Content Include="Areas\Admin\Views\Adv\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Adv\Add.cshtml" />
+    <Content Include="Areas\Admin\Views\Adv\Edit.cshtml" />
+    <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.4.1.js" />
+    <Content Include="Scripts\jquery-3.4.1.min.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
+
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -3623,6 +3642,7 @@
     <Content Include="Scripts\jquery-3.7.1.slim.min.js" />
     <Content Include="Scripts\jquery-3.7.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.7.1.min.map" />
+
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -3782,6 +3802,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202409071516599_UpdateOrderDetail1.resx">
       <DependentUpon>202409071516599_UpdateOrderDetail1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202409200854224_UpdateAdv.resx">
+      <DependentUpon>202409200854224_UpdateAdv.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202409200938324_UpdateAdv1.resx">
+      <DependentUpon>202409200938324_UpdateAdv1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
