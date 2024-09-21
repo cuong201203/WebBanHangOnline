@@ -6,6 +6,7 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using WebBanHangOnline.Models;
+using WebBanHangOnline.Models.EF;
 
 namespace WebBanHangOnline.Controllers
 {
@@ -56,6 +57,16 @@ namespace WebBanHangOnline.Controllers
         public ActionResult Partial_ProductSales()
         {
             var items = db.Products.Where(x => x.IsSale && x.IsActive).Take(12).ToList();
+            return PartialView(items);
+        }
+
+        public ActionResult Partial_RelatedProducts(int categoryId, int productId)
+        {
+            var items = db.Products
+                .Where(x => x.ProductCategoryId == categoryId && x.Id != productId && x.IsActive)
+                .OrderByDescending(x => x.CreatedDate)
+                .ToList();
+
             return PartialView(items);
         }
 

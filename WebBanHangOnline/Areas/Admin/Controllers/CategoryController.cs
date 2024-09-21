@@ -33,6 +33,8 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             {
                 model.CreatedDate = DateTime.Now;
                 model.ModifiedDate = DateTime.Now;
+                model.CreatedBy = User.Identity.Name;
+                model.ModifiedBy = User.Identity.Name;
                 model.Alias = WebBanHangOnline.Models.Common.Filter.FilterChar(model.Title);
                 db.Categories.Add(model);
                 db.SaveChanges();
@@ -54,6 +56,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 model.ModifiedDate = DateTime.Now;
+                model.ModifiedBy = User.Identity.Name;
                 model.Alias = WebBanHangOnline.Models.Common.Filter.FilterChar(model.Title);
                 db.Categories.Attach(model);
                 db.Entry(model).Property(x => x.Title).IsModified = true;

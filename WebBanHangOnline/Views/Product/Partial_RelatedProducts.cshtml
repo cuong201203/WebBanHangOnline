@@ -1,0 +1,100 @@
+﻿@model IEnumerable<WebBanHangOnline.Models.EF.Product>
+
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/main_styles.css">
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/responsive.css">
+
+<style>
+    .best_sellers .add_to_cart_button {
+        margin-left: 0 !important;
+    }
+</style>
+
+@if (Model != null && Model.Any())
+{
+    <div class="best_sellers">
+        <div class="container">
+            <div class="row" style="padding: 50px 0 0; margin-bottom: -30px;">
+                <h4 style="border-bottom: 2px solid #fe4c50; ">Sản Phẩm Liên Quan</h4>
+            </div>
+            <div class="row">
+                <div class="col px-0">
+                    <div class="product_slider_container" style="height: 100%;">
+                        <div class="owl-carousel owl-theme product_slider">
+                            @foreach (var item in Model)
+                            {
+                                var defaultImage = "";
+                                var hoverImage = "";
+                                var img = item.ProductImage.FirstOrDefault(x => x.IsDefault);
+                                var hoverImg = item.ProductImage.Skip(2).FirstOrDefault(); // Lấy ảnh thứ hai
+
+                                if (img != null)
+                                {
+                                    defaultImage = img.Image;
+                                }
+                                if (hoverImg != null)
+                                {
+                                    hoverImage = hoverImg.Image;
+                                }
+
+                                <div class="owl-item product_slider_item">
+                                    <div class="product-item women" style="border-left: 5px solid white;">
+                                        <div class="product discount">
+                                            <div class="product_image">
+                                                <a href="/chi-tiet/@item.Alias-p@(item.Id)">
+                                                    <img src="@defaultImage" alt="@item.Title" data-src="@defaultImage" data-src-hover="@hoverImage">
+                                                </a>
+                                            </div>
+                                            @*<div class="favorite favorite_left"></div>*@
+                                            @*<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>sale</span></div>*@
+                                            <div class="product_info">
+                                                <h6 class="product_name"><a href="/chi-tiet/@item.Alias-p@(item.Id)">@item.Title</a></h6>
+                                                @if (item.PriceSale > 0)
+                                                {
+                                                    <div class="product_price">@string.Format("{0:N0}", item.PriceSale)<u>đ</u><span>@string.Format("{0:N0}", item.Price)<u>đ</u></span></div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="product_price">@string.Format("{0:N0}", item.Price)<u>đ</u></div>
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="red_button add_to_cart_button"><a href="#" class="btnAddToCart" data-id="@item.Id">thêm vào giỏ</a></div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                        <!-- Slider Navigation -->
+                        <div class="product_slider_nav_left product_slider_nav d-flex align-items-center justify-content-center flex-column">
+                            <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                        </div>
+                        <div class="product_slider_nav_right product_slider_nav d-flex align-items-center justify-content-center flex-column">
+                            <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    $(document).ready(function () {
+        $('.product_image img').hover(
+            function () {
+                // Khi hover vào ảnh
+                var hoverSrc = $(this).data('src-hover');
+                $(this).stop().fadeTo(300, 0.5, function () {
+                    $(this).attr('src', hoverSrc).stop().fadeTo(300, 1);
+                });
+            },
+            function () {
+                // Khi rời khỏi ảnh
+                var defaultSrc = $(this).data('src');
+                $(this).stop().fadeTo(300, 0.5, function () {
+                    $(this).attr('src', defaultSrc).stop().fadeTo(300, 1);
+                });
+            }
+        );
+    });
+</script>

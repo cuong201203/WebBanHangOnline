@@ -48,6 +48,8 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             {
                 model.CreatedDate = DateTime.Now;
                 model.ModifiedDate = DateTime.Now;
+                model.CreatedBy = User.Identity.Name;
+                model.ModifiedBy = User.Identity.Name;
                 db.Advs.Add(model);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -68,6 +70,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 model.ModifiedDate = DateTime.Now;
+                model.ModifiedBy = User.Identity.Name;
                 db.Advs.Attach(model);
                 db.Entry(model).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
