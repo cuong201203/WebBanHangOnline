@@ -78,7 +78,7 @@
                                                 Tài khoản của tôi
                                                 <i class="fa fa-angle-down"></i>
                                             </a>
-                                            <ul class="account_selection">
+                                            <ul class="account_selection rounded" style="z-index: 101;">
                                                 <li><a href="/account/login"><i class="fa fa-sign-in" aria-hidden="true"></i>Đăng nhập</a></li>
                                                 <li><a href="/account/register"><i class="fa fa-user-plus" aria-hidden="true"></i>Đăng ký</a></li>
                                             </ul>
@@ -89,7 +89,7 @@
                                                 Xin chào @User.Identity.Name
                                                 <i class="fa fa-angle-down"></i>
                                             </a>
-                                            <ul class="account_selection" style="width: 170px;">
+                                            <ul class="account_selection rounded" style="width: 170px; z-index: 101;">
                                                 <li><a href="/account/profile"><i class="fa fa-user" aria-hidden="true"></i>Tài khoản của tôi</a></li>
                                                 <li><a href="/account/orderhistory"><i class="fa fa-user" aria-hidden="true"></i>Đơn mua</a></li>
                                                 <li><a href="javascript:document.getElementById('logOffForm').submit()"><i class="fa fa-sign-out" aria-hidden="true"></i>Đăng xuất</a></li>
@@ -114,7 +114,7 @@
 
             <!-- Main Navigation -->
 
-            <div class="main_nav_container">
+            <div class="main_nav_container" style="z-index: 100;">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-12 text-right">
@@ -253,9 +253,21 @@
     <script>
         $(document).ready(function () {
             // Hiển thị popup khi nhấn vào nút Search
-            $('#search_btn').click(function () {
+            $('#search_btn').click(function (e) {
+                e.preventDefault(); // Ngăn trang cuộn về đầu
                 $('#search_popup').toggle(); // Ẩn/Hiện popup
                 $('#search_input').focus();  // Focus vào ô input
+            });
+
+            // Xử lý sự kiện nhấp chuột bên ngoài popup
+            $(document).mouseup(function (e) {
+                var container = $("#search_popup");
+                var button = $('#search_btn'); // Tham chiếu đến nút tìm kiếm
+
+                // Kiểm tra nếu nhấp chuột bên ngoài popup và nút tìm kiếm
+                if (!container.is(e.target) && container.has(e.target).length === 0 && !button.is(e.target) && !button.has(e.target).length) {
+                    container.hide(); // Ẩn popup
+                }
             });
 
             // Xử lý sự kiện khi nhập liệu vào ô tìm kiếm
@@ -278,14 +290,11 @@
                 }
             });
 
-            // Xử lý sự kiện nhấp chuột bên ngoài popup
-            $(document).mouseup(function (e) {
-                var container = $("#search_popup");
-
-                // Kiểm tra nếu nhấp chuột bên ngoài popup và nút tìm kiếm
-                if (!container.is(e.target) && container.has(e.target).length === 0 && !$('#search_btn').is(e.target)) {
-                    container.hide(); // Ẩn popup
-                }
+            $('li.account').hover(function () {
+                $(this).find('ul.account_selection').show(150);
+            }, function () {
+                // Khi rời hover khỏi .account, ẩn ul.account_selection ngay lập tức
+                $(this).find('ul.account_selection').hide(100);
             });
         });
     </script>
