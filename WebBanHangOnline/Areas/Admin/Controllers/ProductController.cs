@@ -83,6 +83,8 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                 }
                 model.CreatedDate = DateTime.Now;
                 model.ModifiedDate = DateTime.Now;
+                model.CreatedBy = User.Identity.Name;
+                model.ModifiedBy = User.Identity.Name;
                 if (string.IsNullOrEmpty(model.SeoTitle))
                 {
                     model.SeoTitle = model.Title;
@@ -136,6 +138,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                     item.IsFeature = model.IsFeature;
                     item.IsSale = model.IsSale;
                     item.ModifiedDate = DateTime.Now;
+                    item.ModifiedBy = User.Identity.Name;
 
                     // Xóa hình ảnh cũ nếu có
                     if (item.ProductImage != null && item.ProductImage.Any())
