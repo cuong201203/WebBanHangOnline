@@ -64,22 +64,8 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label>Tổng tiền</label>
-                        <p class="form-control">@string.Format("{0:N0}", Model.TotalAmount)<u>đ</u></p>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
                         <label>Số điện thoại</label>
                         <p class="form-control">@Model.Phone</p>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Ngày tạo</label>
-                        <p class="form-control">@Model.CreatedDate.ToString("dd/MM/yyyy")</p>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -90,6 +76,12 @@
                 </div>
             </div>
             <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Ngày tạo</label>
+                        <p class="form-control">@Model.CreatedDate.ToString("dd/MM/yyyy")</p>
+                    </div>
+                </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Trạng thái</label>
