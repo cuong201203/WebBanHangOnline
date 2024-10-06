@@ -298,6 +298,10 @@
     <Compile Include="Migrations\202409200938324_UpdateAdv1.designer.cs">
       <DependentUpon>202409200938324_UpdateAdv1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202409300740466_UpdateSubscribe.cs" />
+    <Compile Include="Migrations\202409300740466_UpdateSubscribe.Designer.cs">
+      <DependentUpon>202409300740466_UpdateSubscribe.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CommonAbstract.cs" />
@@ -3724,6 +3728,7 @@
     <Content Include="Views\Account\OrderDetail.cshtml" />
     <Content Include="Views\Adv\Partial_AdvCarousel.cshtml" />
     <Content Include="Views\Product\Partial_RelatedProducts.cshtml" />
+    <Content Include="Views\Home\Partial_Subscribe.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -3808,6 +3813,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202409200938324_UpdateAdv1.resx">
       <DependentUpon>202409200938324_UpdateAdv1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202409300740466_UpdateSubscribe.resx">
+      <DependentUpon>202409300740466_UpdateSubscribe.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
