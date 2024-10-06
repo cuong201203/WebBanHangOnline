@@ -26,3 +26,11 @@
         @Html.PagedListPager(Model, page => Url.Action("_LoadReview", new { productId = ViewBag.ProductId, page }))
     </div>
 }
+else
+{
+    <div class="user_review_container d-flex flex-column flex-sm-row mb-4">
+        <div class="review">
+            <h5>Sản phẩm này chưa có đánh giá nào...</h5>
+        </div>
+    </div>
+}

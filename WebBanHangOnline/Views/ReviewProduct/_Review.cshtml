@@ -1,6 +1,16 @@
 ﻿@model WebBanHangOnline.Models.EF.ReviewProduct
 
 <div class="add_review" style="margin-top: 0;">
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <script>
+            function redirectToLogin() {
+                alert('Vui lòng đăng nhập để đánh giá sản phẩm!');
+                //window.location.href = '@Url.Action("Login", "Account", new { returnUrl = Request.Url.AbsolutePath })';
+            }
+        </script>
+    }
+
     @using (Ajax.BeginForm("PostReview", "ReviewProduct", new AjaxOptions
     {
         HttpMethod = "POST",
@@ -72,9 +82,18 @@
             @Html.TextAreaFor(x => x.Content, new { @class = "input_review", @rows = "4", @placeholder = "Đánh giá của bạn..." })
             @*<textarea id="review_message" class="input_review" name="message" placeholder="Your Review" rows="4" required data-error="Please, leave us a review."></textarea>*@
         </div>
-        <div class="text-left text-sm-right">
-            <button id="review_submit" type="submit" class="red_button review_submit_btn trans_300" value="Gửi">Gửi</button>
-        </div>
-        @*</form>*@
+        if (User.Identity.IsAuthenticated)
+        {
+            <div class="text-left text-sm-right">
+                <button id="review_submit" type="submit" class="red_button review_submit_btn trans_300">Gửi</button>
+            </div>
+            @*</form>*@
+        }
+        else
+        {
+            <div class="text-left text-sm-right">
+                <button type="button" class="red_button review_submit_btn trans_300" onclick="redirectToLogin()">Gửi</button>
+            </div>
+        }
     }
 </div>

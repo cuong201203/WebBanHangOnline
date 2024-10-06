@@ -89,7 +89,7 @@
                                     <li class="account">
                                         @if (!Request.IsAuthenticated)
                                         {
-                                            <a href="/account/login">
+                                            <a href="/account/login" class="text-white font-weight-bold">
                                                 Tài khoản của tôi
                                                 <i class="fa fa-angle-down"></i>
                                             </a>
@@ -100,13 +100,13 @@
                                         }
                                         else
                                         {
-                                            <a href="/account/profile">
+                                            <a href="/account/profile" class="text-white font-weight-bold">
                                                 Xin chào @User.Identity.Name
                                                 <i class="fa fa-angle-down"></i>
                                             </a>
                                             <ul class="account_selection rounded" style="width: 170px; z-index: 101;">
                                                 <li><a href="/account/profile"><i class="fa fa-user" aria-hidden="true"></i>Tài khoản của tôi</a></li>
-                                                <li><a href="/account/orderhistory"><i class="fa fa-user" aria-hidden="true"></i>Đơn mua</a></li>
+                                                <li><a href="/account/orderhistory"><i class="fa fa-shopping-bag" aria-hidden="true"></i>Đơn mua</a></li>
                                                 <li><a href="javascript:document.getElementById('logOffForm').submit()"><i class="fa fa-sign-out" aria-hidden="true"></i>Đăng xuất</a></li>
                                             </ul>
                                         }
@@ -134,7 +134,10 @@
                     <div class="row">
                         <div class="col-lg-12 text-right">
                             <div class="logo_container">
-                                <a href="/">co<span>coon</span></a>
+                                @*<a href="/">co<span>coon</span></a>*@
+                                <a href="/">
+                                    <img src="https://cocoonvietnam.com/_nuxt/img/logo.f502f17.svg" style="margin-left: -35px;"/>
+                                </a>
                             </div>
                             <nav class="navbar">
                                 @Html.Action("MenuTop", "Menu")
@@ -290,7 +293,7 @@
                 $(this).find('ul.account_selection').show(150);
             }, function () {
                 // Khi rời hover khỏi .account, ẩn ul.account_selection ngay lập tức
-                $(this).find('ul.account_selection').hide(100);
+                $(this).find('ul.account_selection').hide();
             });
         });
     </script>
