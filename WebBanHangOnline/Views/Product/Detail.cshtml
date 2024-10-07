@@ -6,9 +6,147 @@
 <link rel="stylesheet" type="text/css" href="~/Content/assets/styles/single_styles.css">
 <link rel="stylesheet" type="text/css" href="~/Content/assets/styles/single_responsive.css">
 
+<style>
+    .product_detail_container p {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+        font-size: 14px !important;
+        line-height: 1.7 !important;
+        font-weight: 500 !important;
+        color: #51545f !important;
+        -webkit-font-smoothing: antialiased !important;
+        -webkit-text-shadow: rgba(0,0,0,.01) 0 0 1px !important;
+        text-shadow: rgba(0,0,0,.01) 0 0 1px !important;
+    }
+
+    .product_detail_container .product_details {
+        width: 100% !important;
+    }
+
+    .product_detail_container .product_details_title {
+        font-weight: 500px !important;
+        line-height: 30px !important;
+    }
+
+        .product_detail_container .product_details_title p {
+            margin-top: 12px !important;
+        }
+
+    .product_detail_container .original_price {
+        font-weight: 500 !important;
+        color: #b9b4c7 !important;
+        text-decoration: line-through !important;
+        line-height: 30px !important;
+        margin-top: 21px !important;
+    }
+
+    .product_detail_container .product_price {
+        display: inline-block !important;
+        font-size: 24px !important;
+        color: #fe4c50 !important;
+        font-weight: 500 !important;
+        line-height: 30px !important;
+        margin-top: 2px !important;
+    }
+
+    .product_detail_container .star_rating {
+        display: inline-block !important;
+        margin-left: 33px !important;
+    }
+
+        .product_detail_container .star_rating li {
+            display: inline-block !important;
+            margin-right: -2px !important;
+            cursor: pointer !important;
+        }
+
+            .product_detail_container .star_rating li i {
+                color: #fac451 !important;
+            }
+
+    .product_detail_container .product_color {
+        margin-top: 27px !important;
+    }
+
+        .product_detail_container .product_color ul {
+            display: inline-block !important;
+            margin-left: 26px !important;
+        }
+
+            .product_detail_container .product_color ul li {
+                display: inline-block !important;
+                width: 12px !important;
+                height: 12px !important;
+                border-radius: 50% !important;
+                margin-right: 29px !important;
+                cursor: pointer !important;
+            }
+
+    .product_detail_container .quantity {
+        width: 100% !important;
+        height: 40px !important;
+        margin-top: 23px !important;
+    }
+
+    .product_detail_container .quantity_selector {
+        display: -webkit-box !important;
+        display: -moz-box !important;
+        display: -ms-flexbox !important;
+        display: -webkit-flex !important;
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        width: 132px !important;
+        height: 100% !important;
+        border: solid 1px #e5e5e5 !important;
+        margin-left: 29px !important;
+    }
+
+        .product_detail_container .quantity_selector span {
+            font-weight: 500 !important;
+            color: #232530 !important;
+        }
+
+    .product_detail_container .plus,
+    .product_detail_container .minus {
+        padding-left: 14px !important;
+        padding-right: 14px !important;
+        cursor: pointer !important;
+    }
+
+        .product_detail_container .plus:hover,
+        .product_detail_container .minus:hover {
+            color: #b5aec4 !important;
+        }
+
+    .product_detail_container .add_to_cart_button {
+        width: 160px !important;
+        margin-left: 19px !important;
+        font-size: 12px !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+    .product_detail_container .star_rating,
+    .product_detail_container .star_rating li,
+    #load_review .star_rating,
+    #load_review .star_rating li {
+        cursor: default !important;
+    }
+
+    .review_submit_btn {
+        width: 170px !important;
+        border: none !important;
+        color: #FFFFFF !important;
+        text-transform: uppercase !important;
+        font-size: 14px !important;
+        font-weight: 500 !important;
+        cursor: pointer !important;
+    }
+</style>
+
 @if (Model != null)
 {
-    <div class="container single_product_container">
+    <div class="container single_product_container product_detail_container">
         <div class="row">
             <div class="col">
 
@@ -91,14 +229,14 @@
                             </ul>
                         </div>*@
                     <div class="quantity d-flex flex-column flex-sm-row align-items-sm-center">
-                        <span>Quantity:</span>
+                        <span>Số lượng:</span>
                         <div class="quantity_selector">
                             <span class="minus"><i class="fa fa-minus" aria-hidden="true"></i></span>
                             <span id="quantity_value">1</span>
                             <span class="plus"><i class="fa fa-plus" aria-hidden="true"></i></span>
                         </div>
                         <div class="red_button add_to_cart_button"><a href="#" class="btnAddToCart" data-id="@Model.Id">thêm vào giỏ</a></div>
-                        <div class="product_favorite d-flex flex-column align-items-center justify-content-center"></div>
+                        @*<div class="product_favorite d-flex flex-column align-items-center justify-content-center"></div>*@
                     </div>
                 </div>
             </div>
@@ -172,8 +310,9 @@
                 </div>
             </div>
         </div>
-
     </div>
+
+    @Html.Action("Partial_RelatedProducts", "Product", new { categoryId = Model.ProductCategoryId, productId = Model.Id })
 }
 @section scripts{
     <script src="~/Content/assets/js/single_custom.js"></script>

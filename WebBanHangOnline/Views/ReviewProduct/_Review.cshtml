@@ -1,6 +1,16 @@
 ﻿@model WebBanHangOnline.Models.EF.ReviewProduct
 
 <div class="add_review" style="margin-top: 0;">
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <script>
+            function redirectToLogin() {
+                alert('Vui lòng đăng nhập để đánh giá sản phẩm!');
+                //window.location.href = '@Url.Action("Login", "Account", new { returnUrl = Request.Url.AbsolutePath })';
+            }
+        </script>
+    }
+
     @using (Ajax.BeginForm("PostReview", "ReviewProduct", new AjaxOptions
     {
         HttpMethod = "POST",
@@ -49,8 +59,8 @@
         @*<form id="review_form" action="post">*@
         <div style="margin-bottom: 10px !important;">
             <h1>Thêm đánh giá</h1>
-            @Html.TextBoxFor(x => x.FullName, new { @class = "form_input input_name", @placeholder = "Họ tên", @id = "review_name" })
-            @Html.TextBoxFor(x => x.Email, new { @class = "form_input input_email", @placeholder = "Email", @id = "review_email" })
+            @Html.TextBoxFor(x => x.FullName, new { @class = "form_input input_name", @placeholder = "Họ tên", @id = "review_name", @readonly = "readonly", @style = "background: #eee" })
+            @*@Html.TextBoxFor(x => x.Email, new { @class = "form_input input_email", @placeholder = "Email", @id = "review_email" })*@
             @Html.HiddenFor(x => x.UserName)
             @Html.HiddenFor(x => x.ProductId, new { @Value = ViewBag.ProductId })
             <input type="text" id="txtRate" name="Rate" value="5" style="visibility: hidden;" />
@@ -59,7 +69,7 @@
         </div>
         <div>
             <div class="d-flex">
-                <h1>Đánh giá của bạn:</h1>
+                <h1>Chất lượng sản phẩm:</h1>
                 <ul class="user_star_rating">
                     <li><i class="fa fa-star" aria-hidden="true"></i></li>
                     <li><i class="fa fa-star" aria-hidden="true"></i></li>
@@ -69,12 +79,21 @@
                     <li><i class="fa fa-star" aria-hidden="true"></i></li>
                 </ul>
             </div>
-            @Html.TextAreaFor(x => x.Content, new { @class = "input_review", @rows = "4", @placeholder = "Đánh giá của bạn" })
+            @Html.TextAreaFor(x => x.Content, new { @class = "input_review", @rows = "4", @placeholder = "Đánh giá của bạn..." })
             @*<textarea id="review_message" class="input_review" name="message" placeholder="Your Review" rows="4" required data-error="Please, leave us a review."></textarea>*@
         </div>
-        <div class="text-left text-sm-right">
-            <button id="review_submit" type="submit" class="red_button review_submit_btn trans_300" value="Gửi">Gửi</button>
-        </div>
-        @*</form>*@
+        if (User.Identity.IsAuthenticated)
+        {
+            <div class="text-left text-sm-right">
+                <button id="review_submit" type="submit" class="red_button review_submit_btn trans_300">Gửi</button>
+            </div>
+            @*</form>*@
+        }
+        else
+        {
+            <div class="text-left text-sm-right">
+                <button type="button" class="red_button review_submit_btn trans_300" onclick="redirectToLogin()">Gửi</button>
+            </div>
+        }
     }
 </div>

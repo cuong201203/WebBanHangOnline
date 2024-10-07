@@ -1,18 +1,23 @@
 ﻿@model IEnumerable<WebBanHangOnline.Models.EF.Product>
 
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/main_styles.css">
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/responsive.css">
+
+<style>
+    .best_sellers .add_to_cart_button {
+        margin-left: 0 !important;
+    }
+</style>
+
 @if (Model != null && Model.Any())
 {
     <div class="best_sellers">
         <div class="container">
-            <div class="row">
-                <div class="col text-center">
-                    <div class="section_title new_arrivals_title">
-                        <h2>Sản Phẩm Bán Chạy</h2>
-                    </div>
-                </div>
+            <div class="row" style="padding: 50px 0 0; margin-bottom: -30px;">
+                <h4 style="border-bottom: 2px solid #fe4c50; ">Sản Phẩm Liên Quan</h4>
             </div>
             <div class="row">
-                <div class="col">
+                <div class="col px-0">
                     <div class="product_slider_container" style="height: 100%;">
                         <div class="owl-carousel owl-theme product_slider">
                             @foreach (var item in Model)
@@ -74,19 +79,19 @@
 }
 
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('.product_image img').hover(
-            function() {
+            function () {
                 // Khi hover vào ảnh
                 var hoverSrc = $(this).data('src-hover');
-                $(this).stop().fadeTo(300, 0.5, function() {
+                $(this).stop().fadeTo(300, 0.5, function () {
                     $(this).attr('src', hoverSrc).stop().fadeTo(300, 1);
                 });
             },
-            function() {
+            function () {
                 // Khi rời khỏi ảnh
                 var defaultSrc = $(this).data('src');
-                $(this).stop().fadeTo(300, 0.5, function() {
+                $(this).stop().fadeTo(300, 0.5, function () {
                     $(this).attr('src', defaultSrc).stop().fadeTo(300, 1);
                 });
             }

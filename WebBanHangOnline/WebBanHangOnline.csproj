@@ -186,6 +186,7 @@
     <Compile Include="Attributes\CustomAuthorizeAttribute.cs" />
     <Compile Include="Common\Common.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdvController.cs" />
     <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -296,6 +297,10 @@
     <Compile Include="Migrations\202409200938324_UpdateAdv1.cs" />
     <Compile Include="Migrations\202409200938324_UpdateAdv1.designer.cs">
       <DependentUpon>202409200938324_UpdateAdv1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202409300740466_UpdateSubscribe.cs" />
+    <Compile Include="Migrations\202409300740466_UpdateSubscribe.Designer.cs">
+      <DependentUpon>202409300740466_UpdateSubscribe.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -3597,7 +3602,6 @@
     <Content Include="Content\assets\plugins\moment\locales.min.js.map" />
     <Content Include="Content\assets\plugins\moment\moment-with-locales.min.js.map" />
     <Content Include="Content\assets\plugins\moment\moment.min.js.map" />
-
     <Content Include="Areas\Admin\Views\Adv\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Adv\Add.cshtml" />
     <Content Include="Areas\Admin\Views\Adv\Edit.cshtml" />
@@ -3606,7 +3610,6 @@
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
-
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -3642,7 +3645,6 @@
     <Content Include="Scripts\jquery-3.7.1.slim.min.js" />
     <Content Include="Scripts\jquery-3.7.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.7.1.min.map" />
-
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -3724,6 +3726,9 @@
     <Content Include="Views\ReviewProduct\_LoadReview.cshtml" />
     <Content Include="Views\Account\OrderHistory.cshtml" />
     <Content Include="Views\Account\OrderDetail.cshtml" />
+    <Content Include="Views\Adv\Partial_AdvCarousel.cshtml" />
+    <Content Include="Views\Product\Partial_RelatedProducts.cshtml" />
+    <Content Include="Views\Home\Partial_Subscribe.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -3808,6 +3813,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202409200938324_UpdateAdv1.resx">
       <DependentUpon>202409200938324_UpdateAdv1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202409300740466_UpdateSubscribe.resx">
+      <DependentUpon>202409300740466_UpdateSubscribe.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

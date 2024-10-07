@@ -25,6 +25,21 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
         }
+
+        .pagination > li > a,
+        .pagination > li > span {
+            color: #fe4c50;
+        }
+
+        .pagination > .active > a,
+        .pagination > .active > span,
+        .pagination > .active > a:hover,
+        .pagination > .active > span:hover,
+        .pagination > .active > a:focus,
+        .pagination > .active > span:focus {
+            background-color: #fe4c50;
+            border-color: #fe4c50;
+        }
     </style>
 </head>
 <body>
@@ -74,24 +89,24 @@
                                     <li class="account">
                                         @if (!Request.IsAuthenticated)
                                         {
-                                            <a href="/account/login">
+                                            <a href="/account/login" class="text-white font-weight-bold">
                                                 Tài khoản của tôi
                                                 <i class="fa fa-angle-down"></i>
                                             </a>
-                                            <ul class="account_selection">
+                                            <ul class="account_selection rounded" style="z-index: 101;">
                                                 <li><a href="/account/login"><i class="fa fa-sign-in" aria-hidden="true"></i>Đăng nhập</a></li>
                                                 <li><a href="/account/register"><i class="fa fa-user-plus" aria-hidden="true"></i>Đăng ký</a></li>
                                             </ul>
                                         }
                                         else
                                         {
-                                            <a href="/account/profile">
+                                            <a href="/account/profile" class="text-white font-weight-bold">
                                                 Xin chào @User.Identity.Name
                                                 <i class="fa fa-angle-down"></i>
                                             </a>
-                                            <ul class="account_selection" style="width: 170px;">
+                                            <ul class="account_selection rounded" style="width: 170px; z-index: 101;">
                                                 <li><a href="/account/profile"><i class="fa fa-user" aria-hidden="true"></i>Tài khoản của tôi</a></li>
-                                                <li><a href="/account/orderhistory"><i class="fa fa-user" aria-hidden="true"></i>Đơn mua</a></li>
+                                                <li><a href="/account/orderhistory"><i class="fa fa-shopping-bag" aria-hidden="true"></i>Đơn mua</a></li>
                                                 <li><a href="javascript:document.getElementById('logOffForm').submit()"><i class="fa fa-sign-out" aria-hidden="true"></i>Đăng xuất</a></li>
                                             </ul>
                                         }
@@ -114,12 +129,15 @@
 
             <!-- Main Navigation -->
 
-            <div class="main_nav_container">
+            <div class="main_nav_container" style="z-index: 100;">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-12 text-right">
                             <div class="logo_container">
-                                <a href="/">co<span>coon</span></a>
+                                @*<a href="/">co<span>coon</span></a>*@
+                                <a href="/">
+                                    <img src="https://cocoonvietnam.com/_nuxt/img/logo.f502f17.svg" style="margin-left: -35px;"/>
+                                </a>
                             </div>
                             <nav class="navbar">
                                 @Html.Action("MenuTop", "Menu")
@@ -176,26 +194,7 @@
 
         @RenderBody()
         <!-- Newsletter -->
-        <div class="newsletter py-2">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">
-                            <h4>Đăng Ký Nhận Tin Mới Nhất</h4>
-                            <p class="text-left mt-2">Đăng ký để nhận thông tin liên lạc về các sản phẩm, dịch vụ, cửa hàng, sự kiện và các vấn đề đáng quan tâm của Cocoon</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <form action="post">
-                            <div class="newsletter_form d-flex flex-md-row flex-column flex-xs-column align-items-center justify-content-lg-end justify-content-center">
-                                <input id="newsletter_email" type="email" placeholder="Email của bạn" required="required" data-error="Valid email is required.">
-                                <button id="newsletter_submit" type="submit" class="newsletter_submit_btn trans_300" value="Submit">Đăng ký</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+        @Html.Action("Partial_Subscribe", "Home")
 
         <!-- Footer -->
 
@@ -253,9 +252,21 @@
     <script>
         $(document).ready(function () {
             // Hiển thị popup khi nhấn vào nút Search
-            $('#search_btn').click(function () {
+            $('#search_btn').click(function (e) {
+                e.preventDefault(); // Ngăn trang cuộn về đầu
                 $('#search_popup').toggle(); // Ẩn/Hiện popup
                 $('#search_input').focus();  // Focus vào ô input
+            });
+
+            // Xử lý sự kiện nhấp chuột bên ngoài popup
+            $(document).mouseup(function (e) {
+                var container = $("#search_popup");
+                var button = $('#search_btn'); // Tham chiếu đến nút tìm kiếm
+
+                // Kiểm tra nếu nhấp chuột bên ngoài popup và nút tìm kiếm
+                if (!container.is(e.target) && container.has(e.target).length === 0 && !button.is(e.target) && !button.has(e.target).length) {
+                    container.hide(); // Ẩn popup
+                }
             });
 
             // Xử lý sự kiện khi nhập liệu vào ô tìm kiếm
@@ -278,14 +289,11 @@
                 }
             });
 
-            // Xử lý sự kiện nhấp chuột bên ngoài popup
-            $(document).mouseup(function (e) {
-                var container = $("#search_popup");
-
-                // Kiểm tra nếu nhấp chuột bên ngoài popup và nút tìm kiếm
-                if (!container.is(e.target) && container.has(e.target).length === 0 && !$('#search_btn').is(e.target)) {
-                    container.hide(); // Ẩn popup
-                }
+            $('li.account').hover(function () {
+                $(this).find('ul.account_selection').show(150);
+            }, function () {
+                // Khi rời hover khỏi .account, ẩn ul.account_selection ngay lập tức
+                $(this).find('ul.account_selection').hide();
             });
         });
     </script>
