@@ -120,8 +120,6 @@ namespace WebBanHangOnline.Models
                         CategoryName = i.CategoryName,
                         Price = i.Price,
                         Quantity = i.Quantity,
-                        //Price = db.Products.FirstOrDefault(p => p.Id == i.ProductId).Price,
-                        //ProductName = db.Products.FirstOrDefault(p => p.Id == i.ProductId).Title,
                         TotalPrice = i.TotalPrice
                     }).ToList();
                     return cart;
