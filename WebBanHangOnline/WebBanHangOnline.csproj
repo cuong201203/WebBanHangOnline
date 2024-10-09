@@ -325,6 +325,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\OrderViewModel.cs" />
     <Compile Include="Models\ShoppingCart.cs" />
+    <Compile Include="Models\VnPayLibrary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -3713,9 +3714,9 @@
     <Content Include="Views\Product\ProductCategory.cshtml" />
     <Content Include="Views\Product\Detail.cshtml" />
     <Content Include="Views\ShoppingCart\Index.cshtml" />
-    <Content Include="Views\ShoppingCart\Partial_Item_Cart.cshtml" />
+    <Content Include="Views\ShoppingCart\Partial_ItemCart.cshtml" />
     <Content Include="Views\ShoppingCart\CheckOut.cshtml" />
-    <Content Include="Views\ShoppingCart\Partial_Item_ThanhToan.cshtml" />
+    <Content Include="Views\ShoppingCart\Partial_ItemCheckOut.cshtml" />
     <Content Include="Views\ShoppingCart\Partial_CheckOut.cshtml" />
     <Content Include="Views\ShoppingCart\CheckOutSuccess.cshtml" />
     <Content Include="Views\News\Partial_News_Home.cshtml" />
@@ -3729,6 +3730,7 @@
     <Content Include="Views\Adv\Partial_AdvCarousel.cshtml" />
     <Content Include="Views\Product\Partial_RelatedProducts.cshtml" />
     <Content Include="Views\Home\Partial_Subscribe.cshtml" />
+    <Content Include="Views\ShoppingCart\VnPayReturn.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

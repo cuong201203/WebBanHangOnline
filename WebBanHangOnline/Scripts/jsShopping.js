@@ -98,7 +98,7 @@ function Update(id, quantity) {
 
 function LoadCart() {
     $.ajax({
-        url: '/shoppingcart/Partial_Item_Cart',
+        url: '/shoppingcart/Partial_ItemCart',
         type: 'POST',
         success: function (result) {
             $('#load_data').html(result);
