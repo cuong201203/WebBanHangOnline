@@ -7,6 +7,7 @@ using ClientApp.Attributes;
 using System;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Configuration;
+using System.Collections.Generic;
 
 namespace WebBanHangOnline.Controllers
 {
@@ -30,23 +31,9 @@ namespace WebBanHangOnline.Controllers
             return View(cart.items); // Truyền danh sách sản phẩm cho View
         }
 
-
-        public ActionResult CheckOut()
-        {
-            var cart = GetCurrentCart();
-            ViewBag.CheckCart = cart;
-            return View();
-        }
-
         public ActionResult CheckOutSuccess()
         {
             return View();
-        }
-
-        public ActionResult Partial_ItemCheckOut()
-        {
-            var cart = GetCurrentCart();
-            return PartialView(cart.items);
         }
 
         public ActionResult Partial_ItemCart()
@@ -66,6 +53,32 @@ namespace WebBanHangOnline.Controllers
             return PartialView();
         }
 
+        public ActionResult Partial_ItemCheckOut()
+        {
+            var cart = GetCurrentCart();
+            var selectedProductIds = (List<int>)Session["SelectedProductIds"];
+            var selectedItems = cart.items.Where(x => selectedProductIds.Contains(x.ProductId)).ToList();
+            return PartialView(selectedItems);
+        }
+
+        [HttpPost]
+        public ActionResult Partial_ItemCheckOut(List<int> selectedProductIds)
+        {
+            if (selectedProductIds != null)
+            {
+                Session["SelectedProductIds"] = selectedProductIds;
+                return Json(new { success = true });
+            }
+            return Json(new { success = false, message = "Chưa chọn sản phẩm nào!" });
+        }
+
+        public ActionResult CheckOut()
+        {
+            var cart = GetCurrentCart();
+            ViewBag.CheckCart = cart;            
+            return View();
+        }        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CheckOut(OrderViewModel request)
@@ -73,15 +86,17 @@ namespace WebBanHangOnline.Controllers
             if (ModelState.IsValid)
             {
                 var cart = GetCurrentCart();
-                if (cart != null)
+                var selectedProductIds = (List<int>)Session["SelectedProductIds"];
+                if (cart != null && selectedProductIds != null)
                 {
+                    var selectedItems = cart.items.Where(x => selectedProductIds.Contains(x.ProductId)).ToList();
                     Order order = new Order
                     {
                         CustomerName = request.CustomerName,
                         Phone = request.Phone,
                         Address = request.Address,
                         Email = request.Email,
-                        TotalAmount = cart.items.Sum(x => (x.Price * x.Quantity)),
+                        TotalAmount = selectedItems.Sum(x => (x.Price * x.Quantity)),
                         TypePayment = request.TypePayment,
                         CreatedDate = DateTime.Now,
                         ModifiedDate = DateTime.Now,
@@ -90,7 +105,7 @@ namespace WebBanHangOnline.Controllers
                         Code = "DH" + new Random().Next(1000, 9999)
                     };
 
-                    cart.items.ForEach(x => order.OrderDetails.Add(new OrderDetail
+                    selectedItems.ForEach(x => order.OrderDetails.Add(new OrderDetail
                     {
                         ProductId = x.ProductId,
                         ProductName = x.ProductName,
@@ -106,7 +121,7 @@ namespace WebBanHangOnline.Controllers
                     var strSanPham = "";
                     var thanhTien = decimal.Zero;
                     var tongTien = decimal.Zero;
-                    foreach (var sp in cart.items)
+                    foreach (var sp in selectedItems)
                     {
                         strSanPham += "<tr>";
                         strSanPham += "<td>" + sp.ProductName + "</td>";
@@ -171,6 +186,7 @@ namespace WebBanHangOnline.Controllers
                 };
                 cart.AddToCart(item, quantity);
                 cart.SaveCart(db);
+                db.SaveChanges();
                 code = new { success = true, msg = "Thêm sản phẩm thành công", code = 1, count = cart.items.Count };
             }
             return Json(code);
