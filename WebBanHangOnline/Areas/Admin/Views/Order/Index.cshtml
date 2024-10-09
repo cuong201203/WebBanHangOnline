@@ -72,7 +72,7 @@
                                     <td>@item.Phone</td>
                                     <td>@string.Format("{0:N0}", item.TotalAmount)<u>đ</u></td>
                                     <td>@(item.TypePayment == 1 ? "Chờ thanh toán" : "Đã thanh toán")</td>
-                                    <td>@item.CreatedDate.ToString("dd/MM/yyyy")</td>
+                                    <td>@item.CreatedDate.ToString("dd/MM/yyyy HH:mm:ss")</td>
                                     <td>
                                         <a href="/admin/order/view/@item.Id" class="btn btn-sm btn-primary">Xem</a>
                                         <a href="#" data-id="@item.Id" class="btn btn-sm btn-danger btnCapNhat">Cập nhật</a>
