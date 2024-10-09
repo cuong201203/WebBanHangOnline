@@ -24,9 +24,14 @@
             <div class="row">
                 <div class="col-md-12 text-center">
                     <h2 class="">Thanh toán</h2>
-                    @if (ViewBag.ThanhToanThanhCong != null)
+                    @if (ViewBag.Amount != null)
                     {
-                        <p>Bạn đã thanh toán thành công với @ViewBag.ThanhToanThanhCong!</p>
+                        <p>
+                            Bạn đã thanh toán thành công với số tiền thanh toán (VND):
+                            <span class="font-weight-bold">
+                                @string.Format("{0:N0}", ViewBag.Amount)<u>đ</u>
+                            </span>
+                        </p>
                     }
                     <p>@ViewBag.InnerText</p>
                 </div>

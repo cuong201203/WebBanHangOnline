@@ -249,7 +249,7 @@ namespace WebBanHangOnline.Controllers
                     cart.ClearCart();
                     cart.SaveCart(db);
                     // Successful transaction
-                    ViewBag.ThanhToanThanhCong = "số tiền thanh toán (VND): " + vnp_Amount.ToString();
+                    ViewBag.Amount = vnp_Amount;
                     ViewBag.InnerText = "Giao dịch được thực hiện thành công. Cảm ơn quý khách đã sử dụng dịch vụ";                                       
                 }
                 else

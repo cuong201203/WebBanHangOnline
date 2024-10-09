@@ -29,7 +29,8 @@
                 <div class="col-md-12">
                     <div>
                         <div class="form-group"><b>Mã đơn hàng:</b> @Model.Code</div>
-                        <div class="form-group"><b>Ngày tạo:</b> @Model.CreatedDate.ToString("dd/MM/yyyy, HH:mm")</div>
+                        <div class="form-group"><b>Ngày tạo:</b> @Model.CreatedDate.ToString("dd/MM/yyyy HH:mm:ss")</div>
+                        <div class="form-group"><b>Trạng thái:</b> @(Model.TypePayment == 1 ? "Chờ thanh toán" : "Đã thanh toán")</div>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-hover">
@@ -48,10 +49,10 @@
                                 @if (Model != null)
                                 {
                                     var i = 0;
-                                    var tongtien = 0;
+                                    var tongTien = 0;
                                     foreach (var item in Model.OrderDetails)
                                     {
-                                        tongtien += item.TotalPrice;
+                                        tongTien += item.TotalPrice;
                                         <tr>
                                             <td class="text-center">@(i + 1)</td>
                                             <td class="text-center">
@@ -71,7 +72,7 @@
                                     }
                                     <tr class="font-weight-bold">
                                         <td colspan="6" class="text-right">Tổng tiền: </td>
-                                        <td class="text-right">@string.Format("{0:N0}", tongtien)<u>đ</u></td>
+                                        <td class="text-right">@string.Format("{0:N0}", tongTien)<u>đ</u></td>
                                         <td></td>
                                     </tr>
                                 }

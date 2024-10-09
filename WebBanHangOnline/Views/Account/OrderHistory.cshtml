@@ -26,6 +26,8 @@
                             <th>STT</th>
                             <th>Mã đơn hàng</th>
                             <th>Ngày tạo</th>
+                            <th>Trạng thái</th>
+                            <th>Tổng tiền</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -35,7 +37,16 @@
                             <tr>
                                 <td>@i</td>
                                 <td>@item.Code</td>
-                                <td>@item.CreatedDate.ToString("dd/MM/yyyy, HH:mm")</td>
+                                <td>@item.CreatedDate.ToString("dd/MM/yyyy, HH:mm:ss")</td>
+                                <td>@(item.TypePayment == 1 ? "Chờ thanh toán" : "Đã thanh toán")</td>
+                                @{
+                                    var tongTien = 0;
+                                    foreach (var item_ in item.OrderDetails)
+                                    {
+                                        tongTien += item_.TotalPrice;
+                                    }
+                                }
+                                <td class="font-weight-bold">@string.Format("{0:N0}", tongTien)<u>đ</u></td>
                                 <td>
                                     <a href="/@item.Code-o@(item.Id)" class="btn red_button text-white px-4">Xem chi tiết</a>
                                 </td>

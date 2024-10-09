@@ -2,7 +2,7 @@
 @if (Model != null && Model.Any())
 {
     int i = 1;
-    var tongtien = 0;
+    var tongTien = 0;
     <table class="table table-hover">
         <thead>
             <tr>
@@ -23,13 +23,13 @@
                     <td>@item.Quantity</td>
                     <td>@string.Format("{0:N0}", item.Price * item.Quantity)<u>đ</u></td>
                 </tr>
-                tongtien += @item.Price * @item.Quantity;
+                tongTien += @item.Price * @item.Quantity;
                 i++;
             }
             <tr class="font-weight-bold">
                 <td colspan="3"></td>
                 <td>Tổng tiền:</td>
-                <td>@string.Format("{0:N0}", tongtien)<u>đ</u></td>
+                <td>@string.Format("{0:N0}", tongTien)<u>đ</u></td>
             </tr>
         </tbody>
     </table>
