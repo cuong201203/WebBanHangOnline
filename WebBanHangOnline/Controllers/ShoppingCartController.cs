@@ -31,8 +31,6 @@ namespace WebBanHangOnline.Controllers
             return View(cart.items); // Truyền danh sách sản phẩm cho View
         }
 
-            return View();
-        }
         public ActionResult CheckOutSuccess()
         {
             return View();
