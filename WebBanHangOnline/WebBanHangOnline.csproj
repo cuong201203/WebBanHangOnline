@@ -3716,7 +3716,6 @@
     <Content Include="Views\ShoppingCart\Index.cshtml" />
     <Content Include="Views\ShoppingCart\Partial_ItemCart.cshtml" />
     <Content Include="Views\ShoppingCart\CheckOut.cshtml" />
-    <Content Include="Views\ShoppingCart\Partial_ItemCheckOut.cshtml" />
     <Content Include="Views\ShoppingCart\Partial_CheckOut.cshtml" />
     <Content Include="Views\ShoppingCart\CheckOutSuccess.cshtml" />
     <Content Include="Views\News\Partial_News_Home.cshtml" />
@@ -3731,6 +3730,7 @@
     <Content Include="Views\Product\Partial_RelatedProducts.cshtml" />
     <Content Include="Views\Home\Partial_Subscribe.cshtml" />
     <Content Include="Views\ShoppingCart\VnPayReturn.cshtml" />
+    <Content Include="Views\ShoppingCart\Partial_ItemCheckOut.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
