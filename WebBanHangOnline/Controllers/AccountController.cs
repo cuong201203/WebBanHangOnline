@@ -283,17 +283,17 @@ namespace WebBanHangOnline.Controllers
             if (ModelState.IsValid)
             {
                 var user = await UserManager.FindByEmailAsync(model.Email);
-                var it = await UserManager.IsEmailConfirmedAsync(user.Id);
+                // var it = await UserManager.IsEmailConfirmedAsync(user.Id);
                 if (user == null)
                 {
-                    // Don't reveal that the user does not exist or is not confirmed
-                    return View("ForgotPasswordConfirmation");
-                }
+                    ViewBag.ConfirmationEmailError = "Không có tài khoản có email này";
+                    return View("ForgotPassword");
+                }                                
 
                 // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
                 string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { UserId = user.Id, Code = code }, protocol: Request.Url.Scheme);
                 WebBanHangOnline.Common.Common.SendMail("ShopOnline", "Quên mật khẩu", "Truy cập <a href='"+callbackUrl+"'>liên kết này</a> để đặt lại mật khẩu.",model.Email);
                 // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
                 return RedirectToAction("ForgotPasswordConfirmation", "Account");
@@ -314,9 +314,11 @@ namespace WebBanHangOnline.Controllers
         //
         // GET: /Account/ResetPassword
         [AllowAnonymous]
-        public ActionResult ResetPassword(string code)
+        public ActionResult ResetPassword(string userId, string code)
         {
-            return code == null ? View("Error") : View();
+            if (userId == null || code == null) return View("Error");
+            var model = new ResetPasswordViewModel { UserId = userId, Code = code };
+            return View(model);
         }
 
         //
@@ -326,17 +328,12 @@ namespace WebBanHangOnline.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
         {
+            System.Console.WriteLine("UserId: " + model.UserId);
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
-            var user = await UserManager.FindByEmailAsync(model.Email);
-            if (user == null)
-            {
-                // Don't reveal that the user does not exist
-                return RedirectToAction("ResetPasswordConfirmation", "Account");
-            }
-            var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
+            var result = await UserManager.ResetPasswordAsync(model.UserId, model.Code, model.Password);
             if (result.Succeeded)
             {
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
