@@ -149,7 +149,6 @@ namespace WebBanHangOnline.Controllers
             return View();
         }
 
-
         [AllowAnonymous]
         [HttpPost]
         public ActionResult AddToCart(int id, int quantity)
@@ -194,7 +193,6 @@ namespace WebBanHangOnline.Controllers
             cart.SaveCart(db); // Lưu lại giỏ hàng sau khi xóa
             return Json(new { success = true });
         }
-
 
         [HttpPost]
         public ActionResult Update(int id, int quantity)
