@@ -100,10 +100,7 @@ namespace WebBanHangOnline.Controllers
                         Quantity = x.Quantity,
                         TotalPrice = x.TotalPrice,
                         CategoryName = x.CategoryName
-                    }));
-
-                    db.Orders.Add(order);
-                    db.SaveChanges();
+                    }));                    
 
                     // Send email when order is successful
                     var strSanPham = "";
@@ -127,20 +124,25 @@ namespace WebBanHangOnline.Controllers
                     contentCustomer = contentCustomer.Replace("{{Phone}}", order.Phone);
                     contentCustomer = contentCustomer.Replace("{{Email}}", request.Email);
                     contentCustomer = contentCustomer.Replace("{{DiaChiNhanHang}}", order.Address);
+                    contentCustomer = contentCustomer.Replace("{{HinhThuc}}", request.TypePayment == 1 ? "COD" : "Chuyển khoản");
                     contentCustomer = contentCustomer.Replace("{{ThanhTien}}", string.Format("{0:N0}", thanhTien));
-                    contentCustomer = contentCustomer.Replace("{{TongTien}}", string.Format("{0:N0}", tongTien));
-                    WebBanHangOnline.Common.Common.SendMail("ShopOnline", "Đơn hàng #" + order.Code, contentCustomer.ToString(), request.Email);
-
-                    cart.ClearCart();
-                    cart.SaveCart(db);
+                    contentCustomer = contentCustomer.Replace("{{TongTien}}", string.Format("{0:N0}", tongTien));                
 
                     if (request.TypePayment == 1)
                     {
+                        db.Orders.Add(order);
+                        db.SaveChanges();
+                        WebBanHangOnline.Common.Common.SendMail("ShopOnline", "Đơn hàng #" + order.Code, contentCustomer.ToString(), request.Email);
+                        cart.ClearCart();
+                        cart.SaveCart(db);
                         return RedirectToAction("CheckOutSuccess");                     
                     } 
                     else
                     {
-                        return Redirect(UrlPayment(request.VnPayTypePayment, order.Code));
+                        TempData["Order"] = order;
+                        TempData["Email"] = request.Email;
+                        TempData["MailContent"] = contentCustomer;
+                        return Redirect(UrlPayment(request.VnPayTypePayment, order));
                     }                    
                 }
             }
@@ -235,37 +237,34 @@ namespace WebBanHangOnline.Controllers
                 String bankCode = Request.QueryString["vnp_BankCode"];
 
                 bool checkSignature = vnPay.ValidateSignature(vnp_SecureHash, vnp_HashSecret);
-                if (checkSignature)
+                if (checkSignature && vnp_ResponseCode == "00" && vnp_TransactionStatus == "00")
                 {
-                    if (vnp_ResponseCode == "00" && vnp_TransactionStatus == "00")
-                    {
-                        var itemOrder = db.Orders.FirstOrDefault(x => x.Code == orderCode);
-                        if (itemOrder != null)
-                        {
-                            // itemOrder.Status = 2; // Checked out
-                            db.Orders.Attach(itemOrder);
-                            db.Entry(itemOrder).State = System.Data.Entity.EntityState.Modified;
-                            db.SaveChanges();
-                        }
-                        // Successful transaction
-                        ViewBag.ThanhToanThanhCong = "số tiền thanh toán (VND): " + vnp_Amount.ToString();
-                        ViewBag.InnerText = "Giao dịch được thực hiện thành công. Cảm ơn quý khách đã sử dụng dịch vụ";                        
-                    }
-                    else
-                    {
-                        // Failed transaction. Error code: vnp_ResponseCode
-                        ViewBag.InnerText = "Có lỗi xảy ra trong quá trình xử lý. Mã lỗi: " + vnp_ResponseCode;
-                    }                    
+                    var order = (Order)TempData["Order"];
+                    var email = TempData["Email"].ToString();
+                    var mailContent = TempData["MailContent"].ToString();
+                    db.Orders.Add(order);
+                    db.SaveChanges();
+                    WebBanHangOnline.Common.Common.SendMail("ShopOnline", "Đơn hàng #" + order.Code, mailContent, email);
+                    var cart = GetCurrentCart();
+                    cart.ClearCart();
+                    cart.SaveCart(db);
+                    // Successful transaction
+                    ViewBag.ThanhToanThanhCong = "số tiền thanh toán (VND): " + vnp_Amount.ToString();
+                    ViewBag.InnerText = "Giao dịch được thực hiện thành công. Cảm ơn quý khách đã sử dụng dịch vụ";                                       
+                }
+                else
+                {
+                    // Failed transaction. Error code: vnp_ResponseCode
+                    ViewBag.InnerText = "Có lỗi xảy ra trong quá trình xử lý. " + VnPayResponseCode.GetErrorCodes(vnp_ResponseCode);
                 }
             }
             return View();
         }
 
         #region Thanh toán VNPay
-        public string UrlPayment(int vnPayTypePayment, string orderCode)
+        public string UrlPayment(int vnPayTypePayment, Order order)
         {
             var urlPayment = "";
-            var order = db.Orders.FirstOrDefault(x => x.Code == orderCode);
             // Get Config Info
             string vnp_ReturnUrl = ConfigurationManager.AppSettings["vnp_ReturnUrl"]; // URL returning transaction response
             string vnp_Url = ConfigurationManager.AppSettings["vnp_Url"]; // VNPay check-out URL

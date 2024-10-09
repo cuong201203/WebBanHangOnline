@@ -19,9 +19,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         private ApplicationUserManager _userManager;
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        public AccountController()
-        {
-        }
+        public AccountController() { }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
@@ -54,11 +52,11 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         }
 
         // GET: Admin/Account
-        //public ActionResult Index()
-        //{
-        //    var items = db.Users.ToList();
-        //    return View(items);
-        //}
+        // public ActionResult Index()
+        // {
+        //     var items = db.Users.ToList();
+        //     return View(items);
+        // }
         public ActionResult Index()
         {
             var users = db.Users.OrderByDescending(x => x.CreatedDate).ToList();
