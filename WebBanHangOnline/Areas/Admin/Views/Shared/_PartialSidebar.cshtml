@@ -25,8 +25,6 @@
     <!-- Sidebar Menu -->
     <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-            <!-- Add icons to the links using the .nav-icon class
-    with font-awesome or any other icon font library -->
             @if (User.IsInRole("Admin"))
             {
                 <li class="nav-item">
@@ -34,7 +32,6 @@
                         <i class="nav-icon fas fa-chart-bar"></i>
                         <p>
                             Thống kê
-                            @*<span class="right badge badge-danger">New</span>*@
                         </p>
                     </a>
                 </li>
@@ -43,36 +40,14 @@
                         <i class="nav-icon fas fa-list-ol"></i>
                         <p>
                             Danh mục
-                            @*<i class="right fas fa-angle-left"></i>*@
                         </p>
                     </a>
-                    @*<ul class="nav nav-treeview">
-                    <li class="nav-item">
-                        <a href="~/Content/clients/index.html" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Dashboard v1</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="~/Content/clients/index2.html" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Dashboard v2</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="~/Content/clients/index3.html" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Dashboard v3</p>
-                        </a>
-                    </li>
-                </ul>*@
                 </li>
                 <li class="nav-item">
                     <a href="/admin/role" class="nav-link">
                         <i class="nav-icon fas fa-user-tag"></i>
                         <p>
                             Quyền
-                            @*<span class="right badge badge-danger">New</span>*@
                         </p>
                     </a>
                 </li>
@@ -82,19 +57,9 @@
                     <i class="nav-icon fas fa-newspaper"></i>
                     <p>
                         Tin tức
-                        @*<span class="right badge badge-danger">New</span>*@
                     </p>
                 </a>
             </li>
-            <!--<li class="nav-item">
-        <a href="/admin/post" class="nav-link">
-            <i class="nav-icon fas fa-th"></i>
-            <p>
-                Bài viết-->
-            @*<span class="right badge badge-danger">New</span>*@
-            <!--</p>
-        </a>
-    </li>-->
             @if (User.IsInRole("Admin"))
             {
                 <li class="nav-item">
@@ -102,20 +67,10 @@
                         <i class="nav-icon fas fa-file-invoice-dollar"></i>
                         <p>
                             Đơn hàng
-                            @*<span class="right badge badge-danger">New</span>*@
                         </p>
                     </a>
                 </li>
             }
-            <!--<li class="nav-item">
-        <a href="/admin/adv" class="nav-link">
-            <i class="nav-icon fas fa-th"></i>
-            <p>
-                Quảng cáo-->
-            @*<span class="right badge badge-danger">New</span>*@
-            <!--</p>
-        </a>
-    </li>-->
             <li class="nav-item">
                 <a href="/admin" class="nav-link">
                     <i class="nav-icon fas fa-th"></i>
@@ -142,15 +97,6 @@
                     </li>
                 </ul>
             </li>
-            <!--<li class="nav-item">
-        <a href="/admin/systemsetting" class="nav-link">
-            <i class="nav-icon fas fa-th"></i>
-            <p>
-                Cấu hình hệ thống-->
-            @*<span class="right badge badge-danger">New</span>*@
-            <!--</p>
-        </a>
-    </li>-->
             @if (User.IsInRole("Admin"))
             {
                 <li class="nav-item">
@@ -158,7 +104,6 @@
                         <i class="nav-icon fas fa-users"></i>
                         <p>
                             Tài khoản
-                            @*<span class="right badge badge-danger">New</span>*@
                         </p>
                     </a>
                 </li>
@@ -176,7 +121,6 @@
                     <i class="nav-icon fas fa-sign-out-alt"></i>
                     <p>
                         Đăng xuất
-                        @*<span class="right badge badge-danger">New</span>*@
                     </p>
                 </a>
             </li>
