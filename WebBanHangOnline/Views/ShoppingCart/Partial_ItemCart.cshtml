@@ -71,6 +71,11 @@ else
         });
 
         $('.cbkItem').on('change', function () {
+            if ($('.cbkItem:checked').length !== $('.cbkItem').length) {
+                $('#selectAll').prop('checked', false);
+            } else if ($('.cbkItem:checked').length === $('.cbkItem').length) {
+                $('#selectAll').prop('checked', true);
+            }
             updateTotalPrice();
         });
 
@@ -87,6 +92,7 @@ else
                         $('#checkout_items').html(result.count);
                         $('#trow_' + id).remove();
                         updateTotalPrice();
+                        updateSTT();
                         //location.reload();
                         if ($('#checkout_items').html() === '0') {
                             LoadCart();
@@ -139,27 +145,6 @@ else
                     },
                     error: function () {
                         alert("Có lỗi xảy ra khi gửi yêu cầu.");
-                    }
-                });
-            }
-        });
-
-        $('body').on('click', '.btnDelete', function (e) {
-            e.preventDefault();
-            var id = $(this).data('id');
-            var conf = confirm("Bạn muốn xóa sản phẩm này khỏi giỏ hàng?");
-            if (conf === true) {
-                $.ajax({
-                    url: '/shoppingcart/Delete',
-                    type: 'POST',
-                    data: { id: id },
-                    success: function (result) {
-                        if (result.success) {
-                            $('#checkout_items').html(result.count);
-                            $('#trow_' + id).remove();
-                            updateTotalPrice();
-                            updateSTT();
-                        }
                     }
                 });
             }
