@@ -126,7 +126,6 @@ else
 
                 // Cập nhật thuộc tính data-price của checkbox
                 $('.cbkItem[value="' + productId + '"]').attr('data-price', totalPrice);
-
                 updateTotalPrice();
 
                 $.ajax({
@@ -165,12 +164,6 @@ else
                 });
             }
         });
-
-        function updateSTT() {
-            $('.row_index').each(function(index) {
-                $(this).text(index + 1);
-            });
-        }
     });
 
     function updateTotalPrice() {
@@ -189,6 +182,12 @@ else
             success: function (result) {
                 $('#load_data').html(result);
             }
+        });
+    }
+
+    function updateSTT() {
+        $('.row_index').each(function (index) {
+            $(this).text(index + 1);
         });
     }
 </script>
