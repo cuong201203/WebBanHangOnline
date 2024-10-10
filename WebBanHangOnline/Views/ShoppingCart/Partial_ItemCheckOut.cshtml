@@ -2,7 +2,7 @@
 
 @if (Model != null && Model.Any())
 {
-<h3>Giỏ hàng (<span @*style="float: right;"*@>@Model.Count()</span>)</h3>
+<h3>Đơn hàng (<span style="color: red";>@Model.Count()</span>)</h3>
     var tongTien = decimal.Zero;
 <div class="border border-secondary">
     <table class="table">

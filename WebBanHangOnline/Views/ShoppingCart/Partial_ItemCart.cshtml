@@ -64,16 +64,7 @@ else
 }
 
 <script>
-    $(document).ready(function () {
-        function updateTotalPrice() {
-            var total = 0;
-            $('.cbkItem:checked').each(function () {
-                var price = parseFloat($(this).attr('data-price')) || 0;
-                total += price;
-            });
-            $('#totalPrice').html(total.toLocaleString('vi-VN') + '<u>đ</u>');
-        }
-
+    $(document).ready(function () {      
         $('#selectAll').on('change', function () {
             $('.cbkItem').prop('checked', this.checked);
             updateTotalPrice();
@@ -83,6 +74,47 @@ else
             updateTotalPrice();
         });
 
+        $('body').on('click', '.btnDelete', function (e) {
+            e.preventDefault();
+            var id = $(this).data('id');
+            var conf = confirm("Bạn muốn xóa sản phẩm này khỏi giỏ hàng?");
+            if (conf === true) {
+                $.ajax({
+                    url: '/ShoppingCart/Delete',
+                    type: 'POST',
+                    data: { id: id },
+                    success: function (result) {
+                        $('#checkout_items').html(result.count);
+                        $('#trow_' + id).remove();
+                        updateTotalPrice();
+                        //location.reload();
+                        if ($('#checkout_items').html() === '0') {
+                            LoadCart();
+                            $('.btnDeleteAll, .btnCheckOut').hide();
+                        }
+                    }
+                });
+            }
+        });
+
+        $('body').on('click', '.btnDeleteAll', function (e) {
+            e.preventDefault();
+            var conf = confirm("Bạn muốn xóa hết sản phẩm trong giỏ hàng?");
+            if (conf === true) {
+                $.ajax({
+                    url: '/ShoppingCart/DeleteAll',
+                    type: 'POST',
+                    success: function (result) {
+                        // location.reload();
+                        $('#checkout_items').html(0);
+                        LoadCart();
+                        $('.btnDeleteAll, .btnCheckOut').hide();
+                    }
+                });
+            }
+        });
+
+        // Update item's quantity
         $('.quantity-input').on('change', function () {
             var quantity = parseInt($(this).val());
             var price = parseFloat($(this).data('price')) || 0;
@@ -113,4 +145,23 @@ else
             }
         });
     });
+
+    function updateTotalPrice() {
+        var total = 0;
+        $('.cbkItem:checked').each(function () {
+            var price = parseFloat($(this).attr('data-price')) || 0;
+            total += price;
+        });
+        $('#totalPrice').html(total.toLocaleString('vi-VN') + '<u>đ</u>');
+    }
+
+    function LoadCart() {
+        $.ajax({
+            url: '/shoppingcart/Partial_ItemCart',
+            type: 'POST',
+            success: function (result) {
+                $('#load_data').html(result);
+            }
+        });
+    }
 </script>
