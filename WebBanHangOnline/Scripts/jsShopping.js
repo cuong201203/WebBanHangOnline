@@ -43,7 +43,7 @@
                     if (result.success) {
                         $('#checkout_items').html(result.count);
                         $('#trow_' + id).remove();
-                        location.reload();
+                        //location.reload();
                         LoadCart();
                     }
                 }
