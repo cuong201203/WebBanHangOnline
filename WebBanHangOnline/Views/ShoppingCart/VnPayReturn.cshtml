@@ -26,16 +26,22 @@
                     <h2 class="">Thanh toán</h2>
                     @if (ViewBag.Amount != null)
                     {
-                        <p>
-                            Bạn đã thanh toán thành công với số tiền thanh toán (VND):
-                            <span class="font-weight-bold">
-                                @string.Format("{0:N0}", ViewBag.Amount)<u>đ</u>
-                            </span>
-                        </p>
+                    <p>
+                        Bạn đã thanh toán thành công với số tiền thanh toán (VND):
+                        <span class="font-weight-bold">
+                            @string.Format("{0:N0}", ViewBag.Amount)<u>đ</u>
+                        </span>
+                    </p>
                     }
                     <p>@ViewBag.InnerText</p>
                 </div>
             </div>
+            @if (ViewBag.Amount != null) 
+            {
+                <div class="row d-flex justify-content-center">
+                    <a href="/danh-muc-san-pham/san-pham" class="btn red_button text-white px-4">TIẾP TỤC MUA SẮM</a>
+                </div>
+            }
             <hr />
         </div>
     </div>
