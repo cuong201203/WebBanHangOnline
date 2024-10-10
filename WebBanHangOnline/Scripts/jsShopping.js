@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-    ShowCount();
+    showCount();
     $('body').on('click', '.btnAddToCart', function (e) {
         e.preventDefault();
         var id = $(this).data('id');
@@ -8,11 +8,11 @@
         if (tQuantity != '') {
             quantity = parseInt(tQuantity);
         }
-        AddToCart(id, quantity);
+        addToCart(id, quantity);
     });
 });
 
-function ShowCount() {
+function showCount() {
     $.ajax({
         url: '/ShoppingCart/ShowCount',
         type: 'GET',
@@ -22,7 +22,7 @@ function ShowCount() {
     });
 }
 
-function AddToCart(id, quantity) {
+function addToCart(id, quantity) {
     $.ajax({
         url: '/ShoppingCart/AddToCart',
         type: 'POST',
