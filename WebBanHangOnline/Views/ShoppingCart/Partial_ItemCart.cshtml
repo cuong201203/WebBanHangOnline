@@ -25,7 +25,7 @@
                         <td>
                             <input type="checkbox" class="cbkItem" data-price="@item.TotalPrice" value="@item.ProductId" />
                         </td>
-                        <td class="text-center">@(i + 1)</td>
+                        <td class="text-center row_index">@(i + 1)</td>
                         <td class="text-center">
                             <img src="@item.ProductImg" width="60" />
                         </td>
@@ -126,7 +126,6 @@ else
 
                 // Cập nhật thuộc tính data-price của checkbox
                 $('.cbkItem[value="' + productId + '"]').attr('data-price', totalPrice);
-
                 updateTotalPrice();
 
                 $.ajax({
@@ -140,6 +139,27 @@ else
                     },
                     error: function () {
                         alert("Có lỗi xảy ra khi gửi yêu cầu.");
+                    }
+                });
+            }
+        });
+
+        $('body').on('click', '.btnDelete', function (e) {
+            e.preventDefault();
+            var id = $(this).data('id');
+            var conf = confirm("Bạn muốn xóa sản phẩm này khỏi giỏ hàng?");
+            if (conf === true) {
+                $.ajax({
+                    url: '/shoppingcart/Delete',
+                    type: 'POST',
+                    data: { id: id },
+                    success: function (result) {
+                        if (result.success) {
+                            $('#checkout_items').html(result.count);
+                            $('#trow_' + id).remove();
+                            updateTotalPrice();
+                            updateSTT();
+                        }
                     }
                 });
             }
@@ -162,6 +182,12 @@ else
             success: function (result) {
                 $('#load_data').html(result);
             }
+        });
+    }
+
+    function updateSTT() {
+        $('.row_index').each(function (index) {
+            $(this).text(index + 1);
         });
     }
 </script>
