@@ -61,7 +61,13 @@ namespace WebBanHangOnline.Models
             return items.Sum(x => x.Quantity);
         }
 
-        public void ClearCart()
+        public void ClearItemCart(List<int> selectedProductIds) 
+        {
+            items.RemoveAll(x => selectedProductIds.Contains((int)x.GetType().GetProperty("ProductId").GetValue(x, null)));
+
+        }
+
+        public void ClearAllCart()
         {
             items.Clear();
         }

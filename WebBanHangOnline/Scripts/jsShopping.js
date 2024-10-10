@@ -8,61 +8,13 @@
         if (tQuantity != '') {
             quantity = parseInt(tQuantity);
         }
-
-        //alert(id + ' ' + quantity);
-        $.ajax({
-            url: '/shoppingcart/addtocart',
-            type: 'POST',
-            data: { id: id, quantity: quantity },
-            success: function (result) {
-                if (result.success) {
-                    $('#checkout_items').html(result.count);
-                    alert(result.msg);
-                }
-            }
-        });
-    });
-
-    $('body').on('click', '.btnUpdate', function (e) {
-        e.preventDefault();
-        var id = $(this).data("id");
-        var quantity = $("#Quantity_" + id).val();
-        Update(id, quantity);
-    });
-
-    //$('body').on('click', '.btnDelete', function (e) {
-    //    e.preventDefault();
-    //    var id = $(this).data('id');
-    //    var conf = confirm("Bạn muốn xóa sản phẩm này khỏi giỏ hàng?");
-    //    if (conf === true) {
-    //        $.ajax({
-    //            url: '/shoppingcart/Delete',
-    //            type: 'POST',
-    //            data: { id: id },
-    //            success: function (result) {
-    //                if (result.success) {
-    //                    $('#checkout_items').html(result.count);
-    //                    $('#trow_' + id).remove();
-    //                    //LoadCart();
-    //                    updateTotalPrice();
-    //                }
-    //            }
-    //        });
-    //    }
-    //});
-
-    $('body').on('click', '.btnDeleteAll', function (e) {
-        e.preventDefault();
-        var conf = confirm("Bạn muốn xóa hết sản phẩm trong giỏ hàng?");
-        if (conf === true) {
-            DeleteAll();
-        }
+        AddToCart(id, quantity);
     });
 });
 
 function ShowCount() {
     $.ajax({
-        url: '/shoppingcart/ShowCount',
+        url: '/ShoppingCart/ShowCount',
         type: 'GET',
         success: function (result) {
             $('#checkout_items').html(result.count);
@@ -70,39 +22,17 @@ function ShowCount() {
     });
 }
 
-function DeleteAll() {
+function AddToCart(id, quantity) {
     $.ajax({
-        url: '/shoppingcart/DeleteAll',
-        type: 'POST',
-        success: function (result) {
-            if (result.success) {
-                $('.btnDeleteAll').hide();
-                $('.btnCheckOut').hide();
-                LoadCart();
-            }
-        }
-    });
-}
-
-function Update(id, quantity) {
-    $.ajax({
-        url: '/shoppingcart/Update',
+        url: '/ShoppingCart/AddToCart',
         type: 'POST',
         data: { id: id, quantity: quantity },
         success: function (result) {
             if (result.success) {
-                LoadCart();
+                $('#checkout_items').html(result.count);
+                alert(result.msg);
             }
         }
     });
 }
 
-function LoadCart() {
-    $.ajax({
-        url: '/shoppingcart/Partial_ItemCart',
-        type: 'POST',
-        success: function (result) {
-            $('#load_data').html(result);
-        }
-    });
-}

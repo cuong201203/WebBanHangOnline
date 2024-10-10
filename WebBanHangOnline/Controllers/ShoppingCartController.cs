@@ -24,6 +24,7 @@ namespace WebBanHangOnline.Controllers
         }
 
         // GET: ShoppingCart
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "*")]
         public ActionResult Index()
         {
             var cart = GetCurrentCart();
@@ -148,7 +149,7 @@ namespace WebBanHangOnline.Controllers
                         db.Orders.Add(order);
                         db.SaveChanges();
                         WebBanHangOnline.Common.Common.SendMail("ShopOnline", "Đơn hàng #" + order.Code, contentCustomer.ToString(), request.Email);
-                        cart.ClearCart();
+                        cart.ClearItemCart(selectedProductIds);
                         cart.SaveCart(db);
                         return RedirectToAction("CheckOutSuccess");                     
                     } 
@@ -198,14 +199,14 @@ namespace WebBanHangOnline.Controllers
             var cart = GetCurrentCart();
             cart.Remove(id);
             cart.SaveCart(db);
-            return Json(new { success = true });
+            return Json(new { success = true, count = cart.items.Count });
         }
 
         [HttpPost]
         public ActionResult DeleteAll()
         {
             var cart = GetCurrentCart();
-            cart.ClearCart(); // Gọi phương thức xóa toàn bộ giỏ hàng
+            cart.ClearAllCart(); // Gọi phương thức xóa toàn bộ giỏ hàng
             cart.SaveCart(db); // Lưu lại giỏ hàng sau khi xóa
             return Json(new { success = true });
         }
@@ -259,8 +260,10 @@ namespace WebBanHangOnline.Controllers
                     db.Orders.Add(order);
                     db.SaveChanges();
                     WebBanHangOnline.Common.Common.SendMail("ShopOnline", "Đơn hàng #" + order.Code, mailContent, email);
+
                     var cart = GetCurrentCart();
-                    cart.ClearCart();
+                    var selectedProductIds = (List<int>)Session["SelectedProductIds"];
+                    cart.ClearItemCart(selectedProductIds);
                     cart.SaveCart(db);
                     // Successful transaction
                     ViewBag.Amount = vnp_Amount;
