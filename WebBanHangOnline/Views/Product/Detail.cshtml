@@ -375,17 +375,17 @@
 
                             var starHtml = '';
                             for (var i = 0; i < fullStars; i++) {
-                                starHtml += '<li><i class="fa fa-star" aria-hidden="true"></i></li>';
+                                starHtml += '<li style="margin-right: 2px !important;"><i class="fa fa-star" aria-hidden="true"></i></li>';
                             }
 
                             if (halfStar) {
-                                starHtml += '<li><i class="fa fa-star-half-o" aria-hidden="true"></i></li>';
+                                starHtml += '<li style="margin-right: 2px !important;"><i class="fa fa-star-half-o" aria-hidden="true"></i></li>';
                             } else {
-                                starHtml += '<li><i class="fa fa-star-o" aria-hidden="true"></i></li>';
+                                starHtml += '<li style="margin-right: 2px !important;"><i class="fa fa-star-o" aria-hidden="true"></i></li>';
                             }
 
                             for (var i = 0; i < (5 - Math.ceil(newAverageRating)); i++) {
-                                starHtml += '<li><i class="fa fa-star-o" aria-hidden="true"></i></li>';
+                                starHtml += '<li style="margin-right: 2px !important;"><i class="fa fa-star-o" aria-hidden="true"></i></li>';
                             }
 
                             $('.star_rating').html(starHtml); // Cập nhật phần star rating
