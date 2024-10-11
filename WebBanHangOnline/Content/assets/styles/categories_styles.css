@@ -1394,7 +1394,7 @@ section
 	font-weight: 600;
 	color: #FFFFFF;
 }
-.product_bubble_right::after
+/*.product_bubble_right::after
 {
 	content: ' ';
 	position: absolute;
@@ -1424,7 +1424,7 @@ section
 .product_bubble_left::after
 {
 	border-color: #51a042 #51a042 transparent transparent;
-}
+}*/
 .product_bubble_red
 {
 	background: #fe4c50;

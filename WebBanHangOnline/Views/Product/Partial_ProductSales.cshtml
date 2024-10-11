@@ -40,7 +40,14 @@
                                                 </a>
                                             </div>
                                             @*<div class="favorite favorite_left"></div>*@
-                                            @*<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>sale</span></div>*@
+                                            @if (item.Quantity == 0)
+                                            {
+                                                <div class="product_bubble product_bubble_right d-flex flex-column align-items-center" style="background: #909090;"><span style="font-size: 8px;">hết hàng</span></div>
+                                            }
+                                            @if (item.Quantity > 0 && item.Quantity <= 5)
+                                            {
+                                                <div class="product_bubble product_bubble_red product_bubble_right d-flex flex-column align-items-center"><span style="font-size: 8px;">chỉ còn @item.Quantity</span></div>
+                                            }
                                             <div class="product_info">
                                                 <h6 class="product_name"><a href="/chi-tiet/@item.Alias-p@(item.Id)">@item.Title</a></h6>
                                                 @if (item.PriceSale > 0)
@@ -74,19 +81,19 @@
 }
 
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('.product_image img').hover(
-            function() {
+            function () {
                 // Khi hover vào ảnh
                 var hoverSrc = $(this).data('src-hover');
-                $(this).stop().fadeTo(300, 0.5, function() {
+                $(this).stop().fadeTo(300, 0.5, function () {
                     $(this).attr('src', hoverSrc).stop().fadeTo(300, 1);
                 });
             },
-            function() {
+            function () {
                 // Khi rời khỏi ảnh
                 var defaultSrc = $(this).data('src');
-                $(this).stop().fadeTo(300, 0.5, function() {
+                $(this).stop().fadeTo(300, 0.5, function () {
                     $(this).attr('src', defaultSrc).stop().fadeTo(300, 1);
                 });
             }
