@@ -926,6 +926,10 @@ section
 .single_product_thumbnails
 {
 	height: 527px;
+	overflow-y: scroll;
+}
+.single_product_thumbnails::-webkit-scrollbar {
+	display: none;
 }
 .single_product_thumbnails ul li
 {
