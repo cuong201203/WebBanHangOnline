@@ -215,28 +215,33 @@
                         <div class="product_price">@string.Format("{0:N0}", Model.Price)<u>đ</u></div>
                     }
                     <ul class="star_rating">
-                        @{
+                        @if (ViewBag.CountReview > 0)
+                        {
                             var fullStars = Math.Floor(ViewBag.AverageRating);
                             var halfStar = ViewBag.AverageRating % 1 >= 0.5;
+
+                            for (int i = 0; i < fullStars; i++)
+                            {
+                                <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                            }
+
+                            if (halfStar)
+                            {
+                                <li><i class="fa fa-star-half-o" aria-hidden="true"></i></li>
+                            }
+
+                            for (int i = 0; i < (5 - fullStars - (halfStar ? 1 : 0)); i++)
+                            {
+                                <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+                            }
                         }
 
-                        @for (int i = 0; i < fullStars; i++)
-                        {
-                            <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                        }
-
-                        @if (halfStar)
-                        {
-                            <li><i class="fa fa-star-half-o" aria-hidden="true"></i></li>
-                        }
                         else
                         {
-                            <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
-                        }
-
-                        @for (int i = 0; i < (5 - Math.Ceiling(ViewBag.AverageRating)); i++)
-                        {
-                            <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+                            for (int i = 0; i < 5; i++)
+                            {
+                                <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+                            }
                         }
                     </ul>
 
@@ -274,48 +279,25 @@
                 <div class="col">
 
                     <!-- Tab Description -->
-
                     <div id="tab_1" class="tab_container active">
                         <div class="row">
                             @Html.Raw(Model.Detail)
                         </div>
                     </div>
 
-                    <!-- Tab Additional Info -->
-                    @*<div id="tab_2" class="tab_container">
-                            <div class="row">
-                                <div class="col additional_info_col">
-                                    <div class="tab_title additional_info_title">
-                                        <h4>Additional Information</h4>
-                                    </div>
-                                    <p>COLOR:<span>Gold, Red</span></p>
-                                    <p>SIZE:<span>L,M,XL</span></p>
-                                </div>
-                            </div>
-                        </div>*@
-
                     <!-- Tab Reviews -->
-
                     <div id="tab_3" class="tab_container">
                         <div class="row">
-
                             <!-- User Reviews -->
-
                             <div class="col-lg-6 reviews_col" id="load_review">
-                                @*<div class="tab_title reviews_title">
-                                        <h4>Đánh giá (2)</h4>
-                                    </div>*@
-
                                 @Html.Action("_LoadReview", "ReviewProduct", new { productId = Model.Id })
 
                             </div>
 
                             <!-- Add Review -->
-
                             <div class="col-lg-6 add_review_col">
                                 @Html.Action("_Review", "ReviewProduct", new { productId = Model.Id })
                             </div>
-
                         </div>
                     </div>
 
@@ -336,7 +318,7 @@
 
                 // Kiểm tra nếu nút phân trang đang được active
                 if ($(this).parent().hasClass('active')) {
-                    return; // Không làm gì nếu đang active
+                    return;
                 }
 
                 var url = $(this).attr('href'); // Lấy URL từ link phân trang
@@ -349,55 +331,6 @@
                     },
                     error: function () {
                         alert("Lỗi khi tải đánh giá.");
-                    }
-                });
-            });
-
-            $('#review_form').on('submit', function (e) {
-                e.preventDefault();
-                var formData = $(this).serialize(); // Lấy dữ liệu form
-                $.ajax({
-                    url: '@Url.Action("PostReview", "ReviewProduct")',
-                    type: 'POST',
-                    data: formData,
-                    success: function (response) {
-                        if (response.success) {
-                            // Cập nhật star rating
-                            var newAverageRating = response.averageRating;
-                            var newCountReview = response.countReview;
-
-                            // Cập nhật số lượng đánh giá
-                            $('.tabs .tab[data-active-tab="tab_3"] span').text('Đánh giá (' + newCountReview + ')');
-
-                            // Cập nhật star rating
-                            var fullStars = Math.floor(newAverageRating);
-                            var halfStar = newAverageRating % 1 >= 0.5;
-
-                            var starHtml = '';
-                            for (var i = 0; i < fullStars; i++) {
-                                starHtml += '<li style="margin-right: 2px !important;"><i class="fa fa-star" aria-hidden="true"></i></li>';
-                            }
-
-                            if (halfStar) {
-                                starHtml += '<li style="margin-right: 2px !important;"><i class="fa fa-star-half-o" aria-hidden="true"></i></li>';
-                            } else {
-                                starHtml += '<li style="margin-right: 2px !important;"><i class="fa fa-star-o" aria-hidden="true"></i></li>';
-                            }
-
-                            for (var i = 0; i < (5 - Math.ceil(newAverageRating)); i++) {
-                                starHtml += '<li style="margin-right: 2px !important;"><i class="fa fa-star-o" aria-hidden="true"></i></li>';
-                            }
-
-                            $('.star_rating').html(starHtml); // Cập nhật phần star rating
-
-                            // Reset form đánh giá
-                            $('#review_form')[0].reset();
-                        } else {
-                            alert('Đánh giá không thành công, vui lòng thử lại.');
-                        }
-                    },
-                    error: function () {
-                        alert('Có lỗi xảy ra, vui lòng thử lại.');
                     }
                 });
             });
