@@ -32,9 +32,11 @@ namespace WebBanHangOnline.Controllers
             return View(cart.items); // Truyền danh sách sản phẩm cho View
         }
 
-        public ActionResult CheckOutSuccess()
+        public ActionResult Cart()
         {
-            return View();
+            var cart = GetCurrentCart();
+            ViewBag.CheckCart = cart;
+            return View(cart);
         }
 
         public ActionResult Partial_ItemCart()
@@ -47,6 +49,62 @@ namespace WebBanHangOnline.Controllers
         {
             var cart = GetCurrentCart();
             return Json(new { count = cart.items.Count }, JsonRequestBehavior.AllowGet);
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public ActionResult AddToCart(int id, int quantity)
+        {
+            var code = new { success = false, msg = "", code = -1, count = 0 };
+            var checkProduct = db.Products.FirstOrDefault(x => x.Id == id);
+            if (checkProduct != null)
+            {
+                var cart = GetCurrentCart();
+                ShoppingCartItem item = new ShoppingCartItem
+                {
+                    ProductId = checkProduct.Id,
+                    ProductName = checkProduct.Title,
+                    ProductImg = checkProduct.ProductImage.FirstOrDefault(x => x.IsDefault)?.Image,
+                    Alias = checkProduct.Alias,
+                    Price = (int)((checkProduct.PriceSale > 0) ? checkProduct.PriceSale : checkProduct.Price),
+                    Quantity = quantity,
+                    LeftQuantity = checkProduct.Quantity,
+                    TotalPrice = (int)((checkProduct.PriceSale > 0) ? checkProduct.PriceSale : checkProduct.Price) * quantity,
+                    CategoryName = checkProduct.ProductCategory.Title
+                };
+                cart.AddToCart(item, quantity);
+                cart.SaveCart(db);
+                db.SaveChanges();
+                code = new { success = true, msg = "Thêm sản phẩm thành công", code = 1, count = cart.items.Count };
+            }
+            return Json(code);
+        }
+
+        [HttpPost]
+        public ActionResult Delete(int id)
+        {
+            var cart = GetCurrentCart();
+            cart.Remove(id);
+            cart.SaveCart(db);
+            return Json(new { success = true, count = cart.items.Count });
+        }
+
+        [HttpPost]
+        public ActionResult DeleteAll()
+        {
+            var cart = GetCurrentCart();
+            cart.ClearAllCart(); // Gọi phương thức xóa toàn bộ giỏ hàng
+            cart.SaveCart(db); // Lưu lại giỏ hàng sau khi xóa
+            return Json(new { success = true });
+        }
+
+        [HttpPost]
+        public ActionResult Update(int id, int quantity)
+        {
+            var cart = GetCurrentCart();
+            cart.UpdateItemCartQuantity(id, quantity);
+            cart.SaveCart(db);
+            return Json(new { success = true });
         }
 
         public ActionResult Partial_CheckOut()
@@ -151,6 +209,7 @@ namespace WebBanHangOnline.Controllers
                         WebBanHangOnline.Common.Common.SendMail("ShopOnline", "Đơn hàng #" + order.Code, contentCustomer.ToString(), request.Email);
                         cart.ClearItemCart(selectedProductIds);
                         cart.SaveCart(db);
+                        cart.UpdateProductQuantity(order, db);
                         return RedirectToAction("CheckOutSuccess");                     
                     } 
                     else
@@ -165,66 +224,9 @@ namespace WebBanHangOnline.Controllers
             return View();
         }
 
-        [AllowAnonymous]
-        [HttpPost]
-        public ActionResult AddToCart(int id, int quantity)
+        public ActionResult CheckOutSuccess()
         {
-            var code = new { success = false, msg = "", code = -1, count = 0 };
-            var checkProduct = db.Products.FirstOrDefault(x => x.Id == id);
-            if (checkProduct != null)
-            {
-                var cart = GetCurrentCart();
-                ShoppingCartItem item = new ShoppingCartItem
-                {
-                    ProductId = checkProduct.Id,
-                    ProductName = checkProduct.Title,
-                    ProductImg = checkProduct.ProductImage.FirstOrDefault(x => x.IsDefault)?.Image,
-                    Alias = checkProduct.Alias,
-                    Price = (int)((checkProduct.PriceSale > 0) ? checkProduct.PriceSale : checkProduct.Price),
-                    Quantity = quantity,
-                    TotalPrice = (int)((checkProduct.PriceSale > 0) ? checkProduct.PriceSale : checkProduct.Price) * quantity,
-                    CategoryName = checkProduct.ProductCategory.Title
-                };
-                cart.AddToCart(item, quantity);
-                cart.SaveCart(db);
-                db.SaveChanges();
-                code = new { success = true, msg = "Thêm sản phẩm thành công", code = 1, count = cart.items.Count };
-            }
-            return Json(code);
-        }
-
-        [HttpPost]
-        public ActionResult Delete(int id)
-        {
-            var cart = GetCurrentCart();
-            cart.Remove(id);
-            cart.SaveCart(db);
-            return Json(new { success = true, count = cart.items.Count });
-        }
-
-        [HttpPost]
-        public ActionResult DeleteAll()
-        {
-            var cart = GetCurrentCart();
-            cart.ClearAllCart(); // Gọi phương thức xóa toàn bộ giỏ hàng
-            cart.SaveCart(db); // Lưu lại giỏ hàng sau khi xóa
-            return Json(new { success = true });
-        }
-
-        [HttpPost]
-        public ActionResult Update(int id, int quantity)
-        {
-            var cart = GetCurrentCart();
-            cart.UpdateQuantity(id, quantity);
-            cart.SaveCart(db);
-            return Json(new { success = true });
-        }
-
-        public ActionResult Cart()
-        {
-            var cart = GetCurrentCart();
-            ViewBag.CheckCart = cart;
-            return View(cart);
+            return View();
         }
 
         public ActionResult VnPayReturn()
@@ -265,6 +267,7 @@ namespace WebBanHangOnline.Controllers
                     var selectedProductIds = (List<int>)Session["SelectedProductIds"];
                     cart.ClearItemCart(selectedProductIds);
                     cart.SaveCart(db);
+                    cart.UpdateProductQuantity(order, db);
                     // Successful transaction
                     ViewBag.Amount = vnp_Amount;
                     ViewBag.InnerText = "Giao dịch được thực hiện thành công. Cảm ơn quý khách đã sử dụng dịch vụ";                                       
