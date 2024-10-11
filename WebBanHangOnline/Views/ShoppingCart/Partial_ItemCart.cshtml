@@ -7,7 +7,7 @@
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th><input type="checkbox" checked id="selectAll" /></th>
+                    <th><input type="checkbox" id="selectAll" /></th>
                     <th class="text-center">STT</th>
                     <th class="text-center">Ảnh sản phẩm</th>
                     <th>Tên sản phẩm</th>
@@ -23,7 +23,7 @@
                 {
                     <tr id="trow_@item.ProductId">
                         <td>
-                            <input type="checkbox" checked class="cbkItem" data-price="@item.TotalPrice" value="@item.ProductId" />
+                            <input type="checkbox" class="cbkItem" data-price="@item.TotalPrice" value="@item.ProductId" />
                         </td>
                         <td class="text-center row_index">@(i + 1)</td>
                         <td class="text-center">
