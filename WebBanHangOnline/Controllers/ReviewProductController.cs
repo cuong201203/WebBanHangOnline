@@ -68,9 +68,20 @@ namespace WebBanHangOnline.Controllers
                 req.CreatedDate = DateTime.Now;
                 db.ReviewProducts.Add(req);
                 db.SaveChanges();
-                return Json(new { success = true });
+
+                // Tính toán điểm đánh giá trung bình
+                var averageRating = db.ReviewProducts
+                    .Where(x => x.ProductId == req.ProductId)
+                    .Average(x => x.Rate); // Giả sử có thuộc tính Rating trong ReviewProduct
+
+                // Đếm số lượng đánh giá
+                var countReview = db.ReviewProducts
+                    .Count(x => x.ProductId == req.ProductId);
+
+                return Json(new { success = true, averageRating, countReview });
             }
             return Json(new { success = false });
         }
+
     }
 }

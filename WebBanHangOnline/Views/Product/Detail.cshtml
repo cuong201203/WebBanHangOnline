@@ -126,6 +126,7 @@
         visibility: visible !important;
         opacity: 1 !important;
     }
+
     .product_detail_container .star_rating,
     .product_detail_container .star_rating li,
     #load_review .star_rating,
@@ -214,20 +215,31 @@
                         <div class="product_price">@string.Format("{0:N0}", Model.Price)<u>đ</u></div>
                     }
                     <ul class="star_rating">
-                        <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                        <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                        <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                        <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                        <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+                        @{
+                            var fullStars = Math.Floor(ViewBag.AverageRating);
+                            var halfStar = ViewBag.AverageRating % 1 >= 0.5;
+                        }
+
+                        @for (int i = 0; i < fullStars; i++)
+                        {
+                            <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                        }
+
+                        @if (halfStar)
+                        {
+                            <li><i class="fa fa-star-half-o" aria-hidden="true"></i></li>
+                        }
+                        else
+                        {
+                            <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+                        }
+
+                        @for (int i = 0; i < (5 - Math.Ceiling(ViewBag.AverageRating)); i++)
+                        {
+                            <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+                        }
                     </ul>
-                    @*<div class="product_color">
-                            <span>Select Color:</span>
-                            <ul>
-                                <li style="background: #e54e5d"></li>
-                                <li style="background: #252525"></li>
-                                <li style="background: #60b3f3"></li>
-                            </ul>
-                        </div>*@
+
                     <div class="quantity d-flex flex-column flex-sm-row align-items-sm-center">
                         <span>Số lượng:</span>
                         <div class="quantity_selector">
@@ -337,6 +349,55 @@
                     },
                     error: function () {
                         alert("Lỗi khi tải đánh giá.");
+                    }
+                });
+            });
+
+            $('#review_form').on('submit', function (e) {
+                e.preventDefault();
+                var formData = $(this).serialize(); // Lấy dữ liệu form
+                $.ajax({
+                    url: '@Url.Action("PostReview", "ReviewProduct")',
+                    type: 'POST',
+                    data: formData,
+                    success: function (response) {
+                        if (response.success) {
+                            // Cập nhật star rating
+                            var newAverageRating = response.averageRating;
+                            var newCountReview = response.countReview;
+
+                            // Cập nhật số lượng đánh giá
+                            $('.tabs .tab[data-active-tab="tab_3"] span').text('Đánh giá (' + newCountReview + ')');
+
+                            // Cập nhật star rating
+                            var fullStars = Math.floor(newAverageRating);
+                            var halfStar = newAverageRating % 1 >= 0.5;
+
+                            var starHtml = '';
+                            for (var i = 0; i < fullStars; i++) {
+                                starHtml += '<li><i class="fa fa-star" aria-hidden="true"></i></li>';
+                            }
+
+                            if (halfStar) {
+                                starHtml += '<li><i class="fa fa-star-half-o" aria-hidden="true"></i></li>';
+                            } else {
+                                starHtml += '<li><i class="fa fa-star-o" aria-hidden="true"></i></li>';
+                            }
+
+                            for (var i = 0; i < (5 - Math.ceil(newAverageRating)); i++) {
+                                starHtml += '<li><i class="fa fa-star-o" aria-hidden="true"></i></li>';
+                            }
+
+                            $('.star_rating').html(starHtml); // Cập nhật phần star rating
+
+                            // Reset form đánh giá
+                            $('#review_form')[0].reset();
+                        } else {
+                            alert('Đánh giá không thành công, vui lòng thử lại.');
+                        }
+                    },
+                    error: function () {
+                        alert('Có lỗi xảy ra, vui lòng thử lại.');
                     }
                 });
             });

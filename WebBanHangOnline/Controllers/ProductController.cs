@@ -26,10 +26,19 @@ namespace WebBanHangOnline.Controllers
 
         public ActionResult Detail(string alias, int id)
         {
-            var item = db.Products.Find(id);
+            var product = db.Products.Include("ReviewProducts")
+                             .FirstOrDefault(x => x.Id == id);
+            if (product == null)
+            {
+                return HttpNotFound();
+            }
+            var averageRating = product.ReviewProducts.Any()
+                ? product.ReviewProducts.Average(x => x.Rate)
+                : 0;
+            ViewBag.AverageRating = averageRating;
             var countReview = db.ReviewProducts.Where(x => x.ProductId == id).Count();
             ViewBag.CountReview = countReview;
-            return View(item);
+            return View(product);
         }
 
         public ActionResult ProductCategory(string alias, int? id)
