@@ -10,10 +10,10 @@
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="/admin/home" class="nav-link">Trang chủ</a>
+            <a href="/Admin/Home" class="nav-link">Trang chủ</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="/admin/category" class="nav-link">Danh mục</a>
+            <a href="/Admin/Category" class="nav-link">Danh mục</a>
         </li>
     </ul>
 }
@@ -26,7 +26,7 @@
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="/admin/home">Trang chủ</a></li>
+                    <li class="breadcrumb-item"><a href="/Admin/Home">Trang chủ</a></li>
                     <li class="breadcrumb-item active">Danh mục</li>
                 </ol>
             </div>
@@ -43,7 +43,7 @@
             <h3 class="card-title">Danh sách danh mục</h3>
 
             <div class="card-tools">
-                <a href="/admin/category/add" class="btn btn-primary">Thêm mới</a>
+                <a href="/Admin/Category/Add" class="btn btn-primary">Thêm mới</a>
             </div>
         </div>
         <div class="card-body">
@@ -68,7 +68,7 @@
                                     <td>@item.Title</td>
                                     <td>@item.Position</td>
                                     <td>
-                                        <a href="/admin/category/edit/@item.Id" class="btn btn-sm btn-primary">Sửa</a>
+                                        <a href="/Admin/Category/Edit/@item.Id" class="btn btn-sm btn-primary">Sửa</a>
                                         <a href="#" data-id="@item.Id" class="btn btn-sm btn-danger btnDelete">Xóa</a>
                                     </td>
                                 </tr>
@@ -104,7 +104,7 @@
                 var conf = confirm('Bạn có muốn xóa bản ghi này không?');
                 if (conf === true) {
                     $.ajax({
-                        url: '/admin/category/delete',
+                        url: '/Admin/Category/Delete',
                         type: 'POST',
                         data: { id: id },
                         success: function (result) {

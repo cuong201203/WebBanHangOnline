@@ -89,24 +89,24 @@
                                     <li class="account">
                                         @if (!Request.IsAuthenticated)
                                         {
-                                            <a href="/account/login" class="text-white font-weight-bold">
+                                            <a href="/Account/Login" class="text-white font-weight-bold">
                                                 Tài khoản của tôi
                                                 <i class="fa fa-angle-down"></i>
                                             </a>
                                             <ul class="account_selection rounded" style="z-index: 101;">
-                                                <li><a href="/account/login"><i class="fa fa-sign-in" aria-hidden="true"></i>Đăng nhập</a></li>
-                                                <li><a href="/account/register"><i class="fa fa-user-plus" aria-hidden="true"></i>Đăng ký</a></li>
+                                                <li><a href="/Account/Login"><i class="fa fa-sign-in" aria-hidden="true"></i>Đăng nhập</a></li>
+                                                <li><a href="/Account/Register"><i class="fa fa-user-plus" aria-hidden="true"></i>Đăng ký</a></li>
                                             </ul>
                                         }
                                         else
                                         {
-                                            <a href="/account/profile" class="text-white font-weight-bold">
+                                            <a href="/Account/Profile" class="text-white font-weight-bold">
                                                 Xin chào <span style="color: red;">@User.Identity.Name</span>
                                                 <i class="fa fa-angle-down"></i>
                                             </a>
                                             <ul class="account_selection rounded" style="width: 170px; z-index: 101;">
-                                                <li><a href="/account/profile"><i class="fa fa-user" aria-hidden="true"></i>Tài khoản của tôi</a></li>
-                                                <li><a href="/account/orderhistory"><i class="fa fa-shopping-bag" aria-hidden="true"></i>Đơn mua</a></li>
+                                                <li><a href="/Account/Profile"><i class="fa fa-user" aria-hidden="true"></i>Tài khoản của tôi</a></li>
+                                                <li><a href="/Account/OrderHistory"><i class="fa fa-shopping-bag" aria-hidden="true"></i>Đơn mua</a></li>
                                                 <li><a href="javascript:document.getElementById('logOffForm').submit()"><i class="fa fa-sign-out" aria-hidden="true"></i>Đăng xuất</a></li>
                                             </ul>
                                         }
