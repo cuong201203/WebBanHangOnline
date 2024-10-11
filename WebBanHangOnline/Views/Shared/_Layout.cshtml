@@ -134,7 +134,6 @@
                     <div class="row">
                         <div class="col-lg-12 text-right">
                             <div class="logo_container">
-                                @*<a href="/">co<span>coon</span></a>*@
                                 <a href="/">
                                     <img src="~/Uploads/images/logo.svg" style="margin-left: -35px;"/>
                                 </a>
@@ -149,6 +148,7 @@
                                     <div id="search_popup" class="rounded" style="display:none; position:absolute; right:0; margin: 10px 20px 0; width:350px; background-color:white; border:1px solid #ddd; padding:20px;">
                                         <input type="text" id="search_input" placeholder="Tìm kiếm sản phẩm..." style="width: 100%; border: none; border-bottom: 1px solid #fe4c50;" class="p-2">
                                         <div id="search_results" style="max-height:200px; overflow-y:auto; margin-top:10px; padding-right: 10px; text-align: left;"></div>
+                                        <div id="no_results" style="display: none; color: red; text-align: left;">Không tìm thấy sản phẩm nào cho tìm kiếm của bạn.</div>
                                     </div>
                                     @*<li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>*@
                                     <li class="checkout">
@@ -251,21 +251,20 @@
 
     <script>
         $(document).ready(function () {
-            // Hiển thị popup khi nhấn vào nút Search
             $('#search_btn').click(function (e) {
                 e.preventDefault(); // Ngăn trang cuộn về đầu
-                $('#search_popup').toggle(); // Ẩn/Hiện popup
-                $('#search_input').focus();  // Focus vào ô input
+                $('#search_popup').toggle();
+                $('#search_input').focus(); 
             });
 
             // Xử lý sự kiện nhấp chuột bên ngoài popup
             $(document).mouseup(function (e) {
                 var container = $("#search_popup");
-                var button = $('#search_btn'); // Tham chiếu đến nút tìm kiếm
+                var button = $('#search_btn');
 
                 // Kiểm tra nếu nhấp chuột bên ngoài popup và nút tìm kiếm
                 if (!container.is(e.target) && container.has(e.target).length === 0 && !button.is(e.target) && !button.has(e.target).length) {
-                    container.hide(); // Ẩn popup
+                    container.hide();
                 }
             });
 
@@ -274,14 +273,19 @@
                 var query = $(this).val();
                 if (query.length > 0) {
                     $.ajax({
-                        url: '@Url.Action("SearchProducts", "Product")', // Đường dẫn đến action tìm kiếm
+                        url: '@Url.Action("SearchProducts", "Product")',
                         type: 'GET',
                         data: { searchTerm: query },
                         success: function (data) {
                             $('#search_results').html(''); // Xóa kết quả cũ
-                            data.forEach(function (item) {
-                                $('#search_results').append('<p><a style="color: black; font-family: Tahoma, Geneva, Verdana, sans-serif;" href="/chi-tiet/' + item.Alias + '-p' + item.Id + '">' + item.Title + '</a></p>');
-                            });
+                            if (data.length > 0) {
+                                data.forEach(function (item) {
+                                    $('#search_results').append('<p><a style="color: black; font-family: Tahoma, Geneva, Verdana, sans-serif;" href="/chi-tiet/' + item.Alias + '-p' + item.Id + '">' + item.Title + '</a></p>');
+                                });
+                                $("#no_results").hide();
+                            } else {
+                                $("#no_results").show();
+                            }
                         }
                     });
                 } else {
