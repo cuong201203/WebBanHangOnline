@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -41,7 +42,7 @@ namespace WebBanHangOnline.Models
             }
         }
 
-        public void UpdateQuantity(int id, int quantity)
+        public void UpdateItemCartQuantity(int id, int quantity)
         {
             var checkExist = items.SingleOrDefault(x => x.ProductId == id);
             if (checkExist != null)
@@ -49,6 +50,21 @@ namespace WebBanHangOnline.Models
                 checkExist.Quantity = quantity;
                 checkExist.TotalPrice = checkExist.Price * checkExist.Quantity;
             }
+        }
+
+        public void UpdateProductQuantity(Order order, ApplicationDbContext db)
+        {
+            foreach (var detail in order.OrderDetails)
+            {
+                var product = db.Products.FirstOrDefault(p => p.Id == detail.ProductId);
+
+                if (product != null)
+                {
+                    product.Quantity = Math.Max(product.Quantity - detail.Quantity, 0);
+                    db.Entry(product).State = EntityState.Modified;
+                }
+            }
+            db.SaveChanges();
         }
 
         public int GetTotalPrice()
@@ -126,6 +142,7 @@ namespace WebBanHangOnline.Models
                         CategoryName = i.CategoryName,
                         Price = i.Price,
                         Quantity = i.Quantity,
+                        LeftQuantity = i.Quantity,
                         TotalPrice = i.TotalPrice
                     }).ToList();
                     return cart;
@@ -143,6 +160,7 @@ namespace WebBanHangOnline.Models
         public string CategoryName { get; set; }
         public string ProductImg { get; set; }
         public int Quantity { get; set; }
+        public int LeftQuantity { get; set; }
         public int Price { get; set; }
         public int TotalPrice { get; set; }
     }

@@ -7,7 +7,7 @@
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th><input type="checkbox" id="selectAll" /></th>
+                    <th><input type="checkbox" checked id="selectAll" /></th>
                     <th class="text-center">STT</th>
                     <th class="text-center">Ảnh sản phẩm</th>
                     <th>Tên sản phẩm</th>
@@ -21,9 +21,16 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr id="trow_@item.ProductId">
+                    <tr id="trow_@item.ProductId" style="@(item.LeftQuantity == 0 ? "background-color: #ededed;" : "")">
                         <td>
-                            <input type="checkbox" class="cbkItem" data-price="@item.TotalPrice" value="@item.ProductId" />
+                            @if (item.LeftQuantity == 0)
+                            {
+                                <input type="checkbox" disabled />
+                            }
+                            else 
+                            {
+                                <input type="checkbox" checked class="cbkItem" data-price="@item.TotalPrice" value="@item.ProductId" />
+                            }
                         </td>
                         <td class="text-center row_index">@(i + 1)</td>
                         <td class="text-center">
@@ -35,11 +42,28 @@
                             </a>
                         </td>
                         <td>@item.CategoryName</td>
-                        <td class="text-right">@string.Format("{0:N0}", item.Price)<u>đ</u></td>
+                        <td class="text-center">@string.Format("{0:N0}", item.Price)<u>đ</u></td>
                         <td class="text-center">
-                            <input type="number" min="1" class="form-control quantity-input" id="Quantity_@item.ProductId" value="@item.Quantity" data-price="@item.Price" />
+                            @if (@item.LeftQuantity == 0)
+                            {
+                                <input type="number" min="0" disabled class="form-control quantity-input" value="0" data-price="0" />
+                            }
+                            else
+                            {
+                                <input type="number" min="1" max="@item.LeftQuantity" class="form-control quantity-input" value="@item.Quantity" data-price="@item.Price" />
+                            }                            
+                            <div id="left-quantity">
+                                Còn: @item.LeftQuantity
+                            </div>
                         </td>
-                        <td class="text-right font-weight-bold total-price" id="totalPrice_@item.ProductId">@string.Format("{0:N0}", item.TotalPrice)<u>đ</u></td>
+                        @if (item.LeftQuantity == 0) 
+                        {
+                            <td class="text-center font-weight-bold total-price" id="totalPrice_@item.ProductId">0<u>đ</u></td>
+                        }
+                        else
+                        {
+                            <td class="text-center font-weight-bold total-price" id="totalPrice_@item.ProductId">@string.Format("{0:N0}", item.TotalPrice)<u>đ</u></td>
+                        }
                         <td>
                             <a href="#" data-id="@item.ProductId" class="btn btn-sm btn-danger btnDelete">Xóa</a>
                         </td>
@@ -48,7 +72,7 @@
                 }
                 <tr class="font-weight-bold">
                     <td colspan="7" class="text-right">Tổng tiền: </td>
-                    <td class="text-right" id="totalPrice"><u>0đ</u></td>
+                    <td class="text-center" id="totalPrice"><u>0đ</u></td>
                     <td></td>
                 </tr>
             </tbody>
@@ -64,7 +88,7 @@ else
 }
 
 <script>
-    $(document).ready(function () {
+    $(document).ready(function () {       
         updateTotalPrice();
 
         $('#selectAll').on('change', function () {
