@@ -55,6 +55,12 @@ namespace WebBanHangOnline.Controllers
         [HttpPost]
         public ActionResult AddToCart(int id, int quantity)
         {
+            // Nếu chưa đăng nhập thì chuyển đến trang đăng nhập
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Json(new { redirectToLogin = Url.Action("Login", "Account") });
+            }
+
             var code = new { success = false, msg = "", code = -1, count = 0 };
             var checkProduct = db.Products.FirstOrDefault(x => x.Id == id);
             if (checkProduct != null)
