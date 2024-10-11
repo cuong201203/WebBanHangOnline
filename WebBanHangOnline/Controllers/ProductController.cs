@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -41,8 +42,9 @@ namespace WebBanHangOnline.Controllers
             return View(product);
         }
 
-        public ActionResult ProductCategory(string alias, int? id)
+        public ActionResult ProductCategory(string alias, int? id, int page = 1)
         {
+            int pageSize = 8;
             var items = db.Products.ToList();
             if (id > 0)
             {
@@ -52,10 +54,15 @@ namespace WebBanHangOnline.Controllers
             if (cate != null)
             {
                 ViewBag.CateName = cate.Title;
+                ViewBag.Alias = alias; // Truyền alias để sử dụng trong view
             }
             ViewBag.CateId = id;
-            return View(items);
+
+            // Phân trang
+            var pagedItems = items.ToPagedList(page, pageSize);
+            return View(pagedItems);
         }
+
 
         public ActionResult Partial_ItemsByCateId()
         {
