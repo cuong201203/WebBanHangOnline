@@ -28,9 +28,13 @@ function addToCart(id, quantity) {
         type: 'POST',
         data: { id: id, quantity: quantity },
         success: function (result) {
-            if (result.success) {
+            if (result.redirectToLogin) {
+                window.location.href = result.redirectToLogin;
+            } else if (result.success) {
                 $('#checkout_items').html(result.count);
                 alert(result.msg);
+            } else {
+                alert("Đã có lỗi xảy ra.");
             }
         }
     });
