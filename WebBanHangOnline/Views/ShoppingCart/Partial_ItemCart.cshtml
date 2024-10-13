@@ -50,7 +50,7 @@
                             }
                             else
                             {
-                                <input type="number" min="1" max="@item.LeftQuantity" class="form-control quantity-input" value="@item.Quantity" data-price="@item.Price" />
+                                <input type="number" min="1" max="@item.LeftQuantity" class="form-control quantity-input" id="@item.ProductId" value="@item.Quantity" data-price="@item.Price" />
                             }                            
                             <div id="left-quantity">
                                 Còn: @item.LeftQuantity
@@ -150,7 +150,7 @@ else
         $('.quantity-input').on('change', function () {
             var quantity = parseInt($(this).val());
             var price = parseFloat($(this).data('price')) || 0;
-            var productId = $(this).attr('id').split('_')[1];
+            var productId = $(this).attr('id');
 
             if (quantity > 0) {
                 var totalPrice = quantity * price;
