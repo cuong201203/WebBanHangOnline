@@ -12,7 +12,7 @@ using PagedList;
 
 namespace WebBanHangOnline.Controllers
 {
-    [CustomAuthorize("/Account/Login")]
+    [CustomAuthorize("/account/login")]
     public class ReviewProductController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

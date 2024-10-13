@@ -10,10 +10,10 @@
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="/Admin/Home" class="nav-link">Trang chủ</a>
+            <a href="/admin/home" class="nav-link">Trang chủ</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="/Admin/ProductCategory" class="nav-link">Danh mục sản phẩm</a>
+            <a href="/admin/productcategory" class="nav-link">Danh mục sản phẩm</a>
         </li>
     </ul>
 }
@@ -26,7 +26,7 @@
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="/Admin/Home">Trang chủ</a></li>
+                    <li class="breadcrumb-item"><a href="/admin/home">Trang chủ</a></li>
                     <li class="breadcrumb-item active">Danh mục sản phẩm</li>
                 </ol>
             </div>
@@ -43,7 +43,7 @@
             <h3 class="card-title">Danh sách danh mục sản phẩm</h3>
 
             <div class="card-tools">
-                <a href="/Admin/ProductCategory/Add" class="btn btn-primary">Thêm mới</a>
+                <a href="/admin/productcategory/add" class="btn btn-primary">Thêm mới</a>
                 <a href="#" class="btn btn-danger" id="btnDeleteAll">Xóa</a>
             </div>
         </div>
@@ -94,7 +94,7 @@
                                             <a href="#" data-id="@item.Id" class="btnActive">@Html.Raw(strCheck)</a>
                                         </td>*@
                                     <td>
-                                        <a href="/Admin/ProductCategory/Edit/@item.Id" class="btn btn-sm btn-primary">Sửa</a>
+                                        <a href="/admin/productcategory/edit/@item.Id" class="btn btn-sm btn-primary">Sửa</a>
                                         <a href="#" data-id="@item.Id" class="btn btn-sm btn-danger btnDelete">Xóa</a>
                                     </td>
                                 </tr>
@@ -134,7 +134,7 @@
                 var conf = confirm('Bạn có muốn xóa bản ghi này không?');
                 if (conf === true) {
                     $.ajax({
-                        url: '/Admin/ProductCategory/Delete',
+                        url: '/admin/productcategory/delete',
                         type: 'POST',
                         data: { id: id },
                         success: function (result) {
@@ -150,7 +150,7 @@
                 var btn = $(this);
                 var id = btn.data('id');
                 $.ajax({
-                    url: '/Admin/ProductCategory/IsActive',
+                    url: '/admin/productcategory/IsActive',
                     type: 'POST',
                     data: { id: id },
                     success: function (result) {
@@ -200,7 +200,7 @@
                     var conf = confirm('Bạn có muốn xóa (các) bản ghi này không?');
                     if (conf === true) {
                         $.ajax({
-                            url: '/Admin/ProductCategory/DeleteAll',
+                            url: '/admin/productcategory/deleteAll',
                             type: 'POST',
                             data: { ids: str },
                             success: function (result) {

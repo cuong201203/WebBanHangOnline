@@ -8,10 +8,10 @@ using System;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Configuration;
 using System.Collections.Generic;
-    
+
 namespace WebBanHangOnline.Controllers
 {
-    [CustomAuthorize("/Account/Login")]
+    [CustomAuthorize("/account/login")]
     public class ShoppingCartController : Controller
     {
         private readonly ApplicationDbContext db = new ApplicationDbContext();

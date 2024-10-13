@@ -11,10 +11,10 @@
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="/Admin/Home" class="nav-link">Trang chủ</a>
+            <a href="/admin/home" class="nav-link">Trang chủ</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="/Admin/Adv" class="nav-link">Quảng cáo</a>
+            <a href="/admin/adv" class="nav-link">Quảng cáo</a>
         </li>
     </ul>
 }
@@ -27,7 +27,7 @@
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="/Admin/Home">Trang chủ</a></li>
+                    <li class="breadcrumb-item"><a href="/admin/home">Trang chủ</a></li>
                     <li class="breadcrumb-item active">Quảng cáo</li>
                 </ol>
             </div>
@@ -44,7 +44,7 @@
             <h3 class="card-title">Danh sách quảng cáo</h3>
 
             <div class="card-tools">
-                <a href="/Admin/Adv/Add" class="btn btn-primary">Thêm mới</a>
+                <a href="/admin/adv/add" class="btn btn-primary">Thêm mới</a>
                 <a href="#" class="btn btn-danger" id="btnDeleteAll">Xóa</a>
             </div>
         </div>
@@ -96,7 +96,7 @@
                                         <a href="#" data-id="@item.Id" class="btnActive">@Html.Raw(strCheck)</a>
                                     </td>
                                     <td>
-                                        <a href="/Admin/Adv/Edit/@item.Id" class="btn btn-sm btn-primary">Sửa</a>
+                                        <a href="/admin/adv/edit/@item.Id" class="btn btn-sm btn-primary">Sửa</a>
                                         <a href="#" data-id="@item.Id" class="btn btn-sm btn-danger btnDelete">Xóa</a>
                                     </td>
                                 </tr>
@@ -135,7 +135,7 @@
                 var conf = confirm('Bạn có muốn xóa bản ghi này không?');
                 if (conf === true) {
                     $.ajax({
-                        url: '/Admin/Adv/Delete',
+                        url: '/admin/adv/delete',
                         type: 'POST',
                         data: { id: id },
                         success: function (result) {
@@ -156,7 +156,7 @@
                 var btn = $(this);
                 var id = btn.data('id');
                 $.ajax({
-                    url: '/Admin/Adv/IsActive',
+                    url: '/admin/adv/IsActive',
                     type: 'POST',
                     data: { id: id },
                     success: function (result) {
@@ -206,7 +206,7 @@
                     var conf = confirm('Bạn có muốn xóa (các) bản ghi này không?');
                     if (conf === true) {
                         $.ajax({
-                            url: '/Admin/Adv/DeleteAll',
+                            url: '/admin/adv/deleteAll',
                             type: 'POST',
                             data: { ids: str },
                             success: function (result) {
