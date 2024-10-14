@@ -1,4 +1,5 @@
-﻿using PagedList;
+﻿using Microsoft.Ajax.Utilities;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -14,18 +15,8 @@ namespace WebBanHangOnline.Controllers
     public class ProductController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-        // GET: Product
-        public ActionResult Index(int? id)
-        {
-            var items = db.Products.ToList();
-            if (id != null)
-            {
-                items = items.Where(x => x.ProductCategoryId == id).ToList();
-            }
-            return View(items);
-        }
 
-        public ActionResult Detail(string alias, int id)
+        public ActionResult Detail(int id)
         {
             var product = db.Products.Include("ReviewProducts")
                              .FirstOrDefault(x => x.Id == id);
@@ -42,29 +33,32 @@ namespace WebBanHangOnline.Controllers
             return View(product);
         }
 
-        public ActionResult ProductCategory(string alias, int? id, int page = 1)
+        public ActionResult ProductCategory(int? cateId, int page = 1)
         {
             int pageSize = 8;
             var items = db.Products.ToList();
-            if (id > 0)
+            if (cateId != null)
             {
-                items = items.Where(x => x.ProductCategoryId == id).ToList();
-            }
-            var cate = db.ProductCategories.Find(id);
-            if (cate != null)
-            {
+                items = items.Where(x => x.ProductCategoryId == cateId).ToList();
+                var cate = db.ProductCategories.Find(cateId);
                 ViewBag.CateName = cate.Title;
-                ViewBag.Alias = alias; // Truyền alias để sử dụng trong view
+                ViewBag.Alias = cate.Alias;
             }
-            ViewBag.CateId = id;
+            else
+            {
+                ViewBag.Alias = "san-pham";
+            }
+            ViewBag.CateId = cateId;
 
-            // Phân trang
             var pagedItems = items.ToPagedList(page, pageSize);
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("Partial_ProductCategory", pagedItems);
+            }
             return View(pagedItems);
         }
 
-
-        public ActionResult Partial_ItemsByCateId()
+        public ActionResult Partial_ProductByCateId()
         {
             var items = db.Products.Where(x => x.IsHome && x.IsActive).OrderByDescending(x => x.CreatedDate).Take(10).ToList();
             return PartialView(items);

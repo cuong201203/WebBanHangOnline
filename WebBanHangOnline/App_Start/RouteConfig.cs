@@ -49,7 +49,7 @@ namespace WebBanHangOnline
             );
 
             routes.MapRoute(
-                name: "CategoryProduct",
+                name: "ProductCategory",
                 url: "danh-muc-san-pham/{alias}-{id}",
                 defaults: new { controller = "Product", action = "ProductCategory", id = UrlParameter.Optional },
                 namespaces: new[] { "WebBanHangOnline.Controllers" }
@@ -63,9 +63,9 @@ namespace WebBanHangOnline
             );
 
             routes.MapRoute(
-                name: "Product",
-                url: "san-pham",
-                defaults: new { controller = "Product", action = "Index", alias = UrlParameter.Optional },
+                name: "News",
+                url: "tin-tuc",
+                defaults: new { controller = "News", action = "Index", alias = UrlParameter.Optional },
                 namespaces: new[] { "WebBanHangOnline.Controllers" }
             );
 
@@ -73,13 +73,6 @@ namespace WebBanHangOnline
                 name: "NewsDetail",
                 url: "{alias}-n{id}",
                 defaults: new { controller = "News", action = "Detail", id = UrlParameter.Optional },
-                namespaces: new[] { "WebBanHangOnline.Controllers" }
-            );
-
-            routes.MapRoute(
-                name: "News",
-                url: "tin-tuc",
-                defaults: new { controller = "News", action = "Index", alias = UrlParameter.Optional },
                 namespaces: new[] { "WebBanHangOnline.Controllers" }
             );
 

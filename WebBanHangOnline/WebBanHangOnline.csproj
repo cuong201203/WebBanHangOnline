@@ -3706,9 +3706,7 @@
     <Content Include="Views\Menu\_MenuTop.cshtml" />
     <Content Include="Views\Menu\_MenuProductCategory.cshtml" />
     <Content Include="Views\Menu\_MenuArrivals.cshtml" />
-    <Content Include="Views\Product\Partial_ItemsByCateId.cshtml" />
     <Content Include="Views\Product\Partial_ProductSales.cshtml" />
-    <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Contact\Index.cshtml" />
     <Content Include="Views\Menu\_MenuLeft.cshtml" />
     <Content Include="Views\Product\ProductCategory.cshtml" />
@@ -3731,6 +3729,9 @@
     <Content Include="Views\Home\Partial_Subscribe.cshtml" />
     <Content Include="Views\ShoppingCart\VnPayReturn.cshtml" />
     <Content Include="Views\ShoppingCart\Partial_ItemCheckOut.cshtml" />
+    <Content Include="Views\Product\Partial_ProductByCateId.cshtml" />
+    <Content Include="Views\Product\Partial_ProductCategory.cshtml" />
+    <Content Include="Views\Product\_Review.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -81,14 +81,14 @@
 }
 else
 {
-    <h3 class="text-center">Giỏ hàng của bạn đang trống!</h3>
-    <div class="row d-flex justify-content-center">
-        <a href="/danh-muc-san-pham/san-pham" class="btn red_button text-white px-4">MUA NGAY</a>
-    </div>
+<h3 class="text-center">Giỏ hàng của bạn đang trống!</h3>
+<div class="row d-flex justify-content-center">
+    <a href="/danh-muc-san-pham/tat-ca" class="btn red_button text-white px-4">MUA NGAY</a>
+</div>
 }
 
 <script>
-    $(document).ready(function () {       
+    $(document).ready(function () {
         updateTotalPrice();
 
         $('#selectAll').on('change', function () {
@@ -100,7 +100,7 @@ else
             if ($('.cbkItem:checked').length !== $('.cbkItem').length) {
                 $('#selectAll').prop('checked', false);
             } else if ($('.cbkItem:checked').length === $('.cbkItem').length) {
-                $('#selectAll').prop('checked', true);
+                $('#selectAll').prop('checked', true); 
             }
             updateTotalPrice();
         });
@@ -121,7 +121,7 @@ else
                         updateSTT();
                         //location.reload();
                         if ($('#checkout_items').html() === '0') {
-                            LoadCart();
+                            loadCart();
                             $('.btnDeleteAll, .btnCheckOut').hide();
                         }
                     }
@@ -139,7 +139,7 @@ else
                     success: function (result) {
                         // location.reload();
                         $('#checkout_items').html(0);
-                        LoadCart();
+                        loadCart();
                         $('.btnDeleteAll, .btnCheckOut').hide();
                     }
                 });
@@ -149,6 +149,9 @@ else
         // Update item's quantity
         $('.quantity-input').on('change', function () {
             var quantity = parseInt($(this).val());
+            quantity = Math.min(parseInt($(this).attr('max')), Math.max(parseInt($(this).attr('min')), quantity));
+            $(this).val(quantity);
+
             var price = parseFloat($(this).data('price')) || 0;
             var productId = $(this).attr('id');
 
@@ -186,19 +189,19 @@ else
         $('#totalPrice').html(total.toLocaleString('vi-VN') + '<u>đ</u>');
     }
 
-    function LoadCart() {
+    function updateSTT() {
+        $('.row_index').each(function (index) {
+            $(this).text(index + 1);
+        });
+    }
+
+    function loadCart() {
         $.ajax({
             url: '/ShoppingCart/Partial_ItemCart',
             type: 'POST',
             success: function (result) {
                 $('#load_data').html(result);
             }
-        });
-    }
-
-    function updateSTT() {
-        $('.row_index').each(function (index) {
-            $(this).text(index + 1);
         });
     }
 </script>
