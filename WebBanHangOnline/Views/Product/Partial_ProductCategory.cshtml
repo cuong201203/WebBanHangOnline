@@ -1,0 +1,96 @@
+﻿@model PagedList.IPagedList<WebBanHangOnline.Models.EF.Product>
+@using PagedList.Mvc;
+
+<div class="product-grid">
+    @if (Model != null && Model.Any())
+    {
+        foreach (var item in Model)
+        {
+            var defaultImage = item.ProductImage.FirstOrDefault(x => x.IsDefault)?.Image ?? "";
+            var hoverImage = item.ProductImage.Skip(1).FirstOrDefault()?.Image ?? "";
+
+        <div class="product-item @item.ProductCategory.Alias" style="border-right: 5px solid white;">
+            <div class="product discount product_filter">
+                <div class="product_image">
+                    <a href="/chi-tiet/@item.Alias-p@(item.Id)">
+                        <img src="@defaultImage" alt="@item.Title" data-src="@defaultImage" data-src-hover="@hoverImage">
+                    </a>
+                </div>
+                @if (item.Quantity == 0)
+                {
+                <div class="product_bubble product_bubble_right d-flex flex-column align-items-center" style="background: #909090;">
+                    <span style="font-size: 8px;">Hết hàng</span>
+                </div>
+                }
+                else
+                {
+                <div class="product_bubble product_bubble_red product_bubble_right d-flex flex-column align-items-center">
+                    <span style="font-size: 8px;">Còn @item.Quantity</span>
+                </div>
+                }
+                <div class="product_info">
+                    <h6 class="product_name">
+                        <a href="/chi-tiet/@item.Alias-p@(item.Id)">@item.Title</a>
+                    </h6>
+                    @if (item.PriceSale > 0)
+                    {
+                    <div class="product_price">
+                        @string.Format("{0:N0}", item.PriceSale)<u>đ</u>
+                        <span>@string.Format("{0:N0}", item.Price)<u>đ</u></span>
+                    </div>
+                    }
+                    else
+                    {
+                    <div class="product_price">@string.Format("{0:N0}", item.Price)<u>đ</u></div>
+                    }
+                </div>
+            </div>
+            <div class="red_button add_to_cart_button">
+                <a href="#" class="btnAddToCart" data-id="@item.Id">Thêm vào giỏ</a>
+            </div>
+        </div>
+            }
+        }
+</div>
+
+<!-- Pagination -->
+<div class="d-flex justify-content-center">
+    @Html.PagedListPager(Model, page => Url.Action("ProductCategory", new { id = ViewBag.CateId, page }))
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('.product_image img').hover(
+            function () {
+                // Khi hover vào ảnh
+                var hoverSrc = $(this).data('src-hover');
+                $(this).stop().fadeTo(300, 0.5, function () {
+                    $(this).attr('src', hoverSrc).stop().fadeTo(300, 1);
+                });
+            },
+            function () {
+                // Khi rời khỏi ảnh
+                var defaultSrc = $(this).data('src');
+                $(this).stop().fadeTo(300, 0.5, function () {
+                    $(this).attr('src', defaultSrc).stop().fadeTo(300, 1);
+                });
+            }
+        );
+    });
+
+    $(document).on('click', '.pagination a', function (e) {
+        e.preventDefault();
+        var url = $(this).attr('href');
+        loadProduct(url);
+    });
+
+    function loadProduct(url) {
+        $.ajax({
+            url: url,
+            type: 'GET',
+            success: function (data) {
+                $('.product-list').html(data);
+            }
+        });
+    }
+</script>
