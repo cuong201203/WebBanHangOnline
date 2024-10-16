@@ -40,8 +40,7 @@
                 url: url,
                 type: 'GET',
                 success: function (data) {
-                    $('.product-grid').html(data);
-                    applyCSSforProductGrid();
+                    $('.product-list').html(data);
                     history.pushState(null, '', url);
                 },
                 error: function () {

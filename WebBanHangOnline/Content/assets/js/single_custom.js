@@ -62,9 +62,9 @@ jQuery(document).ready(function($)
 
 	function setHeader()
 	{
-		if (window.innerWidth < 992)
+		if(window.innerWidth < 992)
 		{
-			if ($(window).scrollTop() > 100)
+			if($(window).scrollTop() > 100)
 			{
 				header.css({'top':"0"});
 			}
@@ -75,7 +75,7 @@ jQuery(document).ready(function($)
 		}
 		else
 		{
-			if ($(window).scrollTop() > 100)
+			if($(window).scrollTop() > 100)
 			{
 				header.css({'top':"-50px"});
 			}
@@ -84,7 +84,7 @@ jQuery(document).ready(function($)
 				header.css({'top':"0"});
 			}
 		}
-		if (window.innerWidth > 991 && menuActive)
+		if(window.innerWidth > 991 && menuActive)
 		{
 			closeMenu();
 		}
@@ -98,53 +98,53 @@ jQuery(document).ready(function($)
 
 	function initMenu()
 	{
-		if (hamburger.length)
+		if(hamburger.length)
 		{
 			hamburger.on('click', function()
 			{
-				if (!menuActive)
+				if(!menuActive)
 				{
 					openMenu();
 				}
 			});
 		}
 
-		if (fsOverlay.length)
+		if(fsOverlay.length)
 		{
 			fsOverlay.on('click', function()
 			{
-				if (menuActive)
+				if(menuActive)
 				{
 					closeMenu();
 				}
 			});
 		}
 
-		if (hamburgerClose.length)
+		if(hamburgerClose.length)
 		{
 			hamburgerClose.on('click', function()
 			{
-				if (menuActive)
+				if(menuActive)
 				{
 					closeMenu();
 				}
 			});
 		}
 
-		if ($('.menu_item').length)
+		if($('.menu_item').length)
 		{
 			var items = document.getElementsByClassName('menu_item');
 			var i;
 
 			for(i = 0; i < items.length; i++)
 			{
-				if (items[i].classList.contains("has-children"))
+				if(items[i].classList.contains("has-children"))
 				{
 					items[i].onclick = function()
 					{
 						this.classList.toggle("active");
 						var panel = this.children[1];
-					    if (panel.style.maxHeight)
+					    if(panel.style.maxHeight)
 					    {
 					    	panel.style.maxHeight = null;
 					    }
@@ -181,7 +181,7 @@ jQuery(document).ready(function($)
 
 	function initThumbnail()
 	{
-		if ($('.single_product_thumbnails ul li').length)
+		if($('.single_product_thumbnails ul li').length)
 		{
 			var thumbs = $('.single_product_thumbnails ul li');
 			var singleImage = $('.single_product_image_background');
@@ -208,7 +208,7 @@ jQuery(document).ready(function($)
 
 	function initQuantity()
 	{
-		if ($('.plus').length && $('.minus').length)
+		if($('.plus').length && $('.minus').length)
 		{
 			var plus = $('.plus');
 			var minus = $('.minus');
@@ -223,7 +223,7 @@ jQuery(document).ready(function($)
 			minus.on('click', function()
 			{
 				var x = parseInt(value.text());
-				if (x > 1)
+				if(x > 1)
 				{
 					value.text(x - 1);
 				}
@@ -239,7 +239,7 @@ jQuery(document).ready(function($)
 
 	function initStarRating()
 	{
-		if ($('.user_star_rating li').length)
+		if($('.user_star_rating li').length)
 		{
 			var stars = $('.user_star_rating li');
 			var dem = 0;
@@ -277,7 +277,7 @@ jQuery(document).ready(function($)
 
 	function initFavorite()
 	{
-		if ($('.product_favorite').length)
+		if($('.product_favorite').length)
 		{
 			var fav = $('.product_favorite');
 
@@ -296,7 +296,7 @@ jQuery(document).ready(function($)
 
 	function initTabs()
 	{
-		if ($('.tabs').length)
+		if($('.tabs').length)
 		{
 			var tabs = $('.tabs li');
 			var tabContainers = $('.tab_container');
@@ -308,7 +308,7 @@ jQuery(document).ready(function($)
 
 				tab.on('click', function()
 				{
-					if (!tab.hasClass('active'))
+					if(!tab.hasClass('active'))
 					{
 						tabs.removeClass('active');
 						tabContainers.removeClass('active');

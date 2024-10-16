@@ -3,8 +3,8 @@
     ViewBag.Title = "Detail";
 }
 
-<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/product_detail_styles.css">
-<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/product_detail_responsive.css">
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/single_styles.css">
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/single_responsive.css">
 
 <style>
     .product_detail_container p {
@@ -309,7 +309,8 @@
     @Html.Action("Partial_RelatedProducts", "Product", new { categoryId = Model.ProductCategoryId, productId = Model.Id })
 }
 @section scripts{
-    <script src="~/Content/assets/js/product_detail_custom.js"></script>
+    <script src="~/Content/assets/js/single_custom.js"></script>
+
     <script>
         $(document).ready(function () {
             $(document).on('click', '.pagination a', function (event) {
