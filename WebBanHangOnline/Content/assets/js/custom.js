@@ -63,9 +63,9 @@ jQuery(document).ready(function($)
 
 	function setHeader()
 	{
-		if (window.innerWidth < 992)
+		if(window.innerWidth < 992)
 		{
-			if ($(window).scrollTop() > 100)
+			if($(window).scrollTop() > 100)
 			{
 				header.css({'top':"0"});
 			}
@@ -76,7 +76,7 @@ jQuery(document).ready(function($)
 		}
 		else
 		{
-			if ($(window).scrollTop() > 100)
+			if($(window).scrollTop() > 100)
 			{
 				header.css({'top':"-50px"});
 			}
@@ -85,7 +85,7 @@ jQuery(document).ready(function($)
 				header.css({'top':"0"});
 			}
 		}
-		if (window.innerWidth > 991 && menuActive)
+		if(window.innerWidth > 991 && menuActive)
 		{
 			closeMenu();
 		}
@@ -99,53 +99,53 @@ jQuery(document).ready(function($)
 
 	function initMenu()
 	{
-		if (hamburger.length)
+		if(hamburger.length)
 		{
 			hamburger.on('click', function()
 			{
-				if (!menuActive)
+				if(!menuActive)
 				{
 					openMenu();
 				}
 			});
 		}
 
-		if (fsOverlay.length)
+		if(fsOverlay.length)
 		{
 			fsOverlay.on('click', function()
 			{
-				if (menuActive)
+				if(menuActive)
 				{
 					closeMenu();
 				}
 			});
 		}
 
-		if (hamburgerClose.length)
+		if(hamburgerClose.length)
 		{
 			hamburgerClose.on('click', function()
 			{
-				if (menuActive)
+				if(menuActive)
 				{
 					closeMenu();
 				}
 			});
 		}
 
-		if ($('.menu_item').length)
+		if($('.menu_item').length)
 		{
 			var items = document.getElementsByClassName('menu_item');
 			var i;
 
 			for(i = 0; i < items.length; i++)
 			{
-				if (items[i].classList.contains("has-children"))
+				if(items[i].classList.contains("has-children"))
 				{
 					items[i].onclick = function()
 					{
 						this.classList.toggle("active");
 						var panel = this.children[1];
-					    if (panel.style.maxHeight)
+					    if(panel.style.maxHeight)
 					    {
 					    	panel.style.maxHeight = null;
 					    }
@@ -182,7 +182,7 @@ jQuery(document).ready(function($)
 
 	function initTimer()
     {
-    	if ($('.timer').length)
+    	if($('.timer').length)
     	{
     		// Uncomment line below and replace date
 	    	// var target_date = new Date("Dec 7, 2017").getTime();
@@ -235,7 +235,7 @@ jQuery(document).ready(function($)
 
     function initFavorite()
     {
-    	if ($('.favorite').length)
+    	if($('.favorite').length)
     	{
     		var favs = $('.favorite');
 
@@ -243,14 +243,14 @@ jQuery(document).ready(function($)
     		{
     			var fav = $(this);
     			var active = false;
-    			if (fav.hasClass('active'))
+    			if(fav.hasClass('active'))
     			{
     				active = true;
     			}
 
     			fav.on('click', function()
     			{
-    				if (active)
+    				if(active)
     				{
     					fav.removeClass('active');
     					active = false;
@@ -273,7 +273,7 @@ jQuery(document).ready(function($)
 
     function initFixProductBorder()
     {
-    	if ($('.product_filter').length)
+    	if($('.product_filter').length)
     	{
 			var products = $('.product_filter:visible');
     		var wdth = window.innerWidth;
@@ -286,7 +286,7 @@ jQuery(document).ready(function($)
 
     		// if window width is 991px or less
 
-    		if (wdth < 480)
+    		if(wdth < 480)
 			{
 				for(var i = 0; i < products.length; i++)
 				{
@@ -295,9 +295,9 @@ jQuery(document).ready(function($)
 				}
 			}
 
-    		else if (wdth < 576)
+    		else if(wdth < 576)
 			{
-				if (products.length < 5)
+				if(products.length < 5)
 				{
 					var product = $(products[products.length - 1]);
 					product.css('border-right', 'none');
@@ -309,9 +309,9 @@ jQuery(document).ready(function($)
 				}
 			}
 
-    		else if (wdth < 768)
+    		else if(wdth < 768)
 			{
-				if (products.length < 5)
+				if(products.length < 5)
 				{
 					var product = $(products[products.length - 1]);
 					product.css('border-right', 'none');
@@ -323,9 +323,9 @@ jQuery(document).ready(function($)
 				}
 			}
 
-    		else if (wdth < 992)
+    		else if(wdth < 992)
 			{
-				if (products.length < 5)
+				if(products.length < 5)
 				{
 					var product = $(products[products.length - 1]);
 					product.css('border-right', 'none');
@@ -340,7 +340,7 @@ jQuery(document).ready(function($)
 			//if window width is larger than 991px
 			else
 			{
-				if (products.length < 5)
+				if(products.length < 5)
 				{
 					var product = $(products[products.length - 1]);
 					product.css('border-right', 'none');
@@ -362,7 +362,7 @@ jQuery(document).ready(function($)
 
     function initIsotopeFiltering()
     {
-    	if ($('.grid_sorting_button').length)
+    	if($('.grid_sorting_button').length)
     	{
     		$('.grid_sorting_button').click(function()
 	    	{
@@ -399,7 +399,7 @@ jQuery(document).ready(function($)
 
     function initSlider()
     {
-    	if ($('.product_slider').length)
+    	if($('.product_slider').length)
     	{
     		var slider1 = $('.product_slider');
 
@@ -418,7 +418,7 @@ jQuery(document).ready(function($)
 				}
     		});
 
-    		if ($('.product_slider_nav_left').length)
+    		if($('.product_slider_nav_left').length)
     		{
     			$('.product_slider_nav_left').on('click', function()
     			{
@@ -426,7 +426,7 @@ jQuery(document).ready(function($)
     			});
     		}
 
-    		if ($('.product_slider_nav_right').length)
+    		if($('.product_slider_nav_right').length)
     		{
     			$('.product_slider_nav_right').on('click', function()
     			{

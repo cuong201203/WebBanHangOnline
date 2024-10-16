@@ -64,9 +64,9 @@ jQuery(document).ready(function($)
 
 	function setHeader()
 	{
-		if (window.innerWidth < 992)
+		if(window.innerWidth < 992)
 		{
-			if ($(window).scrollTop() > 100)
+			if($(window).scrollTop() > 100)
 			{
 				header.css({'top':"0"});
 			}
@@ -77,7 +77,7 @@ jQuery(document).ready(function($)
 		}
 		else
 		{
-			if ($(window).scrollTop() > 100)
+			if($(window).scrollTop() > 100)
 			{
 				header.css({'top':"-50px"});
 			}
@@ -86,7 +86,7 @@ jQuery(document).ready(function($)
 				header.css({'top':"0"});
 			}
 		}
-		if (window.innerWidth > 991 && menuActive)
+		if(window.innerWidth > 991 && menuActive)
 		{
 			closeMenu();
 		}
@@ -100,53 +100,53 @@ jQuery(document).ready(function($)
 
 	function initMenu()
 	{
-		if (hamburger.length)
+		if(hamburger.length)
 		{
 			hamburger.on('click', function()
 			{
-				if (!menuActive)
+				if(!menuActive)
 				{
 					openMenu();
 				}
 			});
 		}
 
-		if (fsOverlay.length)
+		if(fsOverlay.length)
 		{
 			fsOverlay.on('click', function()
 			{
-				if (menuActive)
+				if(menuActive)
 				{
 					closeMenu();
 				}
 			});
 		}
 
-		if (hamburgerClose.length)
+		if(hamburgerClose.length)
 		{
 			hamburgerClose.on('click', function()
 			{
-				if (menuActive)
+				if(menuActive)
 				{
 					closeMenu();
 				}
 			});
 		}
 
-		if ($('.menu_item').length)
+		if($('.menu_item').length)
 		{
 			var items = document.getElementsByClassName('menu_item');
 			var i;
 
-			for (i = 0; i < items.length; i++)
+			for(i = 0; i < items.length; i++)
 			{
-				if (items[i].classList.contains("has-children"))
+				if(items[i].classList.contains("has-children"))
 				{
 					items[i].onclick = function()
 					{
 						this.classList.toggle("active");
 						var panel = this.children[1];
-					    if (panel.style.maxHeight)
+					    if(panel.style.maxHeight)
 					    {
 					    	panel.style.maxHeight = null;
 					    }
@@ -183,7 +183,7 @@ jQuery(document).ready(function($)
 
     function initFavorite()
     {
-    	if ($('.favorite').length)
+    	if($('.favorite').length)
     	{
     		var favs = $('.favorite');
 
@@ -191,14 +191,14 @@ jQuery(document).ready(function($)
     		{
     			var fav = $(this);
     			var active = false;
-    			if (fav.hasClass('active'))
+    			if(fav.hasClass('active'))
     			{
     				active = true;
     			}
 
     			fav.on('click', function()
     			{
-    				if (active)
+    				if(active)
     				{
     					fav.removeClass('active');
     					active = false;
@@ -221,7 +221,7 @@ jQuery(document).ready(function($)
 
     function initFixProductBorder()
     {
-    	if ($('.product_filter').length)
+    	if($('.product_filter').length)
     	{
 			var products = $('.product_filter:visible');
     		var wdth = window.innerWidth;
@@ -234,7 +234,7 @@ jQuery(document).ready(function($)
 
     		// if window width is 991px or less
 
-    		if (wdth < 480)
+    		if(wdth < 480)
 			{
 				for(var i = 0; i < products.length; i++)
 				{
@@ -243,9 +243,9 @@ jQuery(document).ready(function($)
 				}
 			}
 
-    		else if (wdth < 576)
+    		else if(wdth < 576)
 			{
-				if (products.length < 5)
+				if(products.length < 5)
 				{
 					var product = $(products[products.length - 1]);
 					product.css('border-right', 'none');
@@ -257,9 +257,9 @@ jQuery(document).ready(function($)
 				}
 			}
 
-    		else if (wdth < 768)
+    		else if(wdth < 768)
 			{
-				if (products.length < 5)
+				if(products.length < 5)
 				{
 					var product = $(products[products.length - 1]);
 					product.css('border-right', 'none');
@@ -271,9 +271,9 @@ jQuery(document).ready(function($)
 				}
 			}
 
-    		else if (wdth < 992)
+    		else if(wdth < 992)
 			{
-				if (products.length < 5)
+				if(products.length < 5)
 				{
 					var product = $(products[products.length - 1]);
 					product.css('border-right', 'none');
@@ -288,7 +288,7 @@ jQuery(document).ready(function($)
 			//if window width is larger than 991px
 			else
 			{
-				if (products.length < 5)
+				if(products.length < 5)
 				{
 					var product = $(products[products.length - 1]);
 					product.css('border-right', 'none');
@@ -315,7 +315,7 @@ jQuery(document).ready(function($)
     	var sortTypesSelected = $('.sorting_type .item_sorting_btn is-checked span');
     	var filterButton = $('.filter_button');
 
-    	if ($('.product-grid').length)
+    	if($('.product-grid').length)
     	{
     		$('.product-grid').isotope({
     			itemSelector: '.product-item',
@@ -424,7 +424,7 @@ jQuery(document).ready(function($)
 
     function initCheckboxes()
     {
-    	if ($('.checkboxes li').length)
+    	if($('.checkboxes li').length)
     	{
     		var boxes = $('.checkboxes li');
 
@@ -434,7 +434,7 @@ jQuery(document).ready(function($)
 
     			box.on('click', function()
     			{
-    				if (box.hasClass('active'))
+    				if(box.hasClass('active'))
     				{
     					box.find('i').removeClass('fa-square');
     					box.find('i').addClass('fa-square-o');
@@ -450,7 +450,7 @@ jQuery(document).ready(function($)
     			});
     		});
 
-    		if ($('.show_more').length)
+    		if($('.show_more').length)
     		{
     			var checkboxes = $('.checkboxes');
 
