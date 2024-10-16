@@ -33,22 +33,22 @@ namespace WebBanHangOnline.Controllers
             return View(product);
         }
 
-        public ActionResult ProductCategory(int? cateId, int page = 1)
+        public ActionResult ProductCategory(string alias, int? id, int page = 1)
         {
             int pageSize = 8;
             var items = db.Products.ToList();
-            if (cateId != null)
+            if (id != null)
             {
-                items = items.Where(x => x.ProductCategoryId == cateId).ToList();
-                var cate = db.ProductCategories.Find(cateId);
+                items = items.Where(x => x.ProductCategory.Id == id).ToList();
+                var cate = db.ProductCategories.Find(id);
                 ViewBag.CateName = cate.Title;
                 ViewBag.Alias = cate.Alias;
             }
             else
             {
-                ViewBag.Alias = "san-pham";
+                ViewBag.Alias = alias;
             }
-            ViewBag.CateId = cateId;
+            ViewBag.CateId = id;
 
             var pagedItems = items.ToPagedList(page, pageSize);
             if (Request.IsAjaxRequest())
@@ -70,7 +70,7 @@ namespace WebBanHangOnline.Controllers
             return PartialView(items);
         }
 
-        public ActionResult Partial_RelatedProducts(int categoryId, int productId)
+        public ActionResult Partial_ProductRelated(int categoryId, int productId)
         {
             var items = db.Products
                 .Where(x => x.ProductCategoryId == categoryId && x.Id != productId && x.IsActive)

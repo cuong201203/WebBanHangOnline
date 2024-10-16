@@ -3725,7 +3725,7 @@
     <Content Include="Views\Account\OrderHistory.cshtml" />
     <Content Include="Views\Account\OrderDetail.cshtml" />
     <Content Include="Views\Adv\Partial_AdvCarousel.cshtml" />
-    <Content Include="Views\Product\Partial_RelatedProducts.cshtml" />
+    <Content Include="Views\Product\Partial_ProductRelated.cshtml" />
     <Content Include="Views\Home\Partial_Subscribe.cshtml" />
     <Content Include="Views\ShoppingCart\VnPayReturn.cshtml" />
     <Content Include="Views\ShoppingCart\Partial_ItemCheckOut.cshtml" />

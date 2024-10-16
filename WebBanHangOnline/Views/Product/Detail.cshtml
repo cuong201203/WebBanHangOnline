@@ -306,7 +306,7 @@
         </div>
     </div>
 
-    @Html.Action("Partial_RelatedProducts", "Product", new { categoryId = Model.ProductCategoryId, productId = Model.Id })
+    @Html.Action("Partial_ProductRelated", "Product", new { categoryId = Model.ProductCategoryId, productId = Model.Id })
 }
 @section scripts{
     <script src="~/Content/assets/js/single_custom.js"></script>
