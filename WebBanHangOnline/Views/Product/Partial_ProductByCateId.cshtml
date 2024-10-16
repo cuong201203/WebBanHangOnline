@@ -1,5 +1,11 @@
 ﻿@model IEnumerable<WebBanHangOnline.Models.EF.Product>
 
+<style>
+    .best_sellers .add_to_cart_button {
+        margin-left: 0 !important;
+    }
+</style>
+
 @if (Model != null && Model.Any())
 {
     foreach (var item in Model)
