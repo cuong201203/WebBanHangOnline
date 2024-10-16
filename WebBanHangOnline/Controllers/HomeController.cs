@@ -24,7 +24,7 @@ namespace WebBanHangOnline.Controllers
         [HttpPost]
         public ActionResult Subscribe(Subscribe req)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 db.Subscribes.Add(new Subscribe { Email = req.Email, CreatedDate = DateTime.Now});
                 db.SaveChanges();

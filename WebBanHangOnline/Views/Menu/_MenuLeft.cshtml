@@ -30,7 +30,8 @@
                 url: url,
                 type: 'GET',
                 success: function (data) {
-                    $('.product-list').html(data);
+                    $('.product-grid').html(data);
+                    applyCSSforProductGrid();
                     history.pushState(null, '', url);
                 },
                 error: function () {

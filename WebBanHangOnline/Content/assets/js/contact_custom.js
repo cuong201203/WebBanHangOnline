@@ -46,9 +46,9 @@ jQuery(document).ready(function($)
 
 	function setHeader()
 	{
-		if(window.innerWidth < 992)
+		if (window.innerWidth < 992)
 		{
-			if($(window).scrollTop() > 100)
+			if ($(window).scrollTop() > 100)
 			{
 				header.css({'top':"0"});
 			}
@@ -59,7 +59,7 @@ jQuery(document).ready(function($)
 		}
 		else
 		{
-			if($(window).scrollTop() > 100)
+			if ($(window).scrollTop() > 100)
 			{
 				header.css({'top':"-50px"});
 			}
@@ -68,7 +68,7 @@ jQuery(document).ready(function($)
 				header.css({'top':"0"});
 			}
 		}
-		if(window.innerWidth > 991 && menuActive)
+		if (window.innerWidth > 991 && menuActive)
 		{
 			closeMenu();
 		}
@@ -76,53 +76,53 @@ jQuery(document).ready(function($)
 
 	function initMenu()
 	{
-		if(hamburger.length)
+		if (hamburger.length)
 		{
 			hamburger.on('click', function()
 			{
-				if(!menuActive)
+				if (!menuActive)
 				{
 					openMenu();
 				}
 			});
 		}
 
-		if(fsOverlay.length)
+		if (fsOverlay.length)
 		{
 			fsOverlay.on('click', function()
 			{
-				if(menuActive)
+				if (menuActive)
 				{
 					closeMenu();
 				}
 			});
 		}
 
-		if(hamburgerClose.length)
+		if (hamburgerClose.length)
 		{
 			hamburgerClose.on('click', function()
 			{
-				if(menuActive)
+				if (menuActive)
 				{
 					closeMenu();
 				}
 			});
 		}
 
-		if($('.menu_item').length)
+		if ($('.menu_item').length)
 		{
 			var items = document.getElementsByClassName('menu_item');
 			var i;
 
 			for(i = 0; i < items.length; i++)
 			{
-				if(items[i].classList.contains("has-children"))
+				if (items[i].classList.contains("has-children"))
 				{
 					items[i].onclick = function()
 					{
 						this.classList.toggle("active");
 						var panel = this.children[1];
-					    if(panel.style.maxHeight)
+					    if (panel.style.maxHeight)
 					    {
 					    	panel.style.maxHeight = null;
 					    }
