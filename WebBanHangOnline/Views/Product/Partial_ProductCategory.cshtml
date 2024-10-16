@@ -13,6 +13,8 @@
         {
             var defaultImage = item.ProductImage.FirstOrDefault(x => x.IsDefault)?.Image ?? "";
             var hoverImage = item.ProductImage.Skip(1).FirstOrDefault()?.Image ?? "";
+
+<<<<<<< HEAD
             <div class="product-item @item.ProductCategory.Alias" style="border-right: 5px solid white; flex: 1 1 calc(25% - 20px);">
                 <div class="product discount product_filter">
                     <div class="product_image">
@@ -52,6 +54,47 @@
                 <div class="red_button add_to_cart_button">
                     <a href="#" class="btnAddToCart" data-id="@item.Id">thêm vào giỏ</a>
                 </div>
+=======
+    <div class="product-item @item.ProductCategory.Alias" style="border-right: 5px solid white; flex: 1 1 calc(25% - 20px);">
+        <div class="product discount product_filter">
+            <div class="product_image">
+                <a href="/chi-tiet/@item.Alias-p@(item.Id)">
+                    <img src="@defaultImage" alt="@item.Title" data-src="@defaultImage" data-src-hover="@hoverImage">
+                </a>
+            </div>
+            @if (item.Quantity == 0)
+                {
+            <div class="product_bubble product_bubble_right d-flex flex-column align-items-center" style="background: #909090;">
+                <span style="font-size: 8px;">Hết hàng</span>
+            </div>
+                }
+                else
+                {
+            <div class="product_bubble product_bubble_red product_bubble_right d-flex flex-column align-items-center">
+                <span style="font-size: 8px;">Còn @item.Quantity</span>
+            </div>
+                }
+            <div class="product_info">
+                <h6 class="product_name">
+                    <a href="/chi-tiet/@item.Alias-p@(item.Id)">@item.Title</a>
+                </h6>
+                @if (item.PriceSale > 0)
+                    {
+                <div class="product_price">
+                    @string.Format("{0:N0}", item.PriceSale)<u>đ</u>
+                    <span>@string.Format("{0:N0}", item.Price)<u>đ</u></span>
+                </div>
+                    }
+                    else
+                    {
+                <div class="product_price">@string.Format("{0:N0}", item.Price)<u>đ</u></div>
+                    }
+>>>>>>> parent of 8f8d7c1 (Merge branch 'Needle')
+            </div>
+        </div>
+        <div class="red_button add_to_cart_button">
+            <a href="#" class="btnAddToCart" data-id="@item.Id">Thêm vào giỏ</a>
+        </div>
     </div>
         }
     }
