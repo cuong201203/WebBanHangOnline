@@ -46,7 +46,7 @@ namespace WebBanHangOnline.Controllers
             }
             else
             {
-                ViewBag.Alias = alias;
+                ViewBag.Alias = "tat-ca";
             }
             ViewBag.CateId = id;
 
