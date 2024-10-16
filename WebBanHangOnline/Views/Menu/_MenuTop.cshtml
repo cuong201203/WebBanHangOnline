@@ -17,3 +17,23 @@
         }
     </ul>
 }
+
+<script>
+    $(document).ready(function () {
+        $('.navbar_menu a').on('click', function (e) {
+            e.preventDefault();
+            var url = $(this).attr('href');
+
+            $.ajax({
+                url: url,
+                type: 'POST',
+                success: function () {
+                    window.location.href = url;
+                },
+                error: function () {
+                    window.location.href = '@Url.Action("Error", "Home")';
+                }
+            });
+        });
+    });
+</script>
