@@ -545,8 +545,8 @@
     <Content Include="Content\assets\styles\bootstrap4\bootstrap.min.css" />
     <Content Include="Content\assets\styles\bootstrap4\bootstrap.min.js" />
     <Content Include="Content\assets\styles\bootstrap4\popper.js" />
-    <Content Include="Content\assets\styles\main_responsive.css" />
-    <Content Include="Content\assets\styles\main_styles.css" />
+    <Content Include="Content\assets\styles\whole_web_responsive.css" />
+    <Content Include="Content\assets\styles\whole_web_styles.css" />
     <Content Include="Content\assets\styles\contact_responsive.css" />
     <Content Include="Content\assets\styles\contact_styles.css" />
     <Content Include="Content\assets\styles\home_styles.css" />
