@@ -70,6 +70,9 @@
 
     $(document).off('click').on('click', '.pagination a', function (e) {
         e.preventDefault();
+        if ($(this).parent().hasClass('active')) {
+            return;
+        }
         var url = $(this).attr('href');
         $.ajax({
             url: url,
@@ -77,10 +80,6 @@
             success: function (data) {
                 $('.product-grid').html(data);
                 applyCSSforProductGrid();                
-
-                //$('html, body').animate({
-                //    scrollTop: $('.main_nav_container').offset().top
-                //}, 650);
             },
             error: function () {
                 alert("Lỗi khi tải sản phẩm.");
