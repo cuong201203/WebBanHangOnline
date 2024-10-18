@@ -23,11 +23,16 @@
     <div class="row">
         <div class="col-md-12">
             <section id="loginForm">
-                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form", id = "loginFormAjax" }))
                 {
                     @Html.AntiForgeryToken()
                     <hr />
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div id="validation-summary" style="display:none;" class="col-md-12">
+                        <div class="alert alert-danger" role="alert" style="width: fit-content">
+                            <ul id="validation-errors" class="text-black"></ul>
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         @Html.LabelFor(m => m.UserName, "Tên đăng nhập", new { @class = "col-md-4 col-form-label" })
                         <div class="col-md-12">
@@ -35,6 +40,7 @@
                             @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
                         </div>
                     </div>
+
                     <div class="form-group">
                         @Html.LabelFor(m => m.Password, "Mật khẩu", new { @class = "col-md-4 col-form-label" })
                         <div class="col-md-12">
@@ -42,46 +48,49 @@
                             @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                    @*<div class="form-group">
-                            <div class="col-md-10">
-                                <div class="checkbox">
-                                    @Html.CheckBoxFor(m => m.RememberMe)
-                                    @Html.LabelFor(m => m.RememberMe)
-                                </div>
-                            </div>
-                        </div>*@
+
                     <div class="form-group">
                         <div class="col-md-12">
                             <input type="submit" value="ĐĂNG NHẬP" class="btn red_button text-white" />
                         </div>
                     </div>
-                    <div class="form-group">
-                        <div class="col-md-6">
-                            Bạn chưa có tài khoản?
-                            <a href="/Account/Register" style="color: #fe4c50 !important;" class="font-weight-bold">Đăng ký</a>
-                            @*@Html.ActionLink("Đăng ký", "Register")*@
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-6">
-                            <a href="/Account/ForgotPassword" style="color: #fe4c50 !important;" class="font-weight-bold">Quên mật khẩu?</a>
-                        </div>
-                    </div>
-                    @* Enable this once you have account confirmation enabled for password reset functionality
-                        <p>
-                            @Html.ActionLink("Forgot your password?", "ForgotPassword")
-                        </p>*@
                 }
             </section>
         </div>
-        @*<div class="col-md-4">
-                <section id="socialLoginForm">
-                    @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-                </section>
-            </div>*@
     </div>
 </div>
 
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#loginFormAjax").submit(function (e) {
+                e.preventDefault();
+
+                $.ajax({
+                    url: this.action,
+                    type: this.method,
+                    data: $(this).serialize(),
+                    success: function (result) {
+                        if (result.success) {
+                            window.location.href = result.redirectUrl;
+                        } else {
+                            // Hiển thị thông báo lỗi
+                            $("#validation-summary").show();
+                            var errors = result.errors;
+                            $("#validation-errors").empty(); // Xóa thông báo lỗi cũ
+                            $.each(errors, function (index, error) {
+                                $("#validation-errors").append("<li>" + error + "</li>");
+                            });
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 }
