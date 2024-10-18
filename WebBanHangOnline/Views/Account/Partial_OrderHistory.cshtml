@@ -1,6 +1,10 @@
 ﻿@model PagedList.IPagedList<WebBanHangOnline.Models.EF.Order>
 @using PagedList.Mvc;
 
+@{
+    var i = 1;
+}
+
 <div id="order-list">
     <table class="table table-hover">
         <thead>
@@ -16,7 +20,6 @@
         <tbody>
             @foreach (var item in Model)
             {
-                var i = 1;
             <tr>
                 <td>@i</td>
                 <td>@item.Code</td>

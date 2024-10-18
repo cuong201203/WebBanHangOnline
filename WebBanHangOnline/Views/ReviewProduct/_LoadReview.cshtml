@@ -37,7 +37,7 @@ else
 
 <script>
     $(document).ready(function () {
-        $(document).on('click', '.pagination a', function (event) {
+        $(document).off('click').on('click', '.pagination a', function (event) {
             event.preventDefault();
 
             // Kiểm tra nếu nút phân trang đang được active

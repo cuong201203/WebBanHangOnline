@@ -68,7 +68,7 @@
         applyCSSforProductGrid();
     });
 
-    $(document).on('click', '.pagination a', function (e) {
+    $(document).off('click').on('click', '.pagination a', function (e) {
         e.preventDefault();
         if ($(this).parent().hasClass('active')) {
             return;

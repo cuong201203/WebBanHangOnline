@@ -562,10 +562,12 @@ section
 	-ms-transition: color 0.3s ease;
 	-o-transition: color 0.3s ease;
 	transition: color 0.3s ease;
+	transform: translateZ(0) scale(1);
 }
 .navbar_menu li a:hover
 {
 	color: #b5aec4;
+	transform: translateZ(30px) scale(1.1);
 }
 .navbar_user
 {
