@@ -95,9 +95,12 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                 return View(model);
             }
 
+            var user = await UserManager.FindByNameAsync(model.UserName);
+            if (user != null && !user.IsActive) { return View("~/Areas/Admin/Views/Shared/Lockout.cshtml"); }
+
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: true);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -105,7 +108,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, model.RememberMe });
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
@@ -123,12 +126,17 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        public ActionResult Lockout()
+        {
+            return View();
+        }
+
         //
         // GET: /Account/Register
         [AllowAnonymous]
         public ActionResult Create()
         {
-            ViewBag.Role = new SelectList(db.Roles.ToList(), "Name", "Name");
+            ViewBag.Role = new SelectList(new List<string> { "Admin" }, "Name");
             return View();
         }
 
@@ -149,11 +157,12 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                     Phone = model.Phone,
                     Address = model.Address,
                     CreatedDate = DateTime.Now,
+                    IsActive = true
                 };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    UserManager.AddToRole(user.Id, model.Role);
+                    UserManager.AddToRole(user.Id, "Admin");
 
                     // Tạo giỏ hàng cho người dùng mới
                     var cart = new ShoppingCart(user.Id);
@@ -167,7 +176,6 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             ViewBag.Role = new SelectList(db.Roles.ToList(), "Name", "Name");
             return View(model);
         }
-
 
         [HttpGet]
         public ActionResult Edit(string id)
@@ -191,10 +199,14 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                 Email = user.Email,
                 Phone = user.Phone,
                 Address = user.Address,
-                Role = UserManager.GetRoles(user.Id).FirstOrDefault()
+                Role = UserManager.GetRoles(user.Id).FirstOrDefault(),
+                IsActive = user.IsActive
             };
-
-            ViewBag.Role = new SelectList(db.Roles.ToList(), "Name", "Name", model.Role);
+            if (model.Role == "Customer")
+            {
+                ViewBag.Role = new SelectList(new List<string> { "Customer" }, model.Role);
+            }
+            else ViewBag.Role = new SelectList(db.Roles.ToList(), "Name", "Name", model.Role);
             return View(model);
         }
 
@@ -215,6 +227,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                 user.Email = model.Email;
                 user.Phone = model.Phone;
                 user.Address = model.Address;
+                user.IsActive = model.IsActive;
 
                 var userRoles = await UserManager.GetRolesAsync(user.Id);
                 var selectedRole = model.Role;
@@ -235,6 +248,22 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
 
             ViewBag.Role = new SelectList(db.Roles.ToList(), "Name", "Name", model.Role);
             return View(model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> IsActive(string id)
+        {
+            var user = UserManager.FindById(id);
+            if (user != null)
+            {
+                user.IsActive = !user.IsActive;
+                var result = await UserManager.UpdateAsync(user);
+                if (result.Succeeded)
+                {
+                    return Json(new { success = true, isActive = user.IsActive });
+                }
+            }
+            return Json(new { success = false });
         }
 
         // POST: /Admin/Account/Delete
@@ -260,7 +289,6 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
 
             return Json(new { success = false, message = "Failed to delete user" });
         }
-
 
         private IAuthenticationManager AuthenticationManager
         {

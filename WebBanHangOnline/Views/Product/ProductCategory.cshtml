@@ -74,7 +74,7 @@
                     </div>
                 </div>
                 <!-- Product List -->
-                <div class="product-grid" style="margin: 0px 0px 50px 0px;">
+                <div id="product-grid">
                     @Html.Partial("Partial_ProductCategory", Model)
                 </div>
             </div>
@@ -119,8 +119,6 @@
                 queue: false
             }
         });
-
-        $('.product-grid').css('margin-bottom', '800px');
     }
 </script>
 

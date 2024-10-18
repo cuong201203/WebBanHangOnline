@@ -27,9 +27,9 @@
         line-height: 30px !important;
     }
 
-        .product_detail_container .product_details_title p {
-            margin-top: 12px !important;
-        }
+    .product_detail_container .product_details_title p {
+        margin-top: 12px !important;
+    }
 
     .product_detail_container .original_price {
         font-weight: 500 !important;
@@ -53,33 +53,33 @@
         margin-left: 33px !important;
     }
 
-        .product_detail_container .star_rating li {
-            display: inline-block !important;
-            margin-right: -2px !important;
-            cursor: pointer !important;
-        }
+    .product_detail_container .star_rating li {
+        display: inline-block !important;
+        margin-right: -2px !important;
+        cursor: pointer !important;
+    }
 
-            .product_detail_container .star_rating li i {
-                color: #fac451 !important;
-            }
+    .product_detail_container .star_rating li i {
+        color: #fac451 !important;
+    }
 
     .product_detail_container .product_color {
         margin-top: 27px !important;
     }
 
-        .product_detail_container .product_color ul {
-            display: inline-block !important;
-            margin-left: 26px !important;
-        }
+    .product_detail_container .product_color ul {
+        display: inline-block !important;
+        margin-left: 26px !important;
+    }
 
-            .product_detail_container .product_color ul li {
-                display: inline-block !important;
-                width: 12px !important;
-                height: 12px !important;
-                border-radius: 50% !important;
-                margin-right: 29px !important;
-                cursor: pointer !important;
-            }
+    .product_detail_container .product_color ul li {
+        display: inline-block !important;
+        width: 12px !important;
+        height: 12px !important;
+        border-radius: 50% !important;
+        margin-right: 29px !important;
+        cursor: pointer !important;
+    }
 
     .product_detail_container .quantity {
         width: 100% !important;
@@ -102,10 +102,10 @@
         margin-left: 29px !important;
     }
 
-        .product_detail_container .quantity_selector span {
-            font-weight: 500 !important;
-            color: #232530 !important;
-        }
+    .product_detail_container .quantity_selector span {
+        font-weight: 500 !important;
+        color: #232530 !important;
+    }
 
     .product_detail_container .plus,
     .product_detail_container .minus {
@@ -114,10 +114,10 @@
         cursor: pointer !important;
     }
 
-        .product_detail_container .plus:hover,
-        .product_detail_container .minus:hover {
-            color: #b5aec4 !important;
-        }
+    .product_detail_container .plus:hover,
+    .product_detail_container .minus:hover {
+        color: #b5aec4 !important;
+    }
 
     .product_detail_container .add_to_cart_button {
         width: 160px !important;
@@ -132,6 +132,13 @@
     #load_review .star_rating,
     #load_review .star_rating li {
         cursor: default !important;
+    }
+
+    .quantity-left {
+        margin: 10px 0px 0px 130px;
+        font-weight: bold;
+        font-size: 15px;
+        color: #fe4f46;
     }
 
     .review_submit_btn {
@@ -204,42 +211,41 @@
                     </div>
                     @if (Model.PriceSale > 0)
                     {
-                        <div class="original_price">@string.Format("{0:N0}", Model.Price)<u>đ</u></div>
-                        <div class="product_price">@string.Format("{0:N0}", Model.PriceSale)<u>đ</u></div>
+                    <div class="original_price">@string.Format("{0:N0}", Model.Price)<u>đ</u></div>
+                    <div class="product_price">@string.Format("{0:N0}", Model.PriceSale)<u>đ</u></div>
                     }
                     else
                     {
-                        <div class="product_price">@string.Format("{0:N0}", Model.Price)<u>đ</u></div>
+                    <div class="product_price">@string.Format("{0:N0}", Model.Price)<u>đ</u></div>
                     }
                     <ul class="star_rating">
                         @if (ViewBag.CountReview > 0)
+                    {
+                        var fullStars = Math.Floor(ViewBag.AverageRating);
+                        var halfStar = ViewBag.AverageRating % 1 >= 0.5;
+
+                        for (int i = 0; i < fullStars; i++)
                         {
-                            var fullStars = Math.Floor(ViewBag.AverageRating);
-                            var halfStar = ViewBag.AverageRating % 1 >= 0.5;
-
-                            for (int i = 0; i < fullStars; i++)
-                            {
-                                <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                            }
-
-                            if (halfStar)
-                            {
-                                <li><i class="fa fa-star-half-o" aria-hidden="true"></i></li>
-                            }
-
-                            for (int i = 0; i < (5 - fullStars - (halfStar ? 1 : 0)); i++)
-                            {
-                                <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
-                            }
+                        <li><i class="fa fa-star" aria-hidden="true"></i></li>
                         }
 
-                        else
+                        if (halfStar)
                         {
-                            for (int i = 0; i < 5; i++)
-                            {
-                                <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
-                            }
+                        <li><i class="fa fa-star-half-o" aria-hidden="true"></i></li>
                         }
+
+                        for (int i = 0; i < (5 - fullStars - (halfStar ? 1 : 0)); i++)
+                        {
+                        <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < 5; i++)
+                        {
+                        <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+                        }
+                    }
                     </ul>
 
                     <div class="quantity d-flex flex-column flex-sm-row align-items-sm-center">
@@ -259,6 +265,10 @@
                         <div class="red_button add_to_cart_button"><a href="#" class="btnAddToCart" data-id="@Model.Id">thêm vào giỏ</a></div>
                         @*<div class="product_favorite d-flex flex-column align-items-center justify-content-center"></div>*@
                     </div>
+                    @if (Model.Quantity > 0)
+                    {
+                    <div class="quantity-left">Còn: <span>@Model.Quantity</span></div>
+                    }
                 </div>
             </div>
         </div>
@@ -294,7 +304,6 @@
                             <!-- User Reviews -->
                             <div class="col-lg-6 reviews_col" id="load_review">
                                 @Html.Action("_LoadReview", "ReviewProduct", new { productId = Model.Id })
-
                             </div>
 
                             <!-- Add Review -->
@@ -313,4 +322,24 @@
 }
 @section scripts{
     <script src="~/Content/assets/js/product_detail_custom.js"></script>
+    <script>
+        $(document).ready(function () {
+            if ($('.plus').length && $('.minus').length) {
+                var plus = $('.plus');
+                var minus = $('.minus');
+                var value = $('#quantity_value');
+                var leftQuantity = parseInt($('.quantity-left').find('span').text());
+
+                plus.on('click', function () {
+                    var x = parseInt(value.text());
+                    value.text(Math.min(x, leftQuantity));
+                });
+
+                minus.on('click', function () {
+                    var x = parseInt(value.text());
+                    value.text(Math.max(x, 1));
+                });
+            }
+        })
+    </script>
 }

@@ -106,7 +106,6 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             // Lấy danh sách ảnh của sản phẩm
             ViewBag.ProductImages = db.ProductImages.Where(x => x.ProductId == id).ToList();
 
-
             return View(item);
         }
 

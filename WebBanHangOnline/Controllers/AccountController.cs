@@ -11,7 +11,8 @@ using Microsoft.Owin.Security;
 using WebBanHangOnline.Models;
 
 using Microsoft.AspNet.Identity.EntityFramework;
-using System.Collections.Generic;
+using PagedList;
+using System.Web.UI;
 
 namespace WebBanHangOnline.Controllers
 {
@@ -60,12 +61,6 @@ namespace WebBanHangOnline.Controllers
         public new async Task<ActionResult> Profile()
         {
             var user = await UserManager.FindByNameAsync(User.Identity.Name);
-            var item = new CreateAccountViewModel();
-            item.Email = user.Email;
-            item.FullName = user.FullName;
-            item.Phone = user.Phone;
-            item.UserName = user.UserName;
-            item.Address = user.Address;
             return View(user);
         }
 
@@ -92,16 +87,15 @@ namespace WebBanHangOnline.Controllers
             {
                 var userInfo = new
                 {
-                    FullName = user.FullName,
-                    Phone = user.Phone,
-                    Address = user.Address,
-                    Email = user.Email
+                    user.FullName,
+                    user.Phone,
+                    user.Address,
+                    user.Email
                 };
                 return Json(userInfo, JsonRequestBehavior.AllowGet);
             }
             return Json(null, JsonRequestBehavior.AllowGet);
         }
-
 
         //
         // GET: /Account/Login
@@ -119,24 +113,34 @@ namespace WebBanHangOnline.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
-            var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await UserManager.FindByNameAsync(model.UserName);
+            if (user != null && !user.IsActive) { return View("~/Views/Shared/Lockout.cshtml"); }
+
+            var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: true);
             switch (result)
             {
                 case SignInStatus.Success:
-                    // Trả về thành công và đường dẫn để redirect
-                    return Json(new { success = true, redirectUrl = returnUrl ?? Url.Action("Index", "Home") });
+                    return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
-                    return Json(new { success = false, errors = new List<string> { "Tài khoản của bạn đã bị khóa!" } });
+                    return View("Lockout");
                 case SignInStatus.RequiresVerification:
-                    return Json(new { success = false, errors = new List<string> { "Xác minh tài khoản của bạn!" } });
+                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Tên đăng nhập hoặc mật khẩu của bạn không đúng! Vui lòng thử lại!");
-                    var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
-                    return Json(new { success = false, errors });
+                    ModelState.AddModelError("", "Invalid login attempt.");
+                    return View(model);
             }
         }
 
+        public ActionResult Lockout()
+        {
+            return View();
+        }
 
         //
         // GET: /Account/VerifyCode
@@ -181,17 +185,24 @@ namespace WebBanHangOnline.Controllers
             }
         }
 
-        public ActionResult OrderHistory()
+        public ActionResult OrderHistory(int page = 1)
         {
             if (User.Identity.IsAuthenticated)
             {
+                int pageSize = 10;
                 var userStore = new UserStore<ApplicationUser>(new ApplicationDbContext());
                 var userManager = new UserManager<ApplicationUser>(userStore);
                 var user = userManager.FindByName(User.Identity.Name);
                 var items = db.Orders.Where(x => x.CustomerId == user.Id).OrderByDescending(x => x.CreatedDate).ToList();
-                return PartialView(items);
+
+                var pagedItems = items.ToPagedList(page, pageSize);
+                if (Request.IsAjaxRequest())
+                {
+                    return PartialView("Partial_OrderHistory", pagedItems);
+                }
+                return View(pagedItems);
             }
-            return PartialView();
+            return View();
         }
 
         public ActionResult OrderDetail(int id)

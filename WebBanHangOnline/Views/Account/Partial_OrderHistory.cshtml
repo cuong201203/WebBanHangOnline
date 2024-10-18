@@ -1,0 +1,66 @@
+﻿@model PagedList.IPagedList<WebBanHangOnline.Models.EF.Order>
+@using PagedList.Mvc;
+
+<div id="order-list">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Mã đơn hàng</th>
+                <th>Ngày tạo</th>
+                <th>Trạng thái</th>
+                <th>Tổng tiền</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                var i = 1;
+            <tr>
+                <td>@i</td>
+                <td>@item.Code</td>
+                <td>@item.CreatedDate.ToString("dd/MM/yyyy, HH:mm:ss")</td>
+                <td>@(item.TypePayment == 1 ? "Chờ thanh toán" : "Đã thanh toán")</td>
+                @{
+                    var tongTien = 0;
+                    foreach (var item_ in item.OrderDetails)
+                    {
+                        tongTien += item_.TotalPrice;
+                    }
+                }
+                <td class="font-weight-bold">@string.Format("{0:N0}", tongTien)<u>đ</u></td>
+                <td>
+                    <a href="/@item.Code-o@(item.Id)" class="btn red_button text-white px-4">Xem chi tiết</a>
+                </td>
+            </tr>
+                i++;
+            }
+        </tbody>
+    </table>
+
+    <!-- Phân trang -->
+    <div class="d-flex justify-content-center">
+        @Html.PagedListPager(Model, page => Url.Action("OrderHistory", new { productId = ViewBag.ProductId, page }))
+    </div>
+</div>
+
+<script>
+    $(document).off('click').on('click', '.pagination a', function (e) {
+        e.preventDefault();
+        if ($(this).parent().hasClass('active')) {
+            return;
+        }
+        var url = $(this).attr('href');
+        $.ajax({
+            url: url,
+            type: 'GET',
+            success: function (data) {
+                $('#order-list').html(data);
+            },
+            error: function () {
+                alert("Lỗi khi tải thông tin các đơn hàng.");
+            }
+        });
+    });
+</script>
