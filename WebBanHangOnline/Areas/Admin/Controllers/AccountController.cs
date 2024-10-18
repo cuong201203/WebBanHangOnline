@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,9 +58,11 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         //     var items = db.Users.ToList();
         //     return View(items);
         // }
-        public ActionResult Index()
+        public ActionResult Index(int page = 1)
         {
+            int pageSize = 10;
             var users = db.Users.OrderByDescending(x => x.CreatedDate).ToList();
+            var pagedItems = users.ToPagedList(page, pageSize);
             var userRoles = new Dictionary<string, string>(); // Dictionary to hold user roles
 
             foreach (var user in users)
@@ -69,8 +72,11 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             }
 
             ViewBag.UserRoles = userRoles; // Pass the dictionary to the view
-
-            return View(users); // Return users as usual
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView(pagedItems);
+            }
+            return View(pagedItems); // Return users as usual
         }
 
 

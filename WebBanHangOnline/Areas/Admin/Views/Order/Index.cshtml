@@ -42,9 +42,8 @@
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">@ViewBag.Title</h3>
-
         </div>
-        <div class="card-body">
+        <div class="card-body" id="myTable">
             <div class="table-responsive">
                 <table class="table table-hover">
                     <thead>
@@ -134,12 +133,33 @@
 
 @section scripts{
     <script>
+        $(document).off('click').on('click', '.pagination a', function (e) {
+            e.preventDefault();
+            if ($(this).parent().hasClass('active')) {
+                return;
+            }
+            var url = $(this).attr('href');
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function (data) {
+                    var tempDiv = $('<div></div>').html(data);
+                    var myTableContent = tempDiv.find('#myTable').html();
+                    $('#myTable').html(myTableContent);
+                },
+                error: function () {
+                    alert("Lỗi khi tải thông tin.");
+                }
+            });
+        });
+
         $(document).ready(function () {
             $("body").on("click", ".btnCapNhat", function () {
                 var id = $(this).data("id");
                 $("#txtOrderId").val(id);
                 $("#modal-default").modal("show");
             });
+
             $("body").on("click", "#btnLuu", function () {
                 var id = $("#txtOrderId").val();
                 var tt = $("#ddTrangThai").val();
