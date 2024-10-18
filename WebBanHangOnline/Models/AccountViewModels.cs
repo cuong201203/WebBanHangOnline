@@ -49,11 +49,11 @@ namespace WebBanHangOnline.Models
 
     public class LoginViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Vui lòng điền vào mục này!")]
         [Display(Name = "UserName")]
         public string UserName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Vui lòng điền vào mục này!")]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
