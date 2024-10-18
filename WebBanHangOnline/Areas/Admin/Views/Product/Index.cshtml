@@ -48,6 +48,19 @@
             </div>
         </div>
         <div class="card-body" id="myTable">
+            <div class="row">
+                <div class="col-md-5 pb-4">
+                    @using (Html.BeginForm("Index", "Product", FormMethod.Get, new { }))
+                    {
+                        <div class="input-group input-group-sm">
+                            @Html.TextBox("searchText", null, new { @class = "form-control", @placeholder = "Tìm kiếm sản phẩm..." })
+                            <span class="input-group-append">
+                                <button type="submit" class="btn btn-info btn-flat">Tìm kiếm</button>
+                            </span>
+                        </div>
+                    }
+                </div>
+            </div>
             <div class="table-responsive">
                 <table class="table table-hover">
                     <thead>
@@ -113,7 +126,7 @@
                 </table>
             </div>
             <div class="d-flex justify-content-center">
-                @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page, searchText = ViewBag.SearchText }))
             </div>
         </div>
         <!-- /.card-body -->
@@ -138,6 +151,7 @@
             $.ajax({
                 url: url,
                 type: 'GET',
+                data: { searchText: $('input[name="searchText"]').val() }, // Lấy giá trị từ ô tìm kiếm
                 success: function (data) {
                     var tempDiv = $('<div></div>').html(data);
                     var myTableContent = tempDiv.find('#myTable').html();

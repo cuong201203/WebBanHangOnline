@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebBanHangOnline.Models;
+using WebBanHangOnline.Models.EF;
 
 namespace WebBanHangOnline.Areas.Admin.Controllers
 {
@@ -13,19 +14,26 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         // GET: Admin/Order
-        public ActionResult Index(int page = 1)
+        public ActionResult Index(string searchText, int? page)
         {
             var pageSize = 10;
-            var items = db.Orders.OrderByDescending(x => x.CreatedDate).ToList();
-            var pagedList = items.ToPagedList(page, pageSize);            
+            if (page == null)
+            {
+                page = 1;
+            }
+            ViewBag.SearchText = searchText;
+            IEnumerable<Order> items = db.Orders.OrderByDescending(x => x.CreatedDate).ToList();
+            if (!string.IsNullOrEmpty(searchText))
+            {
+                items = items.Where(x => x.Code.Contains(searchText) || x.CustomerName.Contains(searchText) || x.Phone.Contains(searchText) || x.CreatedBy.Contains(searchText)).ToList();
+            }
+            var pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
+            items = items.ToPagedList(pageIndex, pageSize);
             ViewBag.PageSize = pageSize;
             ViewBag.Page = page;
-            if (Request.IsAjaxRequest())
-            {
-                return PartialView(pagedList);
-            }
-            return View(pagedList);
+            return View(items);
         }
+
 
         public ActionResult View(int id)
         {

@@ -14,10 +14,14 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         // GET: Admin/Product
-        public ActionResult Index(int page = 1)
+        public ActionResult Index(string searchText, int? page)
         {
-            var items = db.Products.OrderByDescending(x => x.Id).ToList();
-
+            var pageSize = 10;
+            if (page == null)
+            {
+                page = 1;
+            }
+            IEnumerable<Product> items = db.Products.OrderByDescending(x => x.Id).ToList();
             foreach (var item in items)
             {
                 var defaultImage = item.ProductImage.FirstOrDefault(x => x.IsDefault);
@@ -31,15 +35,16 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                     });
                 }
             }
-            var pageSize = 10;
-            var pagedList = items.ToPagedList(page, pageSize);
+            ViewBag.SearchText = searchText;
+            if (!string.IsNullOrEmpty(searchText))
+            {
+                items = items.Where(x => x.Title.Contains(searchText) || x.ProductCategory.Title.Contains(searchText));
+            }
+            var pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
+            items = items.ToPagedList(pageIndex, pageSize);
             ViewBag.PageSize = pageSize;
             ViewBag.Page = page;
-            if (Request.IsAjaxRequest())
-            {
-                return PartialView(pagedList);
-            }
-            return View(pagedList);
+            return View(items);
         }
 
         public ActionResult Add()

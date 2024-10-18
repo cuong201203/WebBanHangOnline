@@ -21,12 +21,14 @@ namespace WebBanHangOnline.Models.EF
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Tên sản phẩm không được để trống!")]
         [StringLength(250)]
         public string Title { get; set; }
 
         [StringLength(250)]
         public string Alias { get; set; }
+
+        [Required(ErrorMessage = "Vui lòng chọn một danh mục sản phẩm!")]
         public int ProductCategoryId { get; set; }
 
         [StringLength(50)]
@@ -38,9 +40,15 @@ namespace WebBanHangOnline.Models.EF
 
         [StringLength(250)]
         public string Image { get; set; }
+
+        [Required(ErrorMessage = "Giá gốc không được để trống!")]
         public int OriginalPrice { get; set; }
+
+        [Required(ErrorMessage = "Giá bán không được để trống!")]
         public int Price { get; set; }
         public int? PriceSale { get; set; }
+
+        [Required(ErrorMessage = "Số lượng không được để trống!")]
         public int Quantity { get; set; }
         public bool IsHome { get; set; }
         public bool IsSale { get; set; }
