@@ -13,19 +13,18 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         // GET: Admin/Order
-        public ActionResult Index(int? page)
+        public ActionResult Index(int page = 1)
         {
-            var items = db.Orders.OrderByDescending(x => x.CreatedDate).ToList();
-
-            if (page == null)
-            {
-                page = 1;
-            }
-            var pageNumber = page ?? 1;
             var pageSize = 10;
+            var items = db.Orders.OrderByDescending(x => x.CreatedDate).ToList();
+            var pagedList = items.ToPagedList(page, pageSize);            
             ViewBag.PageSize = pageSize;
-            ViewBag.Page = pageNumber;
-            return View(items.ToPagedList(pageNumber, pageSize));
+            ViewBag.Page = page;
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView(pagedList);
+            }
+            return View(pagedList);
         }
 
         public ActionResult View(int id)

@@ -1,4 +1,6 @@
-﻿@model IEnumerable<WebBanHangOnline.Models.ApplicationUser>
+﻿@model PagedList.IPagedList<WebBanHangOnline.Models.ApplicationUser>
+@using PagedList.Mvc;
+
 @{
     ViewBag.Title = "Quản lý tài khoản";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
@@ -46,9 +48,9 @@
                 <a href="/Admin/Account/Create" class="btn btn-primary">Thêm mới</a>
             </div>
         </div>
-        <div class="card-body">
+        <div class="card-body" id="myTable">
             <div class="table-responsive">
-                <table class="table table-hover" id="myTable">
+                <table class="table table-hover">
                     <thead>
                         <tr>
                             <th>STT</th>
@@ -70,33 +72,37 @@
                             {
                                 var role = ViewBag.UserRoles.ContainsKey(user.Id) ? ViewBag.UserRoles[user.Id] : "No Role";
                                 var strCheckActive = user.IsActive ? "<i class='fa fa-check text-success'></i>" : "<i class='fa fa-times text-danger'></i>";
-                                <tr id="trow_@user.Id">
-                                    <td>@i</td>
-                                    <td>@user.UserName</td>
-                                    <td>@user.Email</td>
-                                    <td>@user.FullName</td>
-                                    <td>@user.Phone</td>
-                                    <td>@role</td>
-                                    <td>@user.CreatedDate.ToString("dd/MM/yyyy HH:mm:ss")</td>
-                                    <td class="text-center">
-                                        <a href="#" data-id="@user.Id" class="btnActive">@Html.Raw(strCheckActive)</a>
-                                    </td>
-                                    <td>
-                                        <a href="/Admin/Account/Edit/@user.Id" class="btn btn-sm btn-primary">Sửa</a>
-                                        <a href="#" data-id="@user.Id" class="btn btn-sm btn-danger @(role == "Customer" ? "disabled-link" : "") btnDelete">Xóa</a>
-                                    </td>
-                                </tr>
+                        <tr id="trow_@user.Id">
+                            <td>@i</td>
+                            <td>@user.UserName</td>
+                            <td>@user.Email</td>
+                            <td>@user.FullName</td>
+                            <td>@user.Phone</td>
+                            <td>@role</td>
+                            <td>@user.CreatedDate.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                            <td class="text-center">
+                                <a href="#" data-id="@user.Id" class="btnActive">@Html.Raw(strCheckActive)</a>
+                            </td>
+                            <td>
+                                <a href="/Admin/Account/Edit/@user.Id" class="btn btn-sm btn-primary">Sửa</a>
+                                <a href="#" data-id="@user.Id" class="btn btn-sm btn-danger @(role == "Customer" ? "disabled-link" : "") btnDelete">Xóa</a>
+                            </td>
+                        </tr>
                                 i++;
                             }
                         }
                         else
                         {
-                            <tr>
-                                <td colspan="7">Không có bản ghi nào!</td>
-                            </tr>
+                        <tr>
+                            <td colspan="7">Không có bản ghi nào!</td>
+                        </tr>
                         }
                     </tbody>
                 </table>
+                <!-- Phân trang -->
+                <div class="d-flex justify-content-center">
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+                </div>
             </div>
         </div>
         <!-- /.card-body -->
@@ -111,6 +117,26 @@
 
 @section scripts{
     <script>
+        $(document).off('click').on('click', '.pagination a', function (e) {
+            e.preventDefault();
+            if ($(this).parent().hasClass('active')) {
+                return;
+            }
+            var url = $(this).attr('href');
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function (data) {
+                    var tempDiv = $('<div></div>').html(data);
+                    var myTableContent = tempDiv.find('#myTable').html();
+                    $('#myTable').html(myTableContent);
+                },
+                error: function () {
+                    alert("Lỗi khi tải thông tin.");
+                }
+            });
+        });
+
         $(document).ready(function () {
             $('body').on('click', '.btnDelete', function () {
                 var id = $(this).data('id');

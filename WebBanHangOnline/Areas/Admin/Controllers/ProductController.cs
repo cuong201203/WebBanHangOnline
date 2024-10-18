@@ -14,9 +14,9 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         // GET: Admin/Product
-        public ActionResult Index(int? page)
+        public ActionResult Index(int page = 1)
         {
-            IEnumerable<Product> items = db.Products.OrderByDescending(x => x.Id).ToList();
+            var items = db.Products.OrderByDescending(x => x.Id).ToList();
 
             foreach (var item in items)
             {
@@ -31,17 +31,15 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                     });
                 }
             }
-
             var pageSize = 10;
-            if (page == null)
-            {
-                page = 1;
-            }
-            var pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
-            items = items.ToPagedList(pageIndex, pageSize);
+            var pagedList = items.ToPagedList(page, pageSize);
             ViewBag.PageSize = pageSize;
             ViewBag.Page = page;
-            return View(items);
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView(pagedList);
+            }
+            return View(pagedList);
         }
 
         public ActionResult Add()
