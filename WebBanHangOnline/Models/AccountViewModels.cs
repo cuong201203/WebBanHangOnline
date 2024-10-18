@@ -106,6 +106,8 @@ namespace WebBanHangOnline.Models
         [Required]
         [EmailAddress]
         public string Email { get; set; }
+
+        public bool IsActive { get; set; }
     }
 
     public class RegisterViewModel

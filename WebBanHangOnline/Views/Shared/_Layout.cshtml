@@ -111,7 +111,7 @@
                                 <div style="display: none;">
                                     @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { @id = "logOffForm" }))
                                         {
-                                    @Html.AntiForgeryToken()
+                                            @Html.AntiForgeryToken()
                                         }
                                 </div>
                                 }
@@ -173,14 +173,14 @@
                             <i class="fa fa-angle-down"></i>
                         </a>
                         <ul class="menu_selection">
-                            <li><a href="#"><i class="fa fa-sign-in" aria-hidden="true"></i>Đăng nhập</a></li>
-                            <li><a href="#"><i class="fa fa-user-plus" aria-hidden="true"></i>Đăng ký</a></li>
+                            <li><a href="/Account/Login"><i class="fa fa-sign-in" aria-hidden="true"></i>Đăng nhập</a></li>
+                            <li><a href="/Account/Register"><i class="fa fa-user-plus" aria-hidden="true"></i>Đăng ký</a></li>
                         </ul>
                     </li>
-                    <li class="menu_item"><a href="#">trang chủ</a></li>
-                    <li class="menu_item"><a href="#">sản phẩm</a></li>
-                    <li class="menu_item"><a href="#">tin tức</a></li>
-                    <li class="menu_item"><a href="#">liên hệ</a></li>
+                    <li class="menu_item"><a href="">trang chủ</a></li>
+                    <li class="menu_item"><a href="/danh-muc-san-pham/tat-ca">sản phẩm</a></li>
+                    <li class="menu_item"><a href="/tin-tuc">tin tức</a></li>
+                    <li class="menu_item"><a href="/lien-he">liên hệ</a></li>
                 </ul>
             </div>
         </div>
@@ -207,10 +207,10 @@
                         <div class="footer_social d-flex flex-row align-items-center justify-content-lg-end justify-content-center">
                             <ul>
                                 <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                                @*<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>*@
                                 <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-                                <li><a href="#"><i class="fa fa-skype" aria-hidden="true"></i></a></li>
-                                <li><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+                                @*<li><a href="#"><i class="fa fa-skype" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>*@
                             </ul>
                         </div>
                     </div>

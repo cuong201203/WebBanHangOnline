@@ -59,12 +59,6 @@ namespace WebBanHangOnline.Controllers
         public new async Task<ActionResult> Profile()
         {
             var user = await UserManager.FindByNameAsync(User.Identity.Name);
-            var item = new CreateAccountViewModel();
-            item.Email = user.Email;
-            item.FullName = user.FullName;
-            item.Phone = user.Phone;
-            item.UserName = user.UserName;
-            item.Address = user.Address;
             return View(user);
         }
 
@@ -91,16 +85,15 @@ namespace WebBanHangOnline.Controllers
             {
                 var userInfo = new
                 {
-                    FullName = user.FullName,
-                    Phone = user.Phone,
-                    Address = user.Address,
-                    Email = user.Email
+                    user.FullName,
+                    user.Phone,
+                    user.Address,
+                    user.Email
                 };
                 return Json(userInfo, JsonRequestBehavior.AllowGet);
             }
             return Json(null, JsonRequestBehavior.AllowGet);
         }
-
 
         //
         // GET: /Account/Login
@@ -123,9 +116,10 @@ namespace WebBanHangOnline.Controllers
                 return View(model);
             }
 
-            // This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
+            var user = await UserManager.FindByNameAsync(model.UserName);
+            if (user != null && !user.IsActive) { return View("~/Views/Shared/Lockout.cshtml"); }
+
+            var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: true);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -139,6 +133,11 @@ namespace WebBanHangOnline.Controllers
                     ModelState.AddModelError("", "Invalid login attempt.");
                     return View(model);
             }
+        }
+
+        public ActionResult Lockout()
+        {
+            return View();
         }
 
         //

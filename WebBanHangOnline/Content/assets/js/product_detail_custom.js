@@ -49,7 +49,7 @@ jQuery(document).ready(function($)
 
 	initMenu();
 	initThumbnail();
-	initQuantity();
+	// initQuantity();
 	initStarRating();
 	initFavorite();
 	initTabs();
@@ -202,9 +202,7 @@ jQuery(document).ready(function($)
 
 	/* 
 
-	5. Init Quantity
-
-	*/
+	5. Init Quantity	
 
 	function initQuantity()
 	{
@@ -213,11 +211,12 @@ jQuery(document).ready(function($)
 			var plus = $('.plus');
 			var minus = $('.minus');
 			var value = $('#quantity_value');
+			var leftQuantity = parseInt($('.quantity-left').find('span').text());			
 
 			plus.on('click', function()
 			{
 				var x = parseInt(value.text());
-				value.text(x + 1);
+				value.text(Math.min(x + 1, leftQuantity));
 			});
 
 			minus.on('click', function()
@@ -230,6 +229,8 @@ jQuery(document).ready(function($)
 			});
 		}
 	}
+
+	*/
 
 	/* 
 

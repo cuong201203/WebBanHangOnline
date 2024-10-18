@@ -37,7 +37,6 @@
 
 <!-- Main content -->
 <section class="content">
-
     <!-- Default box -->
     <div class="card">
         <div class="card-header">
@@ -59,7 +58,8 @@
                             <th>Số điện thoại</th>
                             <th>Quyền</th>
                             <th>Ngày tạo</th>
-                            <th></th>
+                            <th class="text-center">Hoạt động</th>
+                            <th style="width: 110px;"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -69,6 +69,7 @@
                             foreach (var user in Model)
                             {
                                 var role = ViewBag.UserRoles.ContainsKey(user.Id) ? ViewBag.UserRoles[user.Id] : "No Role";
+                                var strCheckActive = user.IsActive ? "<i class='fa fa-check text-success'></i>" : "<i class='fa fa-times text-danger'></i>";
                                 <tr id="trow_@user.Id">
                                     <td>@i</td>
                                     <td>@user.UserName</td>
@@ -77,9 +78,12 @@
                                     <td>@user.Phone</td>
                                     <td>@role</td>
                                     <td>@user.CreatedDate.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                                    <td class="text-center">
+                                        <a href="#" data-id="@user.Id" class="btnActive">@Html.Raw(strCheckActive)</a>
+                                    </td>
                                     <td>
                                         <a href="/Admin/Account/Edit/@user.Id" class="btn btn-sm btn-primary">Sửa</a>
-                                        <a href="#" data-id="@user.Id" class="btn btn-sm btn-danger btnDelete">Xóa</a>
+                                        <a href="#" data-id="@user.Id" class="btn btn-sm btn-danger @(role == "Customer" ? "disabled-link" : "")" btnDelete">Xóa</a>
                                     </td>
                                 </tr>
                                 i++;
@@ -133,6 +137,27 @@
                         }
                     });
                 }
+            });
+
+            $('body').on('click', '.btnActive', function (e) {
+                e.preventDefault();
+                var btn = $(this);
+                var id = btn.data('id');
+                $.ajax({
+                    url: '/Admin/Account/IsActive',
+                    type: 'POST',
+                    data: { id: id },
+                    success: function (result) {
+                        if (result.success) {
+                            if (result.isActive) {
+                                btn.html("<i class='fa fa-check text-success'></i>");
+                            }
+                            else {
+                                btn.html("<i class='fa fa-times text-danger'></i>");
+                            }
+                        }
+                    }
+                });
             });
         });
     </script>
