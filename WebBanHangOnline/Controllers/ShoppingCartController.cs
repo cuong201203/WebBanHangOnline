@@ -155,6 +155,10 @@ namespace WebBanHangOnline.Controllers
                 if (cart != null && selectedProductIds != null)
                 {
                     var selectedItems = cart.items.Where(x => selectedProductIds.Contains(x.ProductId)).ToList();
+
+                    // Lấy tên UserName của tài khoản đang đăng nhập
+                    var createdBy = User.Identity.GetUserName();
+
                     Order order = new Order
                     {
                         CustomerName = request.CustomerName,
@@ -165,7 +169,7 @@ namespace WebBanHangOnline.Controllers
                         TypePayment = request.TypePayment,
                         CreatedDate = DateTime.Now,
                         ModifiedDate = DateTime.Now,
-                        CreatedBy = request.Phone,
+                        CreatedBy = createdBy,
                         CustomerId = User.Identity.IsAuthenticated ? User.Identity.GetUserId() : null,
                         Code = "DH" + new Random().Next(1000, 9999)
                     };

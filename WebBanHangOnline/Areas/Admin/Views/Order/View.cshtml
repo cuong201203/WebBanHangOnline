@@ -88,8 +88,16 @@
                         <p class="form-control">@(Model.TypePayment == 1 ? "Chờ thanh toán" : "Đã thanh toán")</p>
                     </div>
                 </div>
+            </div>
+            <div class="row">
                 <div class="col-md-6">
-
+                    <div class="form-group">
+                        <label>Tạo bởi</label>
+                        <p class="form-control">@Model.CreatedBy</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    
                 </div>
             </div>
             <div class="row">
