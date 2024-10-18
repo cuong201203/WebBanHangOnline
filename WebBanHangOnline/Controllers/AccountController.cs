@@ -11,6 +11,8 @@ using Microsoft.Owin.Security;
 using WebBanHangOnline.Models;
 
 using Microsoft.AspNet.Identity.EntityFramework;
+using PagedList;
+using System.Web.UI;
 
 namespace WebBanHangOnline.Controllers
 {
@@ -183,17 +185,24 @@ namespace WebBanHangOnline.Controllers
             }
         }
 
-        public ActionResult OrderHistory()
+        public ActionResult OrderHistory(int page = 1)
         {
             if (User.Identity.IsAuthenticated)
             {
+                int pageSize = 10;
                 var userStore = new UserStore<ApplicationUser>(new ApplicationDbContext());
                 var userManager = new UserManager<ApplicationUser>(userStore);
                 var user = userManager.FindByName(User.Identity.Name);
                 var items = db.Orders.Where(x => x.CustomerId == user.Id).OrderByDescending(x => x.CreatedDate).ToList();
-                return PartialView(items);
+
+                var pagedItems = items.ToPagedList(page, pageSize);
+                if (Request.IsAjaxRequest())
+                {
+                    return PartialView("Partial_OrderHistory", pagedItems);
+                }
+                return View(pagedItems);
             }
-            return PartialView();
+            return View();
         }
 
         public ActionResult OrderDetail(int id)

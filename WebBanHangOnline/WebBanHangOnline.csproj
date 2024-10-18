@@ -188,6 +188,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdvController.cs" />
     <Compile Include="Controllers\ContactController.cs" />
+    <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
@@ -3565,7 +3566,7 @@
     <Content Include="Content\assets\plugins\themify-icons\fonts\themify.woff" />
     <Content Include="Areas\Admin\Views\Order\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Order\View.cshtml" />
-    <Content Include="Areas\Admin\Views\Order\Partial_SanPham.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\Partial_ItemsOrdered.cshtml" />
     <Content Include="Areas\Admin\Views\Role\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Role\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Role\Edit.cshtml" />
@@ -3736,6 +3737,7 @@
     <Content Include="Views\ShoppingCart\Partial_ItemCheckOut.cshtml" />
     <Content Include="Views\Product\Partial_ProductByCateId.cshtml" />
     <Content Include="Views\Product\Partial_ProductCategory.cshtml" />
+    <Content Include="Views\Account\Partial_OrderHistory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

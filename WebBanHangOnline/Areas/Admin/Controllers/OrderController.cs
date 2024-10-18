@@ -34,7 +34,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             return View(item);
         }
 
-        public ActionResult Partial_SanPham(int id)
+        public ActionResult Partial_ItemsOrdered(int id)
         {
             var item = db.OrderDetails.Where(x => x.OrderId == id).ToList();
             return PartialView(item);

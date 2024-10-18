@@ -41,7 +41,7 @@
                 url: url,
                 type: 'GET',
                 success: function (data) {
-                    $('.product-grid').html(data);
+                    $('#product-grid').html(data);
                     $('.category-name').text(cateName);
                     applyCSSforProductGrid();
                     history.pushState(null, '', url);
