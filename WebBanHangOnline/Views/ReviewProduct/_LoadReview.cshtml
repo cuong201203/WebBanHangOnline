@@ -7,30 +7,56 @@
 {
     foreach (var item in Model)
     {
-        <div class="user_review_container d-flex flex-column flex-sm-row mb-4">
-            <div class="review">
-                <div class="review_date">@item.CreatedDate.ToString("dd/MM/yyyy")</div>
-                <div class="user_rating">
-                    <ul class="star_rating m-0">
-                        @Html.Raw(WebBanHangOnline.Common.Common.HtmlRate(item.Rate))
-                    </ul>
-                </div>
-                <div class="user_name mb-1">@item.FullName</div>
-                <p class="mb-0">@item.Content</p>
-            </div>
+<div class="user_review_container d-flex flex-column flex-sm-row mb-4">
+    <div class="review">
+        <div class="review_date">@item.CreatedDate.ToString("dd/MM/yyyy")</div>
+        <div class="user_rating">
+            <ul class="star_rating m-0">
+                @Html.Raw(WebBanHangOnline.Common.Common.HtmlRate(item.Rate))
+            </ul>
         </div>
+        <div class="user_name mb-1">@item.FullName</div>
+        <p class="mb-0">@item.Content</p>
+    </div>
+</div>
     }
 
-    <!-- Phân trang -->
-    <div class="d-flex justify-content-center">
-        @Html.PagedListPager(Model, page => Url.Action("_LoadReview", new { productId = ViewBag.ProductId, page }))
-    </div>
+ <!-- Phân trang -->
+<div class="d-flex justify-content-center">
+    @Html.PagedListPager(Model, page => Url.Action("_LoadReview", new { productId = ViewBag.ProductId, page }))
+</div>
 }
 else
 {
-    <div class="user_review_container d-flex flex-column flex-sm-row mb-4">
-        <div class="review">
-            <h5>Sản phẩm này chưa có đánh giá nào...</h5>
-        </div>
+<div class="user_review_container d-flex flex-column flex-sm-row mb-4">
+    <div class="review">
+        <h5>Sản phẩm này chưa có đánh giá nào...</h5>
     </div>
+</div>
 }
+
+<script>
+    $(document).ready(function () {
+        $(document).on('click', '.pagination a', function (event) {
+            event.preventDefault();
+
+            // Kiểm tra nếu nút phân trang đang được active
+            if ($(this).parent().hasClass('active')) {
+                return;
+            }
+
+            var url = $(this).attr('href'); // Lấy URL từ link phân trang
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function (data) {
+                    $('#load_review').html(data); // Cập nhật nội dung đánh giá
+                },
+                error: function () {
+                    alert("Lỗi khi tải đánh giá.");
+                }
+            });
+        });
+    });
+</script>

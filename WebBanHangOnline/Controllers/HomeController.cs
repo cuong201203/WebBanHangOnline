@@ -24,7 +24,7 @@ namespace WebBanHangOnline.Controllers
         [HttpPost]
         public ActionResult Subscribe(Subscribe req)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 db.Subscribes.Add(new Subscribe { Email = req.Email, CreatedDate = DateTime.Now});
                 db.SaveChanges();
@@ -44,6 +44,11 @@ namespace WebBanHangOnline.Controllers
         {
             ViewBag.Message = "Your contact page.";
 
+            return View();
+        }
+
+        public ActionResult Error()
+        {
             return View();
         }
     }

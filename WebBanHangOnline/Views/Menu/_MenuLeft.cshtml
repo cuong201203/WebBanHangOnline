@@ -7,22 +7,22 @@
             <a href="/danh-muc-san-pham/tat-ca">
                 @if (ViewBag.CateId == null)
                 {
-                    <span><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
+                <span><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
                 }
                 Tất cả
             </a>
         </li>
-        @foreach (var item in Model)
+    @foreach (var item in Model)
+    {
+        if (ViewBag.CateId == item.Id)
         {
-            if (ViewBag.CateId == item.Id)
-            {
-                <li class="active"><a href="/danh-muc-san-pham/@item.Alias-@(item.Id)"><span><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>@item.Title</a></li>
-            }
-            else
-            {
-                <li><a href="/danh-muc-san-pham/@item.Alias-@(item.Id)">@item.Title</a></li>
-            }
+        <li class="active"><a href="/danh-muc-san-pham/@item.Alias-@(item.Id)"><span><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>@item.Title</a></li>
         }
+        else
+        {
+        <li><a href="/danh-muc-san-pham/@item.Alias-@(item.Id)">@item.Title</a></li>
+        }   
+    }
     </ul>
 }
 
@@ -30,15 +30,27 @@
     $(document).ready(function () {
         $('.sidebar_categories a').on('click', function (e) {
             e.preventDefault();
+
+            $('.sidebar_categories li').removeClass('active').find('span').remove();
+            var activeItem = $(this).parent('li').addClass('active');
+            activeItem.find('a').prepend('<span><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>');
+
             var url = $(this).attr('href');
+            var cateName = $(this).text();
             $.ajax({
                 url: url,
                 type: 'GET',
                 success: function (data) {
-                    $('.product-list').html(data);
+                    $('.product-grid').html(data);
+                    $('.category-name').text(cateName);
+                    applyCSSforProductGrid();
                     history.pushState(null, '', url);
+                },
+                error: function () {
+                    alert("Lỗi khi tải sản phẩm.");
                 }
-            })
-        })
+            });
+        });
     });
+
 </script>

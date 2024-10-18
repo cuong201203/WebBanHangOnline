@@ -4,8 +4,10 @@
 @{
     ViewBag.Title = "Danh sách sản phẩm";
 }
-<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_styles.css">
-<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_responsive.css">
+
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/whole_web_styles.css">
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/whole_web_responsive.css">
+
 <div class="container product_section_container">
     <div class="row">
         <div class="col product_section clearfix">
@@ -18,11 +20,11 @@
                             <i class="fa fa-angle-right" aria-hidden="true"></i>
                             @if (ViewBag.CateName != null)
                             {
-                                <span>@ViewBag.CateName</span>
+                            <span class="category-name">@ViewBag.CateName</span>
                             }
                             else
                             {
-                                <span>Tất cả</span>
+                            <span class="category-name">Tất cả</span>
                             }
                         </a>
                     </li>
@@ -70,9 +72,9 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
-                <div class="product-list">
+                <!-- Product List -->
+                <div class="product-grid" style="margin: 0px 0px 50px 0px;">
                     @Html.Partial("Partial_ProductCategory", Model)
                 </div>
             </div>
@@ -81,5 +83,45 @@
 </div>
 
 @section scripts{
-    <script src="~/Content/assets/js/categories_custom.js"></script>
+    <script src="~/Content/assets/js/products_custom.js"></script>
 }
+<script>
+    function applyCSSforProductGrid() {
+        $('.product_image img').hover(
+            function () {
+                // Khi hover vào ảnh
+                var hoverSrc = $(this).data('src-hover');
+                $(this).stop().fadeTo(300, 0.5, function () {
+                    $(this).attr('src', hoverSrc).stop().fadeTo(300, 1);
+                });
+            },
+            function () {
+                // Khi rời khỏi ảnh
+                var defaultSrc = $(this).data('src');
+                $(this).stop().fadeTo(300, 0.5, function () {
+                    $(this).attr('src', defaultSrc).stop().fadeTo(300, 1);
+                });
+            }
+        );
+
+        $('.product-grid').isotope({
+            itemSelector: '.product-item',
+            getSortData: {
+                price: function (itemElement) {
+                    var priceEle = $(itemElement).find('.product_price').text().replace('đ', '');
+                    return parseFloat(priceEle);
+                },
+                name: '.product_name'
+            },
+            animationOptions: {
+                duration: 750,
+                easing: 'linear',
+                queue: false
+            }
+        });
+
+        $('.product-grid').css('margin-bottom', '800px');
+    }
+</script>
+
+
