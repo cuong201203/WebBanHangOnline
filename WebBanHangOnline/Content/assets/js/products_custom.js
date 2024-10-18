@@ -367,9 +367,8 @@ jQuery(document).ready(function($)
 	        	});
 	        });	
 
-	        // Filter based on the price range slider
 			// Filter based on the price range slider
-			filterButton.on('click', function () {
+			filterButton.on('click', function () {				
 				$('.product-grid').isotope({
 					filter: function () {
 						var priceRange = $('#amount').val();

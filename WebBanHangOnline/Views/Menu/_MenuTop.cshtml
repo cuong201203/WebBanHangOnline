@@ -1,5 +1,25 @@
 ﻿@model IEnumerable<WebBanHangOnline.Models.EF.Category>
 
+<style>
+    .navbar_menu {
+        perspective: 1000px;
+    }
+
+    .navbar_menu li {
+        transition: transform 0.3s ease-in-out;
+        transform: translateZ(0) scale(1);
+    }
+
+    .navbar_menu li:hover {
+        transform: translateZ(30px);
+    }
+
+    .navbar_menu li:hover a {
+        transition: transform 0.3s ease-in-out;
+        font-size: 17px;
+    }
+</style>
+
 @if (Model != null && Model.Any())
 {
     <ul class="navbar_menu">
