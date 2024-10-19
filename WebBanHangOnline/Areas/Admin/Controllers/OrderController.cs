@@ -14,26 +14,23 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         // GET: Admin/Order
-        public ActionResult Index(string searchText, int? page)
+        public ActionResult Index(string searchText, int page = 1)
         {
             var pageSize = 10;
-            if (page == null)
-            {
-                page = 1;
-            }
             ViewBag.SearchText = searchText;
-            IEnumerable<Order> items = db.Orders.OrderByDescending(x => x.CreatedDate).ToList();
+            var items = db.Orders.OrderByDescending(x => x.CreatedDate).ToList();
             if (!string.IsNullOrEmpty(searchText))
             {
-                items = items.Where(x => x.Code.Contains(searchText) || x.CustomerName.Contains(searchText) || x.Phone.Contains(searchText) || x.CreatedBy.Contains(searchText)).ToList();
+                items = items.Where(x => x.Code.Contains(searchText) || 
+                                    x.CustomerName.Contains(searchText) || 
+                                    x.Phone.Contains(searchText) || 
+                                    x.CreatedBy.Contains(searchText)).ToList();
             }
-            var pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
-            items = items.ToPagedList(pageIndex, pageSize);
+            var pagedList = items.ToPagedList(page, pageSize);
             ViewBag.PageSize = pageSize;
             ViewBag.Page = page;
-            return View(items);
+            return View(pagedList);
         }
-
 
         public ActionResult View(int id)
         {
