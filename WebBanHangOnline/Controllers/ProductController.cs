@@ -33,22 +33,33 @@ namespace WebBanHangOnline.Controllers
             return View(product);
         }
 
-        public ActionResult ProductCategory(string alias, int? id, int page = 1)
+        public ActionResult ProductCategory(string alias, float? priceMin, float? priceMax, int? id, int page = 1)
         {
             int pageSize = 8;
-            var items = db.Products.ToList();
+            IEnumerable<Product> items = db.Products.ToList();
             if (id != null)
             {
-                items = items.Where(x => x.ProductCategory.Id == id).ToList();
+                items = items.Where(x => x.ProductCategory.Id == id);
                 var cate = db.ProductCategories.Find(id);
-                ViewBag.CateName = cate.Title;
-                ViewBag.Alias = cate.Alias;
+                ViewBag.CateName = cate?.Title;
+                ViewBag.Alias = alias;
             }
             else
             {
                 ViewBag.Alias = "tat-ca";
             }
             ViewBag.CateId = id;
+
+            if (priceMin.HasValue)
+            {
+                items = items.Where(x => x.Price >= priceMin.Value);
+                ViewBag.PriceMin = priceMin;
+            }
+            if (priceMax.HasValue)
+            {
+                items = items.Where(x => x.Price <= priceMax.Value);
+                ViewBag.PriceMax = priceMax;
+            }
 
             var pagedItems = items.ToPagedList(page, pageSize);
             if (Request.IsAjaxRequest())

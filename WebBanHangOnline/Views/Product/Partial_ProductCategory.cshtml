@@ -3,7 +3,11 @@
 
 <!-- Pagination -->
 <div class="d-flex justify-content-center pagination-top">
-    @Html.PagedListPager(Model, page => Url.Action("ProductCategory", new { alias = ViewBag.alias, cateId = ViewBag.CateId, page }))
+    @Html.PagedListPager(Model, page => Url.Action("ProductCategory", new { alias = ViewBag.Alias, 
+                                                                            priceMin = ViewBag.PriceMin, 
+                                                                            priceMax = ViewBag.PriceMax, 
+                                                                            cateId = ViewBag.CateId, 
+                                                                            page }))
 </div>
 
 <div class="d-flex flex-wrap justify-content-start product-grid" style="margin: 0 !important;">
@@ -60,7 +64,7 @@
 
 <!-- Pagination -->
 @*<div class="d-flex justify-content-center pagination-bottom">
-        @Html.PagedListPager(Model, page => Url.Action("ProductCategory", new { cateId = ViewBag.CateId, alias = ViewBag.alias, page }))
+        @Html.PagedListPager(Model, page => Url.Action("ProductCategory", new { cateId = ViewBag.CateId, alias = ViewBag.Alias, page }))
     </div>*@
 
 <script>
@@ -73,9 +77,8 @@
         if ($(this).parent().hasClass('active')) {
             return;
         }
-        var url = $(this).attr('href');
         $.ajax({
-            url: url,
+            url: $(this).attr('href'),
             type: 'GET',
             success: function (data) {
                 $('#product-grid').html(data);
