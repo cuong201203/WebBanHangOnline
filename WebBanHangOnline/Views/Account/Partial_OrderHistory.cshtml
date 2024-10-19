@@ -2,7 +2,7 @@
 @using PagedList.Mvc;
 
 @{
-    var i = 1;
+    var i = ((ViewBag.Page - 1) * ViewBag.PageSize) + 1;
 }
 
 <div id="order-list">

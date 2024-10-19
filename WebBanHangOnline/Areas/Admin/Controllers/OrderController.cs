@@ -45,7 +45,6 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             return View(pagedList);
         }
 
-
         public ActionResult View(int id)
         {
             var item = db.Orders.Find(id);

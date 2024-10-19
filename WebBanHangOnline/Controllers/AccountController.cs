@@ -202,6 +202,8 @@ namespace WebBanHangOnline.Controllers
                 var items = db.Orders.Where(x => x.CustomerId == user.Id).OrderByDescending(x => x.CreatedDate).ToList();
 
                 var pagedItems = items.ToPagedList(page, pageSize);
+                ViewBag.PageSize = pageSize;
+                ViewBag.Page = page;
                 if (Request.IsAjaxRequest())
                 {
                     return PartialView("Partial_OrderHistory", pagedItems);

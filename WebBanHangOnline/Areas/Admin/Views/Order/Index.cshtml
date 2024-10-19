@@ -51,7 +51,7 @@
                     <div class="input-group input-group-sm mb-3">
                         @Html.TextBox("searchText", null, new { @class = "form-control", @placeholder = "Tìm kiếm đơn hàng..." })
                         <span class="input-group-append">
-                            <button id="btnSearch" class="btn btn-info btn-flat">Tìm kiếm</button>
+                            <button type="submit" class="btn btn-info btn-flat">Tìm kiếm</button>
                         </span>
                     </div>
                     <div class="form-inline mb-2">
@@ -160,16 +160,14 @@
             if ($(this).parent().hasClass('active')) {
                 return;
             }
-            var url = $(this).attr('href');
-            var fromDate = $('input[name="fromDate"]').val();
-            var toDate = $('input[name="toDate"]').val();
+
             $.ajax({
-                url: url,
+                url: $(this).attr('href'),
                 type: 'GET',
                 data: {
                     searchText: $('input[name="searchText"]').val(),
-                    fromDate: fromDate,
-                    toDate: toDate,
+                    fromDate: $('#fromDate').val(),
+                    toDate: $('#toDate').val(),
                     page: $(this).data('page')
                 },
                 success: function (data) {
@@ -183,31 +181,7 @@
             });
         });
 
-
         $(document).ready(function () {
-            $('#btnSearch').click(function () {
-                var fromDate = $('#fromDate').val();
-                var toDate = $('#toDate').val();
-                $.ajax({
-                    url: '@Url.Action("Index", "Order")',
-                    type: 'GET',
-                    data: {
-                        searchText: $('input[name="searchText"]').val(),
-                        fromDate: fromDate,
-                        toDate: toDate,
-                        page: 1
-                    },
-                    success: function (data) {
-                        var tempDiv = $('<div></div>').html(data);
-                        var myTableContent = tempDiv.find('#myTable').html();
-                        $('#myTable').html(myTableContent);
-                    },
-                    error: function () {
-                        alert("Lỗi khi tải thông tin.");
-                    }
-                });
-            });
-
             $('body').on('click', '.btnCapNhat', function () {
                 var id = $(this).data('id');
                 $('#txtOrderId').val(id);

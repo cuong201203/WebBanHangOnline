@@ -85,7 +85,35 @@
 @section scripts{
     <script src="~/Content/assets/js/products_custom.js"></script>
 }
+
 <script>
+    $(document).ready(function () {
+        $('.filter_button').on('click', function (e) {
+            e.preventDefault();
+            var priceRange = $('#amount').val();
+            var priceMin = parseFloat(priceRange.split('-')[0].replace(/[đ,.]/g, '').trim());
+            var priceMax = parseFloat(priceRange.split('-')[1].replace(/[đ,.]/g, '').trim());
+
+            var url = $('.active a').attr('href');
+            $.ajax({
+                url: url,
+                type: 'GET',
+                data: {
+                    priceMin: priceMin,
+                    priceMax: priceMax,
+                    page: 1
+                },
+                success: function (data) {
+                    $('#product-grid').html(data);
+                    applyCSSforProductGrid();
+                },
+                error: function () {
+                    alert("Lỗi khi tải sản phẩm.");
+                }
+            });
+        })
+    });
+
     function applyCSSforProductGrid() {
         $('.product_image img').hover(
             function () {
