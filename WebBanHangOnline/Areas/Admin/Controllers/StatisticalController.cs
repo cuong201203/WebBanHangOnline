@@ -115,10 +115,11 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             var query = from p in db.Products
                         join od in db.OrderDetails on p.Id equals od.ProductId into productSales
                         from od in productSales.DefaultIfEmpty()
-                        group od by new { p.Id, p.Title, p.Quantity } into g
+                        group od by new { p.Id, p.Title, p.Quantity, ProductImage = p.ProductImage.FirstOrDefault(x => x.IsDefault) != null ? p.ProductImage.FirstOrDefault(x => x.IsDefault).Image : "/Uploads/images/No_Image_Available.jpg" } into g
                         select new
                         {
                             ProductId = g.Key.Id,
+                            ProductImage = g.Key.ProductImage,
                             ProductName = g.Key.Title,
                             SoldQuantity = g.Sum(x => x == null ? 0 : x.Quantity),  // Tổng số lượng đã bán
                             RemainingQuantity = g.Key.Quantity  // Số lượng còn lại trong kho
@@ -141,6 +142,5 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             var result = query.ToList();
             return Json(new { Data = result }, JsonRequestBehavior.AllowGet);
         }
-
     }
 }

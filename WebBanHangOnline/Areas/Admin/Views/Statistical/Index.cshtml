@@ -104,6 +104,9 @@
                 <thead>
                     <tr>
                         <th>STT</th>
+                        <th id="headerProductImage" class="user-select-none" role="button">
+                            Hình ảnh
+                        </th>
                         <th id="headerProductName" class="sortable text-primary user-select-none" role="button" data-sort-field="productName">
                             Sản phẩm
                             <i class="fas fa-sort"></i>
@@ -312,6 +315,7 @@
                     $.each(result.Data, function (index, item) {
                         strHtml += '<tr>';
                         strHtml += '<td>' + (index + 1) + '</td>';
+                        strHtml += '<td><img src="' + item.ProductImage + '" style="width: 50px; height: 50px;" /></td>';
                         strHtml += '<td>' + item.ProductName + '</td>';
                         strHtml += '<td>' + item.SoldQuantity + '</td>';
                         strHtml += '<td>' + item.RemainingQuantity + '</td>';

@@ -1,6 +1,7 @@
 ﻿using PagedList;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -14,23 +15,36 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         // GET: Admin/Order
-        public ActionResult Index(string searchText, int page = 1)
+        public ActionResult Index(string searchText, string fromDate, string toDate, int page = 1)
         {
             var pageSize = 10;
             ViewBag.SearchText = searchText;
-            var items = db.Orders.OrderByDescending(x => x.CreatedDate).ToList();
+            ViewBag.FromDate = fromDate;
+            ViewBag.ToDate = toDate;
+
+            var items = db.Orders.OrderByDescending(x => x.CreatedDate).AsQueryable();
+
             if (!string.IsNullOrEmpty(searchText))
             {
-                items = items.Where(x => x.Code.Contains(searchText) || 
-                                    x.CustomerName.Contains(searchText) || 
-                                    x.Phone.Contains(searchText) || 
-                                    x.CreatedBy.Contains(searchText)).ToList();
+                items = items.Where(x => x.Code.Contains(searchText) ||
+                                          x.CustomerName.Contains(searchText) ||
+                                          x.Phone.Contains(searchText) ||
+                                          x.CreatedBy.Contains(searchText));
             }
+
+            if (!string.IsNullOrEmpty(fromDate) && !string.IsNullOrEmpty(toDate))
+            {
+                DateTime startDate = DateTime.ParseExact(fromDate, "yyyy-MM-dd", null);
+                DateTime endDate = DateTime.ParseExact(toDate, "yyyy-MM-dd", null);
+                items = items.Where(x => DbFunctions.TruncateTime(x.CreatedDate) >= startDate && DbFunctions.TruncateTime(x.CreatedDate) <= endDate);
+            }
+
             var pagedList = items.ToPagedList(page, pageSize);
             ViewBag.PageSize = pageSize;
             ViewBag.Page = page;
             return View(pagedList);
         }
+
 
         public ActionResult View(int id)
         {
