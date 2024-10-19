@@ -56,7 +56,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             {
                 Date = x.Date,
                 Revenue = x.TotalSell,
-                Profit = x.TotalSell - x.TotalBuy,
+                //Profit = x.TotalSell - x.TotalBuy,
             }).OrderBy(x => x.Date).ToList(); // Sort by date ascending
 
             // Fill in missing dates with zero revenue and profit
@@ -71,7 +71,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                               {
                                   Date = date,
                                   Revenue = subData?.Revenue ?? 0,
-                                  Profit = subData?.Profit ?? 0
+                                  //Profit = subData?.Profit ?? 0
                               };
 
             // Group by viewMode
@@ -90,7 +90,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                                {
                                    Date = new DateTime(g.Key.Year, g.Key.Month, 1),
                                    Revenue = g.Sum(d => d.Revenue),
-                                   Profit = g.Sum(d => d.Profit)
+                                   //Profit = g.Sum(d => d.Profit)
                                })
                                .OrderBy(d => d.Date); // Sort by date ascending
 
@@ -100,7 +100,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                                {
                                    Date = new DateTime(g.Key, 1, 1),
                                    Revenue = g.Sum(d => d.Revenue),
-                                   Profit = g.Sum(d => d.Profit)
+                                   //Profit = g.Sum(d => d.Profit)
                                })
                                .OrderBy(d => d.Date); // Sort by date ascending
 
@@ -109,5 +109,38 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                     return data;
             }
         }
+
+        public ActionResult GetProductStatistics(string sortField = "soldQuantity", string sortOrder = "desc")
+        {
+            var query = from p in db.Products
+                        join od in db.OrderDetails on p.Id equals od.ProductId into productSales
+                        from od in productSales.DefaultIfEmpty()
+                        group od by new { p.Id, p.Title, p.Quantity } into g
+                        select new
+                        {
+                            ProductId = g.Key.Id,
+                            ProductName = g.Key.Title,
+                            SoldQuantity = g.Sum(x => x == null ? 0 : x.Quantity),  // Tổng số lượng đã bán
+                            RemainingQuantity = g.Key.Quantity  // Số lượng còn lại trong kho
+                        };
+
+            // Sorting
+            switch (sortField)
+            {
+                case "soldQuantity":
+                    query = sortOrder == "desc" ? query.OrderByDescending(x => x.SoldQuantity) : query.OrderBy(x => x.SoldQuantity);
+                    break;
+                case "remainingQuantity":
+                    query = sortOrder == "desc" ? query.OrderByDescending(x => x.RemainingQuantity) : query.OrderBy(x => x.RemainingQuantity);
+                    break;
+                case "productName":
+                    query = sortOrder == "desc" ? query.OrderByDescending(x => x.ProductName) : query.OrderBy(x => x.ProductName);
+                    break;
+            }
+
+            var result = query.ToList();
+            return Json(new { Data = result }, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

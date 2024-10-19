@@ -37,15 +37,15 @@
 <section class="content">
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Thống kê doanh thu - lợi nhuận</h3>
-            @*<div class="card-tools">
+            <h3 class="card-title">Thống kê doanh thu</h3>
+            <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                     <i class="fas fa-minus"></i>
                 </button>
-                <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>*@
+                @*<button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                        <i class="fas fa-times"></i>
+                    </button>*@
+            </div>
         </div>
         <div class="card-body">
             <div class="row">
@@ -76,7 +76,7 @@
                                 <th>STT</th>
                                 <th id="headerDate">Ngày</th>
                                 <th>Doanh thu</th>
-                                <th>Lợi nhuận</th>
+                                @*<th>Lợi nhuận</th>*@
                             </tr>
                         </thead>
                         <tbody id="load_data"></tbody>
@@ -86,6 +86,45 @@
         </div>
         <div class="card-footer"></div>
     </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Thống kê số lượng bán</h3>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
+                @*<button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                    <i class="fas fa-times"></i>
+                </button>*@
+            </div>
+        </div>
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th id="headerProductName" class="sortable text-primary user-select-none" role="button" data-sort-field="productName">
+                            Sản phẩm
+                            <i class="fas fa-sort"></i>
+                        </th>
+                        <th id="headerSoldQuantity" class="sortable text-primary user-select-none" role="button" data-sort-field="soldQuantity">
+                            Số lượng bán
+                            <i class="fas fa-sort"></i>
+                        </th>
+                        <th id="headerRemainingQuantity" class="sortable text-primary user-select-none" role="button" data-sort-field="remainingQuantity">
+                            Số lượng còn
+                            <i class="fas fa-sort"></i>
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody id="productData"></tbody>
+            </table>
+        </div>
+        <div class="card-footer"></div>
+    </div>
+
 </section>
 
 @section scripts{
@@ -152,19 +191,22 @@
                         labels: arrDate,
                         datasets: [
                             {
-                                label: 'Lợi nhuận',
-                                backgroundColor: 'rgba(60,141,188,0.9)',
+                                label: '', // Lợi nhuận
+                                //backgroundColor: 'rgba(60,141,188,0.9)',
+                                backgroundColor: '#fff',
                                 borderColor: 'rgba(60,141,188,0.8)',
                                 pointRadius: false,
                                 pointColor: '#3b8bba',
                                 pointStrokeColor: 'rgba(60,141,188,1)',
                                 pointHighlightFill: '#fff',
                                 pointHighlightStroke: 'rgba(60,141,188,1)',
-                                data: arrProfit
+                                data: arrProfit,
+                                hidden: true // Ẩn cột lợi nhuận
                             },
                             {
-                                label: 'Doanh thu',
+                                label: '', // Doanh thu
                                 backgroundColor: 'rgba(210, 214, 222, 1)',
+                                //backgroundColor: '#fff',
                                 borderColor: 'rgba(210, 214, 222, 1)',
                                 pointRadius: false,
                                 pointColor: 'rgba(210, 214, 222, 1)',
@@ -177,7 +219,7 @@
                     };
 
                     if (barChart) {
-                        barChart.destroy(); // Destroy previous chart instance
+                        barChart.destroy();
                     }
 
                     var barChartCanvas = $('#barChart').get(0).getContext('2d');
@@ -197,9 +239,13 @@
                                     var dataset = data.datasets[tooltipItem.datasetIndex];
                                     var value = dataset.data[tooltipItem.index];
                                     var formattedValue = value.toLocaleString('vi-VN') + 'đ';
-                                    return dataset.label + ': ' + formattedValue;
+                                    //return dataset.label + ': ' + formattedValue;
+                                    return formattedValue;
                                 }
                             }
+                        },
+                        legend: {
+                            display: false // Ẩn nhãn của cả hai cột
                         }
                     };
 
@@ -216,20 +262,64 @@
 
         function load_data(data, viewMode) {
             var strHtml = '';
-            data.sort((a, b) => new Date(a.Date) - new Date(b.Date)); // Sort by date ascending
+            data.sort((a, b) => new Date(a.Date) - new Date(b.Date)); // Sắp xếp theo ngày
             $('#headerDate').text(viewMode === 'month' ? 'Tháng' : viewMode === 'year' ? 'Năm' : 'Ngày');
             $.each(data, function (i, item) {
                 var strDate = viewMode === 'month' ? moment(item.Date).format('MM/YYYY') : viewMode === 'year' ? moment(item.Date).format('YYYY') : moment(item.Date).format('DD/MM/YYYY');
                 var formattedRevenue = item.Revenue.toLocaleString('vi-VN') + "<u>đ</u>";
-                var formattedProfit = item.Profit.toLocaleString('vi-VN') + "<u>đ</u>";
+                //var formattedProfit = item.Profit.toLocaleString('vi-VN') + "<u>đ</u>";
                 strHtml += "<tr>";
                 strHtml += "<td>" + (i + 1) + "</td>";
                 strHtml += "<td>" + strDate + "</td>";
                 strHtml += "<td>" + formattedRevenue + "</td>";
-                strHtml += "<td>" + formattedProfit + "</td>";
+                //strHtml += "<td>" + formattedProfit + "</td>";
                 strHtml += "</tr>";
             });
             $('#load_data').html(strHtml);
+        }
+
+        $(document).ready(function () {
+            loadProductStatistics();
+
+            // Xử lý sắp xếp
+            $('.sortable').click(function () {
+                var sortField = $(this).data('sort-field');
+                var currentSortOrder = $(this).data('sort-order') || 'desc';
+                var newSortOrder = currentSortOrder === 'desc' ? 'asc' : 'desc';
+                $(this).data('sort-order', newSortOrder);
+
+                // Đặt lại icon về mặc định
+                $('.sortable i').removeClass('fa-caret-up fa-caret-down').addClass('fa-sort');
+
+                // Cập nhật icon
+                if (newSortOrder === 'asc') {
+                    $(this).find('i').removeClass('fa-sort fa-caret-down').addClass('fas fa-caret-up');
+                } else {
+                    $(this).find('i').removeClass('fa-sort fa-caret-up').addClass('fas fa-caret-down');
+                }
+
+                loadProductStatistics(sortField, newSortOrder);
+            });
+        });
+
+        function loadProductStatistics(sortField = 'soldQuantity', sortOrder = 'desc') {
+            $.ajax({
+                url: '/Admin/Statistical/GetProductStatistics',
+                type: 'GET',
+                data: { sortField: sortField, sortOrder: sortOrder },
+                success: function (result) {
+                    var strHtml = '';
+                    $.each(result.Data, function (index, item) {
+                        strHtml += '<tr>';
+                        strHtml += '<td>' + (index + 1) + '</td>';
+                        strHtml += '<td>' + item.ProductName + '</td>';
+                        strHtml += '<td>' + item.SoldQuantity + '</td>';
+                        strHtml += '<td>' + item.RemainingQuantity + '</td>';
+                        strHtml += '</tr>';
+                    });
+                    $('#productData').html(strHtml);
+                }
+            });
         }
     </script>
 }
