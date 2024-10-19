@@ -132,7 +132,7 @@ namespace WebBanHangOnline.Controllers
                     // Trả về thành công và đường dẫn để redirect
                     return Json(new { success = true, redirectUrl = returnUrl ?? Url.Action("Index", "Home") });
                 case SignInStatus.LockedOut:
-                    return Json(new { success = false, errors = new List<string> { "Tài khoản của bạn đã bị khóa!" } });
+                    return Json(new { success = false, errors = new List<string> { "Tên đăng nhập hoặc mật khẩu của bạn không đúng! Vui lòng thử lại!" } });
                 case SignInStatus.RequiresVerification:
                     return Json(new { success = false, errors = new List<string> { "Xác minh tài khoản của bạn!" } });
                 case SignInStatus.Failure:

@@ -102,23 +102,26 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             }
 
             var user = await UserManager.FindByNameAsync(model.UserName);
-            if (user != null && !user.IsActive) { return View("~/Areas/Admin/Views/Shared/Lockout.cshtml"); }
+            if (user != null && !user.IsActive)
+            {
+                return Json(new { success = false, errors = new List<string> { "Tài khoản của bạn bị khóa!" } });
+            }
 
-            // This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: true);
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    // Trả về thành công và đường dẫn để redirect
+                    return Json(new { success = true, redirectUrl = returnUrl ?? Url.Action("Index", "Home") });
                 case SignInStatus.LockedOut:
-                    return View("Lockout");
+                    return Json(new { success = false, errors = new List<string> { "Tên đăng nhập hoặc mật khẩu của bạn không đúng! Vui lòng thử lại!" } });
                 case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, model.RememberMe });
+                    return Json(new { success = false, errors = new List<string> { "Xác minh tài khoản của bạn!" } });
                 case SignInStatus.Failure:
+                    return Json(new { success = false, errors = new List<string> { "Tên đăng nhập hoặc mật khẩu của bạn không đúng! Vui lòng thử lại!" } });
                 default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
-                    return View(model);
+                    var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+                    return Json(new { success = false, errors });
             }
         }
 

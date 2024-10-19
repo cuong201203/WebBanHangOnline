@@ -54,6 +54,18 @@
                             <input type="submit" value="ĐĂNG NHẬP" class="btn red_button text-white" />
                         </div>
                     </div>
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            Bạn chưa có tài khoản?
+                            <a href="/Account/Register" style="color: #fe4c50 !important;" class="font-weight-bold">Đăng ký</a>
+                            @*@Html.ActionLink("Đăng ký", "Register")*@
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            <a href="/Account/ForgotPassword" style="color: #fe4c50 !important;" class="font-weight-bold">Quên mật khẩu?</a>
+                        </div>
+                    </div>
                 }
             </section>
         </div>
@@ -79,14 +91,16 @@
                     success: function (result) {
                         if (result.success) {
                             window.location.href = result.redirectUrl;
-                        } else {
-                            // Hiển thị thông báo lỗi
+                        } else if (result.errors && result.errors.length > 0) {
+                            // Chỉ hiển thị khi có lỗi cụ thể
                             $("#validation-summary").show();
-                            var errors = result.errors;
                             $("#validation-errors").empty(); // Xóa thông báo lỗi cũ
-                            $.each(errors, function (index, error) {
+                            $.each(result.errors, function (index, error) {
                                 $("#validation-errors").append("<li>" + error + "</li>");
                             });
+                        } else {
+                            // Ẩn nếu không có lỗi
+                            $("#validation-summary").hide();
                         }
                     }
                 });

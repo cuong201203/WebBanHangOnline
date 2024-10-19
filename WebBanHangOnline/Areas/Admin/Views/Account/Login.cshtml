@@ -1,16 +1,21 @@
 ﻿@model WebBanHangOnline.Models.LoginViewModel
 @{
     ViewBag.Title = "Login";
-    Layout = "~/Areas/Admin/Views/Shared/_LayoutLogin.cshtml";
+    //Layout = "~/Areas/Admin/Views/Shared/_LayoutLogin.cshtml";
 }
 
 <div class="card-body login-card-body">
-    <p class="login-box-msg">Đăng nhập để bắt đầu phiên của bạn</p>
-    @using (Html.BeginForm("Login", "Account", FormMethod.Post))
+    <div class="login-box-msg text-black">Đăng nhập để bắt đầu phiên của bạn</div>
+    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form", id = "loginFormAjax" }))
     {
         @Html.AntiForgeryToken()
-        @Html.ValidationSummary(true);
-        <div class="input-group mb-3">
+        <div id="validation-summary" style="display:none;" class="col-md-12 px-0">
+            <div class="alert alert-danger" role="alert" style="width: fit-content">
+                <ul id="validation-errors" class="text-black" style="list-style: none; padding-left: 0; margin-bottom: 0;"></ul>
+            </div>
+        </div>
+
+        <div class="input-group">
             @Html.TextBoxFor(x => x.UserName, new { @class = "form-control", @placeholder = "Tên đăng nhập" })
             <div class="input-group-append">
                 <div class="input-group-text">
@@ -18,40 +23,65 @@
                 </div>
             </div>
         </div>
-        <div class="input-group mb-3">
+        @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+
+        <div class="input-group mt-3">
             @Html.PasswordFor(x => x.Password, new { @class = "form-control", @placeholder = "Mật khẩu" })
-            @*<input type="password" class="form-control" placeholder="Password">*@
             <div class="input-group-append">
                 <div class="input-group-text">
                     <span class="fas fa-lock"></span>
                 </div>
             </div>
         </div>
-        <div class="row">
+        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+
+        <div class="row mt-3">
             <div class="col-7">
-                @*<div class="icheck-primary">
-                    @Html.CheckBoxFor(x => x.RememberMe)
-                    <label for="remember">
-                        Remember Me
-                    </label>
-                </div>*@
             </div>
-            <!-- /.col -->
             <div class="col-5">
                 <button type="submit" class="btn btn-primary btn-block">Đăng nhập</button>
             </div>
-            <!-- /.col -->
         </div>
     }
 
-    <!-- /.social-auth-links -->
 
     <p class="mb-1">
         @*<a href="#">Quên mật khẩu?</a>*@
     </p>
-    @*<p class="mb-0">
-            <a href="register.html" class="text-center">Register a new membership</a>
-    </p>*@
 </div>
 
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
 
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#loginFormAjax").submit(function (e) {
+                e.preventDefault();
+
+                $.ajax({
+                    url: '@Url.Action("Login", "Account")',
+                    type: this.method,
+                    data: $(this).serialize(),
+                    success: function (result) {
+                        if (result.success) {
+                            window.location.href = result.redirectUrl;
+                        } else if (result.errors && result.errors.length > 0) {
+                            // Chỉ hiển thị khi có lỗi cụ thể
+                            $("#validation-summary").show();
+                            $("#validation-errors").empty(); // Xóa thông báo lỗi cũ
+                            $.each(result.errors, function (index, error) {
+                                $("#validation-errors").append("<li>" + error + "</li>");
+                            });
+                        } else {
+                            // Ẩn nếu không có lỗi
+                            $("#validation-summary").hide();
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}
