@@ -27,9 +27,9 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             if (!string.IsNullOrEmpty(searchText))
             {
                 items = items.Where(x => x.Code.Contains(searchText) ||
-                                          x.CustomerName.Contains(searchText) ||
-                                          x.Phone.Contains(searchText) ||
-                                          x.CreatedBy.Contains(searchText));
+                                         x.CustomerName.Contains(searchText) ||
+                                         x.Phone.Contains(searchText) ||
+                                         x.CreatedBy.Contains(searchText));
             }
 
             if (!string.IsNullOrEmpty(fromDate) && !string.IsNullOrEmpty(toDate))
@@ -59,13 +59,13 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult UpdateTT(int id, int trangthai)
+        public ActionResult UpdateTT(int id, int trangThai)
         {
             var item = db.Orders.Find(id);
             if (item != null)
             {
                 db.Orders.Attach(item);
-                item.TypePayment = trangthai;
+                item.TypePayment = trangThai;
                 db.Entry(item).Property(x => x.TypePayment).IsModified = true;
                 db.SaveChanges();
                 return Json(new { message = "Success", success = true });
