@@ -125,14 +125,14 @@ namespace WebBanHangOnline.Controllers
                 return Json(new { success = false, errors = new List<string> { "Tài khoản của bạn bị khóa!" } });
             }
 
-            var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: true);
+            var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
-                    // Trả về thành công và đường dẫn để redirect
                     return Json(new { success = true, redirectUrl = returnUrl ?? Url.Action("Index", "Home") });
+                // Muốn dùng case này thì chỉnh shouldLockout: true
                 case SignInStatus.LockedOut:
-                    return Json(new { success = false, errors = new List<string> { "Tên đăng nhập hoặc mật khẩu của bạn không đúng! Vui lòng thử lại!" } });
+                    return Json(new { success = false, errors = new List<string> { "Bạn đã đăng nhập thất bại 5 lần! Vui lòng thử lại sau 5 phút!" } });
                 case SignInStatus.RequiresVerification:
                     return Json(new { success = false, errors = new List<string> { "Xác minh tài khoản của bạn!" } });
                 case SignInStatus.Failure:
