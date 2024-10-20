@@ -371,9 +371,9 @@ jQuery(document).ready(function($)
 			filterButton.on('click', function () {				
 				$('.product-grid').isotope({
 					filter: function () {
-						var priceRange = $('#amount').val();
-						var priceMin = parseFloat(priceRange.split('-')[0].replace(/[đ,.]/g, '').trim());
-						var priceMax = parseFloat(priceRange.split('-')[1].replace(/[đ,.]/g, '').trim());
+						var priceRange = $('#amount').val().split('-');
+						var priceMin = parseFloat(priceRange[0].replace(/[đ,.]/g, '').trim());
+						var priceMax = parseFloat(priceRange[1].replace(/[đ,.]/g, '').trim());
 						var itemPrice = $(this).find('.product_price').clone().children().remove().end().text().replace(/[đ,.]/g, '').trim();
 
 						return (itemPrice >= priceMin) && (itemPrice <= priceMax);

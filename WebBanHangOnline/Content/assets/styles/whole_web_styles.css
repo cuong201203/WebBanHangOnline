@@ -49,7 +49,7 @@ COLOR PALETTE
 }
 body
 {
-	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
 	font-size: 14px;
 	line-height: 23px;
 	font-weight: 400;
@@ -251,6 +251,7 @@ section
 	width: 100%;
 	overflow: hidden;
 }
+
 
 /*********************************
 3. Home

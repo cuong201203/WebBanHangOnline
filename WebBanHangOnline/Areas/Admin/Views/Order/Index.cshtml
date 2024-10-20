@@ -51,7 +51,7 @@
                     <div class="input-group input-group-sm mb-3">
                         @Html.TextBox("searchText", null, new { @class = "form-control", @placeholder = "Tìm kiếm đơn hàng..." })
                         <span class="input-group-append">
-                            <button type="submit" class="btn btn-info btn-flat">Tìm kiếm</button>
+                            <button id="btnSearch" class="btn btn-info btn-flat">Tìm kiếm</button>
                         </span>
                     </div>
                     <div class="form-inline mb-2">
@@ -155,14 +155,9 @@
 
 @section scripts{
     <script>
-        $(document).off('click').on('click', '.pagination a', function (e) {
-            e.preventDefault();
-            if ($(this).parent().hasClass('active')) {
-                return;
-            }
-
+        function loadData(url) {
             $.ajax({
-                url: $(this).attr('href'),
+                url: url,
                 type: 'GET',
                 data: {
                     searchText: $('input[name="searchText"]').val(),
@@ -179,9 +174,24 @@
                     alert("Lỗi khi tải thông tin.");
                 }
             });
+        }
+
+        $(document).off('click').on('click', '.pagination a', function (e) {
+            e.preventDefault();
+            if ($(this).parent().hasClass('active')) {
+                return;
+            }
+            var url = $(this).attr('href');
+            loadData(url);
         });
 
         $(document).ready(function () {
+            $('#btnSearch').on('click', function (e) {
+                e.preventDefault();
+                var url = '/Admin/Order';
+                loadData(url);
+            });
+
             $('body').on('click', '.btnCapNhat', function () {
                 var id = $(this).data('id');
                 $('#txtOrderId').val(id);

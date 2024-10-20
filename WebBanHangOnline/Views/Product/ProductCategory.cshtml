@@ -90,9 +90,9 @@
     $(document).ready(function () {
         $('.filter_button').on('click', function (e) {
             e.preventDefault();
-            var priceRange = $('#amount').val();
-            var priceMin = parseFloat(priceRange.split('-')[0].replace(/[đ,.]/g, '').trim());
-            var priceMax = parseFloat(priceRange.split('-')[1].replace(/[đ,.]/g, '').trim());
+            var priceRange = $('#amount').val().split('-');
+            var priceMin = parseFloat(priceRange[0].replace(/[đ,.]/g, '').trim());
+            var priceMax = parseFloat(priceRange[1].replace(/[đ,.]/g, '').trim());
 
             var url = $('.active a').attr('href');
             $.ajax({

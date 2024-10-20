@@ -102,15 +102,10 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             }
 
             var user = await UserManager.FindByNameAsync(model.UserName);
+
             if (user == null)
             {
                 return Json(new { success = false, errors = new List<string> { "Tên đăng nhập hoặc mật khẩu của bạn không đúng! Vui lòng thử lại!" } });
-            }
-
-            var roles = await UserManager.GetRolesAsync(user.Id);
-            if (!roles.Contains("Admin"))
-            {
-                return Json(new { success = false, errors = new List<string> { "Bạn không có quyền truy cập!" } });
             }
 
             if (!user.IsActive)
@@ -118,7 +113,13 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                 return Json(new { success = false, errors = new List<string> { "Tài khoản của bạn bị khóa!" } });
             }
 
-            var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
+            var roles = await UserManager.GetRolesAsync(user.Id);
+            if (roles.Contains("Customer"))
+            {
+                return Json(new { success = false, errors = new List<string> { "Bạn không có quyền truy cập!" } });
+            }
+
+            var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: true);
             switch (result)
             {
                 case SignInStatus.Success:

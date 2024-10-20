@@ -47,7 +47,7 @@
                 <a href="#" class="btn btn-danger" id="btnDeleteAll">Xóa</a>
             </div>
         </div>
-        <div class="card-body" id="myTable">
+        <div class="card-body">
             <div class="row">
                 <div class="col-md-5 pb-4">
                     @using (Html.BeginForm("Index", "Product", FormMethod.Get, new { }))
@@ -55,13 +55,13 @@
                         <div class="input-group input-group-sm">
                             @Html.TextBox("searchText", null, new { @class = "form-control", @placeholder = "Tìm kiếm sản phẩm..." })
                             <span class="input-group-append">
-                                <button type="submit" class="btn btn-info btn-flat">Tìm kiếm</button>
+                                <button id="btnSearch" class="btn btn-info btn-flat">Tìm kiếm</button>
                             </span>
                         </div>
                     }
                 </div>
             </div>
-            <div class="table-responsive">
+            <div class="table-responsive" id="myTable">
                 <table class="table table-hover">
                     <thead>
                         <tr>
@@ -73,10 +73,10 @@
                             <th>Số lượng</th>
                             <th>Giá</th>
                             <th>Ngày tạo</th>
-                            <th>Home</th>
-                            <th>Sale</th>
+                            <th class="text-center">Home</th>
+                            <th class="text-center">Sale</th>
                             <th class="text-center">Hiển thị</th>
-                            <th style="width: 110px;"></th>
+                            <th style="width: 150px;"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -88,46 +88,46 @@
                                 var strCheckHome = item.IsHome ? "<i class='fa fa-check text-success'></i>" : "<i class='fa fa-times text-danger'></i>";
                                 var strCheckSale = item.IsSale ? "<i class='fa fa-check text-success'></i>" : "<i class='fa fa-times text-danger'></i>";
                                 var strCheck = item.IsActive ? "<i class='fa fa-check text-success'></i>" : "<i class='fa fa-times text-danger'></i>";
-                                <tr id="trow_@item.Id">
-                                    <td><input type="checkbox" class="cbkItem" value="@item.Id" /></td>
-                                    <td>@i</td>
-                                    <td>
-                                        <img src="@item.ProductImage.FirstOrDefault(x => x.IsDefault).Image" width="50" />
-                                    </td>
-                                    <td>@item.Title</td>
-                                    <td>@item.ProductCategory.Title</td>
-                                    <td>@item.Quantity</td>
-                                    <td>@string.Format("{0:N0}", item.Price)<u>đ</u></td>
-                                    <td>@item.CreatedDate.ToString("dd/MM/yyyy HH:mm:ss")</td>
-                                    <td class="text-center">
-                                        <a href="#" data-id="@item.Id" class="btnHome">@Html.Raw(strCheckHome)</a>
-                                    </td>
-                                    <td class="text-center">
-                                        <a href="#" data-id="@item.Id" class="btnSale">@Html.Raw(strCheckSale)</a>
-                                    </td>
-                                    <td class="text-center">
-                                        <a href="#" data-id="@item.Id" class="btnActive">@Html.Raw(strCheck)</a>
-                                    </td>
-                                    <td>
-                                        <a href="/Admin/Product/Edit/@item.Id" class="btn btn-sm btn-primary">Sửa</a>
-                                        <a href="#" data-id="@item.Id" class="btn btn-sm btn-danger btnDelete">Xóa</a>
-                                    </td>
-                                </tr>
+                        <tr id="trow_@item.Id">
+                            <td><input type="checkbox" class="cbkItem" value="@item.Id" /></td>
+                            <td>@i</td>
+                            <td>
+                                <img src="@item.ProductImage.FirstOrDefault(x => x.IsDefault).Image" width="50" />
+                            </td>
+                            <td>@item.Title</td>
+                            <td>@item.ProductCategory.Title</td>
+                            <td>@item.Quantity</td>
+                            <td>@string.Format("{0:N0}", item.Price)<u>đ</u></td>
+                            <td>@item.CreatedDate.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                            <td class="text-center">
+                                <a href="#" data-id="@item.Id" class="btnHome">@Html.Raw(strCheckHome)</a>
+                            </td>
+                            <td class="text-center">
+                                <a href="#" data-id="@item.Id" class="btnSale">@Html.Raw(strCheckSale)</a>
+                            </td>
+                            <td class="text-center">
+                                <a href="#" data-id="@item.Id" class="btnActive">@Html.Raw(strCheck)</a>
+                            </td>
+                            <td>
+                                <a href="/Admin/Product/Edit/@item.Id" class="btn btn-sm btn-primary">Sửa</a>
+                                <a href="#" data-id="@item.Id" class="btn btn-sm btn-danger btnDelete">Xóa</a>
+                            </td>
+                        </tr>
                                 i++;
                             }
                         }
                         else
                         {
-                            <tr>
-                                <td colspan="4">Không có bản ghi nào!</td>
-                            </tr>
+                        <tr>
+                            <td colspan="4">Không có bản ghi nào!</td>
+                        </tr>
                         }
                     </tbody>
                 </table>
-            </div>
-            <div class="d-flex justify-content-center">
-                @Html.PagedListPager(Model, page => Url.Action("Index", new { searchText = ViewBag.SearchText, page }))
-            </div>
+                <div class="d-flex justify-content-center">
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new { searchText = ViewBag.SearchText, page }))
+                </div>
+            </div>            
         </div>
         <!-- /.card-body -->
         <div class="card-footer">
@@ -142,16 +142,11 @@
 
 @section scripts{
     <script>
-        $(document).off('click').on('click', '.pagination a', function (e) {
-            e.preventDefault();
-            if ($(this).parent().hasClass('active')) {
-                return;
-            }
-            var url = $(this).attr('href');
+        function loadData(url, searchText) {
             $.ajax({
                 url: url,
                 type: 'GET',
-                data: { searchText: $('input[name="searchText"]').val() }, // Lấy giá trị từ ô tìm kiếm
+                data: { searchText: searchText, page: 1 }, // Lấy giá trị từ ô tìm kiếm
                 success: function (data) {
                     var tempDiv = $('<div></div>').html(data);
                     var myTableContent = tempDiv.find('#myTable').html();
@@ -161,9 +156,34 @@
                     alert("Lỗi khi tải thông tin.");
                 }
             });
+        }
+
+        $('.cbkItem').on('change', function () {
+            if ($('.cbkItem:checked').length !== $('.cbkItem').length) {
+                $('#selectAll').prop('checked', false);
+            } else if ($('.cbkItem:checked').length === $('.cbkItem').length) {
+                $('#selectAll').prop('checked', true);
+            }
+        });
+
+        $(document).off('click').on('click', '.pagination a', function (e) {
+            e.preventDefault();
+            if ($(this).parent().hasClass('active')) {
+                return;
+            }
+            var url = $(this).attr('href');
+            var searchText = $('input[name="searchText"]').val();
+            loadData(url, searchText);
         });
 
         $(document).ready(function () {
+            $('#btnSearch').on('click', function (e) {
+                e.preventDefault();
+                var url = '/Admin/Product';
+                var searchText = $('input[name="searchText"]').val();
+                loadData(url, searchText);
+            });
+
             $('body').on('click', '.btnDelete', function () {
                 var id = $(this).data('id');
                 var conf = confirm('Bạn có muốn xóa bản ghi này không?');

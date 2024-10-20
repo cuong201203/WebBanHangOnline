@@ -21,25 +21,6 @@
     @Scripts.Render("~/bundles/jqueryval")
 
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
-        }
-
-        .pagination > li > a,
-        .pagination > li > span {
-            color: #fe4c50;
-        }
-
-        .pagination > .active > a,
-        .pagination > .active > span,
-        .pagination > .active > a:hover,
-        .pagination > .active > span:hover,
-        .pagination > .active > a:focus,
-        .pagination > .active > span:focus {
-            background-color: #fe4c50;
-            border-color: #fe4c50;
-        }
-
         .back-to-top {
             display: none;
             position: fixed;
@@ -58,6 +39,25 @@
 
         .back-to-top:hover {
             background-color: #555;
+        }
+
+        .fa-bars:hover {
+            cursor: pointer;
+        }
+
+        .pagination > li > a,
+        .pagination > li > span {
+            color: #fe4c50;
+        }
+
+        .pagination > .active > a,
+        .pagination > .active > span,
+        .pagination > .active > a:hover,
+        .pagination > .active > span:hover,
+        .pagination > .active > a:focus,
+        .pagination > .active > span:focus {
+            background-color: #fe4c50;
+            border-color: #fe4c50;
         }
     </style>
 </head>
@@ -162,12 +162,15 @@
         </header>
 
         <div class="fs_menu_overlay"></div>
+
         <div class="hamburger_menu">
             <div class="hamburger_close"><i class="fa fa-times" aria-hidden="true"></i></div>
             <div class="hamburger_menu_content text-right">
-                <ul class="menu_top_nav">
+                <ul class="top_nav_menu">
                     <li class="menu_item has-children">
-                        <a href="#">
+                        @if (!Request.IsAuthenticated)
+                        {
+                        <a href="/Account/Login">
                             Tài khoản của tôi
                             <i class="fa fa-angle-down"></i>
                         </a>
@@ -175,9 +178,22 @@
                             <li><a href="/Account/Login"><i class="fa fa-sign-in" aria-hidden="true"></i>Đăng nhập</a></li>
                             <li><a href="/Account/Register"><i class="fa fa-user-plus" aria-hidden="true"></i>Đăng ký</a></li>
                         </ul>
+                        }
+                        else
+                        {
+                        <a href="#" class="text-white font-weight-bold">
+                            Xin chào <span style="color: red;">@User.Identity.Name</span>
+                            <i class="fa fa-angle-down"></i>
+                        </a>
+                        <ul class="menu_selection">
+                            <li><a href="/Account/Profile"><i class="fa fa-user" aria-hidden="true"></i>Tài khoản của tôi</a></li>
+                            <li><a href="/Account/OrderHistory"><i class="fa fa-shopping-bag" aria-hidden="true"></i>Đơn mua</a></li>
+                            <li><a href="javascript:document.getElementById('logOffForm').submit()"><i class="fa fa-sign-out" aria-hidden="true"></i>Đăng xuất</a></li>
+                        </ul>
+                        }
                     </li>
                     @Html.Action("MenuTop", "Menu")
-                    @*<li class="menu_item"><a href="">trang chủ</a></li>
+                    @*<li class="menu_item"><a href="/">trang chủ</a></li>
                     <li class="menu_item"><a href="/danh-muc-san-pham/tat-ca">sản phẩm</a></li>
                     <li class="menu_item"><a href="/tin-tuc">tin tức</a></li>
                     <li class="menu_item"><a href="/lien-he">liên hệ</a></li>*@
@@ -243,6 +259,15 @@
 
     <script>
         $(document).ready(function () {
+            $(".hamburger_container").click(function () {
+                $(".navbar_menu").eq(0).hide();
+                $(".navbar_menu li").each(function () {
+                    $(this).addClass("menu_item");
+                });
+
+                $(".navbar_menu").removeClass("navbar_menu");
+            });
+
             $('#search_btn').click(function (e) {
                 e.preventDefault(); // Ngăn trang cuộn về đầu
                 $('#search_popup').toggle();
