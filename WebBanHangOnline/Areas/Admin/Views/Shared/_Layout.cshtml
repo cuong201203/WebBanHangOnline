@@ -200,8 +200,17 @@
             $("input[data-bootstrap-switch]").each(function () {
                 $(this).bootstrapSwitch('state', $(this).prop('checked'));
             })
+        });
 
-        })
+        function adjustCheckBoxes() {
+            $('.cbkItem').on('change', function () {
+                if ($('.cbkItem:checked').length !== $('.cbkItem').length) {
+                    $('#selectAll').prop('checked', false);
+                } else if ($('.cbkItem:checked').length === $('.cbkItem').length) {
+                    $('#selectAll').prop('checked', true);
+                }
+            });
+        }
     </script>
 
     <script src="~/Content/ckeditor/ckeditor.js"></script>

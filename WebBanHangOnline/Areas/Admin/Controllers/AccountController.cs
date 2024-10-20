@@ -58,10 +58,14 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         //     var items = db.Users.ToList();
         //     return View(items);
         // }
-        public ActionResult Index(int page = 1)
+        public ActionResult Index(string searchText, int page = 1)
         {
             int pageSize = 10;
-            var users = db.Users.OrderByDescending(x => x.CreatedDate).ToList();
+            var users = db.Users.OrderByDescending(x => x.CreatedDate).AsQueryable();
+            if (!string.IsNullOrEmpty(searchText))
+            {
+                users = users.Where(x => x.UserName.Contains(searchText) || x.FullName.Contains(searchText));
+            }
             var pagedItems = users.ToPagedList(page, pageSize);
             var userRoles = new Dictionary<string, string>(); // Dictionary to hold user roles
 
@@ -72,13 +76,11 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             }
 
             ViewBag.UserRoles = userRoles; // Pass the dictionary to the view
-            if (Request.IsAjaxRequest())
-            {
-                return PartialView(pagedItems);
-            }
+            ViewBag.PageSize = pageSize;
+            ViewBag.Page = page;
+            ViewBag.SearchText = searchText;
             return View(pagedItems); // Return users as usual
         }
-
 
         //
         // GET: /Account/Login

@@ -48,8 +48,21 @@
                 <a href="/Admin/Account/Create" class="btn btn-primary">Thêm mới</a>
             </div>
         </div>
-        <div class="card-body" id="myTable">
-            <div class="table-responsive">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-5 pb-4">
+                    @using (Html.BeginForm("Index", "Account", FormMethod.Get, new { }))
+                    {
+                    <div class="input-group input-group-sm">
+                        @Html.TextBox("searchText", null, new { @class = "form-control", @placeholder = "Tìm kiếm tài khoản..." })
+                        <span class="input-group-append">
+                            <button id="btnSearch" class="btn btn-info btn-flat">Tìm kiếm</button>
+                        </span>
+                    </div>
+                    }
+                </div>
+            </div>
+            <div class="table-responsive" id="myTable">
                 <table class="table table-hover">
                     <thead>
                         <tr>
@@ -61,7 +74,7 @@
                             <th>Quyền</th>
                             <th>Ngày tạo</th>
                             <th class="text-center">Hoạt động</th>
-                            <th style="width: 110px;"></th>
+                            <th style="width: 150px;"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -101,7 +114,7 @@
                 </table>
                 <!-- Phân trang -->
                 <div class="d-flex justify-content-center">
-                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new { searchText = ViewBag.SearchText, page }))
                 </div>
             </div>
         </div>
@@ -117,15 +130,11 @@
 
 @section scripts{
     <script>
-        $(document).off('click').on('click', '.pagination a', function (e) {
-            e.preventDefault();
-            if ($(this).parent().hasClass('active')) {
-                return;
-            }
-            var url = $(this).attr('href');
+        function loadData(url) {
             $.ajax({
                 url: url,
                 type: 'GET',
+                data: { searchText: $('input[name="searchText"]').val(), page: 1 }, // Lấy giá trị từ ô tìm kiếm
                 success: function (data) {
                     var tempDiv = $('<div></div>').html(data);
                     var myTableContent = tempDiv.find('#myTable').html();
@@ -135,9 +144,24 @@
                     alert("Lỗi khi tải thông tin.");
                 }
             });
+        }
+
+        $(document).off('click').on('click', '.pagination a', function (e) {
+            e.preventDefault();
+            if ($(this).parent().hasClass('active')) {
+                return;
+            }
+            var url = $(this).attr('href');
+            loadData(url);
         });
 
         $(document).ready(function () {
+            $('#btnSearch').on('click', function (e) {
+                e.preventDefault();
+                var url = '/Admin/Account';
+                loadData(url);
+            });
+
             $('body').on('click', '.btnDelete', function () {
                 var id = $(this).data('id');
                 var conf = confirm('Bạn có muốn xóa bản ghi này không?');

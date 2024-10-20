@@ -17,10 +17,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         // GET: Admin/Order
         public ActionResult Index(string searchText, string fromDate, string toDate, int page = 1)
         {
-            var pageSize = 10;
-            ViewBag.SearchText = searchText;
-            ViewBag.FromDate = fromDate;
-            ViewBag.ToDate = toDate;
+            var pageSize = 10;           
 
             var items = db.Orders.OrderByDescending(x => x.CreatedDate).AsQueryable();
 
@@ -42,6 +39,9 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             var pagedList = items.ToPagedList(page, pageSize);
             ViewBag.PageSize = pageSize;
             ViewBag.Page = page;
+            ViewBag.SearchText = searchText;
+            ViewBag.FromDate = fromDate;
+            ViewBag.ToDate = toDate;
             return View(pagedList);
         }
 

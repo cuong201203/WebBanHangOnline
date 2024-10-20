@@ -31,7 +31,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                     });
                 }
             }
-            ViewBag.SearchText = searchText;
+            
             if (!string.IsNullOrEmpty(searchText))
             {
                 items = items.Where(x => x.Title.Contains(searchText) || x.ProductCategory.Title.Contains(searchText));
@@ -39,6 +39,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             items = items.ToPagedList(page, pageSize);
             ViewBag.PageSize = pageSize;
             ViewBag.Page = page;
+            ViewBag.SearchText = searchText;
             return View(items);
         }
 

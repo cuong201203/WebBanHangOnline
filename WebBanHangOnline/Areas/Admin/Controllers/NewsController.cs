@@ -25,6 +25,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             items = items.ToPagedList(page, pageSize);
             ViewBag.PageSize = pageSize;
             ViewBag.Page = page;
+            ViewBag.SearchText = searchText;
             return View(items);
         }
 
