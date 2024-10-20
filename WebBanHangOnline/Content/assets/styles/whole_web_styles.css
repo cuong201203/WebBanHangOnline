@@ -567,7 +567,7 @@ section
 .navbar_menu li a:hover
 {
 	color: #b5aec4;
-	transform: translateZ(30px) scale(1.1);
+	transform: translateZ(30px) scale(1.2);
 }
 .navbar_user
 {
