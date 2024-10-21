@@ -22,7 +22,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             IEnumerable<Adv> items = db.Advs.OrderByDescending(x => x.Id);
             if (!string.IsNullOrEmpty(searchText))
             {
-                items = items.Where(x => x.SubTitle.Contains(searchText) || x.Title.Contains(searchText) || x.Description.Contains(searchText)).ToList();
+                items = items.Where(x => x.Title.Contains(searchText)).ToList();
             }
             items = items.ToPagedList(page, pageSize);
             ViewBag.PageSize = pageSize;

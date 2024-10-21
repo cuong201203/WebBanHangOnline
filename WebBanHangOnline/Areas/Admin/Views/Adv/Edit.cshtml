@@ -12,9 +12,11 @@
         <li class="nav-item d-none d-sm-inline-block">
             <a href="/Admin" class="nav-link">Trang chủ</a>
         </li>
+        <li><a class="nav-link"><i class="fa fa-angle-right" aria-hidden="true"></i></a> </li>
         <li class="nav-item d-none d-sm-inline-block">
             <a href="/Admin/Adv" class="nav-link">Quảng cáo</a>
         </li>
+        <li><a class="nav-link"><i class="fa fa-angle-right" aria-hidden="true"></i></a> </li>
         <li class="nav-item d-none d-sm-inline-block">
             <a href="#" class="nav-link">Cập nhật</a>
         </li>
@@ -60,13 +62,8 @@
                         <!-- your steps content here -->
                     <div id="logins-part" class="content active dstepper-block" role="tabpanel" aria-labelledby="logins-part-trigger">
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Tiêu đề phụ</label>
-                            @Html.TextBoxFor(x => x.SubTitle, new { @class = "form-control", @placeholder = "Tiêu đề phụ" })
-                            @Html.ValidationMessageFor(x => x.SubTitle, null, new { @class = "text-danger" })
-                        </div>
-                        <div class="form-group">
                             <label for="exampleInputEmail1">Tiêu đề chính</label>
-                            @Html.TextBoxFor(x => x.Title, new { @class = "form-control", @placeholder = "Tiêu đề chính" })
+                            @Html.TextBoxFor(x => x.Title, new { @class = "form-control", @placeholder = "Tiêu đề..." })
                             @Html.ValidationMessageFor(x => x.Title, null, new { @class = "text-danger" })
                         </div>
                         <div class="form-group">
@@ -79,10 +76,6 @@
                                     <input type="button" value="Tải ảnh" onclick="BrowseServer('txtImage')" />
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Mô tả</label>
-                            @Html.TextAreaFor(x => x.Description, new { @class = "form-control" })
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Liên kết</label>

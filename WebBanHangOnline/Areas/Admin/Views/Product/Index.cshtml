@@ -73,9 +73,8 @@
                             <th>Số lượng</th>
                             <th>Giá</th>
                             <th>Ngày tạo</th>
-                            <th class="text-center">Home</th>
-                            <th class="text-center">Sale</th>
                             <th class="text-center">Hiển thị</th>
+                            <th class="text-center">Nổi bật</th>
                             <th style="width: 150px;"></th>
                         </tr>
                     </thead>
@@ -85,9 +84,8 @@
                             var i = ((ViewBag.Page - 1) * ViewBag.PageSize) + 1;
                             foreach (var item in Model)
                             {
-                                var strCheckHome = item.IsHome ? "<i class='fa fa-check text-success'></i>" : "<i class='fa fa-times text-danger'></i>";
-                                var strCheckSale = item.IsSale ? "<i class='fa fa-check text-success'></i>" : "<i class='fa fa-times text-danger'></i>";
                                 var strCheck = item.IsActive ? "<i class='fa fa-check text-success'></i>" : "<i class='fa fa-times text-danger'></i>";
+                                var strCheckFeature = item.IsFeature ? "<i class='fa fa-check text-success'></i>" : "<i class='fa fa-times text-danger'></i>";
                                 <tr id="trow_@item.Id">
                                     <td><input type="checkbox" class="cbkItem" value="@item.Id" /></td>
                                     <td class="row_index">@i</td>
@@ -100,13 +98,10 @@
                                     <td>@string.Format("{0:N0}", item.Price)<u>đ</u></td>
                                     <td>@item.CreatedDate.ToString("dd/MM/yyyy HH:mm:ss")</td>
                                     <td class="text-center">
-                                        <a href="#" data-id="@item.Id" class="btnHome">@Html.Raw(strCheckHome)</a>
-                                    </td>
-                                    <td class="text-center">
-                                        <a href="#" data-id="@item.Id" class="btnSale">@Html.Raw(strCheckSale)</a>
-                                    </td>
-                                    <td class="text-center">
                                         <a href="#" data-id="@item.Id" class="btnActive">@Html.Raw(strCheck)</a>
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="#" data-id="@item.Id" class="btnFeature">@Html.Raw(strCheckFeature)</a>
                                     </td>
                                     <td>
                                         <a href="/Admin/Product/Edit/@item.Id" class="btn btn-sm btn-primary">Sửa</a>
@@ -201,48 +196,6 @@
                 });
             }
 
-            $('body').on('click', '.btnHome', function (e) {
-                e.preventDefault();
-                var btn = $(this);
-                var id = btn.data('id');
-                $.ajax({
-                    url: '/Admin/Product/IsHome',
-                    type: 'POST',
-                    data: { id: id },
-                    success: function (result) {
-                        if (result.success) {
-                            if (result.isHome) {
-                                btn.html("<i class='fa fa-check text-success'></i>");
-                            }
-                            else {
-                                btn.html("<i class='fa fa-times text-danger'></i>");
-                            }
-                        }
-                    }
-                });
-            });
-
-            $('body').on('click', '.btnSale', function (e) {
-                e.preventDefault();
-                var btn = $(this);
-                var id = btn.data('id');
-                $.ajax({
-                    url: '/Admin/Product/IsSale',
-                    type: 'POST',
-                    data: { id: id },
-                    success: function (result) {
-                        if (result.success) {
-                            if (result.isSale) {
-                                btn.html("<i class='fa fa-check text-success'></i>");
-                            }
-                            else {
-                                btn.html("<i class='fa fa-times text-danger'></i>");
-                            }
-                        }
-                    }
-                });
-            });
-
             $('body').on('click', '.btnActive', function (e) {
                 e.preventDefault();
                 var btn = $(this);
@@ -254,6 +207,27 @@
                     success: function (result) {
                         if (result.success) {
                             if (result.isActive) {
+                                btn.html("<i class='fa fa-check text-success'></i>");
+                            }
+                            else {
+                                btn.html("<i class='fa fa-times text-danger'></i>");
+                            }
+                        }
+                    }
+                });
+            });
+
+            $('body').on('click', '.btnFeature', function (e) {
+                e.preventDefault();
+                var btn = $(this);
+                var id = btn.data('id');
+                $.ajax({
+                    url: '/Admin/Product/IsFeature',
+                    type: 'POST',
+                    data: { id: id },
+                    success: function (result) {
+                        if (result.success) {
+                            if (result.isFeature) {
                                 btn.html("<i class='fa fa-check text-success'></i>");
                             }
                             else {

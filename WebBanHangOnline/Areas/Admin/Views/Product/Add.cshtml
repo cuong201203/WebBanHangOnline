@@ -12,9 +12,11 @@
         <li class="nav-item d-none d-sm-inline-block">
             <a href="/Admin" class="nav-link">Trang chủ</a>
         </li>
+        <li><a class="nav-link"><i class="fa fa-angle-right" aria-hidden="true"></i></a> </li>
         <li class="nav-item d-none d-sm-inline-block">
             <a href="/Admin/Product" class="nav-link">Sản phẩm</a>
         </li>
+        <li><a class="nav-link"><i class="fa fa-angle-right" aria-hidden="true"></i></a> </li>
         <li class="nav-item d-none d-sm-inline-block">
             <a href="#" class="nav-link">Thêm mới</a>
         </li>
@@ -67,14 +69,9 @@
                                     <div class="active tab-pane" id="activity">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Tên sản phẩm</label>
-                                            @Html.TextBoxFor(x => x.Title, new { @class = "form-control", @placeholder = "Tên sản phẩm" })
+                                            @Html.TextBoxFor(x => x.Title, new { @class = "form-control", @placeholder = "Tên sản phẩm..." })
                                             @Html.ValidationMessageFor(x => x.Title, null, new { @class = "text-danger" })
                                         </div>
-                                        @*<div class="form-group">
-                                            <label for="exampleInputEmail1">SKU</label>
-                                            @Html.TextBoxFor(x => x.ProductCode, new { @class = "form-control", @placeholder = "Code" })
-                                            @Html.ValidationMessageFor(x => x.ProductCode, null, new { @class = "text-danger" })
-                                        </div>*@
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Danh mục</label>
                                             @Html.DropDownListFor(x => x.ProductCategoryId, ViewBag.ProductCategory as SelectList, "Chọn danh mục sản phẩm", new { @class = "form-control" })
@@ -82,7 +79,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Mô tả</label>
-                                            @Html.TextAreaFor(x => x.Description, new { @class = "form-control", @placeholder = "Mô tả" })
+                                            @Html.TextAreaFor(x => x.Description, new { @class = "form-control", @placeholder = "Mô tả..." })
                                             @Html.ValidationMessageFor(x => x.Description, null, new { @class = "text-danger" })
                                         </div>
                                         <div class="form-group">
@@ -94,14 +91,14 @@
                                             <div class="col-4">
                                                 <div class="form-group">
                                                     <label for="exampleInputEmail1">Số lượng</label>
-                                                    @Html.TextBoxFor(x => x.Quantity, new { @class = "form-control", @placeholder = "Số lượng" })
+                                                    @Html.TextBoxFor(x => x.Quantity, new { @class = "form-control", @placeholder = "Số lượng..." })
                                                     @Html.ValidationMessageFor(x => x.Quantity, null, new { @class = "text-danger" })
                                                 </div>
                                             </div>
                                             <div class="col-4">
                                                 <div class="form-group">
-                                                    <label for="exampleInputEmail1">Giá</label>
-                                                    @Html.TextBoxFor(x => x.Price, new { @class = "form-control", @placeholder = "Giá" })
+                                                    <label for="exampleInputEmail1">Giá bán</label>
+                                                    @Html.TextBoxFor(x => x.Price, new { @class = "form-control", @placeholder = "Giá bán..." })
                                                     @Html.ValidationMessageFor(x => x.Price, null, new { @class = "text-danger" })
                                                 </div>
                                             </div>
@@ -114,8 +111,8 @@
                                             </div>*@
                                             <div class="col-4">
                                                 <div class="form-group">
-                                                    <label for="exampleInputEmail1">Giá nhập</label>
-                                                    @Html.TextBoxFor(x => x.OriginalPrice, new { @class = "form-control", @placeholder = "Giá nhập" })
+                                                    <label for="exampleInputEmail1">Giá gốc</label>
+                                                    @Html.TextBoxFor(x => x.OriginalPrice, new { @class = "form-control", @placeholder = "Giá gốc..." })
                                                     @Html.ValidationMessageFor(x => x.OriginalPrice, null, new { @class = "text-danger" })
                                                 </div>
                                             </div>
@@ -132,36 +129,12 @@
                                             <div class="col-4">
                                                 <div class="form-group">
                                                     <div class="custom-control custom-checkbox">
-                                                        @Html.CheckBoxFor(x => x.IsHome, new { @class = "custom-control-input", @id = "IsHomeCheckbox" })
-                                                        <label for="IsHomeCheckbox" class="custom-control-label">Home</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-4">
-                                                <div class="form-group">
-                                                    <div class="custom-control custom-checkbox">
-                                                        @Html.CheckBoxFor(x => x.IsHot, new { @class = "custom-control-input", @id = "IsHotCheckbox" })
-                                                        <label for="IsHotCheckbox" class="custom-control-label">Hot</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-4">
-                                                <div class="form-group">
-                                                    <div class="custom-control custom-checkbox">
                                                         @Html.CheckBoxFor(x => x.IsFeature, new { @class = "custom-control-input", @id = "IsFeatureCheckbox" })
                                                         <label for="IsFeatureCheckbox" class="custom-control-label">Nổi bật</label>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-4">
-                                                <div class="form-group">
-                                                    <div class="custom-control custom-checkbox">
-                                                        @Html.CheckBoxFor(x => x.IsSale, new { @class = "custom-control-input", @id = "IsSaleCheckbox" })
-                                                        <label for="IsSaleCheckbox" class="custom-control-label">Khuyến mãi</label>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
