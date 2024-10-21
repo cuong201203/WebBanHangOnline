@@ -34,53 +34,9 @@
 </div>
 
 <!-- Deal of the week -->
+@Html.Action("Partial_ProductFeature", "Product")
 
-<div class="deal_ofthe_week">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6">
-                <div class="deal_ofthe_week_img">
-                    @*<img src="~/Content/assets/images/deal_ofthe_week.png" alt="">*@
-                    <img id="best_seller_img" class="w-100" src="https://product.hstatic.net/200000551679/Product/z4322607361459_b69237fdb6f428f70706ab0948879904_145ead8b07_929207aef5bf43fea6ae3bffca543d7e_1024x1024.jpg" alt="">
-                </div>
-            </div>
-            <div class="col-lg-6 text-right deal_ofthe_week_col">
-                <div class="deal_ofthe_week_content d-flex flex-column align-items-center py-2" style="background-color: rgba(242, 242, 242, 0.8);">
-                    <div class="section_title">
-                        <h2>Sản Phẩm Nổi Bật</h2>
-                    </div>
-                    @*<ul class="timer">
-                            <li class="d-inline-flex flex-column justify-content-center align-items-center">
-                                <div id="day" class="timer_num">03</div>
-                                <div class="timer_unit">Day</div>
-                            </li>
-                            <li class="d-inline-flex flex-column justify-content-center align-items-center">
-                                <div id="hour" class="timer_num">15</div>
-                                <div class="timer_unit">Hours</div>
-                            </li>
-                            <li class="d-inline-flex flex-column justify-content-center align-items-center">
-                                <div id="minute" class="timer_num">45</div>
-                                <div class="timer_unit">Mins</div>
-                            </li>
-                            <li class="d-inline-flex flex-column justify-content-center align-items-center">
-                                <div id="second" class="timer_num">23</div>
-                                <div class="timer_unit">Sec</div>
-                            </li>
-                        </ul>*@
-                    <div class="timer" style="text-align: center !important;">
-                        <h3>Nước Dưỡng Tóc Tinh Dầu Bưởi</h3>
-                        <div class="mt-3 px-5 text-center" style="font-size: 16px;">
-                            Tinh dầu vỏ bưởi đồng vận cùng các hoạt chất tiên tiến gồm Vitamin B5, Xylishine, Baicapil và Bisabolol giúp giảm gãy rụng và tăng cường sự phát triển của mái tóc.
-                        </div>
-                    </div>
-                    <div class="red_button shop_now_button"><a href="/chi-tiet/nuoc-duong-toc-tinh-dau-buoi-310ml-p11">mua ngay</a></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- On Sale -->
+<!-- Best Selling -->
 @Html.Action("Partial_ProductSales", "Product")
 
 <!-- Benefit -->
@@ -176,25 +132,5 @@
                 }
             }
         }
-        $(document).ready(function () {
-            // Lưu src gốc của ảnh
-            var originalSrc = $('#best_seller_img').attr('src');
-
-            // Thay đổi src khi hover vào ảnh
-            $('#best_seller_img').hover(
-                function () {
-                    // Khi hover vào ảnh
-                    $(this).stop(true, true).fadeOut(200, function () {
-                        $(this).attr('src', '/Uploads/images/BestSeller/best-seller-1.jpg').fadeIn(200);
-                    });
-                },
-                function () {
-                    // Khi rời khỏi ảnh
-                    $(this).stop(true, true).fadeOut(200, function () {
-                        $(this).attr('src', originalSrc).fadeIn(200);
-                    });
-                }
-            );
-        });
     </script>
 }

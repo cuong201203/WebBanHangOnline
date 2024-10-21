@@ -36,7 +36,7 @@ namespace WebBanHangOnline.Controllers
         public ActionResult ProductCategory(string alias, float? priceMin, float? priceMax, int? id, int page = 1)
         {
             int pageSize = 8;
-            IEnumerable<Product> items = db.Products.ToList();
+            IEnumerable<Product> items = db.Products.OrderByDescending(x => x.CreatedDate).ToList();
             if (id != null)
             {
                 items = items.Where(x => x.ProductCategory.Id == id);
@@ -134,6 +134,12 @@ namespace WebBanHangOnline.Controllers
                 .ToList();
 
             return PartialView(items);
+        }
+
+        public ActionResult Partial_ProductFeature()
+        {
+            var item = db.Products.Where(x => x.IsFeature).OrderByDescending(x => x.CreatedDate).ToList();
+            return PartialView(item);
         }
 
         [HttpGet]

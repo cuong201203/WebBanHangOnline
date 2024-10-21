@@ -13,7 +13,7 @@
         var defaultImage = "";
         var hoverImage = "";
         var img = item.ProductImage.FirstOrDefault(x => x.IsDefault);
-        var hoverImg = item.ProductImage.Skip(2).FirstOrDefault(); // Lấy ảnh thứ hai
+        var hoverImg = item.ProductImage.FirstOrDefault(x => x.IsHover);
 
         if (img != null)
         {

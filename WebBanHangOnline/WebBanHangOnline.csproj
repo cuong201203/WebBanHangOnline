@@ -3746,6 +3746,7 @@
     <Content Include="Views\Product\Partial_ProductByCateId.cshtml" />
     <Content Include="Views\Product\Partial_ProductCategory.cshtml" />
     <Content Include="Views\Account\Partial_OrderHistory.cshtml" />
+    <Content Include="Views\Product\Partial_ProductFeature.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
