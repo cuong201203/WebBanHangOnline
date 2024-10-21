@@ -1,7 +1,6 @@
 ﻿@model IEnumerable<WebBanHangOnline.Models.EF.Category>
 @{
     ViewBag.Title = "Quản lý danh mục";
-    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
 @section naviheader{
@@ -12,6 +11,7 @@
         <li class="nav-item d-none d-sm-inline-block">
             <a href="/Admin/Home" class="nav-link">Trang chủ</a>
         </li>
+        <li><a class="nav-link"><i class="fa fa-angle-right" aria-hidden="true"></i></a> </li>
         <li class="nav-item d-none d-sm-inline-block">
             <a href="/Admin/Category" class="nav-link">Danh mục</a>
         </li>

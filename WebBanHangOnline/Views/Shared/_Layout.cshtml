@@ -170,7 +170,7 @@
                     <li class="menu_item has-children">
                         @if (!Request.IsAuthenticated)
                         {
-                        <a href="/Account/Login">
+                        <a href="#">
                             Tài khoản của tôi
                             <i class="fa fa-angle-down"></i>
                         </a>
@@ -259,13 +259,19 @@
 
     <script>
         $(document).ready(function () {
-            $(".hamburger_container").click(function () {
-                $(".navbar_menu").eq(0).hide();
-                $(".navbar_menu li").each(function () {
-                    $(this).addClass("menu_item");
+            $('.hamburger_container').click(function () {
+                $('.navbar_menu').eq(0).hide();
+                $('.navbar_menu').eq(1).find('li').each(function () {
+                    $(this).addClass('menu_item');
                 });
 
-                $(".navbar_menu").removeClass("navbar_menu");
+                $('.navbar_menu').eq(1).removeClass('navbar_menu');
+            });
+
+            $(window).resize(function () {
+                if ($('.hamburger_container').css('display') === 'none') {
+                    $('.navbar_menu').show();
+                }
             });
 
             $('#search_btn').click(function (e) {

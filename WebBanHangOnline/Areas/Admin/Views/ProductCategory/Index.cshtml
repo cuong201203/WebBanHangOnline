@@ -12,6 +12,7 @@
         <li class="nav-item d-none d-sm-inline-block">
             <a href="/Admin/Home" class="nav-link">Trang chủ</a>
         </li>
+        <li><a class="nav-link"><i class="fa fa-angle-right" aria-hidden="true"></i></a> </li>
         <li class="nav-item d-none d-sm-inline-block">
             <a href="/Admin/ProductCategory" class="nav-link">Danh mục sản phẩm</a>
         </li>
@@ -71,7 +72,7 @@
                             <th>Icon</th>
                             <th>Ngày tạo</th>
                             @*<th class="text-center">Hiển thị</th>*@
-                            <th style="width: 110px;"></th>
+                            <th style="width: 150px;"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -129,6 +130,8 @@
 @section scripts{
     <script>
         $(document).ready(function () {
+            adjustCheckBoxes();
+
             $('body').on('click', '.btnDelete', function () {
                 var id = $(this).data('id');
                 var conf = confirm('Bạn có muốn xóa bản ghi này không?');
