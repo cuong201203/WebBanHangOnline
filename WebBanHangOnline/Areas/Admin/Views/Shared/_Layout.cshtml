@@ -210,6 +210,16 @@
                 }
             });
         }
+
+        $(document).ready(function () {
+            $('#logOffLink').on('click', function (e) {
+                e.preventDefault();
+                var confirmation = confirm("Bạn có chắc muốn đăng xuất?");
+                if (confirmation) {
+                    $('#logOffForm').submit();
+                }
+            });
+        });
     </script>
 
     <script src="~/Content/ckeditor/ckeditor.js"></script>
