@@ -231,6 +231,17 @@
                     $('#fromDate').val($(this).val());
                 }
             });
+
+            $('.nav-link').eq(0).on('click change', function () {
+                var body = $('body');
+                if (body.hasClass('sidebar-closed')) {
+                    body.removeClass('sidebar-closed sidebar-collapse').addClass('sidebar-open');
+                    $('.content-wrapper').css('min-height', '527px');
+                } else {
+                    body.removeClass('sidebar-open').addClass('sidebar-closed sidebar-collapse');
+                    $('.content-wrapper').css('min-height', '851.5px');
+                }
+            });
         });
     </script>
 }

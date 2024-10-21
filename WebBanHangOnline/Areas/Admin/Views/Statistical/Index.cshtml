@@ -79,7 +79,7 @@
                                 @*<th>Lợi nhuận</th>*@
                             </tr>
                         </thead>
-                        <tbody id="load_data"></tbody>
+                        <tbody id="loadData"></tbody>
                     </table>
                 </div>
             </div>
@@ -257,12 +257,12 @@
                         options: barChartOptions
                     });
 
-                    load_data(result.Data, viewMode);
+                    loadData(result.Data, viewMode);
                 }
             });
         }
 
-        function load_data(data, viewMode) {
+        function loadData(data, viewMode) {
             var strHtml = '';
             data.sort((a, b) => new Date(a.Date) - new Date(b.Date)); // Sắp xếp theo ngày
             $('#headerDate').text(viewMode === 'month' ? 'Tháng' : viewMode === 'year' ? 'Năm' : 'Ngày');
@@ -277,7 +277,7 @@
                 //strHtml += "<td>" + formattedProfit + "</td>";
                 strHtml += "</tr>";
             });
-            $('#load_data').html(strHtml);
+            $('#loadData').html(strHtml);
         }
 
         $(document).ready(function () {
