@@ -74,7 +74,7 @@
                             <th>Ngày tạo</th>
                             <th class="text-center">Hiển thị</th>
                             <th class="text-center">Home</th>
-                            <th style="width: 110px;"></th>
+                            <th style="width: 150px;"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -276,6 +276,17 @@
                             }
                         });
                     }
+                }
+            });
+
+            $('.nav-link').eq(0).on('click change', function () {
+                var body = $('body');
+                if (body.hasClass('sidebar-closed')) {
+                    body.removeClass('sidebar-closed sidebar-collapse').addClass('sidebar-open');
+                    $('.content-wrapper').css('min-height', '527px');
+                } else {
+                    body.removeClass('sidebar-open').addClass('sidebar-closed sidebar-collapse');
+                    $('.content-wrapper').css('min-height', '851.5px');
                 }
             });
         });

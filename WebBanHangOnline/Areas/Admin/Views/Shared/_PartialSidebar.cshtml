@@ -35,13 +35,13 @@
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
-                        <a href="/Admin/ProductCategory" class="nav-link" id="category" style="padding-left: 30px;">
+                        <a href="/Admin/ProductCategory" class="nav-link" style="padding-left: 30px;">
                             <i class="nav-icon fas fa-caret-right"></i>
                             <p>Danh mục sản phẩm</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/Admin/Product" class="nav-link" id="product" style="padding-left: 30px;">
+                        <a href="/Admin/Product" class="nav-link" style="padding-left: 30px;">
                             <i class="nav-icon fas fa-caret-right"></i>
                             <p>Sản phẩm</p>
                         </a>
@@ -49,7 +49,7 @@
                 </ul>
             </li>
             <li class="nav-item">
-                <a href="/Admin/Order" class="nav-link" id="order">
+                <a href="/Admin/Order" class="nav-link">
                     <i class="nav-icon fas fa-file-invoice-dollar"></i>
                     <p>
                         Đơn hàng
@@ -57,7 +57,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="/Admin/Account" class="nav-link" id="account">
+                <a href="/Admin/Account" class="nav-link">
                     <i class="nav-icon fas fa-users"></i>
                     <p>
                         Tài khoản
@@ -65,7 +65,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="/Admin/Statistical" class="nav-link" id="statistic">
+                <a href="/Admin/Statistical" class="nav-link">
                     <i class="nav-icon fas fa-chart-bar"></i>
                     <p>
                         Thống kê
@@ -73,7 +73,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="/Admin/News" class="nav-link" id="news">
+                <a href="/Admin/News" class="nav-link">
                     <i class="nav-icon fas fa-newspaper"></i>
                     <p>
                         Tin tức
@@ -81,7 +81,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="/Admin/Adv" class="nav-link" id="adv">
+                <a href="/Admin/Adv" class="nav-link">
                     <i class="nav-icon fas fa-ad"></i>
                     <p>
                         Quảng cáo
@@ -89,7 +89,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="/Admin/Category" class="nav-link" id="config">
+                <a href="/Admin/Category" class="nav-link">
                     <i class="nav-icon fas fa-list-ol"></i>
                     <p>
                         Cấu hình hệ thống
@@ -126,26 +126,4 @@
     @Html.AntiForgeryToken()
     }
 </div>
-}
-
-@section scripts{
-    @Scripts.Render("~/bundles/jquery")
-    <script>
-        $(document).ready(function () {
-            $('#order').on('click', function (e) {
-                e.preventDefault();
-                $.ajax({
-                    url: $(this).attr('href'),
-                    type: 'GET',
-                    success: function (data) {
-                        console.log(data);
-                        $('.content').html(data);
-                    },
-                    error: function () {
-                        alert("Lỗi khi tải thông tin.");
-                    }
-                });
-            });
-        })
-    </script>
 }
