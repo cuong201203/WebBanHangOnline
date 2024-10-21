@@ -177,7 +177,9 @@
                                                         <tr>
                                                             <th>STT</th>
                                                             <th>Ảnh</th>
-                                                            <th class="text-center">Ảnh đại diện</th>
+                                                            <th class="text-center">Mặc định</th>
+                                                            <th class="text-center">Thay đổi</th>
+                                                            <th class="text-center">Nổi bật</th>
                                                             <th></th>
                                                         </tr>
                                                     </thead>
@@ -280,6 +282,12 @@
                         <td class="text-center">
                             <input type="radio" name="rDefault" value="${currentId}" checked="checked" />
                         </td>
+                        <td class="text-center">
+                            <input type="radio" name="rHover" value="${currentId}" checked="checked" />
+                        </td>
+                        <td class="text-center">
+                            <input type="radio" name="rFeature" value="${currentId}" checked="checked" />
+                        </td>
                         <td>
                             <a href="#" data-id="${currentId}" class="btn btn-sm btn-danger btnXoaAnh">Xóa</a>
                         </td>
@@ -295,6 +303,12 @@
                         </td>
                         <td class="text-center">
                             <input type="radio" name="rDefault" value="${currentId}" />
+                        </td>
+                        <td class="text-center">
+                            <input type="radio" name="rHover" value="${currentId}" />
+                        </td>
+                        <td class="text-center">
+                            <input type="radio" name="rFeature" value="${currentId}" />
                         </td>
                         <td>
                             <a href="#" data-id="${currentId}" class="btn btn-sm btn-danger btnXoaAnh">Xóa</a>

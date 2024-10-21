@@ -51,32 +51,31 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Add(Product model, List<string> Images, List<int> rDefault)
+        public ActionResult Add(Product model, List<string> Images, List<int> rDefault, List<int> rHover, List<int> rFeature)
         {
             if (ModelState.IsValid)
             {
                 if (Images != null && Images.Count > 0)
                 {
-                    for(int i = 0; i < Images.Count; i++)
+                    for (int i = 0; i < Images.Count; i++)
                     {
-                        if (i + 1 == rDefault[0])
+                        var isDefault = rDefault != null && rDefault.Contains(i + 1);
+                        var isHover = rHover != null && rHover.Contains(i + 1);
+                        var isFeature = rFeature != null && rFeature.Contains(i + 1);
+
+                        model.ProductImage.Add(new ProductImage
+                        {
+                            ProductId = model.Id,
+                            Image = Images[i],
+                            IsDefault = isDefault,
+                            IsHover = isHover,
+                            IsFeature = isFeature,
+                        });
+
+                        // Nếu là ảnh mặc định thì lưu vào trường Image chính của sản phẩm
+                        if (isDefault)
                         {
                             model.Image = Images[i];
-                            model.ProductImage.Add(new ProductImage
-                            {
-                                ProductId = model.Id,
-                                Image = Images[i],
-                                IsDefault = true,
-                            });
-                        }
-                        else
-                        {
-                            model.ProductImage.Add(new ProductImage
-                            {
-                                ProductId = model.Id,
-                                Image = Images[i],
-                                IsDefault = false,
-                            });
                         }
                     }
                 }
@@ -110,7 +109,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Product model, List<string> Images, List<int> rDefault)
+        public ActionResult Edit(Product model, List<string> Images, List<int> rDefault, List<int> rHover, List<int> rFeature)
         {
             if (ModelState.IsValid)
             {
@@ -150,11 +149,15 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                         for (int i = 0; i < Images.Count; i++)
                         {
                             var isDefault = rDefault != null && rDefault.Contains(i + 1);
+                            var isHover = rHover != null && rHover.Contains(i + 1);
+                            var isFeature = rFeature != null && rFeature.Contains(i + 1);
                             var img = new ProductImage
                             {
                                 ProductId = item.Id,
                                 Image = Images[i],
-                                IsDefault = isDefault
+                                IsDefault = isDefault,
+                                IsHover = isHover,
+                                IsFeature = isFeature,
                             };
 
                             item.ProductImage.Add(img);

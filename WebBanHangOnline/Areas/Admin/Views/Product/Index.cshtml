@@ -89,46 +89,46 @@
                                 var strCheckHome = item.IsHome ? "<i class='fa fa-check text-success'></i>" : "<i class='fa fa-times text-danger'></i>";
                                 var strCheckSale = item.IsSale ? "<i class='fa fa-check text-success'></i>" : "<i class='fa fa-times text-danger'></i>";
                                 var strCheck = item.IsActive ? "<i class='fa fa-check text-success'></i>" : "<i class='fa fa-times text-danger'></i>";
-                        <tr id="trow_@item.Id">
-                            <td><input type="checkbox" class="cbkItem" value="@item.Id" /></td>
-                            <td>@i</td>
-                            <td>
-                                <img src="@item.ProductImage.FirstOrDefault(x => x.IsDefault).Image" width="50" />
-                            </td>
-                            <td>@item.Title</td>
-                            <td>@item.ProductCategory.Title</td>
-                            <td>@item.Quantity</td>
-                            <td>@string.Format("{0:N0}", item.Price)<u>đ</u></td>
-                            <td>@item.CreatedDate.ToString("dd/MM/yyyy HH:mm:ss")</td>
-                            <td class="text-center">
-                                <a href="#" data-id="@item.Id" class="btnHome">@Html.Raw(strCheckHome)</a>
-                            </td>
-                            <td class="text-center">
-                                <a href="#" data-id="@item.Id" class="btnSale">@Html.Raw(strCheckSale)</a>
-                            </td>
-                            <td class="text-center">
-                                <a href="#" data-id="@item.Id" class="btnActive">@Html.Raw(strCheck)</a>
-                            </td>
-                            <td>
-                                <a href="/Admin/Product/Edit/@item.Id" class="btn btn-sm btn-primary">Sửa</a>
-                                <a href="#" data-id="@item.Id" class="btn btn-sm btn-danger btnDelete">Xóa</a>
-                            </td>
-                        </tr>
+                                <tr id="trow_@item.Id">
+                                    <td><input type="checkbox" class="cbkItem" value="@item.Id" /></td>
+                                    <td class="row_index">@i</td>
+                                    <td>
+                                        <img src="@item.ProductImage.FirstOrDefault(x => x.IsDefault).Image" width="50" />
+                                    </td>
+                                    <td>@item.Title</td>
+                                    <td>@item.ProductCategory.Title</td>
+                                    <td>@item.Quantity</td>
+                                    <td>@string.Format("{0:N0}", item.Price)<u>đ</u></td>
+                                    <td>@item.CreatedDate.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                                    <td class="text-center">
+                                        <a href="#" data-id="@item.Id" class="btnHome">@Html.Raw(strCheckHome)</a>
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="#" data-id="@item.Id" class="btnSale">@Html.Raw(strCheckSale)</a>
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="#" data-id="@item.Id" class="btnActive">@Html.Raw(strCheck)</a>
+                                    </td>
+                                    <td>
+                                        <a href="/Admin/Product/Edit/@item.Id" class="btn btn-sm btn-primary">Sửa</a>
+                                        <a href="#" data-id="@item.Id" class="btn btn-sm btn-danger btnDelete">Xóa</a>
+                                    </td>
+                                </tr>
                                 i++;
                             }
                         }
                         else
                         {
-                        <tr>
-                            <td colspan="4">Không có bản ghi nào!</td>
-                        </tr>
+                            <tr>
+                                <td colspan="4">Không có bản ghi nào!</td>
+                            </tr>
                         }
                     </tbody>
                 </table>
                 <div class="d-flex justify-content-center">
                     @Html.PagedListPager(Model, page => Url.Action("Index", new { searchText = ViewBag.SearchText, page }))
                 </div>
-            </div>            
+            </div>
         </div>
         <!-- /.card-body -->
         <div class="card-footer">
@@ -189,11 +189,18 @@
                         success: function (result) {
                             if (result.success) {
                                 $('#trow_' + id).remove();
+                                updateSTT();
                             }
                         }
                     });
                 }
             });
+
+            function updateSTT() {
+                $('.row_index').each(function (index) {
+                    $(this).text(index + 1);
+                });
+            }
 
             $('body').on('click', '.btnHome', function (e) {
                 e.preventDefault();

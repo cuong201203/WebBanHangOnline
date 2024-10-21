@@ -179,7 +179,9 @@
                                                         <tr>
                                                             <th>STT</th>
                                                             <th>Ảnh</th>
-                                                            <th class="text-center">Ảnh đại diện</th>
+                                                            <th class="text-center">Mặc định</th>
+                                                            <th class="text-center">Thay đổi</th>
+                                                            <th class="text-center">Nổi bật</th>
                                                             <th></th>
                                                         </tr>
                                                     </thead>
@@ -197,6 +199,12 @@
                                                                     </td>
                                                                     <td class="text-center">
                                                                         <input type="radio" name="rDefault" value="@i" @(image.IsDefault ? "checked='checked'" : "") />
+                                                                    </td>
+                                                                    <td class="text-center">
+                                                                        <input type="radio" name="rHover" value="@i" @(image.IsHover ? "checked='checked'" : "") />
+                                                                    </td>
+                                                                    <td class="text-center">
+                                                                        <input type="radio" name="rFeature" value="@i" @(image.IsFeature ? "checked='checked'" : "") />
                                                                     </td>
                                                                     <td>
                                                                         <a href="#" data-id="@i" class="btn btn-sm btn-danger btnXoaAnh">Xóa</a>
@@ -301,6 +309,12 @@
                         </td>
                         <td class="text-center">
                             <input type="radio" name="rDefault" value="${totalImages + 1}" />
+                        </td>
+                        <td class="text-center">
+                            <input type="radio" name="rHover" value="${totalImages + 1}" />
+                        </td>
+                        <td class="text-center">
+                            <input type="radio" name="rFeature" value="${totalImages + 1}" />
                         </td>
                         <td>
                             <a href="#" data-id="${currentId}" class="btn btn-sm btn-danger btnXoaAnh">Xóa</a>

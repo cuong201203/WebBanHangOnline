@@ -16,6 +16,8 @@ namespace WebBanHangOnline.Models.EF
         public int ProductId { get; set; }
         public string Image { get; set; }
         public bool IsDefault { get; set; }
+        public bool IsHover { get; set; }
+        public bool IsFeature { get; set; }
 
         public virtual Product Product { get; set; }
     }

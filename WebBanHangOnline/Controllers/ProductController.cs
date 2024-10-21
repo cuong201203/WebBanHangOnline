@@ -71,14 +71,59 @@ namespace WebBanHangOnline.Controllers
 
         public ActionResult Partial_ProductByCateId()
         {
-            var items = db.Products.Where(x => x.IsHome && x.IsActive).OrderByDescending(x => x.CreatedDate).Take(10).ToList();
+            var items = db.Products.Where(x => x.IsActive).OrderByDescending(x => x.CreatedDate).Take(10).ToList();
             return PartialView(items);
         }
 
         public ActionResult Partial_ProductSales()
         {
-            var items = db.Products.Where(x => x.IsSale && x.IsActive).Take(12).ToList();
-            return PartialView(items);
+            var query = from p in db.Products
+                        join od in db.OrderDetails on p.Id equals od.ProductId into productSales
+                        from od in productSales.DefaultIfEmpty()
+                        where p.IsActive
+                        group od by new
+                        {
+                            p.Id,
+                            p.Title,
+                            p.Quantity,
+                            p.Price,
+                            p.Alias
+                        } into g
+                        select new
+                        {
+                            ProductId = g.Key.Id,
+                            ProductName = g.Key.Title,
+                            SoldQuantity = g.Sum(x => x == null ? 0 : x.Quantity), // Tổng số lượng đã bán
+                            ProductPrice = g.Key.Price,
+                            ProductAlias = g.Key.Alias,
+                            RemainingQuantity = g.Key.Quantity // Số lượng còn lại trong kho
+                        };
+
+            var topProducts = query.OrderByDescending(x => x.SoldQuantity).Take(8).ToList();
+
+            var productList = new List<Product>();
+
+            foreach (var topProduct in topProducts)
+            {
+                var images = db.ProductImages.Where(x => x.ProductId == topProduct.ProductId).ToList();
+                var defaultImage = images.FirstOrDefault(x => x.IsDefault)?.Image ?? "/Uploads/images/No_Image_Available.jpg";
+                var hoverImage = images.FirstOrDefault(x => x.IsHover)?.Image ?? "/Uploads/images/No_Image_Available.jpg";
+                var product = new Product
+                {
+                    Id = topProduct.ProductId,
+                    Title = topProduct.ProductName,
+                    Quantity = topProduct.RemainingQuantity,
+                    ProductImage = new List<ProductImage>
+                    {
+                        new ProductImage { Image = defaultImage, IsDefault = true },
+                        new ProductImage { Image = hoverImage, IsHover = true }
+                    },
+                    Price = topProduct.ProductPrice,
+                    Alias = topProduct.ProductAlias,
+                };
+                productList.Add(product);
+            }
+            return PartialView(productList);
         }
 
         public ActionResult Partial_ProductRelated(int categoryId, int productId)
