@@ -404,8 +404,8 @@ jQuery(document).ready(function($)
 			{
 				range: true,
 				min: 0,
-				max: 1100000,
-				values: [0, 500000],
+				max: 500000,
+				values: [0, 250000],
 				slide: function (event, ui) {
 					$("#amount").val(formatCurrency(ui.values[0]) + "đ - " + formatCurrency(ui.values[1]) + "đ");
 				}

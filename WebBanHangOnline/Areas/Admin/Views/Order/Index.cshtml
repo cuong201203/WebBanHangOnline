@@ -12,7 +12,7 @@
         <li class="nav-item d-none d-sm-inline-block">
             <a href="/Admin/Home" class="nav-link">Trang chủ</a>
         </li>
-        <li><a class="nav-link"><i class="fa fa-angle-right" aria-hidden="true"></i></a> </li>       
+        <li><a class="nav-link"><i class="fa fa-angle-right" aria-hidden="true"></i></a> </li>
         <li class="nav-item d-none d-sm-inline-block">
             <a href="/Admin/Order" class="nav-link">Đơn hàng</a>
         </li>
@@ -45,26 +45,29 @@
             <h3 class="card-title">Danh sách đơn hàng</h3>
         </div>
         <div class="card-body">
-            <div class="row">
-                <div class="col-md-6 pb-4">
-                    @using (Html.BeginForm("Index", "Order", FormMethod.Get))
-                    {
-                    <div class="input-group input-group-sm mb-3">
-                        @Html.TextBox("searchText", null, new { @class = "form-control", @placeholder = "Tìm kiếm đơn hàng..." })
-                        <span class="input-group-append">
-                            <button id="btnSearch" class="btn btn-info btn-flat">Tìm kiếm</button>
-                        </span>
+            @using (Html.BeginForm("Index", "Order", FormMethod.Get))
+            {
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="input-group input-group-sm mb-3">
+                            @Html.TextBox("searchText", null, new { @class = "form-control", @placeholder = "Tìm kiếm đơn hàng..." })
+                            <span class="input-group-append">
+                                <button id="btnSearch" class="btn btn-info btn-flat">Tìm kiếm</button>
+                            </span>
+                        </div>
                     </div>
-                    <div class="form-inline mb-2">
-                        <label for="fromDate" class="mr-2">Từ ngày:</label>
-                        <input type="date" name="fromDate" id="fromDate" class="form-control mr-2" value="@ViewBag.FromDate" max="@DateTime.Now.ToString("yyyy-MM-dd")" />
-                        <label for="toDate" class="mr-2">Đến ngày:</label>
-                        <input type="date" name="toDate" id="toDate" class="form-control mr-2" value="@ViewBag.ToDate" max="@DateTime.Now.ToString("yyyy-MM-dd")" />
-                    </div>                      
-                    }
                 </div>
-            </div>
-
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-inline mb-4">
+                            <label for="fromDate" class="mr-2">Từ ngày:</label>
+                            <input type="date" name="fromDate" id="fromDate" class="form-control mr-2" value="@ViewBag.FromDate" max="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                            <label for="toDate" class="mr-2">Đến ngày:</label>
+                            <input type="date" name="toDate" id="toDate" class="form-control mr-2" value="@ViewBag.ToDate" max="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                        </div>
+                    </div>
+                </div>
+            }
             <div class="table-responsive" id="myTable">
                 <table class="table table-hover">
                     <thead>
@@ -86,28 +89,28 @@
                             var i = ((ViewBag.Page - 1) * ViewBag.PageSize) + 1;
                             foreach (var item in Model)
                             {
-                        <tr id="trow_@item.Id">
-                            <td>@i</td>
-                            <td>@item.Code</td>
-                            <td>@item.CustomerName</td>
-                            <td>@item.Phone</td>
-                            <td>@string.Format("{0:N0}", item.TotalAmount)<u>đ</u></td>
-                            <td>@(item.TypePayment == 1 ? "Chờ thanh toán" : "Đã thanh toán")</td>
-                            <td>@item.CreatedDate.ToString("dd/MM/yyyy HH:mm:ss")</td>
-                            <td>@item.CreatedBy</td>
-                            <td>
-                                <a href="/Admin/Order/View/@item.Id" class="btn btn-sm btn-primary">Xem</a>
-                                <a href="#" data-id="@item.Id" class="btn btn-sm btn-danger btnCapNhat">Cập nhật</a>
-                            </td>
-                        </tr>
+                                <tr id="trow_@item.Id">
+                                    <td>@i</td>
+                                    <td>@item.Code</td>
+                                    <td>@item.CustomerName</td>
+                                    <td>@item.Phone</td>
+                                    <td>@string.Format("{0:N0}", item.TotalAmount)<u>đ</u></td>
+                                    <td>@(item.TypePayment == 1 ? "Chờ thanh toán" : "Đã thanh toán")</td>
+                                    <td>@item.CreatedDate.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                                    <td>@item.CreatedBy</td>
+                                    <td>
+                                        <a href="/Admin/Order/View/@item.Id" class="btn btn-sm btn-primary">Xem</a>
+                                        <a href="#" data-id="@item.Id" class="btn btn-sm btn-danger btnCapNhat">Cập nhật</a>
+                                    </td>
+                                </tr>
                                 i++;
                             }
                         }
                         else
                         {
-                        <tr>
-                            <td colspan="4">Không có bản ghi nào!</td>
-                        </tr>
+                            <tr>
+                                <td colspan="4">Không có bản ghi nào!</td>
+                            </tr>
                         }
                     </tbody>
                 </table>
