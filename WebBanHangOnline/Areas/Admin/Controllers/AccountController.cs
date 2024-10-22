@@ -87,10 +87,16 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            if (User.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
             {
                 return RedirectToAction("Index", "Home");
             }
+
+            // Ngăn không cho trang login lưu vào cache
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            Response.Cache.SetNoStore();
+            Response.Cache.SetExpires(DateTime.UtcNow.AddHours(-1));
+
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
