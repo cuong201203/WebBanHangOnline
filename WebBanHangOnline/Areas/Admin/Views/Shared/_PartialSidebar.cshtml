@@ -105,11 +105,9 @@
                     </a>
                 </li>*@
             <li class="nav-item">
-                <a href="javascript:document.getElementById('logOffForm').submit()" class="nav-link">
+                <a href="javascript:void(0)" class="nav-link" onclick="confirmLogOut()">
                     <i class="nav-icon fas fa-sign-out-alt"></i>
-                    <p>
-                        Đăng xuất
-                    </p>
+                    <p>Đăng xuất</p>
                 </a>
             </li>
         </ul>
@@ -120,10 +118,18 @@
 
 @if (Request.IsAuthenticated)
 {
-<div style="display: none;">
-    @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { @id = "logOffForm" }))
-    {
-    @Html.AntiForgeryToken()
-    }
-</div>
+    <div style="display: none;">
+        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { @id = "logOffForm" }))
+        {
+            @Html.AntiForgeryToken()
+        }
+    </div>
 }
+
+<script type="text/javascript">
+    function confirmLogOut() {
+        if (confirm("Bạn có chắc muốn đăng xuất?")) {
+            document.getElementById('logOffForm').submit();
+        }
+    }
+</script>
