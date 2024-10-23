@@ -14,10 +14,11 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using PagedList;
 using System.Web.UI;
 using System.Collections.Generic;
+using ClientApp.Attributes;
 
 namespace WebBanHangOnline.Controllers
 {
-    [Authorize]
+    [CustomAuthorize("~/Account/Login")]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -103,6 +104,9 @@ namespace WebBanHangOnline.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            Session["AdminArea"] = null;
+            System.Diagnostics.Debug.WriteLine(Session["AdminArea"]);
+            System.Diagnostics.Debug.WriteLine(Session["CustomerArea"]);
             if (User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Index", "Home");
@@ -134,6 +138,7 @@ namespace WebBanHangOnline.Controllers
             {
                 return Json(new { success = false, errors = new List<string> { "Tài khoản của bạn bị khóa!" } });
             }
+
 
             var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
