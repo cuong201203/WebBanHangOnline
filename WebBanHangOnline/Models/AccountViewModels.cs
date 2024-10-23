@@ -136,21 +136,21 @@ namespace WebBanHangOnline.Models
         public string Token { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "{0} phải có độ dài ít nhất bằng {2}!", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Mật khẩu mới")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "Nhập lại mật khẩu mới")]
+        [Compare("Password", ErrorMessage = "Mật khẩu xác nhận không khớp. Vui lòng nhập lại!")]
         public string ConfirmPassword { get; set; }        
     }
 
     public class ForgotPasswordViewModel
     {
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage = "Vui lòng điền vào mục này!")]
+        [EmailAddress(ErrorMessage = "Sai định dạng email!")]
         [Display(Name = "Email")]
         public string Email { get; set; }
     }

@@ -15,6 +15,7 @@ using PagedList;
 using System.Web.UI;
 using System.Collections.Generic;
 using ClientApp.Attributes;
+using CKFinder.Connector;
 
 namespace WebBanHangOnline.Controllers
 {
@@ -97,7 +98,6 @@ namespace WebBanHangOnline.Controllers
                 return Json(new { success = false, errors = new List<string> { "Tài khoản của bạn bị khóa!" } });
             }
 
-
             var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
@@ -111,8 +111,7 @@ namespace WebBanHangOnline.Controllers
                 case SignInStatus.Failure:
                     return Json(new { success = false, errors = new List<string> { "Tên đăng nhập hoặc mật khẩu của bạn không đúng! Vui lòng thử lại!" } });
                 default:
-                    var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
-                    return Json(new { success = false, errors });
+                    return Json(new { success = false, errors = ReturnErrors() });
             }
         }
 
@@ -337,7 +336,7 @@ namespace WebBanHangOnline.Controllers
                 // var it = await UserManager.IsEmailConfirmedAsync(user.Id);
                 if (user == null)
                 {
-                    return Json(new { success = false, error = "Không có tài khoản có email này!" });
+                    return Json(new { success = false, errors = new List<string> { "Không có tài khoản có email này!" } });
                 }                                
 
                 // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
@@ -350,7 +349,7 @@ namespace WebBanHangOnline.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            return Json(new { success = false, error = "Hãy nhập đúng định dạng Email!" });
+            return Json(new { success = false, errors = ReturnErrors() });
         }
 
         //
@@ -375,10 +374,6 @@ namespace WebBanHangOnline.Controllers
             }
             ViewBag.ValidLink = true;
             var model = new ResetPasswordViewModel { UserId = userId, Token = token };
-            
-            Response.Cache.SetCacheability(HttpCacheability.NoCache);
-            Response.Cache.SetNoStore();
-            Response.Cache.SetExpires(DateTime.UtcNow.AddHours(-1));
             return View(model);
         }
 
@@ -391,15 +386,15 @@ namespace WebBanHangOnline.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return Json(new { success = false, errors = ReturnErrors() });
             }
             var result = await UserManager.ResetPasswordAsync(model.UserId, model.Token, model.Password);
             if (result.Succeeded)
             {
-                return RedirectToAction("ResetPasswordConfirmation", "Account");
+                return Json(new { success = true });
             }
             AddErrors(result);
-            return View();
+            return Json(new { success = false, errors = ReturnErrors() });
         }
 
         //
@@ -570,6 +565,11 @@ namespace WebBanHangOnline.Controllers
             {
                 ModelState.AddModelError("", error);
             }
+        }
+
+        private List<string> ReturnErrors()
+        {
+            return ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
         }
 
         private ActionResult RedirectToLocal(string returnUrl)
