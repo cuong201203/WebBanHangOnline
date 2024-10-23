@@ -47,26 +47,26 @@
         <div class="card-body">
             @using (Html.BeginForm("Index", "Order", FormMethod.Get))
             {
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="input-group input-group-sm mb-3">
-                            @Html.TextBox("searchText", null, new { @class = "form-control", @placeholder = "Tìm kiếm đơn hàng..." })
-                            <span class="input-group-append">
-                                <button id="btnSearch" class="btn btn-info btn-flat">Tìm kiếm</button>
-                            </span>
-                        </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="input-group input-group-sm mb-3">
+                        @Html.TextBox("searchText", null, new { @class = "form-control", @placeholder = "Tìm kiếm đơn hàng..." })
+                        <span class="input-group-append">
+                            <button id="btnSearch" class="btn btn-info btn-flat">Tìm kiếm</button>
+                        </span>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-inline mb-4">
-                            <label for="fromDate" class="mr-2">Từ ngày:</label>
-                            <input type="date" name="fromDate" id="fromDate" class="form-control mr-2" value="@ViewBag.FromDate" max="@DateTime.Now.ToString("yyyy-MM-dd")" />
-                            <label for="toDate" class="mr-2">Đến ngày:</label>
-                            <input type="date" name="toDate" id="toDate" class="form-control mr-2" value="@ViewBag.ToDate" max="@DateTime.Now.ToString("yyyy-MM-dd")" />
-                        </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-inline mb-4">
+                        <label for="fromDate" class="mr-2">Từ ngày:</label>
+                        <input type="date" name="fromDate" id="fromDate" class="form-control mr-2" value="@ViewBag.FromDate" max="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                        <label for="toDate" class="mr-2">Đến ngày:</label>
+                        <input type="date" name="toDate" id="toDate" class="form-control mr-2" value="@ViewBag.ToDate" max="@DateTime.Now.ToString("yyyy-MM-dd")" />
                     </div>
                 </div>
+            </div>
             }
             <div class="table-responsive" id="myTable">
                 <table class="table table-hover">

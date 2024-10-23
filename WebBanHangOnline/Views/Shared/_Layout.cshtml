@@ -102,18 +102,15 @@
                                             <li><a href="/Account/OrderHistory"><i class="fa fa-shopping-bag" aria-hidden="true"></i>Đơn mua</a></li>
                                             <li><a href="#" id="logOffLink"><i class="fa fa-sign-out" aria-hidden="true"></i>Đăng xuất</a></li>
                                         </ul>
+                                        <div style="display: none;">
+                                            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { @id = "logOffForm" }))
+                                            {
+                                            @Html.AntiForgeryToken()
+                                            }
+                                        </div>
                                         }
                                     </li>
                                 </ul>
-                                @if (Request.IsAuthenticated)
-                                {
-                                <div style="display: none;">
-                                    @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { @id = "logOffForm" }))
-                                        {
-                                            @Html.AntiForgeryToken()
-                                        }
-                                </div>
-                                }
                             </div>
                         </div>
                     </div>

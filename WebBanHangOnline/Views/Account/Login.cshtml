@@ -7,7 +7,7 @@
 <link rel="stylesheet" type="text/css" href="~/Content/assets/styles/whole_web_styles.css">
 <link rel="stylesheet" type="text/css" href="~/Content/assets/styles/whole_web_responsive.css">
 
-<div class="container product_section_container">
+<div class="container product_section_container login-container">
     <div class="row">
         <div class="col">
             <!-- Breadcrumbs -->
@@ -58,12 +58,11 @@
                         <div class="col-md-6">
                             Bạn chưa có tài khoản?
                             <a href="/Account/Register" style="color: #fe4c50 !important;" class="font-weight-bold">Đăng ký</a>
-                            @*@Html.ActionLink("Đăng ký", "Register")*@
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-md-6">
-                            <a href="/Account/ForgotPassword" style="color: #fe4c50 !important;" class="font-weight-bold">Quên mật khẩu?</a>
+                            <a href="/Account/ForgotPassword" style="color: #fe4c50 !important;" class="font-weight-bold forgotPasswordLink">Quên mật khẩu?</a>
                         </div>
                     </div>
                 }
@@ -81,9 +80,54 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            $("#loginFormAjax").submit(function (e) {
+            $(document).on('click', '.forgotPasswordLink', function (e) {
                 e.preventDefault();
+                var url = $(this).attr('href');
+                $.ajax({
+                    url: $(this).attr('href'),
+                    type: 'GET',
+                    success: function (view) {
+                        history.pushState(null, '', url);
+                        $('.login-container').html($('<div></div>').html(view).find('.forgot-password-container'));
+                        $('html, body').animate({ scrollTop: 0 }, '300');
+                    }
+                })
+            });
 
+            $(document).on('click', '.btnConfirm', function (e) {
+                e.preventDefault();
+                $('#validation-summary').hide();
+                $('.success-line').removeClass('d-none');
+                $.ajax({
+                    url: '/Account/ForgotPassword',
+                    type: 'POST',
+                    data: {
+                        Email: $('#confirmationEmail').val(),
+                        __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                    },
+                    success: function (response) {                        
+                        if (response.success) {      
+                            $.ajax({
+                                url: '/Account/ForgotPasswordConfirmation',
+                                type: 'GET',
+                                success: function (view) {
+                                    history.pushState(null, '', '/Account/ForgotPasswordConfirmation');
+                                    $('.forgot-password-container').html($('<div></div>').html(view).find('.fp-confirmation-container'));
+                                    $('html, body').animate({ scrollTop: 0 }, '300');
+                                }
+                            })
+                        } else {
+                            $('.success-line').addClass('d-none');
+                            $('#validation-summary').show();
+                            $('#validation-errors').empty();
+                            $('#validation-errors').append('<li>' + response.error + '</li>');
+                        }
+                    }
+                })
+            });
+
+            $('#loginFormAjax').submit(function (e) {
+                e.preventDefault();
                 $.ajax({
                     url: this.action,
                     type: this.method,
@@ -93,17 +137,17 @@
                             window.location.href = result.redirectUrl;
                         } else if (result.errors && result.errors.length > 0) {
                             // Chỉ hiển thị khi có lỗi cụ thể
-                            $("#validation-summary").show();
-                            $("#validation-errors").empty(); // Xóa thông báo lỗi cũ
+                            $('#validation-summary').show();
+                            $('#validation-errors').empty(); // Xóa thông báo lỗi cũ
                             $.each(result.errors, function (index, error) {
-                                $("#validation-errors").append("<li>" + error + "</li>");
+                                $('#validation-errors').append('<li>' + error + '</li>');
                             });
                         } else {
                             // Ẩn nếu không có lỗi
-                            $("#validation-summary").hide();
+                            $('#validation-summary').hide();
                         }
                     }
-                });
+                })
             });
         });
     </script>

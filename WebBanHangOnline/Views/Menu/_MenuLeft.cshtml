@@ -37,9 +37,17 @@
 
             var url = $(this).attr('href');
             var cateName = $(this).text();
+            var priceRange = $('#amount').val().split('-');
+            var priceMin = parseFloat(priceRange[0].replace(/[đ,.]/g, '').trim());
+            var priceMax = parseFloat(priceRange[1].replace(/[đ,.]/g, '').trim());
             $.ajax({
                 url: url,
                 type: 'GET',
+                data: {
+                    priceMin: priceMin,
+                    priceMax: priceMax,
+                    page: 1
+                },
                 success: function (data) {
                     $('#product-grid').html(data);
                     $('.category-name').text(cateName);

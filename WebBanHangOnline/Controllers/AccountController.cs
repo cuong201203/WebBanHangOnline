@@ -60,53 +60,11 @@ namespace WebBanHangOnline.Controllers
             }
         }
 
-        public new async Task<ActionResult> Profile()
-        {
-            var user = await UserManager.FindByNameAsync(User.Identity.Name);
-            return View(user);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> PostProfile(ApplicationUser req)
-        {
-            var user = await UserManager.FindByEmailAsync(req.Email);
-            user.FullName = req.FullName;
-            user.Phone = req.Phone;
-            user.Address = req.Address;
-            var result = await UserManager.UpdateAsync(user);
-            if (result.Succeeded)
-            {
-                return RedirectToAction("Profile");
-            }
-            return View(req);
-        }
-
-        public async Task<JsonResult> GetUserInfo()
-        {
-            var user = await UserManager.FindByNameAsync(User.Identity.Name);
-            if (user != null)
-            {
-                var userInfo = new
-                {
-                    user.FullName,
-                    user.Phone,
-                    user.Address,
-                    user.Email
-                };
-                return Json(userInfo, JsonRequestBehavior.AllowGet);
-            }
-            return Json(null, JsonRequestBehavior.AllowGet);
-        }
-
         //
         // GET: /Account/Login
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            Session["AdminArea"] = null;
-            System.Diagnostics.Debug.WriteLine(Session["AdminArea"]);
-            System.Diagnostics.Debug.WriteLine(Session["CustomerArea"]);
             if (User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Index", "Home");
@@ -171,6 +129,45 @@ namespace WebBanHangOnline.Controllers
         public ActionResult Lockout()
         {
             return View();
+        }
+
+        public new async Task<ActionResult> Profile()
+        {
+            var user = await UserManager.FindByNameAsync(User.Identity.Name);
+            return View(user);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> PostProfile(ApplicationUser req)
+        {
+            var user = await UserManager.FindByEmailAsync(req.Email);
+            user.FullName = req.FullName;
+            user.Phone = req.Phone;
+            user.Address = req.Address;
+            var result = await UserManager.UpdateAsync(user);
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Profile");
+            }
+            return View(req);
+        }
+
+        public async Task<JsonResult> GetUserInfo()
+        {
+            var user = await UserManager.FindByNameAsync(User.Identity.Name);
+            if (user != null)
+            {
+                var userInfo = new
+                {
+                    user.FullName,
+                    user.Phone,
+                    user.Address,
+                    user.Email
+                };
+                return Json(userInfo, JsonRequestBehavior.AllowGet);
+            }
+            return Json(null, JsonRequestBehavior.AllowGet);
         }
 
         //
@@ -321,6 +318,9 @@ namespace WebBanHangOnline.Controllers
         [AllowAnonymous]
         public ActionResult ForgotPassword()
         {
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            Response.Cache.SetNoStore();
+            Response.Cache.SetExpires(DateTime.UtcNow.AddHours(-1));
             return View();
         }
 
@@ -337,21 +337,20 @@ namespace WebBanHangOnline.Controllers
                 // var it = await UserManager.IsEmailConfirmedAsync(user.Id);
                 if (user == null)
                 {
-                    ViewBag.ConfirmationEmailError = "Không có tài khoản có email này";
-                    return View("ForgotPassword");
+                    return Json(new { success = false, error = "Không có tài khoản có email này!" });
                 }                                
 
                 // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
-                string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                var callbackUrl = Url.Action("ResetPassword", "Account", new { UserId = user.Id, Code = code }, protocol: Request.Url.Scheme);
-                WebBanHangOnline.Common.Common.SendMail("ShopOnline", "Quên mật khẩu", "Truy cập <a href='"+callbackUrl+"'>liên kết này</a> để đặt lại mật khẩu.",model.Email);
+                string token = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { UserId = user.Id, Token = token }, protocol: Request.Url.Scheme);
+                WebBanHangOnline.Common.Common.SendMail("ShopOnline", "Quên mật khẩu", "Truy cập <a href='"+callbackUrl+"'>liên kết này</a> để đặt lại mật khẩu.", model.Email);
                 // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                return Json(new { success = true });
             }
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return Json(new { success = false, error = "Hãy nhập đúng định dạng Email!" });
         }
 
         //
@@ -365,10 +364,21 @@ namespace WebBanHangOnline.Controllers
         //
         // GET: /Account/ResetPassword
         [AllowAnonymous]
-        public ActionResult ResetPassword(string userId, string code)
+        public async Task<ActionResult> ResetPassword(string userId, string token)
         {
-            if (userId == null || code == null) return View("Error");
-            var model = new ResetPasswordViewModel { UserId = userId, Code = code };
+            if (userId == null || token == null) return View("Error");
+            var isValidToken = await UserManager.VerifyUserTokenAsync(userId, "ResetPassword", token);
+            if (!isValidToken)
+            {
+                ViewBag.ValidLink = false;
+                return View();
+            }
+            ViewBag.ValidLink = true;
+            var model = new ResetPasswordViewModel { UserId = userId, Token = token };
+            
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            Response.Cache.SetNoStore();
+            Response.Cache.SetExpires(DateTime.UtcNow.AddHours(-1));
             return View(model);
         }
 
@@ -379,12 +389,11 @@ namespace WebBanHangOnline.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
         {
-            System.Console.WriteLine("UserId: " + model.UserId);
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
-            var result = await UserManager.ResetPasswordAsync(model.UserId, model.Code, model.Password);
+            var result = await UserManager.ResetPasswordAsync(model.UserId, model.Token, model.Password);
             if (result.Succeeded)
             {
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
