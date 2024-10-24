@@ -130,6 +130,12 @@ namespace WebBanHangOnline.Models
         public string ConfirmPassword { get; set; }
     }
 
+    public class ConfirmEmailViewModel
+    {
+        public string UserId { get; set; }
+        public string Token { get; set; }
+    }
+
     public class ResetPasswordViewModel
     {
         public string UserId { get; set; }

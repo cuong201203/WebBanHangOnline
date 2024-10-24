@@ -146,7 +146,7 @@
                     data: $(this).serialize(),
                     success: function (response) {
                         if (response.success) {
-                            window.location.href = response.redirectUrl;
+                            $('.success-line').text("Quý khách vui lòng kiểm tra link xác thực được gửi tới email đã đăng ký!")
                         } else if (response.errors && response.errors.length > 0) {
                             $('.success-line').addClass('d-none');
                             $('#register-validation-summary').show();
@@ -155,6 +155,7 @@
                                 $('#register-validation-errors').append('<li>' + error + '</li>');
                             });
                         } else {
+                            $('.success-line').addClass('d-none');
                             $('#register-validation-summary').hide();
                         }
                     }

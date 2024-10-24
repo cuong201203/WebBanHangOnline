@@ -64,11 +64,20 @@ namespace WebBanHangOnline.Controllers
         [AllowAnonymous]
         public ActionResult LoginRegister()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            
             var model = new LoginRegisterViewModel
             {
                 Login = new LoginViewModel(),
                 Register = new RegisterViewModel()
             };
+
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            Response.Cache.SetNoStore();
+            Response.Cache.SetExpires(DateTime.UtcNow.AddHours(-1));
             return View(model);
         }
 
@@ -286,7 +295,8 @@ namespace WebBanHangOnline.Controllers
                     Phone = model.Phone,
                     Address = model.Address,
                     Email = model.Email,
-                    CreatedDate = DateTime.Now
+                    CreatedDate = DateTime.Now,
+                    IsActive = true
                 };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -297,11 +307,12 @@ namespace WebBanHangOnline.Controllers
 
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    string token = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { UserId = user.Id, Token = token }, protocol: Request.Url.Scheme);
+                    WebBanHangOnline.Common.Common.SendMail("ShopOnline", "Xác thực email", "Truy cập <a href='" + callbackUrl + "'>liên kết này</a> để đăng nhập.", model.Email);
+                    //await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return Json(new { success = true, redirectUrl = Url.Action("Index", "Home") });
+                    return Json(new { success = true });
                 }
                 AddErrors(result);
             }
@@ -311,14 +322,21 @@ namespace WebBanHangOnline.Controllers
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
-        public async Task<ActionResult> ConfirmEmail(string userId, string code)
+        public async Task<ActionResult> ConfirmEmail(string userId, string token)
         {
-            if (userId == null || code == null)
+            if (userId == null || token == null)
             {
-                return View("Error");
+                ViewBag.ValidLink = false;
+                return View();
             }
-            var result = await UserManager.ConfirmEmailAsync(userId, code);
-            return View(result.Succeeded ? "ConfirmEmail" : "Error");
+            var result = await UserManager.ConfirmEmailAsync(userId, token);
+            if (result.Succeeded)
+            {
+                ViewBag.ValidLink = true;
+                return View();
+            }
+            ViewBag.ValidLink = false;
+            return View();
         }
 
         //
@@ -374,9 +392,7 @@ namespace WebBanHangOnline.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> ResetPassword(string userId, string token)
         {
-            if (userId == null || token == null) return View("Error");
-            var isValidToken = await UserManager.VerifyUserTokenAsync(userId, "ResetPassword", token);
-            if (!isValidToken)
+            if (userId == null || token == null || !(await UserManager.VerifyUserTokenAsync(userId, "ResetPassword", token)))
             {
                 ViewBag.ValidLink = false;
                 return View();
