@@ -31,15 +31,15 @@
         flex-basis: 25%;
     }
 
-        .register-container h2, .login-container h2 {
-            text-align: center;
-            font-size: 36px;
-            color: black;
-        }
+    .register-container h2, .login-container h2 {
+        text-align: center;
+        font-size: 36px;
+        color: black;
+    }
 
-        .register-container:hover .register-content {
-            opacity: 1;
-        }
+    .register-container:hover .register-content {
+        opacity: 1;
+    }
 
     .login-container:hover .login-content {
         opacity: 1;
@@ -51,9 +51,9 @@
         max-width: 500px;
     }
 
-        .form-container input[type="submit"] {
-            flex-basis: 100%;
-        }
+    .form-container input[type="submit"] {
+        flex-basis: 100%;
+    }
 
     .form-control {
         background: rgba(0, 0, 0, 0.05);
@@ -66,6 +66,10 @@
         border-radius: 20px !important;
         padding-left: 20px;
         padding-right: 20px;
+    }
+
+    p {
+        color: #fd8c47;
     }
 </style>
 
@@ -188,7 +192,7 @@
 
             $(document).on('submit', '#loginForm', function (e) {
                 e.preventDefault();
-                $('#validation-summary').hide();
+                $('#login-validation-summary').hide();
                 $.ajax({
                     url: this.action,
                     type: this.method,
@@ -227,8 +231,8 @@
                 $('.register-content').show();
                 $('.login-content').hide();
 
-                $('.register-container').css({ "flex-basis": "73%", "background": "#fff" });
-                $('.login-container').css({ "flex-basis": "27%", "background": "linear-gradient(135deg, #c5a25d, #ffffff)" });
+                $('.register-container').css({ "flex-basis": "75%", "background": "#fff" });
+                $('.login-container').css({ "flex-basis": "25%", "background": "linear-gradient(135deg, #c5a25d, #ffffff)" });
             }, function () {
             });
 

@@ -287,7 +287,17 @@ namespace WebBanHangOnline.Controllers
         {
             if (ModelState.IsValid)
             {
-                //var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var existingUser = await UserManager.FindByNameAsync(model.UserName);
+                if (existingUser != null)
+                {
+                    return Json(new { success = false, errors = new List<string> { "Tên người dùng đã được sử dụng. Vui lòng chọn tên khác." } });
+                }
+
+                var existingEmail = await UserManager.FindByEmailAsync(model.Email);
+                if (existingEmail != null)
+                {
+                    return Json(new { success = false, errors = new List<string> { "Địa chỉ email này đã được sử dụng. Vui lòng nhập một địa chỉ email khác." } });
+                }
                 var user = new ApplicationUser
                 {
                     UserName = model.UserName,
