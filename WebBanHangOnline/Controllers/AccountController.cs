@@ -19,7 +19,7 @@ using CKFinder.Connector;
 
 namespace WebBanHangOnline.Controllers
 {
-    [CustomAuthorize("~/Account/Login")]
+    [CustomAuthorize("~/Account/LoginRegister")]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -303,8 +303,6 @@ namespace WebBanHangOnline.Controllers
                 {
                     await UserManager.AddToRoleAsync(user.Id, "Customer");
 
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     string token = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -324,19 +322,18 @@ namespace WebBanHangOnline.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> ConfirmEmail(string userId, string token)
         {
-            if (userId == null || token == null)
+            try
             {
-                ViewBag.ValidLink = false;
-                return View();
-            }
-            var result = await UserManager.ConfirmEmailAsync(userId, token);
-            if (result.Succeeded)
-            {
+                await UserManager.ConfirmEmailAsync(userId, token);
                 ViewBag.ValidLink = true;
                 return View();
-            }
-            ViewBag.ValidLink = false;
-            return View();
+            } 
+            catch (Exception ex)
+            {
+                ViewBag.ValidLink = false;
+                ViewBag.Error = ex.Message;
+                return View();
+            }            
         }
 
         //

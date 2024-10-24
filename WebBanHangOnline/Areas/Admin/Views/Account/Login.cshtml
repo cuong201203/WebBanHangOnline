@@ -63,6 +63,7 @@
             $("#loginForm").submit(function (e) {
                 e.preventDefault();
                 $('.success-line').removeClass('d-none');
+                $("#validation-summary").hide();
                 $.ajax({
                     url: '@Url.Action("Login", "Account")',
                     type: this.method,
@@ -80,6 +81,7 @@
                             });
                         } else {
                             // Ẩn nếu không có lỗi
+                            $('.success-line').addClass('d-none');
                             $("#validation-summary").hide();
                         }
                     }
