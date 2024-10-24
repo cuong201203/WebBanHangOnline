@@ -13,9 +13,11 @@ namespace WebBanHangOnline.Models.EF
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        [EmailAddress]
-        [Required]
+
+        [Required(ErrorMessage = "Vui lòng điền vào mục này!")]
+        [EmailAddress(ErrorMessage = "Sai định dạng email!")]
         public string Email { get; set; }
+
         public DateTime CreatedDate { get; set; }
     }
 }

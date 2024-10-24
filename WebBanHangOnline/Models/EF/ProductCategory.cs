@@ -24,6 +24,7 @@ namespace WebBanHangOnline.Models.EF
 
         [StringLength(150)]
         public string Alias { get; set; }
+
         public string Description { get; set; }
 
         [StringLength(250)]
@@ -37,6 +38,7 @@ namespace WebBanHangOnline.Models.EF
 
         [StringLength(250)]
         public string SeoKeywords { get; set; }
+
         public int Position { get; set; }
 
         public ICollection<Product> Products { get;}

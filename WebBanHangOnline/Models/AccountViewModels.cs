@@ -6,7 +6,7 @@ namespace WebBanHangOnline.Models
 {
     public class ExternalLoginConfirmationViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Vui lòng điền vào mục này!")]
         [Display(Name = "Email")]
         public string Email { get; set; }
     }
@@ -26,15 +26,15 @@ namespace WebBanHangOnline.Models
 
     public class VerifyCodeViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Vui lòng điền vào mục này!")]
         public string Provider { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Vui lòng điền vào mục này!")]
         [Display(Name = "Code")]
         public string Code { get; set; }
         public string ReturnUrl { get; set; }
 
-        [Display(Name = "Remember this browser?")]
+        [Display(Name = "Nhớ lần đăng nhập của tôi")]
         public bool RememberBrowser { get; set; }
 
         public bool RememberMe { get; set; }
@@ -51,25 +51,25 @@ namespace WebBanHangOnline.Models
         [Display(Name = "Password")]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
+        [Display(Name = "Nhớ lần đăng nhập của tôi")]
         public bool RememberMe { get; set; }
     }
 
     public class CreateAccountViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Vui lòng điền vào mục này!")]
         public string UserName { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Vui lòng điền vào mục này!")]
         public string FullName { get; set; }
         public string Phone { get; set; }
         public string Address { get; set; }
         public string Role { get; set; }
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage = "Vui lòng điền vào mục này!")]
+        [EmailAddress(ErrorMessage = "Sai định dạng email!")]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Vui lòng điền vào mục này!")]
         [StringLength(100, ErrorMessage = "{0} phải có độ dài ít nhất bằng {2}!", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
@@ -85,10 +85,10 @@ namespace WebBanHangOnline.Models
     {
         public string Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Vui lòng điền vào mục này!")]
         public string UserName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Vui lòng điền vào mục này!")]
         public string FullName { get; set; }
 
         public string Phone { get; set; }
@@ -96,8 +96,8 @@ namespace WebBanHangOnline.Models
 
         public string Role { get; set; }
 
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage = "Vui lòng điền vào mục này!")]
+        [EmailAddress(ErrorMessage = "Sai định dạng email!")]
         public string Email { get; set; }
 
         public bool IsActive { get; set; }
@@ -114,7 +114,8 @@ namespace WebBanHangOnline.Models
         [Required(ErrorMessage = "Vui lòng điền vào mục này!")]
         public string Address { get; set; }
         [Required(ErrorMessage = "Vui lòng điền vào mục này!")]
-        [EmailAddress]
+
+        [EmailAddress(ErrorMessage = "Sai định dạng email!")]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
@@ -141,7 +142,7 @@ namespace WebBanHangOnline.Models
         public string UserId { get; set; }
         public string Token { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Vui lòng điền vào mục này!")]
         [StringLength(100, ErrorMessage = "{0} phải có độ dài ít nhất bằng {2}!", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Mật khẩu mới")]

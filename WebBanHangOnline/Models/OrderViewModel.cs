@@ -10,12 +10,17 @@ namespace WebBanHangOnline.Models
     {
         [Required(ErrorMessage = "Tên khách hàng không được để trống!")]
         public string CustomerName { get; set; }
+
         [Required(ErrorMessage = "Số điện thoại không được để trống!")]
         public string Phone { get; set; }
+
         [Required(ErrorMessage = "Địa chỉ không được để trống!")]
         public string Address { get; set; }
+
         [Required(ErrorMessage = "Email không được để trống!")]
+        [EmailAddress(ErrorMessage = "Sai định dạng email!")]
         public string Email { get; set; }
+
         public string CustomerId { get; set; }
         public int TypePayment { get; set; }
         public int VnPayTypePayment { get; set; }

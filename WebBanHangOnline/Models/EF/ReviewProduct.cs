@@ -12,8 +12,10 @@ namespace WebBanHangOnline.Models.EF
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+
         [ForeignKey("Product")]
         public int ProductId { get; set; }
+
         public string UserName { get; set; }
         public string FullName { get; set; }
         public string Email { get; set; }

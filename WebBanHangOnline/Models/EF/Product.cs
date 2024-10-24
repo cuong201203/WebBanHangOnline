@@ -33,6 +33,7 @@ namespace WebBanHangOnline.Models.EF
 
         [StringLength(50)]
         public string ProductCode { get; set; }
+
         public string Description { get; set; }
 
         [AllowHtml]
@@ -46,10 +47,12 @@ namespace WebBanHangOnline.Models.EF
 
         [Required(ErrorMessage = "Giá bán không được để trống!")]
         public int Price { get; set; }
+
         public int? PriceSale { get; set; }
 
         [Required(ErrorMessage = "Số lượng không được để trống!")]
         public int Quantity { get; set; }
+
         public bool IsHome { get; set; }
         public bool IsSale { get; set; }
         public bool IsFeature { get; set; }
