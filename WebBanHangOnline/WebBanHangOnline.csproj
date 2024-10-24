@@ -3747,6 +3747,7 @@
     <Content Include="Views\Product\Partial_ProductCategory.cshtml" />
     <Content Include="Views\Account\Partial_OrderHistory.cshtml" />
     <Content Include="Views\Product\Partial_ProductFeature.cshtml" />
+    <Content Include="Views\Account\LoginRegister.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

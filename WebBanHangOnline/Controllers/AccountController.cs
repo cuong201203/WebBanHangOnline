@@ -61,6 +61,17 @@ namespace WebBanHangOnline.Controllers
             }
         }
 
+        [AllowAnonymous]
+        public ActionResult LoginRegister()
+        {
+            var model = new LoginRegisterViewModel
+            {
+                Login = new LoginViewModel(),
+                Register = new RegisterViewModel()
+            };
+            return View(model);
+        }
+
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -101,7 +112,7 @@ namespace WebBanHangOnline.Controllers
             var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
-                case SignInStatus.Success:
+                case SignInStatus.Success:     
                     return Json(new { success = true, redirectUrl = returnUrl ?? Url.Action("Index", "Home") });
                 // Muốn dùng case này thì chỉnh shouldLockout: true
                 case SignInStatus.LockedOut:
@@ -122,7 +133,7 @@ namespace WebBanHangOnline.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Login", "Account");
+            return RedirectToAction("LoginRegister", "Account");
         }
 
         public ActionResult Lockout()
@@ -138,7 +149,7 @@ namespace WebBanHangOnline.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> PostProfile(ApplicationUser req)
+        public new async Task<ActionResult> Profile(ApplicationUser req)
         {
             var user = await UserManager.FindByEmailAsync(req.Email);
             user.FullName = req.FullName;
@@ -147,9 +158,9 @@ namespace WebBanHangOnline.Controllers
             var result = await UserManager.UpdateAsync(user);
             if (result.Succeeded)
             {
-                return RedirectToAction("Profile");
+                return Json(new { success = true });
             }
-            return View(req);
+            return Json(new { success = false });
         }
 
         public async Task<JsonResult> GetUserInfo()
@@ -290,13 +301,11 @@ namespace WebBanHangOnline.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+                    return Json(new { success = true, redirectUrl = Url.Action("Index", "Home") });
                 }
                 AddErrors(result);
             }
-
-            // If we got this far, something failed, redisplay form
-            return View(model);
+            return Json(new { success = false, errors = ReturnErrors() });
         }
 
         //

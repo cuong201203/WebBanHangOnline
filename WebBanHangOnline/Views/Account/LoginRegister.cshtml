@@ -1,0 +1,249 @@
+﻿@model WebBanHangOnline.Models.LoginRegisterViewModel
+@{
+    ViewBag.Title = "Đăng nhập / Đăng ký";
+}
+
+<style>
+    .container-split {
+        display: flex;
+        color: white;
+    }
+
+    .login-container, .register-container {
+        height: fit-content;
+        transition: flex-basis 0.5s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 50px;
+        box-sizing: border-box;
+        min-height: 195px;
+    }
+
+    .login-container {
+        background-color: #c5a25d;
+        flex-basis: 80%;
+    }
+
+    .register-container {
+        background-color: #333;
+        flex-basis: 20%;
+    }
+
+    .register-container h2, .login-container h2 {
+        text-align: center;
+        font-size: 36px;
+        color: white;
+    }
+
+    .register-container:hover {
+        flex-basis: 80%;
+    }
+
+    .login-container:hover {
+        flex-basis: 80%;
+    }
+
+    .register-container:hover ~ .login-container {
+        flex-basis: 20%;
+    }
+
+    .login-container:hover ~ .register-container {
+        flex-basis: 20%;
+    }
+
+    .register-container:hover .register-content {
+        opacity: 1;
+    }
+
+    .login-container:hover .login-content {
+        opacity: 1;
+    }
+
+    /* Content styling */
+    .form-container {
+        flex-basis: 100%;
+        max-width: 500px;
+    }
+
+    .form-container input[type="submit"] {
+        flex-basis: 100%;
+    }
+</style>
+
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/whole_web_styles.css">
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/whole_web_responsive.css">
+
+<div class="container product_section_container">
+    <div class="row">
+        <div class="col">
+            <!-- Breadcrumbs -->
+            <div class="breadcrumbs d-flex flex-row align-items-center">
+                <ul>
+                    <li><a href="/">Trang chủ</a></li>
+                    <li class="active"><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i>@ViewBag.Title</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container-split">
+        <!-- Register Section -->
+        <div class="register-container">
+            <div class="form-container">
+                <h2>Đăng ký</h2>
+                <section class="register-content">
+                    @Html.Partial("Register", Model.Register)
+                </section>
+            </div>
+        </div>
+
+        <!-- Login Section -->
+        <div class="login-container">
+            <div class="form-container">
+                <h2>Đăng nhập</h2>
+                <section class="login-content">
+                    @Html.Partial("Login", Model.Login)
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        
+    });
+</script>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(document).on('click', '.forgotPasswordLink', function (e) {
+                e.preventDefault();
+                var url = $(this).attr('href');
+                $.ajax({
+                    url: $(this).attr('href'),
+                    type: 'GET',
+                    success: function (view) {
+                        $('.login-container').html($('<div></div>').html(view).find('.forgot-password-container'));
+                        $('html, body').animate({ scrollTop: 0 }, '300');
+                    }
+                })
+            });
+
+            $(document).on('submit', '#registerForm', function (e) {
+                e.preventDefault();
+                $('#register-validation-summary').hide();
+                $('.success-line').removeClass('d-none');
+                $.ajax({
+                    url: this.action,
+                    type: this.method,
+                    data: $(this).serialize(),
+                    success: function (response) {
+                        if (response.success) {
+                            window.location.href = response.redirectUrl;
+                        } else if (response.errors && response.errors.length > 0) {
+                            $('.success-line').addClass('d-none');
+                            $('#register-validation-summary').show();
+                            $('#register-validation-errors').empty();
+                            $.each(response.errors, function (index, error) {
+                                $('#register-validation-errors').append('<li>' + error + '</li>');
+                            });
+                        } else {
+                            $('#register-validation-summary').hide();
+                        }
+                    }
+                })
+            });
+
+            $(document).on('submit', '#forgotPasswordForm', function (e) {
+                e.preventDefault();
+                $('#fp-validation-summary').hide();
+                $('.success-line').eq(1).removeClass('d-none');
+                $.ajax({
+                    url: this.action,
+                    type: this.method,
+                    data: $(this).serialize(),
+                    success: function (response) {
+                        if (response.success) {
+                            $.ajax({
+                                url: '/Account/ForgotPasswordConfirmation',
+                                type: 'GET',
+                                success: function (view) {
+                                    $('.forgot-password-container').html($('<div></div>').html(view).find('.fp-confirmation-container'));
+                                    $('html, body').animate({ scrollTop: 0 }, '300');
+                                }
+                            })
+                        } else if (response.errors && response.errors.length > 0) {
+                            $('.success-line').eq(1).addClass('d-none');
+                            $('#fp-validation-summary').show();
+                            $('#fp-validation-errors').empty();
+                            $.each(response.errors, function (index, error) {
+                                $('#fp-validation-errors').append('<li>' + error + '</li>');
+                            });
+                        } else {
+                            $('#fp-validation-summary').hide();
+                        }
+                    }
+                })
+            });
+
+            $(document).on('submit', '#loginForm', function (e) {
+                e.preventDefault();
+                $('#validation-summary').hide();
+                $.ajax({
+                    url: this.action,
+                    type: this.method,
+                    data: $(this).serialize(),
+                    success: function (result) {
+                        if (result.success) {
+                            window.location.href = result.redirectUrl;
+                        } else if (result.errors && result.errors.length > 0) {
+                            console.log("DCM");
+                            $('#login-validation-summary').show();
+                            $('#login-validation-errors').empty();
+                            $.each(result.errors, function (index, error) {
+                                $('#login-validation-errors').append('<li>' + error + '</li>');
+                            });
+                        } else {
+                            console.log("XXL");
+                            $('#login-validation-summary').hide();
+                        }
+                    }
+                })
+            });
+
+            $('.register-content').hide();
+            $('.register-container').css('flex-basis', '20%');
+            $('.login-container').css('flex-basis', '80%');
+
+            $('.register-container').hover(function () {
+                var leftHeight = $(this).outerHeight();
+                $('.register-content').show();
+                $('.login-content').hide();
+
+                $('.register-container').css('flex-basis', '80%');
+                $('.login-container').css('flex-basis', '20%');
+            }, function () {
+                $('.register-container').css('flex-basis', '80%');
+                $('.login-container').css('flex-basis', '20%');
+            });
+
+            $('.login-container').hover(function () {
+                var rightHeight = $(this).outerHeight();
+                $('.login-content').show();
+                $('.register-content').hide();
+
+                $('.login-container').css('flex-basis', '80%');
+                $('.register-container').css('flex-basis', '20%');                
+            }, function () {
+            });
+        });
+    </script>
+}
+

@@ -70,14 +70,14 @@ namespace WebBanHangOnline.Models
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "{0} phải có độ dài ít nhất bằng {2}!", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Compare("Password", ErrorMessage = "Mật khẩu xác nhận không khớp. Vui lòng nhập lại!")]
         public string ConfirmPassword { get; set; }
     }
 
@@ -119,14 +119,14 @@ namespace WebBanHangOnline.Models
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "{0} phải có độ dài ít nhất bằng {2}!", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Compare("Password", ErrorMessage = "Mật khẩu xác nhận không khớp. Vui lòng nhập lại!")]
         public string ConfirmPassword { get; set; }
     }
 
@@ -153,5 +153,11 @@ namespace WebBanHangOnline.Models
         [EmailAddress(ErrorMessage = "Sai định dạng email!")]
         [Display(Name = "Email")]
         public string Email { get; set; }
+    }
+
+    public class LoginRegisterViewModel
+    {
+        public LoginViewModel Login { get; set; }
+        public RegisterViewModel Register { get; set; }
     }
 }

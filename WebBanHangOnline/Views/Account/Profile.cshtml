@@ -17,7 +17,7 @@
     <h2 id="title">@ViewBag.Title</h2>
     <div class="row">
         <div class="col-md-12">
-            @using (Html.BeginForm("PostProfile", "Account"))
+            @using (Html.BeginForm("Profile", "Account", FormMethod.Post, new { role = "form", id = "updateProfileForm" }))
             {
                 @Html.ValidationSummary(false)
                 @Html.AntiForgeryToken()
@@ -43,10 +43,30 @@
                 </div>
                 <div class="form-group">
                     <input type="submit" value="CẬP NHẬT" class="btn red_button text-white" />
-                    <a href="/"><input type="button" value="QUAY LẠI" class="btn btn-primary text-white" /></a>
+                    <input type="button" onclick="window.history.back()" value="QUAY LẠI" class="btn btn-primary text-white" />
                 </div>
             }
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        $(document).on('submit', '#updateProfileForm', function (e) {
+            e.preventDefault();
+            $('#validation-summary').hide();
+            $('.success-line').removeClass('d-none');
+            $.ajax({
+                url: this.action,
+                type: this.method,
+                data: $(this).serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        alert("Cập nhật thành công");
+                    }
+                }
+            })
+        })
+    })
+</script>
 

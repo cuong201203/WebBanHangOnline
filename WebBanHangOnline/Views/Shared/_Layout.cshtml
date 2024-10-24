@@ -82,13 +82,13 @@
                                     <li class="account">
                                         @if (!Request.IsAuthenticated)
                                         {
-                                        <a href="/Account/Login" class="text-white font-weight-bold">
+                                        <a href="/Account/LoginRegister" class="text-white font-weight-bold">
                                             Tài khoản của tôi
                                             <i class="fa fa-angle-down"></i>
                                         </a>
                                         <ul class="account_selection rounded" style="z-index: 101;">
-                                            <li><a href="/Account/Login"><i class="fa fa-sign-in" aria-hidden="true"></i>Đăng nhập</a></li>
-                                            <li><a href="/Account/Register"><i class="fa fa-user-plus" aria-hidden="true"></i>Đăng ký</a></li>
+                                            <li><a href="/Account/LoginRegister"><i class="fa fa-sign-in" aria-hidden="true"></i>Đăng nhập</a></li>
+                                            <li><a href="/Account/LoginRegister"><i class="fa fa-user-plus" aria-hidden="true"></i>Đăng ký</a></li>
                                         </ul>
                                         }
                                         else
@@ -172,8 +172,8 @@
                             <i class="fa fa-angle-down"></i>
                         </a>
                         <ul class="menu_selection">
-                            <li><a href="/Account/Login"><i class="fa fa-sign-in" aria-hidden="true"></i>Đăng nhập</a></li>
-                            <li><a href="/Account/Register"><i class="fa fa-user-plus" aria-hidden="true"></i>Đăng ký</a></li>
+                            <li><a href="/Account/LoginRegister"><i class="fa fa-sign-in" aria-hidden="true"></i>Đăng nhập</a></li>
+                            <li><a href="/Account/LoginRegister"><i class="fa fa-user-plus" aria-hidden="true"></i>Đăng ký</a></li>
                         </ul>
                         }
                         else
@@ -252,7 +252,7 @@
 
     <script>
         $(document).ready(function () {
-            $('#logOffLink').on('click', function (e) {
+            $(document).on('click', '#logOffLink', function (e) {
                 e.preventDefault();
                 var confirmation = confirm("Bạn có chắc muốn đăng xuất?");
                 if (confirmation) {
