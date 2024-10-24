@@ -6,11 +6,12 @@
 <style>
     .container-split {
         display: flex;
-        color: white;
+        color: black;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     }
 
     .login-container, .register-container {
-        height: fit-content;
+        height: auto;
         transition: flex-basis 0.5s ease;
         display: flex;
         align-items: center;
@@ -21,40 +22,24 @@
     }
 
     .login-container {
-        background-color: #c5a25d;
-        flex-basis: 80%;
+        background-color: white;
+        flex-basis: 75%;
     }
 
     .register-container {
-        background-color: #333;
-        flex-basis: 20%;
+        background: linear-gradient(135deg, #c5a25d, #ffffff);
+        flex-basis: 25%;
     }
 
-    .register-container h2, .login-container h2 {
-        text-align: center;
-        font-size: 36px;
-        color: white;
-    }
+        .register-container h2, .login-container h2 {
+            text-align: center;
+            font-size: 36px;
+            color: black;
+        }
 
-    .register-container:hover {
-        flex-basis: 80%;
-    }
-
-    .login-container:hover {
-        flex-basis: 80%;
-    }
-
-    .register-container:hover ~ .login-container {
-        flex-basis: 20%;
-    }
-
-    .login-container:hover ~ .register-container {
-        flex-basis: 20%;
-    }
-
-    .register-container:hover .register-content {
-        opacity: 1;
-    }
+        .register-container:hover .register-content {
+            opacity: 1;
+        }
 
     .login-container:hover .login-content {
         opacity: 1;
@@ -66,8 +51,21 @@
         max-width: 500px;
     }
 
-    .form-container input[type="submit"] {
-        flex-basis: 100%;
+        .form-container input[type="submit"] {
+            flex-basis: 100%;
+        }
+
+    .form-control {
+        background: rgba(0, 0, 0, 0.05);
+        border: none;
+        border-radius: 20px;
+        padding-left: 15px;
+    }
+
+    .red_button {
+        border-radius: 20px !important;
+        padding-left: 20px;
+        padding-right: 20px;
     }
 </style>
 
@@ -90,7 +88,7 @@
         <!-- Register Section -->
         <div class="register-container">
             <div class="form-container">
-                <h2>Đăng ký</h2>
+                <h2>Đăng Ký</h2>
                 <section class="register-content">
                     @Html.Partial("Register", Model.Register)
                 </section>
@@ -100,7 +98,7 @@
         <!-- Login Section -->
         <div class="login-container">
             <div class="form-container">
-                <h2>Đăng nhập</h2>
+                <h2>Đăng Nhập</h2>
                 <section class="login-content">
                     @Html.Partial("Login", Model.Login)
                 </section>
@@ -108,12 +106,6 @@
         </div>
     </div>
 </div>
-
-<script>
-    $(document).ready(function () {
-        
-    });
-</script>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
@@ -220,19 +212,17 @@
             });
 
             $('.register-content').hide();
-            $('.register-container').css('flex-basis', '20%');
-            $('.login-container').css('flex-basis', '80%');
+            $('.register-container').css('flex-basis', '25%');
+            $('.login-container').css('flex-basis', '75%');
 
             $('.register-container').hover(function () {
                 var leftHeight = $(this).outerHeight();
                 $('.register-content').show();
                 $('.login-content').hide();
 
-                $('.register-container').css('flex-basis', '80%');
-                $('.login-container').css('flex-basis', '20%');
+                $('.register-container').css({ "flex-basis": "73%", "background": "#fff" });
+                $('.login-container').css({ "flex-basis": "27%", "background": "linear-gradient(135deg, #c5a25d, #ffffff)" });
             }, function () {
-                $('.register-container').css('flex-basis', '80%');
-                $('.login-container').css('flex-basis', '20%');
             });
 
             $('.login-container').hover(function () {
@@ -240,8 +230,8 @@
                 $('.login-content').show();
                 $('.register-content').hide();
 
-                $('.login-container').css('flex-basis', '80%');
-                $('.register-container').css('flex-basis', '20%');                
+                $('.login-container').css({ "flex-basis": "75%", "background": "#fff" });
+                $('.register-container').css({ "flex-basis": "25%", "background": "linear-gradient(135deg, #c5a25d, #ffffff)" });
             }, function () {
             });
         });

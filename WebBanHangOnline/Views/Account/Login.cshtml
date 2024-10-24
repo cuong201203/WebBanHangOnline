@@ -8,7 +8,7 @@
 <div class="form-group">
     @Html.LabelFor(m => m.UserName, "Tên đăng nhập", new { @class = "col-md-4 col-form-label" })
     <div class="col-md-12">
-        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @placeholder = "Tên đăng nhập..." })
         @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
     </div>
 </div>
@@ -16,7 +16,7 @@
 <div class="form-group">
     @Html.LabelFor(m => m.Password, "Mật khẩu", new { @class = "col-md-4 col-form-label" })
     <div class="col-md-12">
-        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+        @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Mật khẩu..." })
         @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
     </div>
 </div>

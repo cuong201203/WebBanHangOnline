@@ -105,23 +105,23 @@ namespace WebBanHangOnline.Models
 
     public class RegisterViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Vui lòng điền vào mục này!")]
         public string UserName { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Vui lòng điền vào mục này!")]
         public string FullName { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Vui lòng điền vào mục này!")]
         public string Phone { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Vui lòng điền vào mục này!")]
         public string Address { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Vui lòng điền vào mục này!")]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Vui lòng điền vào mục này!")]
         [StringLength(100, ErrorMessage = "{0} phải có độ dài ít nhất bằng {2}!", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Mật khẩu")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
