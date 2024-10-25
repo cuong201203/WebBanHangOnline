@@ -133,18 +133,22 @@ namespace WebBanHangOnline.Models
                 if (dbCart != null)
                 {
                     ShoppingCart cart = new ShoppingCart(userId);
-                    cart.items = dbCart.CartItems.Select(i => new ShoppingCartItem
-                    {
-                        ProductId = i.ProductId,
-                        ProductName = i.ProductName,
-                        Alias = i.Alias,
-                        ProductImg = i.ProductImg,
-                        CategoryName = i.CategoryName,
-                        Price = i.Price,
-                        Quantity = i.Quantity,
-                        LeftQuantity = i.Quantity,
-                        TotalPrice = i.TotalPrice
-                    }).ToList();
+                    cart.items = dbCart.CartItems.Join(
+                        db.Products,
+                        cartItem => cartItem.ProductId,
+                        product => product.Id,
+                        (cartItem, product) => new ShoppingCartItem
+                        {
+                            ProductId = cartItem.ProductId,
+                            ProductName = cartItem.ProductName,
+                            Alias = cartItem.Alias,
+                            ProductImg = cartItem.ProductImg,
+                            CategoryName = cartItem.CategoryName,
+                            Price = product.Price,
+                            Quantity = cartItem.Quantity,
+                            LeftQuantity = product.Quantity,
+                            TotalPrice = cartItem.TotalPrice
+                        }).ToList();
                     return cart;
                 }
             }
