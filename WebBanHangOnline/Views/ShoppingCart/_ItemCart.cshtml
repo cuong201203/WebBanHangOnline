@@ -197,7 +197,7 @@ else
 
     function loadCart() {
         $.ajax({
-            url: '/ShoppingCart/Partial_ItemCart',
+            url: '/ShoppingCart/_ItemCart',
             type: 'POST',
             success: function (result) {
                 $('#load_data').html(result);

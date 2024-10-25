@@ -34,7 +34,7 @@ namespace WebBanHangOnline.Controllers
             return View(item);
         }
 
-        public ActionResult Partial_News_Home()
+        public ActionResult _NewsHome()
         {
             var items = db.News.OrderByDescending(x => x.CreatedDate).Where(x => x.IsHome).Take(3).ToList();
             return PartialView(items);

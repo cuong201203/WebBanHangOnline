@@ -16,7 +16,7 @@ namespace WebBanHangOnline.Controllers
             return View();
         }
 
-        public ActionResult Partial_Subscribe()
+        public ActionResult _Subscribe()
         { 
             return PartialView();
         }

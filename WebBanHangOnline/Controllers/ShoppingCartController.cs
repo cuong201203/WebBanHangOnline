@@ -39,7 +39,7 @@ namespace WebBanHangOnline.Controllers
             return View(cart);
         }
 
-        public ActionResult Partial_ItemCart()
+        public ActionResult _ItemCart()
         {
             var cart = GetCurrentCart();
             return PartialView(cart.items);
@@ -113,12 +113,12 @@ namespace WebBanHangOnline.Controllers
             return Json(new { success = true });
         }
 
-        public ActionResult Partial_CheckOut()
+        public ActionResult _CheckOut()
         {
             return PartialView();
         }
 
-        public ActionResult Partial_ItemCheckOut()
+        public ActionResult _ItemCheckOut()
         {
             var cart = GetCurrentCart();
             var selectedProductIds = (List<int>)Session["SelectedProductIds"];
@@ -127,7 +127,7 @@ namespace WebBanHangOnline.Controllers
         }
 
         [HttpPost]
-        public ActionResult Partial_ItemCheckOut(List<int> selectedProductIds)
+        public ActionResult _ItemCheckOut(List<int> selectedProductIds)
         {
             if (selectedProductIds != null)
             {

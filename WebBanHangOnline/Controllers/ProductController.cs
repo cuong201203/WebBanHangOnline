@@ -64,18 +64,18 @@ namespace WebBanHangOnline.Controllers
             var pagedItems = items.ToPagedList(page, pageSize);
             if (Request.IsAjaxRequest())
             {
-                return PartialView("Partial_ProductCategory", pagedItems);
+                return PartialView("_ProductCategory", pagedItems);
             }
             return View(pagedItems);
         }
 
-        public ActionResult Partial_ProductByCateId()
+        public ActionResult _ProductByCateId()
         {
             var items = db.Products.Where(x => x.IsActive).OrderByDescending(x => x.CreatedDate).Take(10).ToList();
             return PartialView(items);
         }
 
-        public ActionResult Partial_ProductSales()
+        public ActionResult _ProductSales()
         {
             var query = from p in db.Products
                         join od in db.OrderDetails on p.Id equals od.ProductId into productSales
@@ -126,7 +126,7 @@ namespace WebBanHangOnline.Controllers
             return PartialView(productList);
         }
 
-        public ActionResult Partial_ProductRelated(int categoryId, int productId)
+        public ActionResult _ProductRelated(int categoryId, int productId)
         {
             var items = db.Products
                 .Where(x => x.ProductCategoryId == categoryId && x.Id != productId && x.IsActive)
@@ -136,7 +136,7 @@ namespace WebBanHangOnline.Controllers
             return PartialView(items);
         }
 
-        public ActionResult Partial_ProductFeature()
+        public ActionResult _ProductFeature()
         {
             var item = db.Products.Where(x => x.IsFeature).OrderByDescending(x => x.CreatedDate).ToList();
             return PartialView(item);

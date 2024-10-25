@@ -424,7 +424,7 @@ namespace WebBanHangOnline.Controllers
                 ViewBag.Page = page;
                 if (Request.IsAjaxRequest())
                 {
-                    return PartialView("Partial_OrderHistory", pagedItems);
+                    return PartialView("_OrderHistory", pagedItems);
                 }
                 return View(pagedItems);
             }

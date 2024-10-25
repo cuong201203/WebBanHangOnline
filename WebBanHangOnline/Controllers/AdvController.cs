@@ -17,7 +17,7 @@ namespace WebBanHangOnline.Controllers
             return View();
         }
 
-        public ActionResult Partial_AdvCarousel()
+        public ActionResult _AdvCarousel()
         {
             var items = db.Advs.Where(x => x.IsActive).OrderByDescending(x => x.CreatedDate).ToList();
             return PartialView(items);
