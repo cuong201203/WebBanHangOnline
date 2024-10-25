@@ -145,6 +145,183 @@ namespace WebBanHangOnline.Controllers
             return RedirectToAction("LoginRegister", "Account");
         }
 
+        //
+        // GET: /Account/Register
+        [AllowAnonymous]
+        public ActionResult Register()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            // Ngăn không cho trang register lưu vào cache
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            Response.Cache.SetNoStore();
+            Response.Cache.SetExpires(DateTime.UtcNow.AddHours(-1));
+
+            return View();
+        }
+
+        //
+        // POST: /Account/Register
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Register(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var existingUser = await UserManager.FindByNameAsync(model.UserName);
+                if (existingUser != null)
+                {
+                    return Json(new { success = false, errors = new List<string> { "Tên người dùng đã được sử dụng. Vui lòng chọn tên khác." } });
+                }
+
+                var existingEmail = await UserManager.FindByEmailAsync(model.Email);
+                if (existingEmail != null)
+                {
+                    return Json(new { success = false, errors = new List<string> { "Địa chỉ email này đã được sử dụng. Vui lòng nhập một địa chỉ email khác." } });
+                }
+                var user = new ApplicationUser
+                {
+                    UserName = model.UserName,
+                    FullName = model.FullName,
+                    Phone = model.Phone,
+                    Address = model.Address,
+                    Email = model.Email,
+                    CreatedDate = DateTime.Now,
+                    IsActive = true
+                };
+                var result = await UserManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    await UserManager.AddToRoleAsync(user.Id, "Customer");
+
+                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                    // Send an email with this link
+                    string token = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { UserId = user.Id, Token = token }, protocol: Request.Url.Scheme);
+                    WebBanHangOnline.Common.Common.SendMail("ShopOnline", "Xác thực email", "Truy cập <a href='" + callbackUrl + "'>liên kết này</a> để đăng nhập.", model.Email);
+                    //await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                    return Json(new { success = true });
+                }
+                AddErrors(result);
+            }
+            return Json(new { success = false, errors = ReturnErrors() });
+        }
+
+        //
+        // GET: /Account/ConfirmEmail
+        [AllowAnonymous]
+        public async Task<ActionResult> ConfirmEmail(string userId, string token)
+        {
+            try
+            {
+                await UserManager.ConfirmEmailAsync(userId, token);
+                ViewBag.ValidLink = true;
+                return View();
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ValidLink = false;
+                ViewBag.Error = ex.Message;
+                return View();
+            }
+        }
+
+        //
+        // GET: /Account/ForgotPassword
+        [AllowAnonymous]
+        public ActionResult ForgotPassword()
+        {
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            Response.Cache.SetNoStore();
+            Response.Cache.SetExpires(DateTime.UtcNow.AddHours(-1));
+            return View();
+        }
+
+        //
+        // POST: /Account/ForgotPassword
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await UserManager.FindByEmailAsync(model.Email);
+                // var it = await UserManager.IsEmailConfirmedAsync(user.Id);
+                if (user == null)
+                {
+                    return Json(new { success = false, errors = new List<string> { "Không có tài khoản có email này!" } });
+                }
+
+                // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                // Send an email with this link
+                string token = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { UserId = user.Id, Token = token }, protocol: Request.Url.Scheme);
+                WebBanHangOnline.Common.Common.SendMail("ShopOnline", "Quên mật khẩu", "Truy cập <a href='" + callbackUrl + "'>liên kết này</a> để đặt lại mật khẩu.", model.Email);
+                // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                return Json(new { success = true });
+            }
+
+            // If we got this far, something failed, redisplay form
+            return Json(new { success = false, errors = ReturnErrors() });
+        }
+
+        //
+        // GET: /Account/ForgotPasswordConfirmation
+        [AllowAnonymous]
+        public ActionResult ForgotPasswordConfirmation()
+        {
+            return View();
+        }
+
+        //
+        // GET: /Account/ResetPassword
+        [AllowAnonymous]
+        public async Task<ActionResult> ResetPassword(string userId, string token)
+        {
+            if (userId == null || token == null || !(await UserManager.VerifyUserTokenAsync(userId, "ResetPassword", token)))
+            {
+                ViewBag.ValidLink = false;
+                return View();
+            }
+            ViewBag.ValidLink = true;
+            var model = new ResetPasswordViewModel { UserId = userId, Token = token };
+            return View(model);
+        }
+
+        //
+        // POST: /Account/ResetPassword
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Json(new { success = false, errors = ReturnErrors() });
+            }
+            var result = await UserManager.ResetPasswordAsync(model.UserId, model.Token, model.Password);
+            if (result.Succeeded)
+            {
+                return Json(new { success = true });
+            }
+            AddErrors(result);
+            return Json(new { success = false, errors = ReturnErrors() });
+        }
+
+        //
+        // GET: /Account/ResetPasswordConfirmation
+        [AllowAnonymous]
+        public ActionResult ResetPasswordConfirmation()
+        {
+            return View();
+        }
+
         public ActionResult Lockout()
         {
             return View();
@@ -258,183 +435,6 @@ namespace WebBanHangOnline.Controllers
         {
             var item = db.Orders.Find(id);
             return View(item);
-        }
-
-        //
-        // GET: /Account/Register
-        [AllowAnonymous]
-        public ActionResult Register()
-        {
-            if (User.Identity.IsAuthenticated)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
-            // Ngăn không cho trang register lưu vào cache
-            Response.Cache.SetCacheability(HttpCacheability.NoCache);
-            Response.Cache.SetNoStore();
-            Response.Cache.SetExpires(DateTime.UtcNow.AddHours(-1));
-
-            return View();
-        }
-
-        //
-        // POST: /Account/Register
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var existingUser = await UserManager.FindByNameAsync(model.UserName);
-                if (existingUser != null)
-                {
-                    return Json(new { success = false, errors = new List<string> { "Tên người dùng đã được sử dụng. Vui lòng chọn tên khác." } });
-                }
-
-                var existingEmail = await UserManager.FindByEmailAsync(model.Email);
-                if (existingEmail != null)
-                {
-                    return Json(new { success = false, errors = new List<string> { "Địa chỉ email này đã được sử dụng. Vui lòng nhập một địa chỉ email khác." } });
-                }
-                var user = new ApplicationUser
-                {
-                    UserName = model.UserName,
-                    FullName = model.FullName,
-                    Phone = model.Phone,
-                    Address = model.Address,
-                    Email = model.Email,
-                    CreatedDate = DateTime.Now,
-                    IsActive = true
-                };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    await UserManager.AddToRoleAsync(user.Id, "Customer");
-
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    string token = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { UserId = user.Id, Token = token }, protocol: Request.Url.Scheme);
-                    WebBanHangOnline.Common.Common.SendMail("ShopOnline", "Xác thực email", "Truy cập <a href='" + callbackUrl + "'>liên kết này</a> để đăng nhập.", model.Email);
-                    //await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                    return Json(new { success = true });
-                }
-                AddErrors(result);
-            }
-            return Json(new { success = false, errors = ReturnErrors() });
-        }
-
-        //
-        // GET: /Account/ConfirmEmail
-        [AllowAnonymous]
-        public async Task<ActionResult> ConfirmEmail(string userId, string token)
-        {
-            try
-            {
-                await UserManager.ConfirmEmailAsync(userId, token);
-                ViewBag.ValidLink = true;
-                return View();
-            } 
-            catch (Exception ex)
-            {
-                ViewBag.ValidLink = false;
-                ViewBag.Error = ex.Message;
-                return View();
-            }            
-        }
-
-        //
-        // GET: /Account/ForgotPassword
-        [AllowAnonymous]
-        public ActionResult ForgotPassword()
-        {
-            Response.Cache.SetCacheability(HttpCacheability.NoCache);
-            Response.Cache.SetNoStore();
-            Response.Cache.SetExpires(DateTime.UtcNow.AddHours(-1));
-            return View();
-        }
-
-        //
-        // POST: /Account/ForgotPassword
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = await UserManager.FindByEmailAsync(model.Email);
-                // var it = await UserManager.IsEmailConfirmedAsync(user.Id);
-                if (user == null)
-                {
-                    return Json(new { success = false, errors = new List<string> { "Không có tài khoản có email này!" } });
-                }                                
-
-                // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                // Send an email with this link
-                string token = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                var callbackUrl = Url.Action("ResetPassword", "Account", new { UserId = user.Id, Token = token }, protocol: Request.Url.Scheme);
-                WebBanHangOnline.Common.Common.SendMail("ShopOnline", "Quên mật khẩu", "Truy cập <a href='"+callbackUrl+"'>liên kết này</a> để đặt lại mật khẩu.", model.Email);
-                // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                return Json(new { success = true });
-            }
-
-            // If we got this far, something failed, redisplay form
-            return Json(new { success = false, errors = ReturnErrors() });
-        }
-
-        //
-        // GET: /Account/ForgotPasswordConfirmation
-        [AllowAnonymous]
-        public ActionResult ForgotPasswordConfirmation()
-        {
-            return View();
-        }
-
-        //
-        // GET: /Account/ResetPassword
-        [AllowAnonymous]
-        public async Task<ActionResult> ResetPassword(string userId, string token)
-        {
-            if (userId == null || token == null || !(await UserManager.VerifyUserTokenAsync(userId, "ResetPassword", token)))
-            {
-                ViewBag.ValidLink = false;
-                return View();
-            }
-            ViewBag.ValidLink = true;
-            var model = new ResetPasswordViewModel { UserId = userId, Token = token };
-            return View(model);
-        }
-
-        //
-        // POST: /Account/ResetPassword
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return Json(new { success = false, errors = ReturnErrors() });
-            }
-            var result = await UserManager.ResetPasswordAsync(model.UserId, model.Token, model.Password);
-            if (result.Succeeded)
-            {
-                return Json(new { success = true });
-            }
-            AddErrors(result);
-            return Json(new { success = false, errors = ReturnErrors() });
-        }
-
-        //
-        // GET: /Account/ResetPasswordConfirmation
-        [AllowAnonymous]
-        public ActionResult ResetPasswordConfirmation()
-        {
-            return View();
         }
 
         //

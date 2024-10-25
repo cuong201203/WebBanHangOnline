@@ -11,7 +11,7 @@ using System.Collections.Generic;
     
 namespace WebBanHangOnline.Controllers
 {
-    [CustomAuthorize("~/Account/Login")]
+    [CustomAuthorize("~/Account/LoginRegister")]
     public class ShoppingCartController : Controller
     {
         private readonly ApplicationDbContext db = new ApplicationDbContext();
