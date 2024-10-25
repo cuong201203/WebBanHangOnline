@@ -8,8 +8,10 @@
 
 @if (Model != null && Model.Any())
 {
+    var i  = 0;
     foreach (var item in Model)
     {
+        i++;
         var defaultImage = "";
         var hoverImage = "";
         var img = item.ProductImage.FirstOrDefault(x => x.IsDefault);
@@ -32,7 +34,7 @@
             hoverImage = defaultImage;
         }
 
-        <div class="product-item @item.ProductCategory.Alias" style="border-right: 5px solid white;">
+        <div class="product-item @item.ProductCategory.Alias" style="border-right: 5px solid white; @(i > 10 ? "display: none;" : "")">
             <div class="product discount product_filter">
                 <div class="product_image">
                     <a href="/chi-tiet/@item.Alias-p@(item.Id)">

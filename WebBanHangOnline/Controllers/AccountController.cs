@@ -96,14 +96,19 @@ namespace WebBanHangOnline.Controllers
             }
 
             var user = await UserManager.FindByNameAsync(model.UserName);
-            if (user != null && !user.IsActive)
+            if (user == null)
             {
-                return Json(new { success = false, errors = new List<string> { "Tài khoản của bạn bị khóa!" } });
+                return Json(new { success = false, errors = new List<string> { "Tên đăng nhập hoặc mật khẩu của bạn không đúng! Vui lòng thử lại!" } });
             }
 
             if (user != null && !user.EmailConfirmed)
             {
                 return Json(new { success = false, errors = new List<string> { "Tài khoản của bạn chưa được xác thực email!" } });
+            }
+
+            if (user != null && !user.IsActive)
+            {
+                return Json(new { success = false, errors = new List<string> { "Tài khoản của bạn bị khóa!" } });
             }
 
             var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
@@ -115,8 +120,6 @@ namespace WebBanHangOnline.Controllers
                     return Json(new { success = false, errors = new List<string> { "Bạn đã đăng nhập thất bại 5 lần! Vui lòng thử lại sau 5 phút!" } });
                 case SignInStatus.RequiresVerification:
                     return Json(new { success = false, errors = new List<string> { "Xác minh tài khoản của bạn!" } });
-                case SignInStatus.Failure:
-                    return Json(new { success = false, errors = new List<string> { "Tên đăng nhập hoặc mật khẩu của bạn không đúng! Vui lòng thử lại!" } });
                 default:
                     return Json(new { success = false, errors = ReturnErrors() });
             }
@@ -206,7 +209,7 @@ namespace WebBanHangOnline.Controllers
         [AllowAnonymous]
         public ActionResult ForgotPassword()
         {
-            return PartialView();
+            return PartialView("_ForgotPassword");
         }
 
         //
@@ -248,7 +251,7 @@ namespace WebBanHangOnline.Controllers
         [AllowAnonymous]
         public ActionResult ForgotPasswordConfirmation()
         {
-            return PartialView();
+            return PartialView("_ForgotPasswordConfirmation");
         }
 
         //
@@ -282,8 +285,7 @@ namespace WebBanHangOnline.Controllers
             {
                 return Json(new { success = true });
             }
-            AddErrors(result);
-            return Json(new { success = false, errors = ReturnErrors() });
+            return Json(new { success = false, errors = new List<string> { "Link xác thực không chính xác!" } });
         }
 
         //
@@ -291,7 +293,7 @@ namespace WebBanHangOnline.Controllers
         [AllowAnonymous]
         public ActionResult ResetPasswordConfirmation()
         {
-            return View();
+            return PartialView("_ResetPasswordConfirmation");
         }
 
         public ActionResult Lockout()

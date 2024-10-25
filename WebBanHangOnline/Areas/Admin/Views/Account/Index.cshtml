@@ -147,19 +147,19 @@
             });
         }
 
-        $(document).off('click').on('click', '.pagination a', function (e) {
-            e.preventDefault();
-            if ($(this).parent().hasClass('active')) {
-                return;
-            }
-            var url = $(this).attr('href');
-            loadData(url);
-        });
-
         $(document).ready(function () {
             $('#btnSearch').on('click', function (e) {
                 e.preventDefault();
                 var url = '/Admin/Account';
+                loadData(url);
+            });
+
+            $(document).off('click').on('click', '.pagination a', function (e) {
+                e.preventDefault();
+                if ($(this).parent().hasClass('active')) {
+                    return;
+                }
+                var url = $(this).attr('href');
                 loadData(url);
             });
 

@@ -132,5 +132,32 @@
                 }
             }
         }
+
+        $(document).ready(function () {
+            // Initialize Isotope
+            var $grid = $('.product-grid').isotope({
+                itemSelector: '.product-item',
+                layoutMode: 'fitRows'
+            });
+
+            // On category button click
+            $('.grid_sorting_button').click(function () {
+                var selector = $(this).attr('data-filter');
+
+                // Show only the first 10 items for the selected category
+                $grid.find('.product-item').show(); // Show all initially
+
+                // Apply selector and hide items beyond the 10th
+                $grid.find(selector).each(function (index) {
+                    if (index >= 10) {
+                        $(this).hide(); // Hide items after the 10th
+                    }
+                });
+
+                // Apply the filter using Isotope
+                $grid.isotope({ filter: selector });
+            });
+        });
+
     </script>
 }

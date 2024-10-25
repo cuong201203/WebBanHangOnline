@@ -141,11 +141,8 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                     return Json(new { success = false, errors = new List<string> { "Bạn đã đăng nhập thất bại 5 lần! Vui lòng thử lại sau 5 phút!" } });
                 case SignInStatus.RequiresVerification:
                     return Json(new { success = false, errors = new List<string> { "Xác minh tài khoản của bạn!" } });
-                case SignInStatus.Failure:
-                    return Json(new { success = false, errors = new List<string> { "Tên đăng nhập hoặc mật khẩu của bạn không đúng! Vui lòng thử lại!" } });
                 default:
-                    var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
-                    return Json(new { success = false, errors });
+                    return Json(new { success = false, errors = ReturnErrors() });
             }
         }
 
@@ -305,13 +302,13 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         {
             if (string.IsNullOrEmpty(id))
             {
-                return Json(new { success = false, message = "Invalid ID" });
+                return Json(new { success = false, message = "ID không hợp lệ" });
             }
 
             var user = UserManager.FindById(id);
             if (user == null)
             {
-                return Json(new { success = false, message = "User not found" });
+                return Json(new { success = false, message = "Không có người dùng này." });
             }
 
             var result = UserManager.Delete(user);
@@ -320,7 +317,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                 return Json(new { success = true });
             }
 
-            return Json(new { success = false, message = "Failed to delete user" });
+            return Json(new { success = false, message = "Có lỗi xảy ra khi xóa dữ liệu." });
         }
 
         private IAuthenticationManager AuthenticationManager
@@ -346,6 +343,11 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             {
                 ModelState.AddModelError("", error);
             }
+        }
+
+        private List<string> ReturnErrors()
+        {
+            return ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
         }
     }
 }
