@@ -73,4 +73,16 @@ namespace WebBanHangOnline.Models.EF
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
         public virtual ICollection<ReviewProduct> ReviewProducts { get; set; }
     }
+
+    public class ProductSales
+    {
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public virtual ICollection<ProductImage> ProductImage { get; set; }
+        public int Quantity { get; set; }
+        public int SoldQuantity { get; set; }
+        public int Price { get; set; }
+        public int? PriceSale { get; set; }
+        public string Alias { get; set; }
+    }
 }

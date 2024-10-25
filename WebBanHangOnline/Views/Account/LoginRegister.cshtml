@@ -49,6 +49,7 @@
     .form-container {
         flex-basis: 100%;
         max-width: 500px;
+        transition: flex-basis 1s ease;
     }
 
     .form-container input[type="submit"] {
@@ -66,10 +67,6 @@
         border-radius: 20px !important;
         padding-left: 20px;
         padding-right: 20px;
-    }
-
-    p {
-        color: #fd8c47;
     }
 </style>
 
@@ -94,7 +91,7 @@
             <div class="form-container">
                 <h2>Đăng Ký</h2>
                 <section class="register-content">
-                    @Html.Partial("Register", Model.Register)
+                    @Html.Partial("_Register", Model.Register)
                 </section>
             </div>
         </div>
@@ -104,7 +101,7 @@
             <div class="form-container">
                 <h2>Đăng Nhập</h2>
                 <section class="login-content">
-                    @Html.Partial("Login", Model.Login)
+                    @Html.Partial("_Login", Model.Login)
                 </section>
             </div>
         </div>
@@ -118,66 +115,99 @@
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
     <script type="text/javascript">
+        var loginHtml, forgotPasswordHtml;
         $(document).ready(function () {
-            $(document).on('click', '.forgotPasswordLink', function (e) {
-                e.preventDefault();
-                var url = $(this).attr('href');
-                $.ajax({
-                    url: $(this).attr('href'),
-                    type: 'GET',
-                    success: function (view) {
-                        $('.login-container').html($('<div></div>').html(view).find('.forgot-password-container'));
-                        $('html, body').animate({ scrollTop: 0 }, '300');
-                    }
-                })
-            });
-
             $(document).on('submit', '#registerForm', function (e) {
-                e.preventDefault();
-                $('#register-validation-summary').hide();
-                $('.success-line').removeClass('d-none');
+                e.preventDefault();    
+                $('.success-line').eq(0).text("Bạn hãy chờ chút ...").show();
                 $.ajax({
                     url: this.action,
                     type: this.method,
                     data: $(this).serialize(),
                     success: function (response) {
                         if (response.success) {
-                            $('.success-line').text("Quý khách vui lòng kiểm tra link xác thực được gửi tới email đã đăng ký!")
+                            $('#register-validation-summary').hide();
+                            $('.success-line').eq(0).text("Quý khách vui lòng kiểm tra link xác thực được gửi tới email đã đăng ký!").show();
                         } else if (response.errors && response.errors.length > 0) {
-                            $('.success-line').addClass('d-none');
+                            $('.success-line').eq(0).hide();
                             $('#register-validation-summary').show();
                             $('#register-validation-errors').empty();
                             $.each(response.errors, function (index, error) {
                                 $('#register-validation-errors').append('<li>' + error + '</li>');
                             });
                         } else {
-                            $('.success-line').addClass('d-none');
+                            $('.success-line').eq(0).hide();
                             $('#register-validation-summary').hide();
                         }
                     }
                 })
             });
 
+            $(document).on('submit', '#loginForm', function (e) {
+                e.preventDefault();
+                $('.success-line').eq(1).text("Bạn hãy chờ chút ...").show();
+                $.ajax({
+                    url: this.action,
+                    type: this.method,
+                    data: $(this).serialize(),
+                    success: function (result) {
+                        if (result.success) {
+                            $('#login-validation-summary').hide();
+                            window.location.href = result.redirectUrl;
+                        } else if (result.errors && result.errors.length > 0) {
+                            $('.success-line').eq(1).hide();
+                            $('#login-validation-summary').show();
+                            $('#login-validation-errors').empty();
+                            $.each(result.errors, function (index, error) {
+                                $('#login-validation-errors').append('<li>' + error + '</li>');
+                            });
+                        } else {
+                            $('#login-validation-summary').hide();
+                        }
+                    },
+                    error: function (xhr) {
+                        if (xhr.status === 500) {
+                            alert('Bạn đã đăng nhập ở tab khác. Hãy thử tải lại trang.');
+                        } else {
+                            alert('Error: ' + xhr.status);
+                        }
+                    }
+                })
+            });
+
+            $(document).on('click', '.forgotPasswordLink', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: '/Account/ForgotPassword',
+                    type: 'GET',
+                    success: function (view) {
+                        loginHtml = $('.login-container').html();
+                        $('.login-container').html(view);
+                        $('html, body').animate({ scrollTop: 150 }, '300');
+                    }
+                })
+            });
+
             $(document).on('submit', '#forgotPasswordForm', function (e) {
                 e.preventDefault();
-                $('#fp-validation-summary').hide();
-                $('.success-line').eq(1).removeClass('d-none');
+                $('.success-line').eq(1).show();
                 $.ajax({
                     url: this.action,
                     type: this.method,
                     data: $(this).serialize(),
                     success: function (response) {
+                        forgotPasswordHtml = $('.login-container').html();
                         if (response.success) {
                             $.ajax({
                                 url: '/Account/ForgotPasswordConfirmation',
                                 type: 'GET',
                                 success: function (view) {
-                                    $('.forgot-password-container').html($('<div></div>').html(view).find('.fp-confirmation-container'));
-                                    $('html, body').animate({ scrollTop: 0 }, '300');
+                                    $('.login-container').html(view);
+                                    $('html, body').animate({ scrollTop: 150 }, '300');
                                 }
                             })
                         } else if (response.errors && response.errors.length > 0) {
-                            $('.success-line').eq(1).addClass('d-none');
+                            $('.success-line').eq(1).hide();
                             $('#fp-validation-summary').show();
                             $('#fp-validation-errors').empty();
                             $.each(response.errors, function (index, error) {
@@ -190,36 +220,14 @@
                 })
             });
 
-            $(document).on('submit', '#loginForm', function (e) {
-                e.preventDefault();
-                $('#login-validation-summary').hide();
-                $.ajax({
-                    url: this.action,
-                    type: this.method,
-                    data: $(this).serialize(),
-                    success: function (result) {
-                        if (result.success) {
-                            window.location.href = result.redirectUrl;
-                        } else if (result.errors && result.errors.length > 0) {
-                            console.log("DCM");
-                            $('#login-validation-summary').show();
-                            $('#login-validation-errors').empty();
-                            $.each(result.errors, function (index, error) {
-                                $('#login-validation-errors').append('<li>' + error + '</li>');
-                            });
-                        } else {
-                            console.log("XXL");
-                            $('#login-validation-summary').hide();
-                        }
-                    },
-                    error: function (xhr) {
-                        if (xhr.status === 500) {
-                            alert('Bạn đã đăng nhập ở tab khác. Hãy thử tải lại trang.');
-                        } else {
-                            alert('Error: ' + xhr.status);
-                        }
-                    }
-                })
+            $(document).on('click', '.returnLoginLink', function (e) {
+                $('.login-container').html(loginHtml);
+                $('html, body').animate({ scrollTop: 150 }, '300');
+            });
+
+            $(document).on('click', '.returnFPLink', function (e) {
+                $('.login-container').html(forgotPasswordHtml);
+                $('html, body').animate({ scrollTop: 150 }, '300');
             });
 
             $('.register-content').hide();
@@ -243,6 +251,8 @@
 
                 $('.login-container').css({ "flex-basis": "75%", "background": "#fff" });
                 $('.register-container').css({ "flex-basis": "25%", "background": "linear-gradient(135deg, #c5a25d, #ffffff)" });
+
+                $('html, body').animate({ scrollTop: 150 }, '300');
             }, function () {
             });
         });

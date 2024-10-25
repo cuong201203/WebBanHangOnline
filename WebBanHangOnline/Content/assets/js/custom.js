@@ -376,14 +376,14 @@ jQuery(document).ready(function($)
 		        $(this).addClass('active');
 		 
 		        var selector = $(this).attr('data-filter');
-		        $('.product-grid').isotope({
-		            filter: selector,
+				$('.product-grid').isotope({
+					filter: selector,
 		            animationOptions: {
 		                duration: 750,
 		                easing: 'linear',
 		                queue: false
 		            }
-		        });
+				});
 		        
 		        return false;
 		    });

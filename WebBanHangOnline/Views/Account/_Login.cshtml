@@ -1,5 +1,4 @@
-﻿@using WebBanHangOnline.Models
-@model LoginViewModel
+﻿@model WebBanHangOnline.Models.LoginViewModel
 
 @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { role = "form", id = "loginForm" }))
 {
@@ -32,9 +31,14 @@
         <input type="submit" value="ĐĂNG NHẬP" class="btn red_button text-white" />
     </div>
 </div>
+
 <div class="form-group">
     <div class="col-md-6">
         <a href="/Account/ForgotPassword" style="color: #fe4c50 !important;" class="font-weight-bold forgotPasswordLink">Quên mật khẩu?</a>
     </div>
+</div>
+
+<div class="col-md-12 success-line" style="display: none;">
+    Bạn hãy chờ chút ...
 </div>
 }

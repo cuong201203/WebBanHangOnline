@@ -61,6 +61,8 @@ namespace WebBanHangOnline.Controllers
             }
         }
 
+        //
+        // GET: /Account/LoginRegister
         [AllowAnonymous]
         public ActionResult LoginRegister()
         {
@@ -82,25 +84,6 @@ namespace WebBanHangOnline.Controllers
         }
 
         //
-        // GET: /Account/Login
-        [AllowAnonymous]
-        public ActionResult Login(string returnUrl)
-        {
-            if (User.Identity.IsAuthenticated)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
-            // Ngăn không cho trang login lưu vào cache
-            Response.Cache.SetCacheability(HttpCacheability.NoCache);
-            Response.Cache.SetNoStore();
-            Response.Cache.SetExpires(DateTime.UtcNow.AddHours(-1));
-
-            ViewBag.ReturnUrl = returnUrl;
-            return View();
-        }
-
-        //
         // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]
@@ -118,13 +101,17 @@ namespace WebBanHangOnline.Controllers
                 return Json(new { success = false, errors = new List<string> { "Tài khoản của bạn bị khóa!" } });
             }
 
+            if (user != null && !user.EmailConfirmed)
+            {
+                return Json(new { success = false, errors = new List<string> { "Tài khoản của bạn chưa được xác thực email!" } });
+            }
+
             var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:     
-                    return Json(new { success = true, redirectUrl = returnUrl ?? Url.Action("Index", "Home") });
-                // Muốn dùng case này thì chỉnh shouldLockout: true
-                case SignInStatus.LockedOut:
+                    return Json(new { success = true, redirectUrl = returnUrl ?? Url.Action("Index", "Home") });                
+                case SignInStatus.LockedOut: // Muốn dùng case này thì chỉnh shouldLockout: true
                     return Json(new { success = false, errors = new List<string> { "Bạn đã đăng nhập thất bại 5 lần! Vui lòng thử lại sau 5 phút!" } });
                 case SignInStatus.RequiresVerification:
                     return Json(new { success = false, errors = new List<string> { "Xác minh tài khoản của bạn!" } });
@@ -143,24 +130,6 @@ namespace WebBanHangOnline.Controllers
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("LoginRegister", "Account");
-        }
-
-        //
-        // GET: /Account/Register
-        [AllowAnonymous]
-        public ActionResult Register()
-        {
-            if (User.Identity.IsAuthenticated)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
-            // Ngăn không cho trang register lưu vào cache
-            Response.Cache.SetCacheability(HttpCacheability.NoCache);
-            Response.Cache.SetNoStore();
-            Response.Cache.SetExpires(DateTime.UtcNow.AddHours(-1));
-
-            return View();
         }
 
         //
@@ -191,7 +160,7 @@ namespace WebBanHangOnline.Controllers
                     Address = model.Address,
                     Email = model.Email,
                     CreatedDate = DateTime.Now,
-                    IsActive = true
+                    IsActive = false
                 };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -220,6 +189,9 @@ namespace WebBanHangOnline.Controllers
             try
             {
                 await UserManager.ConfirmEmailAsync(userId, token);
+                var user = await UserManager.FindByIdAsync(userId);
+                user.IsActive = true;
+                await UserManager.UpdateAsync(user);
                 ViewBag.ValidLink = true;
                 return View();
             }
@@ -231,15 +203,10 @@ namespace WebBanHangOnline.Controllers
             }
         }
 
-        //
-        // GET: /Account/ForgotPassword
         [AllowAnonymous]
         public ActionResult ForgotPassword()
         {
-            Response.Cache.SetCacheability(HttpCacheability.NoCache);
-            Response.Cache.SetNoStore();
-            Response.Cache.SetExpires(DateTime.UtcNow.AddHours(-1));
-            return View();
+            return PartialView();
         }
 
         //
@@ -252,10 +219,15 @@ namespace WebBanHangOnline.Controllers
             if (ModelState.IsValid)
             {
                 var user = await UserManager.FindByEmailAsync(model.Email);
-                // var it = await UserManager.IsEmailConfirmedAsync(user.Id);
+
                 if (user == null)
                 {
                     return Json(new { success = false, errors = new List<string> { "Không có tài khoản có email này!" } });
+                }
+
+                if (!user.EmailConfirmed)
+                {
+                    return Json(new { success = false, errors = new List<string> { "Tài khoản của bạn chưa được xác thực email!" } });
                 }
 
                 // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
@@ -276,7 +248,7 @@ namespace WebBanHangOnline.Controllers
         [AllowAnonymous]
         public ActionResult ForgotPasswordConfirmation()
         {
-            return View();
+            return PartialView();
         }
 
         //

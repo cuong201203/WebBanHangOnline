@@ -9,7 +9,7 @@ namespace WebBanHangOnline.Controllers
 {
     public class MenuController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private readonly ApplicationDbContext db = new ApplicationDbContext();
         // GET: Menu
         public ActionResult Index()
         {

@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<WebBanHangOnline.Models.EF.Product>
 
 <style>
-    .best_sellers .add_to_cart_button {
+    .best_sellers, .add_to_cart_button {
         margin-left: 0 !important;
     }
 </style>
@@ -13,7 +13,7 @@
         var defaultImage = "";
         var hoverImage = "";
         var img = item.ProductImage.FirstOrDefault(x => x.IsDefault);
-        var hoverImg = item.ProductImage.FirstOrDefault(x => x.IsHover);
+        var hoverImg = item.ProductImage.FirstOrDefault(x => x.IsHover);        
 
         if (img != null)
         {

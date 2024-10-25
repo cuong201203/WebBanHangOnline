@@ -71,7 +71,7 @@ namespace WebBanHangOnline.Controllers
 
         public ActionResult _ProductByCateId()
         {
-            var items = db.Products.Where(x => x.IsActive).OrderByDescending(x => x.CreatedDate).Take(10).ToList();
+            var items = db.Products.Where(x => x.IsActive).OrderByDescending(x => x.CreatedDate).ToList();
             return PartialView(items);
         }
 
@@ -101,18 +101,19 @@ namespace WebBanHangOnline.Controllers
 
             var topProducts = query.OrderByDescending(x => x.SoldQuantity).Take(8).ToList();
 
-            var productList = new List<Product>();
+            var productList = new List<ProductSales>();
 
             foreach (var topProduct in topProducts)
             {
                 var images = db.ProductImages.Where(x => x.ProductId == topProduct.ProductId).ToList();
                 var defaultImage = images.FirstOrDefault(x => x.IsDefault)?.Image ?? "/Uploads/images/No_Image_Available.jpg";
                 var hoverImage = images.FirstOrDefault(x => x.IsHover)?.Image ?? "/Uploads/images/No_Image_Available.jpg";
-                var product = new Product
+                var product = new ProductSales
                 {
                     Id = topProduct.ProductId,
                     Title = topProduct.ProductName,
                     Quantity = topProduct.RemainingQuantity,
+                    SoldQuantity = topProduct.SoldQuantity,
                     ProductImage = new List<ProductImage>
                     {
                         new ProductImage { Image = defaultImage, IsDefault = true },
