@@ -35,7 +35,7 @@
 
 <script>
     $(document).ready(function () {
-        $('.navbar_menu a').on('click', function (e) {
+        $('.navbar_menu a').off('click').on('click', function (e) {
             e.preventDefault();
             var url = $(this).attr('href');
 

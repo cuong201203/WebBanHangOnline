@@ -59,11 +59,14 @@ namespace WebBanHangOnline.Models
     {
         [Required(ErrorMessage = "Vui lòng điền vào mục này!")]
         public string UserName { get; set; }
+
         [Required(ErrorMessage = "Vui lòng điền vào mục này!")]
         public string FullName { get; set; }
+
         public string Phone { get; set; }
         public string Address { get; set; }
         public string Role { get; set; }
+
         [Required(ErrorMessage = "Vui lòng điền vào mục này!")]
         [EmailAddress(ErrorMessage = "Sai định dạng email!")]
         [Display(Name = "Email")]
@@ -79,6 +82,8 @@ namespace WebBanHangOnline.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "Mật khẩu xác nhận không khớp. Vui lòng nhập lại!")]
         public string ConfirmPassword { get; set; }
+
+        public bool IsActive { get; set; }
     }
 
     public class EditAccountViewModel
