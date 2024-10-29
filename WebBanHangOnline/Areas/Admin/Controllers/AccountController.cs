@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using CKFinder.Connector;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using PagedList;
@@ -187,7 +188,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                     Phone = model.Phone,
                     Address = model.Address,
                     CreatedDate = DateTime.Now,
-                    IsActive = true
+                    IsActive = model.IsActive
                 };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -199,12 +200,12 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                     cart.SaveCart(db); // Lưu giỏ hàng vào cơ sở dữ liệu
 
                     // Redirect sau khi tạo tài khoản thành công
-                    return RedirectToAction("Index", "Account");
+                    return Json(new { success = true });
                 }
                 AddErrors(result);
             }
             ViewBag.Role = new SelectList(db.Roles.ToList(), "Name", "Name");
-            return View(model);
+            return Json(new { success = false, errors = ReturnErrors() });
         }
 
         [HttpGet]
@@ -252,6 +253,11 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                     return HttpNotFound();
                 }
 
+                if (UserManager.GetRoles(user.Id).Contains("Customer"))
+                {
+                    return Json(new { success = false, errors = new List<string> { "Không được sửa thông tin tài khoản khách hàng!" }});
+                }
+
                 user.UserName = model.UserName;
                 user.FullName = model.FullName;
                 user.Email = model.Email;
@@ -271,13 +277,12 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                 var result = await UserManager.UpdateAsync(user);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index");
+                    return Json(new { success = true });
                 }
                 AddErrors(result);
             }
-
             ViewBag.Role = new SelectList(db.Roles.ToList(), "Name", "Name", model.Role);
-            return View(model);
+            return Json(new { success = false, errors = ReturnErrors() });
         }
 
         [HttpPost]
@@ -309,6 +314,10 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             if (user == null)
             {
                 return Json(new { success = false, message = "Không có người dùng này." });
+            }
+            if (UserManager.GetRoles(user.Id).Contains("Customer"))
+            {
+                return Json(new { success = false, message = "Không được xóa tài khoản khách hàng!" });
             }
 
             var result = UserManager.Delete(user);

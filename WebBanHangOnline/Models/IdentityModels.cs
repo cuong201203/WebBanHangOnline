@@ -37,7 +37,7 @@ namespace WebBanHangOnline.Models
         public DbSet<Adv> Advs { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<News> News { get; set; }
-        public DbSet<SystemSetting> SystemSettings { get; set; }
+        public DbSet<SystemConfig> SystemConfigs { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Contact> Contacts { get; set; }

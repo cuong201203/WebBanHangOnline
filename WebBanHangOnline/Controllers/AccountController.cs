@@ -293,7 +293,7 @@ namespace WebBanHangOnline.Controllers
         [AllowAnonymous]
         public ActionResult ResetPasswordConfirmation()
         {
-            return PartialView("_ResetPasswordConfirmation");
+            return PartialView("_ResetPassword");
         }
 
         public ActionResult Lockout()

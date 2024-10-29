@@ -58,7 +58,7 @@
                     <!-- your steps content here -->
                 <div id="logins-part" class="content active dstepper-block" role="tabpanel" aria-labelledby="logins-part-trigger">
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Tiêu đề</label>
+                        <label for="">Tiêu đề</label>
                         @Html.TextBoxFor(x => x.Title, new { @class = "form-control", @placeholder = "Tiêu đề..." })
                         @Html.ValidationMessageFor(x => x.Title, null, new { @class = "text-danger" })
                     </div>
@@ -74,12 +74,12 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Liên kết</label>
+                        <label for="">Liên kết</label>
                         @Html.TextBoxFor(x => x.Link, new { @class = "form-control", @placeholder = "Liên kết" })
                         @Html.ValidationMessageFor(x => x.Link, null, new { @class = "text-danger" })
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputPassword1">Hiển thị</label>
+                        <label for="">Hiển thị</label>
                         @Html.CheckBoxFor(x => x.IsActive, new { @checked = "checked" })
                     </div>
                     <div class="form-group">

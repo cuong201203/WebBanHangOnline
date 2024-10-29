@@ -47,7 +47,7 @@
             <h3 class="card-title">Thông tin tài khoản</h3>
         </div>
         <div class="card-body">
-            @using (Html.BeginForm("Edit", "Account", FormMethod.Post, new { @class = "form-horizontal" }))
+            @using (Html.BeginForm("Edit", "Account", FormMethod.Post, new { role = "form", id = "editForm" }))
             {
             @Html.AntiForgeryToken()
             @Html.HiddenFor(model => model.Id)
@@ -55,40 +55,51 @@
             <div class="form-group">
                 <label>Tên đăng nhập</label>
                 @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", @readonly = "readonly" })
+                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
             </div>
 
             <div class="form-group">
                 <label>Họ tên</label>
                 @Html.TextBoxFor(model => model.FullName, new { @class = "form-control", @placeholder = "Họ tên" })
+                @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
             </div>
 
             <div class="form-group">
                 <label>Email</label>
                 @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @readonly = "readonly" })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
             </div>
 
             <div class="form-group">
                 <label>Số điện thoại</label>
                 @Html.TextBoxFor(model => model.Phone, new { @class = "form-control", @placeholder = "Số điện thoại" })
+                @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
             </div>
 
             <div class="form-group">
                 <label>Địa chỉ</label>
                 @Html.TextBoxFor(model => model.Address, new { @class = "form-control", @placeholder = "Địa chỉ" })
+                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
             </div>
 
             <div class="form-group">
-                <label for="exampleInputEmail1">Quyền</label>
+                <label for="">Quyền</label>
                 @Html.DropDownListFor(model => model.Role, ViewBag.Role as SelectList, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Role, null, new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.Role, "", new { @class = "text-danger" })
             </div>
 
-            <div class="form-group">
+            <div class="form-group d-none">
                 <div class="custom-control custom-checkbox">
                     @Html.CheckBoxFor(model => model.IsActive, new { @class = "custom-control-input", @id = "IsActiveCheckbox" })
                     <label for="IsActiveCheckbox" class="custom-control-label">Hoạt động</label>
                 </div>
-            </div>                    
+            </div>
+
+            <div id="validation-summary" style="display: none; padding: 0;" class="col-md-12">
+                <div class="alert alert-danger" role="alert" style="width: fit-content;">
+                    <ul id="validation-errors" class="text-black" style=" list-style-type: none; padding: 0; margin : 0;"></ul>
+                </div>
+            </div>
 
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">Lưu</button>
@@ -98,3 +109,37 @@
         </div>
     </div>
 </section>
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $(document).on('submit', '#editForm', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: this.action,
+                    type: this.method,
+                    data: $(this).serialize(),
+                    success: function (response) {
+                        if (response.success) {
+                            $('validation-summary').hide();
+                            alert("Sửa cấu hình thành công");
+                            window.location.href = '/Admin/Account';
+                        } else if (response.errors && response.errors.length > 0) {
+                            $('#validation-summary').show();
+                            $('#validation-errors').empty();
+                            $.each(response.errors, function (index, error) {
+                                $('#validation-errors').append('<li>' + error + '</li>');
+                            });
+                        } else {
+                            $('#validation-summary').hide();
+                        }
+                    }
+                })
+            })
+        })
+    </script>
+}

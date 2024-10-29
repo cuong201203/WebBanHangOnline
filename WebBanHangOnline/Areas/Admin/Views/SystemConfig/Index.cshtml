@@ -1,6 +1,6 @@
-﻿@model IEnumerable<WebBanHangOnline.Models.EF.Category>
+﻿@model IEnumerable<WebBanHangOnline.Models.EF.SystemConfig>
 @{
-    ViewBag.Title = "Quản lý danh mục";
+    ViewBag.Title = "Quản lý cấu hình hệ thống";
 }
 
 @section naviheader{
@@ -13,7 +13,7 @@
         </li>
         <li><a class="nav-link"><i class="fa fa-angle-right" aria-hidden="true"></i></a> </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="/Admin/Category" class="nav-link">Danh mục</a>
+            <a href="/Admin/SystemConfig" class="nav-link">Cấu hình hệ thống</a>
         </li>
     </ul>
 }
@@ -27,7 +27,7 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="/Admin/Home">Trang chủ</a></li>
-                    <li class="breadcrumb-item active">Danh mục</li>
+                    <li class="breadcrumb-item active">Cấu hình hệ thống</li>
                 </ol>
             </div>
         </div>
@@ -40,10 +40,10 @@
     <!-- Default box -->
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Danh sách danh mục</h3>
+            <h3 class="card-title">Danh sách cấu hình hệ thống</h3>
 
             <div class="card-tools">
-                <a href="/Admin/Category/Add" class="btn btn-primary">Thêm mới</a>
+                <a href="/Admin/SystemConfig/Add" class="btn btn-primary">Thêm mới</a>
             </div>
         </div>
         <div class="card-body">
@@ -51,7 +51,7 @@
                 <table class="table table-hover" style="width: 60%;">
                     <thead>
                         <tr>
-                            <th style="padding-left: 60px;">Tên danh mục</th>
+                            <th style="padding-left: 60px;">Tên cấu hình</th>
                             <th style="text-align: center; padding-right: 60px;">Thứ tự</th>
                             <th></th>
                         </tr>
@@ -64,9 +64,9 @@
                             {
                         <tr id="trow_@item.Id">
                             <td style="padding-left: 60px;">@item.Title</td>
-                            <td id="catePos" style="text-align: center; padding-right: 60px;">@item.Position</td>
+                            <td id="configPos" style="text-align: center; padding-right: 60px;">@item.Position</td>
                             <td>
-                                <a href="/Admin/Category/Edit/@item.Id" class="btn btn-sm btn-primary">Sửa</a>
+                                <a href="/Admin/SystemConfig/Edit/@item.Id" class="btn btn-sm btn-primary">Sửa</a>
                                 <a href="#" data-id="@item.Id" class="btn btn-sm btn-danger btnDelete">Xóa</a>
                             </td>
                         </tr>
@@ -102,14 +102,14 @@
                 var conf = confirm('Bạn có muốn xóa bản ghi này không?');
                 if (conf === true) {
                     $.ajax({
-                        url: '/Admin/Category/Delete',
+                        url: '/Admin/SystemConfig/Delete',
                         type: 'POST',
                         data: { id: id },
                         success: function (result) {
                             if (result.success) {
                                 $('#trow_' + id).remove();
                                 $('#myTable tbody tr').each(function (index) {
-                                    $(this).find('#catePos').text(index + 1);
+                                    $(this).find('#configPos').text(index + 1);
                                 });
                             }
                         }

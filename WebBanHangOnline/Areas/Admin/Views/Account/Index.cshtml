@@ -51,11 +51,11 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-md-5 pb-4">
+                <div class="col-md-6 pb-4">
                     @using (Html.BeginForm("Index", "Account", FormMethod.Get, new { }))
                     {
                     <div class="input-group input-group-sm">
-                        @Html.TextBox("searchText", null, new { @class = "form-control", @placeholder = "Tìm kiếm tài khoản..." })
+                        @Html.TextBox("searchText", null, new { @class = "form-control", @placeholder = "Tìm kiếm tài khoản theo tên đăng nhập hoặc họ tên..." })
                         <span class="input-group-append">
                             <button id="btnSearch" class="btn btn-info btn-flat">Tìm kiếm</button>
                         </span>
@@ -68,7 +68,7 @@
                     <thead>
                         <tr>
                             <th>STT</th>
-                            <th>Tên tài khoản</th>
+                            <th>Tên đăng nhập</th>
                             <th>Email</th>
                             <th>Họ tên</th>
                             <th>Số điện thoại</th>
@@ -95,6 +95,9 @@
                             <td>@role</td>
                             <td>@user.CreatedDate.ToString("dd/MM/yyyy HH:mm:ss")</td>
                             <td class="text-center">
+                                <form class="d-none" id="activeForm">
+                                    @Html.AntiForgeryToken()
+                                </form>
                                 <a href="#" data-id="@user.Id" class="btnActive">@Html.Raw(strCheckActive)</a>
                             </td>
                             <td>
@@ -135,11 +138,12 @@
             $.ajax({
                 url: url,
                 type: 'GET',
-                data: { searchText: $('input[name="searchText"]').val(), page: 1 }, // Lấy giá trị từ ô tìm kiếm
+                data: { searchText: $('input[name="searchText"]').val(), page: 1 },
                 success: function (data) {
                     var tempDiv = $('<div></div>').html(data);
                     var myTableContent = tempDiv.find('#myTable').html();
                     $('#myTable').html(myTableContent);
+                    history.pushState(null, "", url);
                 },
                 error: function () {
                     alert("Lỗi khi tải thông tin.");
@@ -163,34 +167,7 @@
                 loadData(url);
             });
 
-            $('body').on('click', '.btnDelete', function () {
-                var id = $(this).data('id');
-                var conf = confirm('Bạn có muốn xóa bản ghi này không?');
-                if (conf === true) {
-                    $.ajax({
-                        url: '/Admin/Account/Delete',
-                        type: 'POST',
-                        data: { id: id },
-                        success: function (result) {
-                            if (result.success) {
-                                $('#trow_' + id).remove();
-
-                                // Cập nhật lại số thứ tự sau khi xóa
-                                $('#myTable tbody tr').each(function (index) {
-                                    $(this).find('td:first').text(index + 1); // cập nhật lại STT
-                                });
-                            } else {
-                                alert(result.message);
-                            }
-                        },
-                        error: function () {
-                            alert('Có lỗi xảy ra khi xóa dữ liệu.');
-                        }
-                    });
-                }
-            });
-
-            $('body').on('click', '.btnActive', function (e) {
+            $(document).on('click', '.btnActive', function (e) {
                 e.preventDefault();
                 var btn = $(this);
                 var id = btn.data('id');
@@ -209,6 +186,31 @@
                         }
                     }
                 });
+            });
+
+            $(document).on('click', '.btnDelete', function () {
+                var id = $(this).data('id');
+                var conf = confirm('Bạn có muốn xóa bản ghi này không?');
+                if (conf === true) {
+                    $.ajax({
+                        url: '/Admin/Account/Delete',
+                        type: 'POST',
+                        data: { id: id },
+                        success: function (result) {
+                            if (result.success) {
+                                $('#trow_' + id).remove();
+                                $('#myTable tbody tr').each(function (index) {
+                                    $(this).find('td:first').text(index + 1);
+                                });
+                            } else {
+                                alert(result.message);
+                            }
+                        },
+                        error: function () {
+                            alert('Có lỗi xảy ra khi xóa dữ liệu.');
+                        }
+                    });
+                }
             });
 
             $('.nav-link').eq(0).on('click change', function () {

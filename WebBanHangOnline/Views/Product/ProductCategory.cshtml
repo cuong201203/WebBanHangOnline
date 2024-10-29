@@ -134,7 +134,19 @@
 
         $('.product-grid').isotope({
             itemSelector: '.product-item',
-            layoutMode: 'fitRows'
+            layoutMode: 'fitRows',
+            getSortData: {
+                price: function (itemElement) {
+                    var priceEle = $(itemElement).find('.product_price').text().replace('đ', '');
+                    return parseFloat(priceEle);
+                },
+                name: '.product_name'
+            },
+            animationOptions: {
+                duration: 750,
+                easing: 'linear',
+                queue: false
+            }
         });
     }
 </script>

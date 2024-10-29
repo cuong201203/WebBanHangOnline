@@ -32,7 +32,7 @@
                     {
                     <div class="text-right">
                         <a href="#" class="btn btn-sm btn-danger btnDeleteAll">Xóa hết</a>
-                        <a href="#" class="btn btn-sm btn-success btnCheckOut">Thanh toán</a>
+                        <a href="#" class="btn btn-sm btn-success btnOrder">Đặt hàng</a>
                     </div>
                     }
                 </div>
@@ -42,7 +42,7 @@
 </div>
 
 <script>
-    $('.btnCheckOut').on('click', function (e) {
+    $('.btnOrder').on('click', function (e) {
         e.preventDefault();
         var selectedProductIds = [];
         $('.cbkItem:checked').each(function () {
@@ -50,7 +50,7 @@
         });
 
         if (selectedProductIds.length === 0) {
-            alert("Vui lòng chọn sản phẩm để thanh toán!");
+            alert("Vui lòng chọn sản phẩm để đặt hàng!");
             return;
         }
 

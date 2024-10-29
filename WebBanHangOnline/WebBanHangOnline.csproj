@@ -175,6 +175,7 @@
     <Compile Include="Areas\Admin\Controllers\AccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdvController.cs" />
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SystemConfigController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\NewsController.cs" />
     <Compile Include="Areas\Admin\Controllers\OrderController.cs" />
@@ -315,6 +316,10 @@
     <Compile Include="Migrations\202410211416547_UpdateAdv2.designer.cs">
       <DependentUpon>202410211416547_UpdateAdv2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202410290509115_CreateSystemConfig.cs" />
+    <Compile Include="Migrations\202410290509115_CreateSystemConfig.Designer.cs">
+      <DependentUpon>202410290509115_CreateSystemConfig.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CommonAbstract.cs" />
@@ -333,7 +338,7 @@
     <Compile Include="Models\EF\Cart.cs" />
     <Compile Include="Models\EF\ReviewProduct.cs" />
     <Compile Include="Models\EF\Subscribe.cs" />
-    <Compile Include="Models\EF\SystemSetting.cs" />
+    <Compile Include="Models\EF\SystemConfig.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\OrderViewModel.cs" />
@@ -3620,6 +3625,9 @@
     <Content Include="Areas\Admin\Views\Adv\Add.cshtml" />
     <Content Include="Areas\Admin\Views\Adv\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\Lockout.cshtml" />
+    <Content Include="Areas\Admin\Views\SystemConfig\Add.cshtml" />
+    <Content Include="Areas\Admin\Views\SystemConfig\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\SystemConfig\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -3705,7 +3713,7 @@
     <Content Include="Views\Account\_Login.cshtml" />
     <Content Include="Views\Account\_Register.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
-    <Content Include="Views\Account\_ResetPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\_ResetPassword.cshtml" />
     <Content Include="Views\Account\SendCode.cshtml" />
     <Content Include="Views\Account\VerifyCode.cshtml" />
     <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
@@ -3843,6 +3851,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202410211416547_UpdateAdv2.resx">
       <DependentUpon>202410211416547_UpdateAdv2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202410290509115_CreateSystemConfig.resx">
+      <DependentUpon>202410290509115_CreateSystemConfig.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
