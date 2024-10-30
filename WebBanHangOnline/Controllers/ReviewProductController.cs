@@ -12,7 +12,7 @@ using PagedList;
 
 namespace WebBanHangOnline.Controllers
 {
-    [CustomAuthorize("/Account/Login")]
+    [CustomAuthorize("/Account/LoginRegister")]
     public class ReviewProductController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -23,7 +23,7 @@ namespace WebBanHangOnline.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult _Review(int productId)
+        public ActionResult Review(int productId)
         {
             ViewBag.ProductId = productId;
             var item = new ReviewProduct();
@@ -38,13 +38,13 @@ namespace WebBanHangOnline.Controllers
                     item.FullName = user.FullName;
                     item.UserName = user.UserName;
                 }
-                return PartialView(item);
+                return PartialView("_Review", item);
             }
-            return PartialView();
+            return PartialView("_Review");
         }
 
         [AllowAnonymous]
-        public ActionResult _LoadReview(int productId, int? page)
+        public ActionResult LoadReview(int productId, int? page)
         {
             var pageSize = 5; // Số lượng đánh giá mỗi trang
             var pageIndex = page ?? 1; // Trang hiện tại
@@ -57,7 +57,7 @@ namespace WebBanHangOnline.Controllers
             ViewBag.Page = pageIndex;
             ViewBag.ProductId = productId; // Truyền productId cho các yêu cầu phân trang
 
-            return PartialView(reviews);
+            return PartialView("_LoadReview", reviews);
         }
 
         [HttpPost]
@@ -79,7 +79,7 @@ namespace WebBanHangOnline.Controllers
             var averageRating = reviews.Any() ? reviews.Average(r => r.Rate) : 0;
             var count = reviews.Count;
 
-            return Json(new { average = averageRating, count = count }, JsonRequestBehavior.AllowGet);
+            return Json(new { average = averageRating, count }, JsonRequestBehavior.AllowGet);
         }
 
     }

@@ -56,7 +56,7 @@
             </nav>
             <!-- /.navbar -->
             <!-- Main Sidebar Container -->
-            <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <aside class="main-sidebar sidebar-dark-primary elevation-4 position-fixed h-100">
                 <!-- Brand Logo -->
                 <a href="/Admin/Home" class="brand-link">
                     <img src="~/Uploads/images/favicon.ico" alt="Cocoon Logo" class="brand-image img-circle elevation-3">
@@ -213,11 +213,11 @@
         }
 
         $(document).ready(function () {
-            $('#logOffLink').on('click', function (e) {
+            $('#logoffLink').on('click', function (e) {
                 e.preventDefault();
                 var confirmation = confirm("Bạn có chắc muốn đăng xuất?");
                 if (confirmation) {
-                    $('#logOffForm').submit();
+                    $('#logoffForm').submit();
                 }
             });
         });

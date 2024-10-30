@@ -16,9 +16,9 @@ namespace WebBanHangOnline.Controllers
             return View();
         }
 
-        public ActionResult _Subscribe()
+        public ActionResult Subscribe()
         { 
-            return PartialView();
+            return PartialView("_Subscribe");
         }
 
         [HttpPost]
@@ -30,7 +30,7 @@ namespace WebBanHangOnline.Controllers
                 db.SaveChanges();
                 return Json(true);           
             }
-            return View();
+            return PartialView("_Subscribe");
         }
 
         public ActionResult About()

@@ -12,18 +12,22 @@
 
     .login-container, .register-container {
         height: auto;
+        min-height: 195px;
         transition: flex-basis 0.5s ease;
         display: flex;
         align-items: center;
         justify-content: center;
         padding: 50px;
         box-sizing: border-box;
-        min-height: 195px;
     }
 
     .login-container {
         background-color: white;
         flex-basis: 75%;
+    }
+
+    .login-container .row {
+        width: 100%;
     }
 
     .register-container {
@@ -45,7 +49,6 @@
         opacity: 1;
     }
 
-    /* Content styling */
     .form-container {
         flex-basis: 100%;
         max-width: 500px;
@@ -112,12 +115,11 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-
-    <script type="text/javascript">
+    <script>
         var loginHtml, forgotPasswordHtml;
         $(document).ready(function () {
             $(document).on('submit', '#registerForm', function (e) {
-                e.preventDefault();    
+                e.preventDefault();
                 $('.success-line').eq(0).text("Bạn hãy chờ chút ...").show();
                 $.ajax({
                     url: this.action,
@@ -152,7 +154,7 @@
                     success: function (result) {
                         if (result.success) {
                             $('#login-validation-summary').hide();
-                            window.location.href = result.redirectUrl;
+                            window.location.href = document.referrer || '/';
                         } else if (result.errors && result.errors.length > 0) {
                             $('.success-line').eq(1).hide();
                             $('#login-validation-summary').show();

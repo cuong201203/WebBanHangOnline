@@ -97,7 +97,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link" id="logOffLink">
+                <a href="#" class="nav-link" id="logoffLink">
                     <i class="nav-icon fas fa-sign-out-alt"></i>
                     <p>Đăng xuất</p>
                 </a>
@@ -111,7 +111,7 @@
 @if (Request.IsAuthenticated)
 {
     <div style="display: none;">
-        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { @id = "logOffForm" }))
+        @using (Html.BeginForm("Logoff", "Account", FormMethod.Post, new { @id = "logoffForm" }))
         {
             @Html.AntiForgeryToken()
         }

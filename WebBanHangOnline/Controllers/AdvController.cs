@@ -17,10 +17,10 @@ namespace WebBanHangOnline.Controllers
             return View();
         }
 
-        public ActionResult _AdvCarousel()
+        public ActionResult AdvCarousel()
         {
             var items = db.Advs.Where(x => x.IsActive).OrderByDescending(x => x.CreatedDate).ToList();
-            return PartialView(items);
+            return PartialView("_AdvCarousel", items);
         }
     }
 }

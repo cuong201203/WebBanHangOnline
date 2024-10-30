@@ -23,7 +23,7 @@
 
 <!-- Phân trang -->
 <div class="d-flex justify-content-center">
-    @Html.PagedListPager(Model, page => Url.Action("_LoadReview", new { productId = ViewBag.ProductId, page }))
+    @Html.PagedListPager(Model, page => Url.Action("LoadReview", new { productId = ViewBag.ProductId, page }))
 </div>
 }
 else

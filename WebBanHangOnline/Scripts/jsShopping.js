@@ -32,7 +32,7 @@ function addToCart(id, quantity) {
                 window.location.href = result.redirectToLogin;
             } else if (result.success) {
                 $('#checkout_items').html(result.count);
-                alert(result.msg);
+                alert("Thêm sản phẩm thành công");
             } else {
                 alert("Đã có lỗi xảy ra.");
             }

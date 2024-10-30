@@ -3628,11 +3628,6 @@
     <Content Include="Areas\Admin\Views\SystemConfig\Add.cshtml" />
     <Content Include="Areas\Admin\Views\SystemConfig\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\SystemConfig\Index.cshtml" />
-    <None Include="Scripts\jquery-3.4.1.intellisense.js" />
-    <Content Include="Scripts\jquery-3.4.1.js" />
-    <Content Include="Scripts\jquery-3.4.1.min.js" />
-    <Content Include="Scripts\jquery-3.4.1.slim.js" />
-    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -3673,6 +3668,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jsLoginRegister.js" />
     <Content Include="Scripts\jsShopping.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Uploads\images\10-diem-meme.gif" />
@@ -3734,8 +3730,8 @@
     <Content Include="Views\ShoppingCart\Index.cshtml" />
     <Content Include="Views\ShoppingCart\_ItemCart.cshtml" />
     <Content Include="Views\ShoppingCart\CheckOut.cshtml" />
-    <Content Include="Views\ShoppingCart\_CheckOut.cshtml" />
-    <Content Include="Views\ShoppingCart\CheckOutSuccess.cshtml" />
+    <Content Include="Views\ShoppingCart\_UserCheckOut.cshtml" />
+    <Content Include="Views\ShoppingCart\CodReturn.cshtml" />
     <Content Include="Views\News\_NewsHome.cshtml" />
     <Content Include="Views\News\Index.cshtml" />
     <Content Include="Views\News\Detail.cshtml" />

@@ -148,10 +148,10 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         }
 
         //
-        // POST: /Account/LogOff
+        // POST: /Account/Logoff
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult LogOff()
+        public ActionResult Logoff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Login", "Account");

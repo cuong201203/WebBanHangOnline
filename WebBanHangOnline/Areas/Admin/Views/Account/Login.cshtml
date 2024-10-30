@@ -61,7 +61,7 @@
         $(document).ready(function () {
             $("#loginForm").submit(function (e) {
                 e.preventDefault();
-                $('.success-line').removeClass('d-none');
+                $('.success-line').show();
                 $("#validation-summary").hide();
                 $.ajax({
                     url: '@Url.Action("Login", "Account")',
@@ -72,7 +72,7 @@
                             window.location.href = result.redirectUrl;
                         } else if (result.errors && result.errors.length > 0) {
                             // Chỉ hiển thị khi có lỗi cụ thể
-                            $('.success-line').addClass('d-none');
+                            $('.success-line').hide;
                             $("#validation-summary").show();
                             $("#validation-errors").empty(); // Xóa thông báo lỗi cũ
                             $.each(result.errors, function (index, error) {
@@ -80,7 +80,7 @@
                             });
                         } else {
                             // Ẩn nếu không có lỗi
-                            $('.success-line').addClass('d-none');
+                            $('.success-line').hide;
                             $("#validation-summary").hide();
                         }
                     }

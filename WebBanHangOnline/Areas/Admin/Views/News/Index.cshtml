@@ -142,9 +142,7 @@
                     page: $(this).data('page')
                 },
                 success: function (data) {
-                    var tempDiv = $('<div></div>').html(data);
-                    var myTableContent = tempDiv.find('#myTable').html();
-                    $('#myTable').html(myTableContent);
+                    $('#myTable').html($('<div></div>').html(data).find('#myTable').html());
                 },
                 error: function () {
                     alert("Lỗi khi tải thông tin.");

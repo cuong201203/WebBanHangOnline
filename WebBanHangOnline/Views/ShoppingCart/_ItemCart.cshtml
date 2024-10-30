@@ -119,10 +119,9 @@ else
                         $('#trow_' + id).remove();
                         updateTotalPrice();
                         updateSTT();
-                        //location.reload();
                         if ($('#checkout_items').html() === '0') {
                             loadCart();
-                            $('.btnDeleteAll, .btnCheckOut').hide();
+                            $('.btnDeleteAll, .btnOrder').hide();
                         }
                     }
                 });
@@ -140,7 +139,7 @@ else
                         // location.reload();
                         $('#checkout_items').html(0);
                         loadCart();
-                        $('.btnDeleteAll, .btnCheckOut').hide();
+                        $('.btnDeleteAll, .btnOrder').hide();
                     }
                 });
             }
@@ -197,7 +196,7 @@ else
 
     function loadCart() {
         $.ajax({
-            url: '/ShoppingCart/_ItemCart',
+            url: '/ShoppingCart/ItemCart',
             type: 'POST',
             success: function (result) {
                 $('#load_data').html(result);

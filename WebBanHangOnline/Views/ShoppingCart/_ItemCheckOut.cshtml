@@ -6,14 +6,14 @@
     var tongTien = decimal.Zero;
 <div class="border border-secondary">
     <table class="table">
-        @foreach (var item in Model)
-            {
-                tongTien += item.TotalPrice;
+    @foreach (var item in Model)
+    {
+        tongTien += item.TotalPrice;
         <tr>
             <td>@item.ProductName</td>
             <td class="text-right">@item.Quantity x <br /> @string.Format("{0:N0}", item.Price)<u>đ</u></td>
         </tr>
-            }
+    }
         <tr class="font-weight-bold">
             <td>Tổng tiền</td>
             <td class="text-right">@string.Format("{0:N0}", tongTien)<u>đ</u></td>

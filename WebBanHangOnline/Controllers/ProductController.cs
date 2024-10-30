@@ -33,10 +33,11 @@ namespace WebBanHangOnline.Controllers
             return View(product);
         }
 
-        public ActionResult ProductCategory(string alias, float? priceMin, float? priceMax, int? id, int page = 1)
+        public ActionResult ProductCategory(string alias, float? priceMin, float? priceMax, int? id, int page = 1, string sortType = "original-order")
         {
             int pageSize = 8;
-            IEnumerable<Product> items = db.Products.OrderByDescending(x => x.CreatedDate).ToList();
+            IEnumerable<Product> items = db.Products.ToList();           
+
             if (id != null)
             {
                 items = items.Where(x => x.ProductCategory.Id == id);
@@ -61,7 +62,18 @@ namespace WebBanHangOnline.Controllers
                 ViewBag.PriceMax = priceMax;
             }
 
-            var pagedItems = items.ToPagedList(page, pageSize);
+            IPagedList<Product> pagedItems;
+            switch (sortType)
+            {
+                case "price":
+                    pagedItems = items.OrderBy(x => x.Price).ToPagedList(page, pageSize); break;
+                case "name":
+                    pagedItems = items.OrderBy(x => x.Title).ToPagedList(page, pageSize); break;
+                default:
+                    pagedItems = items.OrderBy(x => x.CreatedDate).ToPagedList(page, pageSize); break;
+            }
+            ViewBag.SortType = sortType;
+
             if (Request.IsAjaxRequest())
             {
                 return PartialView("_ProductCategory", pagedItems);
@@ -69,13 +81,13 @@ namespace WebBanHangOnline.Controllers
             return View(pagedItems);
         }
 
-        public ActionResult _ProductByCateId()
+        public ActionResult ProductByCateId()
         {
             var items = db.Products.Where(x => x.IsActive).OrderByDescending(x => x.CreatedDate).Take(10).ToList();
-            return PartialView(items);
+            return PartialView("_ProductByCateId", items);
         }
 
-        public ActionResult _ProductSales()
+        public ActionResult ProductSales()
         {
             var query = from p in db.Products
                         join od in db.OrderDetails on p.Id equals od.ProductId into productSales
@@ -124,23 +136,23 @@ namespace WebBanHangOnline.Controllers
                 };
                 productList.Add(product);
             }
-            return PartialView(productList);
+            return PartialView("_ProductSales", productList);
         }
 
-        public ActionResult _ProductRelated(int categoryId, int productId)
+        public ActionResult ProductRelated(int categoryId, int productId)
         {
             var items = db.Products
                 .Where(x => x.ProductCategoryId == categoryId && x.Id != productId && x.IsActive)
                 .OrderByDescending(x => x.CreatedDate)
                 .ToList();
 
-            return PartialView(items);
+            return PartialView("_ProductRelated", items);
         }
 
-        public ActionResult _ProductFeature()
+        public ActionResult ProductFeature()
         {
             var item = db.Products.Where(x => x.IsFeature).OrderByDescending(x => x.CreatedDate).ToList();
-            return PartialView(item);
+            return PartialView("_ProductFeature", item);
         }
 
         [HttpGet]

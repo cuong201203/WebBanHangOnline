@@ -115,7 +115,7 @@ namespace WebBanHangOnline.Controllers
             switch (result)
             {
                 case SignInStatus.Success:     
-                    return Json(new { success = true, redirectUrl = returnUrl ?? Url.Action("Index", "Home") });                
+                    return Json(new { success = true });                
                 case SignInStatus.LockedOut: // Muốn dùng case này thì chỉnh shouldLockout: true
                     return Json(new { success = false, errors = new List<string> { "Bạn đã đăng nhập thất bại 5 lần! Vui lòng thử lại sau 5 phút!" } });
                 case SignInStatus.RequiresVerification:
@@ -126,10 +126,10 @@ namespace WebBanHangOnline.Controllers
         }
 
         //
-        // POST: /Account/LogOff
+        // POST: /Account/Logoff
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult LogOff()
+        public ActionResult Logoff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("LoginRegister", "Account");

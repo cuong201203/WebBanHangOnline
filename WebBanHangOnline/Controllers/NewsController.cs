@@ -13,18 +13,13 @@ namespace WebBanHangOnline.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         // GET: News
-        public ActionResult Index(int? page)
+        public ActionResult Index(int page = 1)
         {
             var pageSize = 5;
-            if (page == null)
-            {
-                page = 1;
-            }
             IEnumerable<News> items = db.News.OrderByDescending(x => x.CreatedDate).Where(x => x.IsActive);
-            var pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
-            items = items.ToPagedList(pageIndex, pageSize);
-            ViewBag.PageSize = pageSize;
+            items = items.ToPagedList(page, pageSize);
             ViewBag.Page = page;
+            ViewBag.PageSize = pageSize;
             return View(items);
         }
 
@@ -34,10 +29,10 @@ namespace WebBanHangOnline.Controllers
             return View(item);
         }
 
-        public ActionResult _NewsHome()
+        public ActionResult NewsHome()
         {
             var items = db.News.OrderByDescending(x => x.CreatedDate).Where(x => x.IsHome).Take(3).ToList();
-            return PartialView(items);
+            return PartialView("_NewsHome", items);
         }
     }
 }

@@ -9,7 +9,8 @@
         priceMin = ViewBag.PriceMin,
         priceMax = ViewBag.PriceMax,
         cateId = ViewBag.CateId,
-        page
+        page,
+        sortType = ViewBag.SortType
     }))
 </div>
 
@@ -21,46 +22,46 @@
             var defaultImage = item.ProductImage.FirstOrDefault(x => x.IsDefault)?.Image ?? "";
             var hoverImage = item.ProductImage.FirstOrDefault(x => x.IsHover)?.Image ?? "";
 
-            <div class="product-item @item.ProductCategory.Alias" style="border-right: 5px solid white; flex: 1 1 calc(25% - 20px);">
-                <div class="product discount product_filter">
-                    <div class="product_image">
-                        <a href="/chi-tiet/@item.Alias-p@(item.Id)">
-                            <img src="@defaultImage" alt="@item.Title" data-src="@defaultImage" data-src-hover="@hoverImage">
-                        </a>
-                    </div>
-                    @if (item.Quantity == 0)
-                    {
-                        <div class="product_bubble product_bubble_right d-flex flex-column align-items-center" style="background: #909090;">
-                            <span style="font-size: 8px;">Hết hàng</span>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="product_bubble product_bubble_red product_bubble_right d-flex flex-column align-items-center">
-                            <span style="font-size: 8px;">Còn @item.Quantity</span>
-                        </div>
-                    }
-                    <div class="product_info">
-                        <h6 class="product_name">
-                            <a href="/chi-tiet/@item.Alias-p@(item.Id)">@item.Title</a>
-                        </h6>
-                        @if (item.PriceSale > 0)
-                        {
-                            <div class="product_price">
-                                @string.Format("{0:N0}", item.PriceSale)<u>đ</u>
-                                <span>@string.Format("{0:N0}", item.Price)<u>đ</u></span>
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="product_price">@string.Format("{0:N0}", item.Price)<u>đ</u></div>
-                        }
-                    </div>
-                </div>
-                <div class="red_button add_to_cart_button">
-                    <a href="#" class="btnAddToCart" data-id="@item.Id">thêm vào giỏ</a>
-                </div>
+    <div class="product-item @item.ProductCategory.Alias" style="border-right: 5px solid white;">
+        <div class="product discount product_filter">
+            <div class="product_image">
+                <a href="/chi-tiet/@item.Alias-p@(item.Id)">
+                    <img src="@defaultImage" alt="@item.Title" data-src="@defaultImage" data-src-hover="@hoverImage">
+                </a>
             </div>
+            @if (item.Quantity == 0)
+            {
+            <div class="product_bubble product_bubble_right d-flex flex-column align-items-center" style="background: #909090;">
+                <span style="font-size: 8px;">Hết hàng</span>
+            </div>
+            }
+            else
+            {
+            <div class="product_bubble product_bubble_red product_bubble_right d-flex flex-column align-items-center">
+                <span style="font-size: 8px;">Còn @item.Quantity</span>
+            </div>
+            }
+            <div class="product_info">
+                <h6 class="product_name">
+                    <a href="/chi-tiet/@item.Alias-p@(item.Id)">@item.Title</a>
+                </h6>
+                @if (item.PriceSale > 0)
+                {
+                <div class="product_price">
+                    @string.Format("{0:N0}", item.PriceSale)<u>đ</u>
+                    <span>@string.Format("{0:N0}", item.Price)<u>đ</u></span>
+                </div>
+                }
+                else
+                {
+                <div class="product_price">@string.Format("{0:N0}", item.Price)<u>đ</u></div>
+                }
+            </div>
+        </div>
+        <div class="red_button add_to_cart_button">
+            <a href="#" class="btnAddToCart" data-id="@item.Id">thêm vào giỏ</a>
+        </div>
+    </div>
         }
     }
 </div>
@@ -70,26 +71,96 @@
         @Html.PagedListPager(Model, page => Url.Action("ProductCategory", new { cateId = ViewBag.CateId, alias = ViewBag.Alias, page }))
     </div>*@
 
+@*<style>
+    .pagination-controls {
+        display: flex;
+        justify-content: center;
+        margin: 20px 0 20px 0;
+    }
+
+    .pagination-controls a.page-link {
+        display: inline-block;
+        padding: 5px 10px;
+        margin: 0 5px;
+        color: #fe4c50;
+        font-size: 16px;
+        text-decoration: none;
+        border: 1px solid #fe4c50;
+        border-radius: 4px;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    .pagination-controls a.page-link:hover {
+        background-color: #d17a7a;
+        color: #fff;
+    }
+
+    .pagination-controls a.page-link.active {
+        background-color: #fe4c50;
+        color: #fff;
+        font-weight: bold;
+        pointer-events: none; /* Disable clicking on active page */
+    }
+
+    .pagination-controls a.page-link:focus {
+        outline: none;
+        box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+    }
+</style>
+
 <script>
     $(document).ready(function () {
-        applyCSSforProductGrid();
-    });
+        var itemSelector = '.product-item';
 
-    $(document).off('click').on('click', '.pagination a', function (e) {
-        e.preventDefault();
-        if ($(this).parent().hasClass('active')) {
-            return;
-        }
-        $.ajax({
-            url: $(this).attr('href'),
-            type: 'GET',
-            success: function (data) {
-                $('#product-grid').html(data);
-                applyCSSforProductGrid();
-            },
-            error: function () {
-                alert("Lỗi khi tải sản phẩm.");
+        var $container = $('.product-grid').isotope({
+            itemSelector: itemSelector,
+            animationOptions: {
+                duration: 750,
+                easing: 'linear',
+                queue: false
             }
         });
+
+        function setupPagination() {
+            var itemsLength = $container.children(itemSelector).length;
+            currentNumberPages = Math.ceil(itemsLength / itemsPerPage);
+
+            var item = 1, page = 1;
+            $container.children(itemSelector).each(function () {
+                if (item > itemsPerPage) {
+                    page++;
+                    item = 1;
+                }
+                $(this).addClass('page' + page);
+                item++;
+            });
+
+            var $pager = $('.pagination-controls');
+            $pager.html('');
+            for (var i = 1; i <= currentNumberPages; i++) {
+                var $pageLink = $('<a href="javascript:void(0);" class="page-link">' + i + '</a>');
+                $pageLink.click(function () {
+                    var pageNum = $(this).text();
+                    changePage(pageNum);
+                });
+                $pager.append($pageLink);
+            }
+        }
+
+        var itemsPerPage = 8;
+        var currentPage = 1;
+        var currentNumberPages = 1;
+
+        function changePage(n) {
+            currentPage = n;
+            var selector = itemSelector + '.page' + currentPage;
+            $container.isotope({ filter: selector });
+
+            $('.pagination-controls a').removeClass('active');
+            $('.pagination-controls a:contains(' + n + ')').addClass('active');
+        }
+
+        setupPagination();
+        changePage(1);
     });
-</script>
+</script>*@

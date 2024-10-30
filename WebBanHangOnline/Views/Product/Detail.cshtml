@@ -14,7 +14,7 @@
         font-weight: 500 !important;
         color: #51545f !important;
         -webkit-font-smoothing: antialiased !important;
-        -webkit-text-shadow: rgba(0,0,0,.01) 0 0 1px !important;
+        /*-webkit-text-shadow: rgba(0,0,0,.01) 0 0 1px !important;*/
         text-shadow: rgba(0,0,0,.01) 0 0 1px !important;
     }
 
@@ -27,9 +27,9 @@
         line-height: 30px !important;
     }
 
-        .product_detail_container .product_details_title p {
-            margin-top: 12px !important;
-        }
+    .product_detail_container .product_details_title p {
+        margin-top: 12px !important;
+    }
 
     .product_detail_container .original_price {
         font-weight: 500 !important;
@@ -53,33 +53,33 @@
         margin-left: 33px !important;
     }
 
-        .product_detail_container .star_rating li {
-            display: inline-block !important;
-            margin-right: -2px !important;
-            cursor: pointer !important;
-        }
+    .product_detail_container .star_rating li {
+        display: inline-block !important;
+        margin-right: -2px !important;
+        cursor: pointer !important;
+    }
 
-            .product_detail_container .star_rating li i {
-                color: #fac451 !important;
-            }
+    .product_detail_container .star_rating li i {
+        color: #fac451 !important;
+    }
 
     .product_detail_container .product_color {
         margin-top: 27px !important;
     }
 
-        .product_detail_container .product_color ul {
-            display: inline-block !important;
-            margin-left: 26px !important;
-        }
+    .product_detail_container .product_color ul {
+        display: inline-block !important;
+        margin-left: 26px !important;
+    }
 
-            .product_detail_container .product_color ul li {
-                display: inline-block !important;
-                width: 12px !important;
-                height: 12px !important;
-                border-radius: 50% !important;
-                margin-right: 29px !important;
-                cursor: pointer !important;
-            }
+    .product_detail_container .product_color ul li {
+        display: inline-block !important;
+        width: 12px !important;
+        height: 12px !important;
+        border-radius: 50% !important;
+        margin-right: 29px !important;
+        cursor: pointer !important;
+    }
 
     .product_detail_container .quantity {
         width: 100% !important;
@@ -102,10 +102,10 @@
         margin-left: 29px !important;
     }
 
-        .product_detail_container .quantity_selector span {
-            font-weight: 500 !important;
-            color: #232530 !important;
-        }
+    .product_detail_container .quantity_selector span {
+        font-weight: 500 !important;
+        color: #232530 !important;
+    }
 
     .product_detail_container .plus,
     .product_detail_container .minus {
@@ -114,10 +114,10 @@
         cursor: pointer !important;
     }
 
-        .product_detail_container .plus:hover,
-        .product_detail_container .minus:hover {
-            color: #b5aec4 !important;
-        }
+    .product_detail_container .plus:hover,
+    .product_detail_container .minus:hover {
+        color: #b5aec4 !important;
+    }
 
     .product_detail_container .add_to_cart_button {
         width: 160px !important;
@@ -132,6 +132,16 @@
     #load_review .star_rating,
     #load_review .star_rating li {
         cursor: default !important;
+    }
+
+    .product-components__details {
+        padding: 15px;
+        font-family: Arial !important;
+    }
+
+    .tab_1_content > strong {
+        font-size: 25px;
+        margin: 10px 0 10px 0;
     }
 
     .quantity-left {
@@ -174,23 +184,23 @@
     <div class="row">
         <div class="col-lg-7">
             @if (Model.ProductImage != null && Model.ProductImage.Any())
-                {
+            {
             <div class="single_product_pics">
                 <div class="row">
                     <div class="col-lg-3 thumbnails_col order-lg-1 order-2">
                         <div class="single_product_thumbnails">
                             <ul>
                                 @foreach (var item in Model.ProductImage)
-                                        {
-                                            if (item.IsDefault)
-                                            {
+                                {
+                                    if (item.IsDefault)
+                                    {
                                 <li class="active"><img src="@item.Image" alt="" data-image="@item.Image"></li>
-                                            }
-                                            else
-                                            {
+                                    }
+                                    else
+                                    {
                                 <li><img src="@item.Image" alt="" data-image="@item.Image"></li>
-                                            }
-                                        }
+                                    }
+                                }
                             </ul>
                         </div>
                     </div>
@@ -201,7 +211,7 @@
                     </div>
                 </div>
             </div>
-                }
+            }
         </div>
         <div class="col-lg-5">
             <div class="product_details">
@@ -210,42 +220,40 @@
                     <p>@Model.Description</p>
                 </div>
                 @if (Model.PriceSale > 0)
-                    {
+                {
                 <div class="original_price">@string.Format("{0:N0}", Model.Price)<u>đ</u></div>
                 <div class="product_price">@string.Format("{0:N0}", Model.PriceSale)<u>đ</u></div>
-                    }
-                    else
-                    {
+                }
+                else
+                {
                 <div class="product_price">@string.Format("{0:N0}", Model.Price)<u>đ</u></div>
-                    }
+                }
                 <ul class="star_rating">
-                    @if (ViewBag.CountReview > 0)
-                    {
-                        var fullStars = Math.Floor(ViewBag.AverageRating);
-                        var halfStar = ViewBag.AverageRating % 1 >= 0.5;
+                @if (ViewBag.CountReview > 0)
+                {
+                    var fullStars = Math.Floor(ViewBag.AverageRating);
+                    var halfStar = ViewBag.AverageRating % 1 >= 0.5;
 
-                        for (int i = 0; i < fullStars; i++)
-                        {
+                    for (int i = 0; i < fullStars; i++)
+                    {
                     <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                        }
-
-                        if (halfStar)
-                        {
-                    <li><i class="fa fa-star-half-o" aria-hidden="true"></i></li>
-                        }
-
-                        for (int i = 0; i < (5 - fullStars - (halfStar ? 1 : 0)); i++)
-                        {
-                    <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
-                        }
                     }
-                    else
+                    if (halfStar)
                     {
-                        for (int i = 0; i < 5; i++)
-                        {
-                    <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
-                        }
+                    <li><i class="fa fa-star-half-o" aria-hidden="true"></i></li>
                     }
+                    for (int i = 0; i < (5 - fullStars - (halfStar ? 1 : 0)); i++)
+                    {
+                    <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < 5; i++)
+                    {
+                    <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+                    }
+                }
                 </ul>
 
                 <div class="quantity d-flex flex-column flex-sm-row align-items-sm-center">
@@ -253,22 +261,22 @@
                     <div class="quantity_selector" @(Model.Quantity == 0 ? "style='pointer-events:none; opacity:0.5;'" : "")>
                         <span class="minus"><i class="fa fa-minus" aria-hidden="true"></i></span>
                         @if (Model.Quantity == 0)
-                            {
+                        {
                         <span class="fa">Hết hàng</span>
-                            }
-                            else
-                            {
+                        }
+                        else
+                        {
                         <span id="quantity_value">1</span>
-                            }
+                        }
                         <span class="plus"><i class="fa fa-plus" aria-hidden="true"></i></span>
                     </div>
                     <div class="red_button add_to_cart_button"><a href="#" class="btnAddToCart" data-id="@Model.Id">thêm vào giỏ</a></div>
                     @*<div class="product_favorite d-flex flex-column align-items-center justify-content-center"></div>*@
                 </div>
                 @if (Model.Quantity > 0)
-                    {
+                {
                 <div class="quantity-left">Còn: <span>@Model.Quantity</span></div>
-                    }
+                }
             </div>
         </div>
     </div>
@@ -279,7 +287,7 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <div class="tabs_container">
+                <div class="tabs_container" style="margin: 30px 0 30px 0;;">
                     <ul class="tabs d-flex flex-sm-row flex-column align-items-left align-items-md-center justify-content-center">
                         <li class="tab active" data-active-tab="tab_1"><span>Chi tiết sản phẩm</span></li>
                         @*<li class="tab" data-active-tab="tab_2"><span>Additional Information</span></li>*@
@@ -293,7 +301,7 @@
 
                 <!-- Tab Description -->
                 <div id="tab_1" class="tab_container active">
-                    <div class="row">
+                    <div class="row tab_1_content">
                         @Html.Raw(Model.Detail)
                     </div>
                 </div>
@@ -303,22 +311,21 @@
                     <div class="row">
                         <!-- User Reviews -->
                         <div class="col-lg-6 reviews_col" id="load_review">
-                            @Html.Action("_LoadReview", "ReviewProduct", new { productId = Model.Id })
+                            @Html.Action("LoadReview", "ReviewProduct", new { productId = Model.Id })
                         </div>
 
                         <!-- Add Review -->
                         <div class="col-lg-6 add_review_col">
-                            @Html.Action("_Review", "ReviewProduct", new { productId = Model.Id })
+                            @Html.Action("Review", "ReviewProduct", new { productId = Model.Id })
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
 </div>
 
-@Html.Action("_ProductRelated", "Product", new { categoryId = Model.ProductCategoryId, productId = Model.Id })
+    @Html.Action("ProductRelated", "Product", new { categoryId = Model.ProductCategoryId, productId = Model.Id })
 }
 @section scripts{
     <script src="~/Content/assets/js/product_detail_custom.js"></script>

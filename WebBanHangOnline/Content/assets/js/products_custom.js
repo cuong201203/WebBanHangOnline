@@ -337,9 +337,9 @@ jQuery(document).ready(function($)
     		// Short based on the value from the sorting_type dropdown
 			sortTypes.each(function () {
 				$(this).on('click', function () {
-					$('.type_sorting_text').text($(this).text());
 					var option = $(this).attr('data-isotope-option');
 					option = JSON.parse(option);
+					$('.type_sorting_text').text($(this).text()).val(option.sortBy);					
 
 					// Sửa lại phần sắp xếp giá
 					if (option.sortBy === 'price') {
@@ -363,7 +363,7 @@ jQuery(document).ready(function($)
 	        		var numSortingText = $(this).text();
 					var numFilter = ':nth-child(-n+' + numSortingText + ')';
 	        		$('.num_sorting_text').text($(this).text());
-    				$('.product-grid').isotope({filter: numFilter });
+    				$('.product-grid').isotope({ filter: numFilter });
 	        	});
 	        });	
 
@@ -385,7 +385,6 @@ jQuery(document).ready(function($)
 					}
 				});
 			});
-
     	}
     }
 
@@ -404,8 +403,8 @@ jQuery(document).ready(function($)
 			{
 				range: true,
 				min: 0,
-				max: 500000,
-				values: [0, 250000],
+				max: 1000000,
+				values: [0, 1000000],
 				slide: function (event, ui) {
 					$("#amount").val(formatCurrency(ui.values[0]) + "đ - " + formatCurrency(ui.values[1]) + "đ");
 				}

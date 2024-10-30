@@ -100,10 +100,10 @@
                                         <ul class="account_selection rounded" style="width: 170px; z-index: 101;">
                                             <li><a href="/Account/Profile"><i class="fa fa-user" aria-hidden="true"></i>Tài khoản của tôi</a></li>
                                             <li><a href="/Account/OrderHistory"><i class="fa fa-shopping-bag" aria-hidden="true"></i>Đơn mua</a></li>
-                                            <li><a href="#" id="logOffLink"><i class="fa fa-sign-out" aria-hidden="true"></i>Đăng xuất</a></li>
+                                            <li><a href="#" id="logoffLink"><i class="fa fa-sign-out" aria-hidden="true"></i>Đăng xuất</a></li>
                                         </ul>
                                         <div style="display: none;">
-                                            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { @id = "logOffForm" }))
+                                            @using (Html.BeginForm("Logoff", "Account", FormMethod.Post, new { @id = "logoffForm" }))
                                             {
                                             @Html.AntiForgeryToken()
                                             }
@@ -185,7 +185,7 @@
                         <ul class="menu_selection">
                             <li><a href="/Account/Profile"><i class="fa fa-user" aria-hidden="true"></i>Tài khoản của tôi</a></li>
                             <li><a href="/Account/OrderHistory"><i class="fa fa-shopping-bag" aria-hidden="true"></i>Đơn mua</a></li>
-                            <li><a href="#" id="logOffLink"><i class="fa fa-sign-out" aria-hidden="true"></i>Đăng xuất</a></li>
+                            <li><a href="#" id="logoffLink"><i class="fa fa-sign-out" aria-hidden="true"></i>Đăng xuất</a></li>
                         </ul>
                         }
                     </li>
@@ -196,7 +196,7 @@
 
         @RenderBody()
         <!-- Newsletter -->
-        @Html.Action("_Subscribe", "Home")
+        @Html.Action("Subscribe", "Home")
 
         <!-- Footer -->
 
@@ -237,6 +237,8 @@
     <a href="#" class="btn btn-primary back-to-top">↑ Lên đầu</a>
 
     @*@Scripts.Render("~/bundles/jquery")*@
+    @*@Scripts.Render("~/bundles/bootstrap")*@
+    @RenderSection("scripts", required: false)
     <script src="~/Content/assets/styles/bootstrap4/popper.js"></script>
     <script src="~/Content/assets/styles/bootstrap4/bootstrap.min.js"></script>
     <script src="~/Content/assets/plugins/Isotope/isotope.pkgd.min.js"></script>
@@ -247,16 +249,15 @@
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
-    @*@Scripts.Render("~/bundles/bootstrap")*@
     <script src="~/Scripts/jsShopping.js"></script>
 
     <script>
         $(document).ready(function () {
-            $(document).on('click', '#logOffLink', function (e) {
+            $(document).on('click', '#logoffLink', function (e) {
                 e.preventDefault();
                 var confirmation = confirm("Bạn có chắc muốn đăng xuất?");
                 if (confirmation) {
-                    $('#logOffForm').submit();
+                    $('#logoffForm').submit();
                 }
             });
 
@@ -338,6 +339,5 @@
             });
         });
     </script>
-    @RenderSection("scripts", required: false)
 </body>
 </html>

@@ -22,33 +22,57 @@
     </div>
     <h2 id="title">@ViewBag.Title</h2>
     <hr class="mb-5" />
-    @if (Model != null && Model.Any())
-    {
-        foreach (var item in Model)
+    <div class="news-list">
+        @if (Model != null && Model.Any())
         {
-            <div class="row pb-5">
-                <div class="col-md-5">
-                    <div>
-                        <a href="/@item.Alias-n@(item.Id)" title="@item.Title">
-                            <img src="@item.Image" alt="@item.Title" class="w-100 h-100" />
-                        </a>
-                    </div>
+            foreach (var item in Model)
+            {
+        <div class="row pb-5">
+            <div class="col-md-5">
+                <div>
+                    <a href="/@item.Alias-n@(item.Id)" title="@item.Title">
+                        <img src="@item.Image" alt="@item.Title" class="w-100 h-100" />
+                    </a>
                 </div>
-                <div class="col-md-7">
+            </div>
+            <div class="col-md-7">
+                <div>
+                    <h3>
+                        <a href="/@item.Alias-n@(item.Id)" title="@item.Title" style="color: black !important;">@item.Title</a>
+                    </h3>
                     <div>
-                        <h3>
-                            <a href="/@item.Alias-n@(item.Id)" title="@item.Title" style="color: black !important;">@item.Title</a>
-                        </h3>
-                        <div>
-                            <a href="/@item.Alias-n@(item.Id)" title="@item.Title" style="color: black !important;">@item.Description</a>
-                        </div>
+                        <a href="/@item.Alias-n@(item.Id)" title="@item.Title" style="color: black !important;">@item.Description</a>
                     </div>
                 </div>
             </div>
+        </div>
+            }
         }
-    }
-    <div class="d-flex justify-content-center">
-        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+        <div class="d-flex justify-content-center">
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+        </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        $(document).off('click').on('click', '.pagination a', function (e) {
+            e.preventDefault();
+            if ($(this).parent().hasClass('active')) {
+                return;
+            }
+            $.ajax({
+                url: $(this).attr('href'),
+                type: 'GET',
+                success: function (data) {
+                    $('.news-list').html($('<div></div>').html(data).find('.news-list').html());
+                    $('html, body').animate({ scrollTop: 0 }, '300');
+                },
+                error: function () {
+                    alert("Lỗi khi tải thông tin.");
+                }
+            });
+        })
+    })
+</script>
 

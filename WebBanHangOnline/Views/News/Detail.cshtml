@@ -7,6 +7,16 @@
 <link rel="stylesheet" type="text/css" href="~/Content/assets/styles/whole_web_styles.css">
 <link rel="stylesheet" type="text/css" href="~/Content/assets/styles/whole_web_responsive.css">
 
+<style>
+    .news-content div {
+        padding: 15px;
+    }
+
+    .sabo-text {
+        font-family: Arial !important;
+    }
+</style>
+
 <div class="container product_section_container">
     <div class="row">
         <div class="col">
@@ -28,7 +38,7 @@
             @*<div class="col-md-12 mb-3">
                     @Model.Description
                 </div>*@
-            <div class="col-md-12">
+            <div class="col-md-12 news-content">
                 @Html.Raw(Model.Detail)
             </div>
         </div>

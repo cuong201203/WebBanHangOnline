@@ -44,7 +44,7 @@
                         <h5>Lọc theo giá</h5>
                     </div>
                     <p>
-                        <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                        <input type="text" id="amount" readonly style="border: 0; color: #f6931f; font-weight: bold;">
                     </p>
                     <div id="slider-range"></div>
                     <div class="filter_button"><span>Tìm</span></div>
@@ -60,7 +60,7 @@
                             <div class="product_sorting_container product_sorting_container_top">
                                 <ul class="product_sorting">
                                     <li>
-                                        <span class="type_sorting_text">Mặc định</span>
+                                        <span class="type_sorting_text" value="original-order">Mặc định</span>
                                         <i class="fa fa-angle-down"></i>
                                         <ul class="sorting_type">
                                             <li class="type_sorting_btn" data-isotope-option='{ "sortBy": "original-order" }'><span>Mặc định</span></li>
@@ -88,11 +88,14 @@
 
 <script>
     $(document).ready(function () {
+        applyCSSforProductGrid();
         $('.filter_button').on('click', function (e) {
             e.preventDefault();
             var priceRange = $('#amount').val().split('-');
             var priceMin = parseFloat(priceRange[0].replace(/[đ,.]/g, '').trim());
             var priceMax = parseFloat(priceRange[1].replace(/[đ,.]/g, '').trim());
+            var sortType = $('.type_sorting_text').val();
+            console.log(sortType);
 
             var url = $('.active a').attr('href');
             $.ajax({
@@ -101,7 +104,33 @@
                 data: {
                     priceMin: priceMin,
                     priceMax: priceMax,
-                    page: 1
+                    sortType: sortType
+                },
+                success: function (data) {
+                    $('#product-grid').html(data);
+                    $('html, body').animate({ scrollTop: 150 }, '300');
+                    applyCSSforProductGrid();
+                },
+                error: function () {
+                    alert("Lỗi khi tải sản phẩm.");
+                }
+            })
+        })
+
+        $('.type_sorting_btn').on('click', function (e) {
+            e.preventDefault();
+            var priceRange = $('#amount').val().split('-');
+            var priceMin = parseFloat(priceRange[0].replace(/[đ,.]/g, '').trim());
+            var priceMax = parseFloat(priceRange[1].replace(/[đ,.]/g, '').trim());
+            var sortType = JSON.parse($(this).attr('data-isotope-option')).sortBy;
+            var url = $('.active a').attr('href');
+            $.ajax({
+                url: url,
+                type: 'GET',
+                data: {
+                    priceMin: priceMin,
+                    priceMax: priceMax,
+                    sortType: sortType
                 },
                 success: function (data) {
                     $('#product-grid').html(data);
@@ -110,21 +139,37 @@
                 error: function () {
                     alert("Lỗi khi tải sản phẩm.");
                 }
-            });
+            })
         })
+
+        $(document).off('click').on('click', '.pagination a', function (e) {
+            e.preventDefault();
+            if ($(this).parent().hasClass('active')) {
+                return;
+            }
+            $.ajax({
+                url: $(this).attr('href'),
+                type: 'GET',
+                success: function (data) {
+                    $('#product-grid').html(data);
+                    applyCSSforProductGrid();
+                },
+                error: function () {
+                    alert("Lỗi khi tải sản phẩm.");
+                }
+            });
+        });
     });
 
     function applyCSSforProductGrid() {
         $('.product_image img').hover(
             function () {
-                // Khi hover vào ảnh
                 var hoverSrc = $(this).data('src-hover');
                 $(this).stop().fadeTo(300, 0.5, function () {
                     $(this).attr('src', hoverSrc).stop().fadeTo(300, 1);
                 });
             },
             function () {
-                // Khi rời khỏi ảnh
                 var defaultSrc = $(this).data('src');
                 $(this).stop().fadeTo(300, 0.5, function () {
                     $(this).attr('src', defaultSrc).stop().fadeTo(300, 1);
