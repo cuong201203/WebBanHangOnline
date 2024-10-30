@@ -5,20 +5,20 @@
         perspective: 1000px;
     }
 
-    .navbar_menu li {
-        transition: transform 0.3s ease-in-out;
-        transform: translateZ(0) scale(1);
-    }
+        .navbar_menu li {
+            transition: transform 0.3s ease-in-out;
+            transform: translateZ(0) scale(1);
+        }
 
-    .navbar_menu li:hover {
-        transform: translateZ(0) scale(1.3);
-    }
+            .navbar_menu li:hover {
+                transform: translateZ(0) scale(1.3);
+            }
 </style>
 
 @if (Model != null && Model.Any())
 {
-    <ul class="navbar_menu">
-        @foreach (var item in Model)
+<ul class="navbar_menu">
+    @foreach (var item in Model)
         {
             if (item.Alias.Equals("trang-chu"))
             {
@@ -28,27 +28,11 @@
             {
                 item.Alias = "danh-muc-san-pham/tat-ca";
             }
-            <li><a href="/@item.Alias">@item.Title</a></li>
+    <li><a href="/@item.Alias">@item.Title</a></li>
         }
-    </ul>
+</ul>
 }
 
-<script>
-    $(document).ready(function () {
-        $('.navbar_menu a').off('click').on('click', function (e) {
-            e.preventDefault();
-            var url = $(this).attr('href');
-
-            $.ajax({
-                url: url,
-                type: 'POST',
-                success: function () {
-                    window.location.href = url;
-                },
-                error: function () {
-                    window.location.href = '@Url.Action("Error", "Home")';
-                }
-            });
-        });
-    });
-</script>
+@section scripts{
+    <script src="~/Scripts/jsMenu.js"></script>
+}

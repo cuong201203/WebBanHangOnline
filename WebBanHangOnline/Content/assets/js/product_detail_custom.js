@@ -1,19 +1,18 @@
-/* JS Document */
+﻿/* JS Document */
 
 /******************************
 
 [Table of Contents]
 
-1. Vars and Inits
-2. Set Header
+0. Vars and Inits
+1. Set Header
+2. Init Review Ajax
 3. Init Menu
 4. Init Thumbnail
 5. Init Quantity
 6. Init Star Rating
 7. Init Favorite
 8. Init Tabs
-
-
 
 ******************************/
 
@@ -23,7 +22,7 @@ jQuery(document).ready(function($)
 
 	/* 
 
-	1. Vars and Inits
+	0. Vars and Inits
 
 	*/
 
@@ -49,14 +48,14 @@ jQuery(document).ready(function($)
 
 	initMenu();
 	initThumbnail();
-	// initQuantity();
+	initQuantity();
 	initStarRating();
 	initFavorite();
 	initTabs();
 
 	/* 
 
-	2. Set Header
+	1. Set Header
 
 	*/
 
@@ -89,6 +88,34 @@ jQuery(document).ready(function($)
 			closeMenu();
 		}
 	}
+
+	/*
+
+	2. Init Review Ajax
+
+	*/
+
+	$(document).off('click').on('click', '.pagination a', function (event) {
+		event.preventDefault();
+
+		// Kiểm tra nếu nút phân trang đang được active
+		if ($(this).parent().hasClass('active')) {
+			return;
+		}
+
+		var url = $(this).attr('href'); // Lấy URL từ link phân trang
+
+		$.ajax({
+			url: url,
+			type: 'GET',
+			success: function (data) {
+				$('#load_review').html(data); // Cập nhật nội dung đánh giá
+			},
+			error: function () {
+				alert("Lỗi khi tải đánh giá.");
+			}
+		});
+	});
 
 	/* 
 
@@ -198,39 +225,53 @@ jQuery(document).ready(function($)
 				});
 			});
 		}	
+
+		$('.product_image img').hover(
+			function () {
+				// Khi hover vào ảnh
+				var hoverSrc = $(this).data('src-hover');
+				$(this).stop().fadeTo(300, 0.5, function () {
+					$(this).attr('src', hoverSrc).stop().fadeTo(300, 1);
+				});
+			},
+			function () {
+				// Khi rời khỏi ảnh
+				var defaultSrc = $(this).data('src');
+				$(this).stop().fadeTo(300, 0.5, function () {
+					$(this).attr('src', defaultSrc).stop().fadeTo(300, 1);
+				});
+			}
+		);
 	}
 
 	/* 
 
 	5. Init Quantity	
 
+	*/
+
+
 	function initQuantity()
 	{
-		if ($('.plus').length && $('.minus').length)
-		{
-			var plus = $('.plus');
-			var minus = $('.minus');
-			var value = $('#quantity_value');
-			var leftQuantity = parseInt($('.quantity-left').find('span').text());			
+		var plus = $('.plus');
+		var minus = $('.minus');
+		var value = $('#quantity_value');
+		if (plus.length && minus.length) {
+			var leftQuantity = parseInt($('.quantity-left').find('span').text());
 
-			plus.on('click', function()
-			{
+			plus.on('click', function () {
 				var x = parseInt(value.text());
 				value.text(Math.min(x + 1, leftQuantity));
 			});
 
-			minus.on('click', function()
-			{
+			minus.on('click', function () {
 				var x = parseInt(value.text());
-				if (x > 1)
-				{
-					value.text(x - 1);
-				}
+				value.text(Math.max(x - 1, 1));
 			});
 		}
 	}
 
-	*/
+
 
 	/* 
 

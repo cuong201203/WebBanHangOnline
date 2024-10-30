@@ -88,16 +88,17 @@ namespace WebBanHangOnline.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        public async Task<ActionResult> Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return Json(new { success = false, errors = ReturnErrors() });
             }
 
             var user = await UserManager.FindByNameAsync(model.UserName);
             if (user == null)
             {
+                // Case sai username
                 return Json(new { success = false, errors = new List<string> { "Tên đăng nhập hoặc mật khẩu của bạn không đúng! Vui lòng thử lại!" } });
             }
 
@@ -120,6 +121,8 @@ namespace WebBanHangOnline.Controllers
                     return Json(new { success = false, errors = new List<string> { "Bạn đã đăng nhập thất bại 5 lần! Vui lòng thử lại sau 5 phút!" } });
                 case SignInStatus.RequiresVerification:
                     return Json(new { success = false, errors = new List<string> { "Xác minh tài khoản của bạn!" } });
+                case SignInStatus.Failure: // Case sai password
+                    return Json(new { success = false, errors = new List<string> { "Tên đăng nhập hoặc mật khẩu của bạn không đúng! Vui lòng thử lại!" } });
                 default:
                     return Json(new { success = false, errors = ReturnErrors() });
             }
@@ -147,13 +150,13 @@ namespace WebBanHangOnline.Controllers
                 var existingUser = await UserManager.FindByNameAsync(model.UserName);
                 if (existingUser != null)
                 {
-                    return Json(new { success = false, errors = new List<string> { "Tên người dùng đã được sử dụng. Vui lòng chọn tên khác." } });
+                    return Json(new { success = false, error = "Tên người dùng đã được sử dụng. Vui lòng chọn tên khác." });
                 }
 
                 var existingEmail = await UserManager.FindByEmailAsync(model.Email);
                 if (existingEmail != null)
                 {
-                    return Json(new { success = false, errors = new List<string> { "Địa chỉ email này đã được sử dụng. Vui lòng nhập một địa chỉ email khác." } });
+                    return Json(new { success = false, error = "Địa chỉ email này đã được sử dụng. Vui lòng nhập một địa chỉ email khác." });
                 }
                 var user = new ApplicationUser
                 {
@@ -181,7 +184,7 @@ namespace WebBanHangOnline.Controllers
                 }
                 AddErrors(result);
             }
-            return Json(new { success = false, errors = ReturnErrors() });
+            return Json(new { success = false });
         }
 
         //
@@ -278,14 +281,14 @@ namespace WebBanHangOnline.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return Json(new { success = false, errors = ReturnErrors() });
+                return Json(new { success = false });
             }
             var result = await UserManager.ResetPasswordAsync(model.UserId, model.Token, model.Password);
             if (result.Succeeded)
             {
                 return Json(new { success = true });
             }
-            return Json(new { success = false, errors = new List<string> { "Link xác thực không chính xác!" } });
+            return Json(new { success = false, error = "Link xác thực không chính xác!" });
         }
 
         //

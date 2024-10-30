@@ -88,49 +88,9 @@
 @Html.Action("NewsHome", "News")
 
 @section scripts {
-    <!-- Custom JS for swipe -->
-    <script>
-        var carousel = document.getElementById('customCarousel');
-        var startX, endX;
-
-        // Handle touch events for swipe on mobile
-        carousel.addEventListener('touchstart', function (e) {
-            startX = e.touches[0].clientX;
-        });
-
-        carousel.addEventListener('touchmove', function (e) {
-            endX = e.touches[0].clientX;
-        });
-
-        carousel.addEventListener('touchend', function (e) {
-            handleSwipe();
-        });
-
-        // Handle mouse events for swipe on desktop
-        carousel.addEventListener('mousedown', function (e) {
-            startX = e.clientX;
-        });
-
-        carousel.addEventListener('mousemove', function (e) {
-            if (startX) {
-                endX = e.clientX;
-            }
-        });
-
-        carousel.addEventListener('mouseup', function (e) {
-            handleSwipe();
-            startX = null;
-        });
-
-        function handleSwipe() {
-            var threshold = 100; // swipe threshold in pixels
-            if (startX && endX) {
-                if (endX - startX > threshold) {
-                    $('#customCarousel').carousel('prev'); // swipe right to go to the previous item
-                } else if (startX - endX > threshold) {
-                    $('#customCarousel').carousel('next'); // swipe left to go to the next item
-                }
-            }
-        }
-    </script>
+    <script src="~/Content/assets/plugins/easing/easing.js"></script>
+    <script src="~/Content/assets/plugins/Isotope/isotope.pkgd.min.js"></script>
+    <script src="~/Content/assets/js/products_custom.js"></script>
+    <script src="~/Scripts/jsShopping.js"></script>
+    <script src="~/Scripts/jsHome.js"></script>
 }

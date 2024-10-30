@@ -1,6 +1,6 @@
 ﻿@model WebBanHangOnline.Models.OrderViewModel
 
-@using (Html.BeginForm("CheckOut", "ShoppingCart", FormMethod.Post, new { @id = "myForm" }))
+@using (Html.BeginForm("CheckOut", "ShoppingCart", FormMethod.Post, new { @id = "checkOutForm" }))
 {
     @Html.AntiForgeryToken()
     <h3>Thông tin khách hàng</h3>
@@ -37,25 +37,6 @@
         <label><input type="radio" name="VnPayTypePayment" value="3" /> Thanh toán qua thẻ quốc tế </label><br />
     </div>
     <div class="form-group">
-        <button type="submit" class="btn btn-block btn-success">Thanh toán</button>
+        <button type="submit" class="btn btn-block btn-success btnCheckOut">Thanh toán</button>
     </div>
 }
-<script>
-    $(document).ready(function () {
-        $.ajax({
-            url: '@Url.Action("GetUserInfo", "Account")',
-            type: 'GET',
-            success: function (data) {
-                if (data) {
-                    $('#CustomerName').val(data.FullName);
-                    $('#CustomerPhone').val(data.Phone);
-                    $('#CustomerAddress').val(data.Address);
-                    $('#CustomerEmail').val(data.Email);
-                }
-            },
-            error: function () {
-                console.log('Không thể lấy thông tin người dùng.');
-            }
-        });
-    });
-</script>

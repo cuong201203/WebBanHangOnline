@@ -106,22 +106,3 @@
         </div>
     </div>
 }
-
-<script>
-    $(document).ready(function () {
-        $('.best_seller_img').hover(
-            function () {
-                var hoverImage = $(this).attr('data-hover');
-                $(this).stop(true, true).fadeOut(200, function () {
-                    $(this).attr('src', hoverImage).fadeIn(200);
-                });
-            },
-            function () {
-                var defaultImage = $(this).attr('data-default');
-                $(this).stop(true, true).fadeOut(200, function () {
-                    $(this).attr('src', defaultImage).fadeIn(200);
-                });
-            }
-        );
-    });
-</script>

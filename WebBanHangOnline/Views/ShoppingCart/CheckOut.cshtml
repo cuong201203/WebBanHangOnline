@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Thanh toán";
 }
 
@@ -37,68 +36,30 @@
 
             @if (ViewBag.CheckCart != null)
             {
-                <div class="row">
-                    <div id="show_success"></div>
-                    <div class="col-md-8">
-                        @Html.Action("UserCheckOut", "ShoppingCart")
-                    </div>
-                    <div class="col-md-4">
-                        @Html.Action("ItemCheckOut", "ShoppingCart")
-                    </div>
+            <div class="row">
+                <div id="show_success"></div>
+                <div class="col-md-8">
+                    @Html.Action("UserCheckOut", "ShoppingCart")
                 </div>
+                <div class="col-md-4">
+                    @Html.Action("ItemCheckOut", "ShoppingCart")
+                </div>
+            </div>
             }
             else
             {
-                <div class="col-md-12 text-center">
-                    Hãy thêm sản phẩm bạn muốn mua vào giỏ hàng trước khi thanh toán!
-                </div>
+            <div class="col-md-12 text-center">
+                Hãy thêm sản phẩm bạn muốn mua vào giỏ hàng trước khi thanh toán!
+            </div>
             }
         </div>
     </div>
 </div>
 
 @section scripts{
-    <script src="~/Content/assets/js/products_custom.js"></script>
+    <script src="~/Scripts/jsShopping.js"></script>
     <script>
-        function failure(result) {
-            if (!result.success) {
-                $("#show_success").html("Bạn mua hàng thất bại! Xin vui lòng thử lại!");
-            }
-        }
-
-        $(document).ready(function () {
-            $('body').on('change', '#typePayment', function () {
-                var type = $(this).val();
-                $('#load_form_payment').hide();
-                if (type == "2") {
-                    $('#load_form_payment').show();
-                }
-            });
-
-            $("#myForm").validate({
-                rules: {
-                    "CustomerName": {
-                        requestuired: true
-                    },
-                    "Phone": {
-                        requestuired: true
-                    },
-                    "Address": {
-                        requestuired: true
-                    },
-                    "Email": {
-                        requestuired: true,
-                        email: true
-                    }
-                },
-                messages: {
-                    "CustomerName": "Vui lòng không để trống thông tin này!",
-                    "Phone": "Vui lòng không để trống thông tin này!",
-                    "Address": "Vui lòng không để trống thông tin này!",
-                    "Email": "Email không hợp lệ!"
-                }
-            });
-        });
+        getUserInfo();
     </script>
 }
 

@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Giỏ hàng";
 }
 
@@ -24,7 +23,7 @@
             <!-- Main Content -->
 
             <div class="row">
-                <div class="col-md-12" id="load_data">
+                <div class="col-md-12" id="load_item_cart">
                     @Html.Action("ItemCart", "ShoppingCart")
                 </div>
                 <div class="col-md-12">
@@ -41,33 +40,6 @@
     </div>
 </div>
 
-<script>
-    $('.btnOrder').on('click', function (e) {
-        e.preventDefault();
-        var selectedProductIds = [];
-        $('.cbkItem:checked').each(function () {
-            selectedProductIds.push($(this).val());
-        });
-
-        if (selectedProductIds.length === 0) {
-            alert("Vui lòng chọn sản phẩm để đặt hàng!");
-            return;
-        }
-
-        $.ajax({
-            type: 'POST',
-            url: '@Url.Action("ItemCheckOut", "ShoppingCart")',
-            data: { selectedProductIds: selectedProductIds },
-            success: function (response) {
-                if (response.success) {
-                    window.location.href = '/thanh-toan';
-                } else {
-                    alert(response.message);
-                }
-            },
-            error: function () {
-                alert("Lỗi khi lưu ID các sản phẩm được chọn.");
-            }
-        });
-    });
-</script>
+@section scripts{
+    <script src="~/Scripts/jsShopping.js"></script>
+}

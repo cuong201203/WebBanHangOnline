@@ -47,23 +47,3 @@
         @Html.PagedListPager(Model, page => Url.Action("OrderHistory", new { productId = ViewBag.ProductId, page }))
     </div>
 </div>
-
-<script>
-    $(document).off('click').on('click', '.pagination a', function (e) {
-        e.preventDefault();
-        if ($(this).parent().hasClass('active')) {
-            return;
-        }
-        var url = $(this).attr('href');
-        $.ajax({
-            url: url,
-            type: 'GET',
-            success: function (data) {
-                $('#order-list').html(data);
-            },
-            error: function () {
-                alert("Lỗi khi tải thông tin các đơn hàng.");
-            }
-        });
-    });
-</script>

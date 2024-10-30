@@ -229,7 +229,7 @@
                 <div class="product_price">@string.Format("{0:N0}", Model.Price)<u>đ</u></div>
                 }
                 <ul class="star_rating">
-                @if (ViewBag.CountReview > 0)
+                    @if (ViewBag.CountReview > 0)
                 {
                     var fullStars = Math.Floor(ViewBag.AverageRating);
                     var halfStar = ViewBag.AverageRating % 1 >= 0.5;
@@ -325,30 +325,12 @@
     </div>
 </div>
 
-    @Html.Action("ProductRelated", "Product", new { categoryId = Model.ProductCategoryId, productId = Model.Id })
+@Html.Action("ProductRelated", "Product", new { categoryId = Model.ProductCategoryId, productId = Model.Id })
 }
+
 @section scripts{
     <script src="~/Content/assets/js/product_detail_custom.js"></script>
-    <script>
-        $(document).ready(function () {
-            var plus = $('.plus');
-            var minus = $('.minus');
-            var value = $('#quantity_value');
-            if (plus.length && minus.length) {
-                var leftQuantity = parseInt($('.quantity-left').find('span').text());
-
-                plus.on('click', function () {
-                    var x = parseInt(value.text());
-                    value.text(Math.min(x + 1, leftQuantity));
-                });
-
-                minus.on('click', function () {
-                    var x = parseInt(value.text());
-                    value.text(Math.max(x - 1, 1));
-                });
-            }
-        })
-    </script>
+    <script src="~/Scripts/jsShopping.js"></script>
 }
 
 

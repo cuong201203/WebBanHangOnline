@@ -1,0 +1,40 @@
+﻿$(document).ready(function () {
+    $('.navbar_menu a').off('click').on('click', function (e) {
+        e.preventDefault();
+        var url = $(this).attr('href');
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            success: function () {
+                window.location.href = url;
+            },
+            error: function () {
+                window.location.href = '/Home/Error';
+            }
+        });
+    });
+
+    $('.sidebar_categories a').on('click', function (e) {
+        e.preventDefault();
+
+        $('.sidebar_categories li').removeClass('active').find('span').remove();
+        var activeItem = $(this).parent('li').addClass('active');
+        activeItem.find('a').prepend('<span><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>');
+
+        var url = $(this).attr('href');
+        var cateName = $(this).text();
+        $.ajax({
+            url: url,
+            type: 'GET',
+            success: function (data) {
+                $('#product-grid').html(data);
+                $('.category-name').text(cateName);
+                history.pushState(null, '', url);
+            },
+            error: function () {
+                alert("Lỗi khi tải sản phẩm.");
+            }
+        });
+    });
+});

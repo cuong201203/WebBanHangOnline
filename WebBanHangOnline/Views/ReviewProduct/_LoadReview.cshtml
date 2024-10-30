@@ -34,29 +34,3 @@ else
     </div>
 </div>
 }
-
-<script>
-    $(document).ready(function () {
-        $(document).off('click').on('click', '.pagination a', function (event) {
-            event.preventDefault();
-
-            // Kiểm tra nếu nút phân trang đang được active
-            if ($(this).parent().hasClass('active')) {
-                return;
-            }
-
-            var url = $(this).attr('href'); // Lấy URL từ link phân trang
-
-            $.ajax({
-                url: url,
-                type: 'GET',
-                success: function (data) {
-                    $('#load_review').html(data); // Cập nhật nội dung đánh giá
-                },
-                error: function () {
-                    alert("Lỗi khi tải đánh giá.");
-                }
-            });
-        });
-    });
-</script>

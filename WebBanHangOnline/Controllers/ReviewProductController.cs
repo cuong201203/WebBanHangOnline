@@ -68,7 +68,7 @@ namespace WebBanHangOnline.Controllers
                 req.CreatedDate = DateTime.Now;
                 db.ReviewProducts.Add(req);
                 db.SaveChanges();
-                return Json(new { success = true });
+                return Json(new { success = true, msg = "DCM" });
             }
             return Json(new { success = false });
         }

@@ -219,7 +219,7 @@ namespace WebBanHangOnline.Controllers
                         cart.ClearItemCart(selectedProductIds);
                         cart.SaveCart(db);
                         cart.UpdateProductQuantity(order, db);
-                        return RedirectToAction("CheckOutSuccess");                     
+                        return RedirectToAction("CodReturn");                     
                     } 
                     else
                     {

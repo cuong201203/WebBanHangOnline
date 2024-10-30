@@ -9,16 +9,12 @@
     <link rel="icon" type="image/x-icon" href="~/Uploads/images/favicon.ico">
     <link rel="stylesheet" type="text/css" href="~/Content/assets/styles/bootstrap4/bootstrap.min.css">
     <link href="~/Content/assets/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" type="text/css" href="~/Content/assets/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
-    <link rel="stylesheet" type="text/css" href="~/Content/assets/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
-    <link rel="stylesheet" type="text/css" href="~/Content/assets/plugins/OwlCarousel2-2.2.1/animate.css">
-    <link rel="stylesheet" type="text/css" href="~/Content/assets/plugins/jquery-ui-1.12.1.custom/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/assets/plugins/OwlCarousel/owl.carousel.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/assets/plugins/OwlCarousel/owl.theme.default.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/assets/plugins/OwlCarousel/animate.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/assets/plugins/jquery-ui.custom/jquery-ui.css">
     <link rel="stylesheet" type="text/css" href="~/Content/PagedList.css">
-
-    @*@Styles.Render("~/Content/css")*@
-    @Scripts.Render("~/bundles/modernizr")
-    <script src="~/Content/assets/js/jquery-3.2.1.min.js"></script>
-    @Scripts.Render("~/bundles/jqueryval")
+    @*@Styles.Render("~/Content/css")*@    
 
     <style>
         .back-to-top {
@@ -178,7 +174,7 @@
                         }
                         else
                         {
-                        <a href="#" class="text-white font-weight-bold">
+                        <a href="#" class="text-black font-weight-bold">
                             Xin chào <span style="color: red;">@User.Identity.Name</span>
                             <i class="fa fa-angle-down"></i>
                         </a>
@@ -236,108 +232,18 @@
     </div>
     <a href="#" class="btn btn-primary back-to-top">↑ Lên đầu</a>
 
-    @*@Scripts.Render("~/bundles/jquery")*@
-    @*@Scripts.Render("~/bundles/bootstrap")*@
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jqueryval")
     @RenderSection("scripts", required: false)
     <script src="~/Content/assets/styles/bootstrap4/popper.js"></script>
     <script src="~/Content/assets/styles/bootstrap4/bootstrap.min.js"></script>
-    <script src="~/Content/assets/plugins/Isotope/isotope.pkgd.min.js"></script>
-    <script src="~/Content/assets/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
-    <script src="~/Content/assets/plugins/easing/easing.js"></script>
-    <script src="~/Content/assets/plugins/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
-    <script src="~/Content/assets/js/custom.js"></script>
-    <script src="~/Scripts/jquery.validate.min.js"></script>
-    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Content/assets/plugins/jquery-ui.custom/jquery-ui.js"></script>
+    <script src="~/Content/assets/plugins/OwlCarousel/owl.carousel.js"></script>
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
-    <script src="~/Scripts/jsShopping.js"></script>
-
-    <script>
-        $(document).ready(function () {
-            $(document).on('click', '#logoffLink', function (e) {
-                e.preventDefault();
-                var confirmation = confirm("Bạn có chắc muốn đăng xuất?");
-                if (confirmation) {
-                    $('#logoffForm').submit();
-                }
-            });
-
-            $('.hamburger_container').click(function () {
-                $('.navbar_menu').eq(0).hide();
-                $('.navbar_menu').eq(1).find('li').each(function () {
-                    $(this).addClass('menu_item');
-                });
-
-                $('.navbar_menu').eq(1).removeClass('navbar_menu');
-            });
-
-            $(window).resize(function () {
-                if ($('.hamburger_container').css('display') === 'none') {
-                    $('.navbar_menu').show();
-                }
-            });
-
-            $('#search_btn').click(function (e) {
-                e.preventDefault(); // Ngăn trang cuộn về đầu
-                $('#search_popup').toggle();
-                $('#search_input').focus();
-            });
-
-            // Xử lý sự kiện nhấp chuột bên ngoài popup
-            $(document).mouseup(function (e) {
-                var container = $("#search_popup");
-                var button = $('#search_btn');
-
-                // Kiểm tra nếu nhấp chuột bên ngoài popup và nút tìm kiếm
-                if (!container.is(e.target) && container.has(e.target).length === 0 && !button.is(e.target) && !button.has(e.target).length) {
-                    container.hide();
-                }
-            });
-
-            // Xử lý sự kiện khi nhập liệu vào ô tìm kiếm
-            $('#search_input').on('input', function () {
-                var query = $(this).val();
-                if (query.length > 0) {
-                    $.ajax({
-                        url: '@Url.Action("SearchProducts", "Product")',
-                        type: 'GET',
-                        data: { searchTerm: query },
-                        success: function (data) {
-                            $('#search_results').html(''); // Xóa kết quả cũ
-                            if (data.length > 0) {
-                                data.forEach(function (item) {
-                                    $('#search_results').append('<p><a style="color: black; font-family: Tahoma, Geneva, Verdana, sans-serif;" href="/chi-tiet/' + item.Alias + '-p' + item.Id + '">' + item.Title + '</a></p>');
-                                });
-                                $("#no_results").hide();
-                            } else {
-                                $("#no_results").show();
-                            }
-                        }
-                    });
-                } else {
-                    $('#search_results').html(''); // Nếu ô input trống, xóa kết quả
-                }
-            });
-
-            $('li.account').hover(function () {
-                $(this).find('ul.account_selection').show(150);
-            }, function () {
-                // Khi rời hover khỏi .account, ẩn ul.account_selection ngay lập tức
-                $(this).find('ul.account_selection').hide();
-            });
-
-            $(window).scroll(function () {
-                if ($(this).scrollTop() > 300) {
-                    $('.back-to-top').fadeIn();
-                } else {
-                    $('.back-to-top').fadeOut();
-                }
-            });
-
-            $('.back-to-top').on('click', function (e) {
-                e.preventDefault();
-                $('html, body').animate({ scrollTop: 0 }, '300');
-            });
-        });
-    </script>
+    <script src="~/Content/assets/js/custom.js"></script>
+    <script src="~/Scripts/jsLayout.js"></script>
+    <script src="~/Scripts/jsMenu.js"></script>
 </body>
 </html>

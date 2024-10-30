@@ -91,24 +91,3 @@
         </div>
     </div>
 }
-
-<script>
-    $(document).ready(function () {
-        $('.product_image img').hover(
-            function () {
-                // Khi hover vào ảnh
-                var hoverSrc = $(this).data('src-hover');
-                $(this).stop().fadeTo(300, 0.5, function () {
-                    $(this).attr('src', hoverSrc).stop().fadeTo(300, 1);
-                });
-            },
-            function () {
-                // Khi rời khỏi ảnh
-                var defaultSrc = $(this).data('src');
-                $(this).stop().fadeTo(300, 0.5, function () {
-                    $(this).attr('src', defaultSrc).stop().fadeTo(300, 1);
-                });
-            }
-        );
-    });
-</script>

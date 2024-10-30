@@ -12,11 +12,11 @@ namespace WebBanHangOnline.Models
 
     public class LoginViewModel
     {
-        [Required(ErrorMessage = "Vui lòng điền vào mục này!")]
+        [Required(ErrorMessage = "Vui lòng điền tên đăng nhập!")]
         [Display(Name = "UserName")]
         public string UserName { get; set; }
 
-        [Required(ErrorMessage = "Vui lòng điền vào mục này!")]
+        [Required(ErrorMessage = "Vui lòng điền mật khẩu!")]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
@@ -55,7 +55,7 @@ namespace WebBanHangOnline.Models
 
     public class ForgotPasswordViewModel
     {
-        [Required(ErrorMessage = "Vui lòng điền vào mục này!")]
+        [Required(ErrorMessage = "Vui lòng điền email!")]
         [EmailAddress(ErrorMessage = "Sai định dạng email!")]
         [Display(Name = "Email")]
         public string Email { get; set; }
@@ -72,7 +72,7 @@ namespace WebBanHangOnline.Models
         public string UserId { get; set; }
         public string Token { get; set; }
 
-        [Required(ErrorMessage = "Vui lòng điền vào mục này!")]
+        [Required(ErrorMessage = "Vui lòng điền mật khẩu mới!")]
         [StringLength(100, ErrorMessage = "{0} phải có độ dài ít nhất bằng {2}!", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Mật khẩu mới")]
