@@ -28,8 +28,6 @@ COLOR PALETTE
 9. Newsletter
 10. Footer
 
-
-
 ******************************/
 
 /***********
@@ -164,12 +162,6 @@ h6::selection
 	color: #777777 !important;
 }
 :-ms-input-placeholder
-{
-	font-size: 16px !important;
-	font-weight: 500;
-	color: #777777 !important;
-}
-::input-placeholder
 {
 	font-size: 16px !important;
 	font-weight: 500;
@@ -1203,7 +1195,6 @@ section
 }
 .filter_button
 {
-	width: 100%;
 	height: 30px;
 	background: #1e1e27;
 	text-align: center;
@@ -1226,6 +1217,10 @@ section
 	text-transform: uppercase;
 	line-height: 30px;
 	color: #FFFFFF;
+}
+.filter_button.active {
+	background-color: #fe4c50;
+
 }
 .checkboxes li
 {
@@ -1394,39 +1389,9 @@ section
 	font-weight: 600;
 	color: #FFFFFF;
 }
-/*.product_bubble_right::after
-{
-	content: ' ';
-	position: absolute;
-	width: 0;
-	height: 0;
-	left: 6px;
-	right: auto;
-	top: auto;
-	bottom: -6px;
-	border: 6px solid;
-}
-.product_bubble_left::after
-{
-	content: ' ';
-	position: absolute;
-	width: 0;
-	height: 0;
-	left: auto;
-	right: 6px;
-	bottom: -6px;
-	border: 6px solid;
-}
-.product_bubble_red::after
-{
-	border-color: transparent transparent transparent #fe4c50;
-}
-.product_bubble_left::after
-{
-	border-color: #51a042 #51a042 transparent transparent;
-}*/
 .product_bubble_red
 {
+	position: absolute;
 	background: #fe4c50;
 }
 .product_bubble_green
@@ -1621,12 +1586,6 @@ section
 	color: #b9b4c7 !important;
 }
 #newsletter_email:-ms-input-placeholder
-{
-	font-size: 14px !important;
-	font-weight: 400;
-	color: #b9b4c7 !important;
-}
-#newsletter_email::input-placeholder
 {
 	font-size: 14px !important;
 	font-weight: 400;

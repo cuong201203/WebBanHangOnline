@@ -144,11 +144,15 @@
         margin: 10px 0 10px 0;
     }
 
-    .quantity-left {
-        margin: 10px 0px 0px 130px;
+    .quantity-left, .quantity-sold {
+        padding: 10px 5px 5px 5px;
         font-weight: bold;
         font-size: 15px;
         color: #fe4f46;
+    }
+
+    .quantity-left {
+        padding-left: 0;
     }
 
     .review_submit_btn {
@@ -177,7 +181,6 @@
                     <li class="active"><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i>@Model.Title</a></li>
                 </ul>
             </div>
-
         </div>
     </div>
 
@@ -190,17 +193,17 @@
                     <div class="col-lg-3 thumbnails_col order-lg-1 order-2">
                         <div class="single_product_thumbnails">
                             <ul>
-                                @foreach (var item in Model.ProductImage)
+                            @foreach (var item in Model.ProductImage)
+                            {
+                                if (item.IsDefault)
                                 {
-                                    if (item.IsDefault)
-                                    {
                                 <li class="active"><img src="@item.Image" alt="" data-image="@item.Image"></li>
-                                    }
-                                    else
-                                    {
-                                <li><img src="@item.Image" alt="" data-image="@item.Image"></li>
-                                    }
                                 }
+                                else
+                                {
+                                <li><img src="@item.Image" alt="" data-image="@item.Image"></li>
+                                }
+                            }
                             </ul>
                         </div>
                     </div>
@@ -262,7 +265,7 @@
                         <span class="minus"><i class="fa fa-minus" aria-hidden="true"></i></span>
                         @if (Model.Quantity == 0)
                         {
-                        <span class="fa">Hết hàng</span>
+                        <span class="out_of_stock">Hết hàng</span>
                         }
                         else
                         {
@@ -273,10 +276,14 @@
                     <div class="red_button add_to_cart_button"><a href="#" class="btnAddToCart" data-id="@Model.Id">thêm vào giỏ</a></div>
                     @*<div class="product_favorite d-flex flex-column align-items-center justify-content-center"></div>*@
                 </div>
+                <div class="col-md-6 offset-md-2 d-flex align-items-center">
                 @if (Model.Quantity > 0)
                 {
-                <div class="quantity-left">Còn: <span>@Model.Quantity</span></div>
+                    <div class="quantity-left">Còn: <span>@Model.Quantity</span></div>
                 }
+                    &nbsp;||&nbsp;
+                    <div class="quantity-sold">Đã bán: <span>@Model.SoldQuantity</span></div>
+                </div>
             </div>
         </div>
     </div>

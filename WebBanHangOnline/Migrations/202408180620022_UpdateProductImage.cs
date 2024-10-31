@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class UpadteProductImage : DbMigration
+    public partial class UpdateProductImage : DbMigration
     {
         public override void Up()
         {

@@ -1,24 +1,28 @@
 ﻿@model WebBanHangOnline.Models.OrderViewModel
 
-@using (Html.BeginForm("CheckOut", "ShoppingCart", FormMethod.Post, new { @id = "checkOutForm" }))
+@using (Html.BeginForm("CheckOut", "ShoppingCart", FormMethod.Post, new { id = "checkOutForm" }))
 {
     @Html.AntiForgeryToken()
     <h3>Thông tin khách hàng</h3>
     <div class="form-group">
         <label>Họ tên khách hàng</label>
-        <input type="text" id="CustomerName" name="CustomerName" required class="form-control" autocomplete="off" />
+        @Html.TextBoxFor(m => m.CustomerName, new { @class = "form-control", @placeholder = "Họ tên khách hàng..." })
+        @Html.ValidationMessageFor(m => m.CustomerName, "", new { @class = "text-danger" })
     </div>
     <div class="form-group">
         <label>Số điện thoại</label>
-        <input type="text" id="CustomerPhone" name="Phone" class="form-control" autocomplete="off" />
+        @Html.TextBoxFor(m => m.Phone, new { @class = "form-control", @placeholder = "Số điện thoại..." })
+        @Html.ValidationMessageFor(m => m.Phone, "", new { @class = "text-danger" })
     </div>
     <div class="form-group">
         <label>Địa chỉ nhận hàng</label>
-        <input type="text" id="CustomerAddress" name="Address" class="form-control" autocomplete="off" />
+        @Html.TextBoxFor(m => m.Address, new { @class = "form-control", @placeholder = "Địa chỉ nhận hàng..." })
+        @Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger" })
     </div>
     <div class="form-group">
         <label>Email</label>
-        <input type="text" id="CustomerEmail" name="Email" class="form-control" autocomplete="off" />
+        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Email..." })
+        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
     </div>
     <div class="form-group">
         <label>Hình thức thanh toán</label>

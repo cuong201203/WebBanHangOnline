@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WebBanHangOnline.Models.EF.ProductSales>
+﻿@model IEnumerable<WebBanHangOnline.Models.EF.Product>
 
 @if (Model != null && Model.Any())
 {
@@ -44,16 +44,17 @@
                                         {
                                         <div class="product_bubble product_bubble_right d-flex flex-column align-items-center" style="background: #909090;">
                                             <span style="font-size: 8px; ">hết hàng</span>
-                                            <span style="font-size: 8px; background: #909090; padding-inline: 5px;">@item.SoldQuantity sold</span>
                                         </div>
                                         }
                                         else
                                         {
-                                        <div class="product_bubble product_bubble_red product_bubble_right d-flex flex-column align-items-center">
+                                        <div class="product_bubble product_bubble_right product_bubble_red product_bubble_right d-flex flex-column align-items-center">
                                             <span style="font-size: 8px;">còn @item.Quantity</span>
-                                            <span style="font-size: 8px; background: #909090; padding-inline: 5px;">@item.SoldQuantity sold</span>
                                         </div>
                                         }
+                                        <div class="product_bubble product_bubble_right d-flex flex-column align-items-center" style="background: #909090; margin-top: 25px;">
+                                            <span style="font-size: 8px;">đã bán @item.SoldQuantity</span>
+                                        </div>
                                         <div class="product_info">
                                             <h6 class="product_name"><a href="/chi-tiet/@item.Alias-p@(item.Id)">@item.Title</a></h6>
                                             @if (item.PriceSale > 0)

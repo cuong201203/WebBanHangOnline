@@ -141,28 +141,20 @@
         }
     });
 
-    $("#checkOutForm").validate({
-        rules: {
-            "CustomerName": {
-                requestuired: true
-            },
-            "Phone": {
-                requestuired: true
-            },
-            "Address": {
-                requestuired: true
-            },
-            "Email": {
-                requestuired: true,
-                email: true
+    $("#checkOutForm").on('submit', function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: this.method,
+            url: this.url,
+            data: $(this).serialize(),
+            success: function (response) {
+                if (response.success) {
+                    window.location.href = response.redirectUrl;
+                } else {
+                    alert("Có lỗi xảy ra");
+                }
             }
-        },
-        messages: {
-            "CustomerName": "Vui lòng không để trống thông tin này!",
-            "Phone": "Vui lòng không để trống thông tin này!",
-            "Address": "Vui lòng không để trống thông tin này!",
-            "Email": "Email không hợp lệ!"
-        }
+        })
     });
 });
 
@@ -173,9 +165,9 @@ function getUserInfo() {
         success: function (data) {
             if (data) {
                 $('#CustomerName').val(data.FullName);
-                $('#CustomerPhone').val(data.Phone);
-                $('#CustomerAddress').val(data.Address);
-                $('#CustomerEmail').val(data.Email);
+                $('#Phone').val(data.Phone);
+                $('#Address').val(data.Address);
+                $('#Email').val(data.Email);
             }
         },
         error: function () {

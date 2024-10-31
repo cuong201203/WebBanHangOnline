@@ -19,14 +19,26 @@
         e.preventDefault();
 
         $('.sidebar_categories li').removeClass('active').find('span').remove();
-        var activeItem = $(this).parent('li').addClass('active');
-        activeItem.find('a').prepend('<span><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>');
+        $(this).parent('li').addClass('active').find('a').prepend('<span><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>');
 
+        var priceRange, priceMin, priceMax;
+        if ($('.filter_button').hasClass('active')) {
+            priceRange = $('#amount').val().split('-');
+            priceMin = parseFloat(priceRange[0].replace(/[đ,.]/g, '').trim());
+            priceMax = parseFloat(priceRange[1].replace(/[đ,.]/g, '').trim());
+        }
+        var sortType = $('.type_sorting_text').val();
         var url = $(this).attr('href');
         var cateName = $(this).text();
+
         $.ajax({
             url: url,
             type: 'GET',
+            data: {
+                priceMin: priceMin,
+                priceMax: priceMax,
+                sortType: sortType
+            },
             success: function (data) {
                 $('#product-grid').html(data);
                 $('.category-name').text(cateName);

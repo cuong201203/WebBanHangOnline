@@ -1097,8 +1097,12 @@ section
 }
 .quantity_selector span
 {
+	text-align: center;
 	font-weight: 500;
 	color: #232530;
+}
+.quantity_selector .out_of_stock {
+	font-size: 12px;
 }
 .plus,
 .minus

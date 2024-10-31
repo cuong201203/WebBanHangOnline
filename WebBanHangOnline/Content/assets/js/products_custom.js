@@ -4,15 +4,15 @@
 
 [Table of Contents]
 
-0. Vars and Inits
-1. Set Header
-2. Init Ajax
+1. Vars and Inits
+2. Set Header
 3. Init Menu
 4. Init Favorite
 5. Init Fix Product Border
 6. Init Isotope Filtering
 7. Init Price Slider
 8. Init Checkboxes
+9. Init Hover
 
 
 ******************************/
@@ -23,7 +23,7 @@ jQuery(document).ready(function($)
 
 	/* 
 
-	0. Vars and Inits
+	1. Vars and Inits
 
 	*/
 
@@ -49,7 +49,6 @@ jQuery(document).ready(function($)
 		setHeader();
 	});
 
-	initAjax();
 	initMenu();
 	initFavorite();
 	initFixProductBorder();
@@ -59,7 +58,7 @@ jQuery(document).ready(function($)
 
 	/* 
 
-	1. Set Header
+	2. Set Header
 
 	*/
 
@@ -91,120 +90,6 @@ jQuery(document).ready(function($)
 		{
 			closeMenu();
 		}
-	}
-
-	/*
-
-	Init Ajax
-
-	*/
-
-	function applyCSSforProductGrid() {
-		$('.product_image img').hover(
-			function () {
-				var hoverSrc = $(this).data('src-hover');
-				$(this).stop().fadeTo(300, 0.5, function () {
-					$(this).attr('src', hoverSrc).stop().fadeTo(300, 1);
-				});
-			},
-			function () {
-				var defaultSrc = $(this).data('src');
-				$(this).stop().fadeTo(300, 0.5, function () {
-					$(this).attr('src', defaultSrc).stop().fadeTo(300, 1);
-				});
-			}
-		);
-
-		$('.product-grid').isotope({
-			itemSelector: '.product-item',
-			layoutMode: 'fitRows',
-			getSortData: {
-				price: function (itemElement) {
-					var priceEle = $(itemElement).find('.product_price').text().replace('đ', '');
-					return parseFloat(priceEle);
-				},
-				name: '.product_name'
-			},
-			animationOptions: {
-				duration: 750,
-				easing: 'linear',
-				queue: false
-			}
-		});
-	}
-
-	function initAjax() {
-		applyCSSforProductGrid();
-		$('.filter_button').on('click', function (e) {
-			e.preventDefault();
-			var priceRange = $('#amount').val().split('-');
-			var priceMin = parseFloat(priceRange[0].replace(/[đ,.]/g, '').trim());
-			var priceMax = parseFloat(priceRange[1].replace(/[đ,.]/g, '').trim());
-			var sortType = $('.type_sorting_text').val();
-
-			var url = $('.active a').attr('href');
-			$.ajax({
-				url: url,
-				type: 'GET',
-				data: {
-					priceMin: priceMin,
-					priceMax: priceMax,
-					sortType: sortType
-				},
-				success: function (data) {
-					$('#product-grid').html(data);
-					$('html, body').animate({ scrollTop: 150 }, '300');
-					applyCSSforProductGrid();
-				},
-				error: function () {
-					alert("Lỗi khi tải sản phẩm.");
-				}
-			})
-		})
-
-		$('.type_sorting_btn').on('click', function (e) {
-			e.preventDefault();
-			var priceRange = $('#amount').val().split('-');
-			var priceMin = parseFloat(priceRange[0].replace(/[đ,.]/g, '').trim());
-			var priceMax = parseFloat(priceRange[1].replace(/[đ,.]/g, '').trim());
-			var sortType = JSON.parse($(this).attr('data-isotope-option')).sortBy;
-			var url = $('.active a').attr('href');
-			console.log(url);
-			$.ajax({
-				url: url,
-				type: 'GET',
-				data: {
-					priceMin: priceMin,
-					priceMax: priceMax,
-					sortType: sortType
-				},
-				success: function (data) {
-					$('#product-grid').html(data);
-					applyCSSforProductGrid();
-				},
-				error: function () {
-					alert("Lỗi khi tải sản phẩm.");
-				}
-			})
-		})
-
-		$(document).off('click').on('click', '.pagination a', function (e) {
-			e.preventDefault();
-			if ($(this).parent().hasClass('active')) {
-				return;
-			}
-			$.ajax({
-				url: $(this).attr('href'),
-				type: 'GET',
-				success: function (data) {
-					$('#product-grid').html(data);
-					applyCSSforProductGrid();
-				},
-				error: function () {
-					alert("Lỗi khi tải sản phẩm.");
-				}
-			});
-		});
 	}
 
 
@@ -574,5 +459,26 @@ jQuery(document).ready(function($)
     			});
     		}
     	};
-    }
+	}
+
+	/*
+	
+	9. Init Hover
+
+	*/
+
+	$('.product_image img').hover(
+		function () {
+			var hoverSrc = $(this).data('src-hover');
+			$(this).stop().fadeTo(300, 0.5, function () {
+				$(this).attr('src', hoverSrc).stop().fadeTo(300, 1);
+			});
+		},
+		function () {
+			var defaultSrc = $(this).data('src');
+			$(this).stop().fadeTo(300, 0.5, function () {
+				$(this).attr('src', defaultSrc).stop().fadeTo(300, 1);
+			});
+		}
+	);
 });

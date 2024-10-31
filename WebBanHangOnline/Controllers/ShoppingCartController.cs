@@ -8,7 +8,8 @@ using System;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Configuration;
 using System.Collections.Generic;
-    
+using System.Web;
+
 namespace WebBanHangOnline.Controllers
 {
     [CustomAuthorize("~/Account/LoginRegister")]
@@ -139,13 +140,16 @@ namespace WebBanHangOnline.Controllers
         public ActionResult CheckOut()
         {
             var cart = GetCurrentCart();
-            ViewBag.CheckCart = cart;            
+            ViewBag.CheckCart = cart;
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            Response.Cache.SetNoStore();
+            Response.Cache.SetExpires(DateTime.UtcNow.AddHours(-1));
             return View();
         }        
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CheckOut(OrderViewModel request)
+        public ActionResult CheckOut(OrderViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -155,20 +159,17 @@ namespace WebBanHangOnline.Controllers
                 {
                     var selectedItems = cart.items.Where(x => selectedProductIds.Contains(x.ProductId)).ToList();
 
-                    // Lấy tên UserName của tài khoản đang đăng nhập
-                    var createdBy = User.Identity.GetUserName();
-
                     Order order = new Order
                     {
-                        CustomerName = request.CustomerName,
-                        Phone = request.Phone,
-                        Address = request.Address,
-                        Email = request.Email,
+                        CustomerName = model.CustomerName,
+                        Phone = model.Phone,
+                        Address = model.Address,
+                        Email = model.Email,
                         TotalAmount = selectedItems.Sum(x => (x.Price * x.Quantity)),
-                        TypePayment = request.TypePayment,
+                        TypePayment = model.TypePayment,
                         CreatedDate = DateTime.Now,
                         ModifiedDate = DateTime.Now,
-                        CreatedBy = createdBy,
+                        CreatedBy = User.Identity.GetUserName(),
                         CustomerId = User.Identity.IsAuthenticated ? User.Identity.GetUserId() : null,
                         Code = "DH" + new Random().Next(1000, 9999)
                     };
@@ -205,32 +206,33 @@ namespace WebBanHangOnline.Controllers
                     contentCustomer = contentCustomer.Replace("{{NgayDat}}", DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
                     contentCustomer = contentCustomer.Replace("{{TenKhachHang}}", order.CustomerName);
                     contentCustomer = contentCustomer.Replace("{{Phone}}", order.Phone);
-                    contentCustomer = contentCustomer.Replace("{{Email}}", request.Email);
+                    contentCustomer = contentCustomer.Replace("{{Email}}", model.Email);
                     contentCustomer = contentCustomer.Replace("{{DiaChiNhanHang}}", order.Address);
-                    contentCustomer = contentCustomer.Replace("{{HinhThuc}}", request.TypePayment == 1 ? "COD" : "Chuyển khoản");
+                    contentCustomer = contentCustomer.Replace("{{HinhThuc}}", model.TypePayment == 1 ? "COD" : "Chuyển khoản");
                     contentCustomer = contentCustomer.Replace("{{ThanhTien}}", string.Format("{0:N0}", thanhTien));
                     contentCustomer = contentCustomer.Replace("{{TongTien}}", string.Format("{0:N0}", tongTien));                
 
-                    if (request.TypePayment == 1)
+                    if (model.TypePayment == 1)
                     {
                         db.Orders.Add(order);
                         db.SaveChanges();
-                        WebBanHangOnline.Common.Common.SendMail("ShopOnline", "Đơn hàng #" + order.Code, contentCustomer.ToString(), request.Email);
+                        WebBanHangOnline.Common.Common.SendMail("ShopOnline", "Đơn hàng #" + order.Code, contentCustomer.ToString(), model.Email);
                         cart.ClearItemCart(selectedProductIds);
                         cart.SaveCart(db);
                         cart.UpdateProductQuantity(order, db);
-                        return RedirectToAction("CodReturn");                     
+                        return Json(new { success = true , redirectUrl = "/ShoppingCart/CodReturn" });                     
                     } 
                     else
                     {
                         TempData["Order"] = order;
-                        TempData["Email"] = request.Email;
+                        TempData["Email"] = model.Email;
                         TempData["MailContent"] = contentCustomer;
-                        return Redirect(UrlPayment(request.VnPayTypePayment, order));
+                        var redirectUrl = UrlPayment(model.VnPayTypePayment, order);
+                        return Json(new { success = true, redirectUrl });
                     }                    
                 }
             }
-            return View();
+            return View(model);
         }
 
         public ActionResult CodReturn()
@@ -241,11 +243,9 @@ namespace WebBanHangOnline.Controllers
         public ActionResult VnPayReturn()
         {
             if (Request.QueryString.Count > 0)
-            {
-                string vnp_HashSecret = ConfigurationManager.AppSettings["vnp_HashSecret"];
+            {                
                 var vnPayData = Request.QueryString;
                 VnPayLibrary vnPay = new VnPayLibrary();
-
                 foreach (string s in vnPayData)
                 {
                     if (!string.IsNullOrEmpty(s) && s.StartsWith("vnp_"))
@@ -253,14 +253,12 @@ namespace WebBanHangOnline.Controllers
                         vnPay.AddResponseData(s, vnPayData[s]);
                     }
                 }
-                string orderCode = Convert.ToString(vnPay.GetResponseData("vnp_TxnRef"));
-                long vnPayTranId = Convert.ToInt64(vnPay.GetResponseData("vnp_TransactionNo"));
+
+                string vnp_HashSecret = ConfigurationManager.AppSettings["vnp_HashSecret"];
                 string vnp_ResponseCode = vnPay.GetResponseData("vnp_ResponseCode");
                 string vnp_TransactionStatus = vnPay.GetResponseData("vnp_TransactionStatus");
-                String vnp_SecureHash = Request.QueryString["vnp_SecureHash"];
-                String TerminalID = Request.QueryString["vnp_TmnCode"];
+                string vnp_SecureHash = Request.QueryString["vnp_SecureHash"];
                 long vnp_Amount = Convert.ToInt64(vnPay.GetResponseData("vnp_Amount")) / 100;
-                String bankCode = Request.QueryString["vnp_BankCode"];
 
                 bool checkSignature = vnPay.ValidateSignature(vnp_SecureHash, vnp_HashSecret);
                 if (checkSignature && vnp_ResponseCode == "00" && vnp_TransactionStatus == "00")
@@ -293,7 +291,6 @@ namespace WebBanHangOnline.Controllers
         #region Thanh toán VNPay
         public string UrlPayment(int vnPayTypePayment, Order order)
         {
-            var urlPayment = "";
             // Get Config Info
             string vnp_ReturnUrl = ConfigurationManager.AppSettings["vnp_ReturnUrl"]; // URL returning transaction response
             string vnp_Url = ConfigurationManager.AppSettings["vnp_Url"]; // VNPay check-out URL
@@ -302,13 +299,13 @@ namespace WebBanHangOnline.Controllers
 
             // Build URL for VNPAY
             VnPayLibrary vnPay = new VnPayLibrary();
-            var Price = (long)order.TotalAmount * 100;
+            var price = (long)order.TotalAmount * 100;
             vnPay.AddRequestData("vnp_Version", VnPayLibrary.VERSION);
             vnPay.AddRequestData("vnp_Command", "pay");
             vnPay.AddRequestData("vnp_TmnCode", vnp_TmnCode);
             // Số tiền thanh toán. Số tiền không mang các ký tự phân tách thập phân, phần nghìn, ký tự tiền tệ. Để gửi số tiền thanh toán
             // là 100,000 VND (một trăm nghìn VNĐ) thì merchant cần nhân thêm 100 lần (khử phần thập phân), sau đó gửi sang VNPAY là: 10000000
-            vnPay.AddRequestData("vnp_Amount", Price.ToString()); 
+            vnPay.AddRequestData("vnp_Amount", price.ToString()); 
             if (vnPayTypePayment == 1)
             {
                 vnPay.AddRequestData("vnp_BankCode", "VNPAYQR");
@@ -332,8 +329,7 @@ namespace WebBanHangOnline.Controllers
             // Mã tham chiếu của giao dịch tại hệ thống của merchant. Mã này là duy nhất dùng để phân biệt các đơn hàng gửi sang VNPAY. Không được trùng lặp trong ngày
             vnPay.AddRequestData("vnp_TxnRef", order.Code);
 
-            urlPayment = vnPay.CreateRequestUrl(vnp_Url, vnp_HashSecret);
-            return urlPayment;
+            return vnPay.CreateRequestUrl(vnp_Url, vnp_HashSecret);
         }
         #endregion
     }

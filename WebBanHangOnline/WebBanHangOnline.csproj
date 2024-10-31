@@ -224,17 +224,17 @@
     <Compile Include="Migrations\202408171347435_UpdateProductCategory.designer.cs">
       <DependentUpon>202408171347435_UpdateProductCategory.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202408180620022_UpadteProductImage.cs" />
-    <Compile Include="Migrations\202408180620022_UpadteProductImage.designer.cs">
-      <DependentUpon>202408180620022_UpadteProductImage.cs</DependentUpon>
+    <Compile Include="Migrations\202408180620022_UpdateProductImage.cs" />
+    <Compile Include="Migrations\202408180620022_UpdateProductImage.designer.cs">
+      <DependentUpon>202408180620022_UpdateProductImage.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202408180713041_UpadteProduct.cs" />
-    <Compile Include="Migrations\202408180713041_UpadteProduct.designer.cs">
-      <DependentUpon>202408180713041_UpadteProduct.cs</DependentUpon>
+    <Compile Include="Migrations\202408180713041_UpdateProduct.cs" />
+    <Compile Include="Migrations\202408180713041_UpdateProduct.designer.cs">
+      <DependentUpon>202408180713041_UpdateProduct.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202408200839018_UpdateProduct.cs" />
-    <Compile Include="Migrations\202408200839018_UpdateProduct.designer.cs">
-      <DependentUpon>202408200839018_UpdateProduct.cs</DependentUpon>
+    <Compile Include="Migrations\202408200839018_UpdateProduct2.cs" />
+    <Compile Include="Migrations\202408200839018_UpdateProduct2.designer.cs">
+      <DependentUpon>202408200839018_UpdateProduct2.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\202408221227482_UpdatePayment.cs" />
     <Compile Include="Migrations\202408221227482_UpdatePayment.designer.cs">
@@ -308,9 +308,9 @@
     <Compile Include="Migrations\202410180756251_UpdateAccount2.Designer.cs">
       <DependentUpon>202410180756251_UpdateAccount2.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202410210957567_UpdateProductImage.cs" />
-    <Compile Include="Migrations\202410210957567_UpdateProductImage.designer.cs">
-      <DependentUpon>202410210957567_UpdateProductImage.cs</DependentUpon>
+    <Compile Include="Migrations\202410210957567_UpdateProductImage2.cs" />
+    <Compile Include="Migrations\202410210957567_UpdateProductImage2.designer.cs">
+      <DependentUpon>202410210957567_UpdateProductImage2.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\202410211416547_UpdateAdv2.cs" />
     <Compile Include="Migrations\202410211416547_UpdateAdv2.designer.cs">
@@ -319,6 +319,10 @@
     <Compile Include="Migrations\202410290509115_CreateSystemConfig.cs" />
     <Compile Include="Migrations\202410290509115_CreateSystemConfig.Designer.cs">
       <DependentUpon>202410290509115_CreateSystemConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202410311327564_UpdateProduct3.cs" />
+    <Compile Include="Migrations\202410311327564_UpdateProduct3.Designer.cs">
+      <DependentUpon>202410311327564_UpdateProduct3.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -3672,6 +3676,7 @@
     <Content Include="Scripts\jsLayout.js" />
     <Content Include="Scripts\jsLoginRegister.js" />
     <Content Include="Scripts\jsMenu.js" />
+    <Content Include="Scripts\jsProduct.js" />
     <Content Include="Scripts\jsShopping.js" />
     <Content Include="Scripts\jsUser.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
@@ -3783,14 +3788,14 @@
     <EmbeddedResource Include="Migrations\202408171347435_UpdateProductCategory.resx">
       <DependentUpon>202408171347435_UpdateProductCategory.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202408180620022_UpadteProductImage.resx">
-      <DependentUpon>202408180620022_UpadteProductImage.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202408180620022_UpdateProductImage.resx">
+      <DependentUpon>202408180620022_UpdateProductImage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202408180713041_UpadteProduct.resx">
-      <DependentUpon>202408180713041_UpadteProduct.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202408180713041_UpdateProduct.resx">
+      <DependentUpon>202408180713041_UpdateProduct.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202408200839018_UpdateProduct.resx">
-      <DependentUpon>202408200839018_UpdateProduct.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202408200839018_UpdateProduct2.resx">
+      <DependentUpon>202408200839018_UpdateProduct2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202408221227482_UpdatePayment.resx">
       <DependentUpon>202408221227482_UpdatePayment.cs</DependentUpon>
@@ -3846,14 +3851,17 @@
     <EmbeddedResource Include="Migrations\202410180756251_UpdateAccount2.resx">
       <DependentUpon>202410180756251_UpdateAccount2.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202410210957567_UpdateProductImage.resx">
-      <DependentUpon>202410210957567_UpdateProductImage.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202410210957567_UpdateProductImage2.resx">
+      <DependentUpon>202410210957567_UpdateProductImage2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202410211416547_UpdateAdv2.resx">
       <DependentUpon>202410211416547_UpdateAdv2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202410290509115_CreateSystemConfig.resx">
       <DependentUpon>202410290509115_CreateSystemConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202410311327564_UpdateProduct3.resx">
+      <DependentUpon>202410311327564_UpdateProduct3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace WebBanHangOnline.Models.EF
@@ -53,6 +50,7 @@ namespace WebBanHangOnline.Models.EF
         [Required(ErrorMessage = "Số lượng không được để trống!")]
         public int Quantity { get; set; }
 
+        public int SoldQuantity { get; set; }
         public bool IsHome { get; set; }
         public bool IsSale { get; set; }
         public bool IsFeature { get; set; }
@@ -72,17 +70,5 @@ namespace WebBanHangOnline.Models.EF
         public virtual ICollection<ProductImage> ProductImage { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
         public virtual ICollection<ReviewProduct> ReviewProducts { get; set; }
-    }
-
-    public class ProductSales
-    {
-        public int Id { get; set; }
-        public string Title { get; set; }
-        public virtual ICollection<ProductImage> ProductImage { get; set; }
-        public int Quantity { get; set; }
-        public int SoldQuantity { get; set; }
-        public int Price { get; set; }
-        public int? PriceSale { get; set; }
-        public string Alias { get; set; }
     }
 }

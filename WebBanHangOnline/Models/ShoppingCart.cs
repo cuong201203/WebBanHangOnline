@@ -61,6 +61,7 @@ namespace WebBanHangOnline.Models
                 if (product != null)
                 {
                     product.Quantity = Math.Max(product.Quantity - detail.Quantity, 0);
+                    product.SoldQuantity += detail.Quantity;
                     db.Entry(product).State = EntityState.Modified;
                 }
             }

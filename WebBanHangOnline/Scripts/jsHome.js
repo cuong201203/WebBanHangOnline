@@ -1,5 +1,6 @@
 ﻿$(document).ready(function () {
     var startX, endX;
+    var threshold = 100;
     var carousel = $('#customCarousel');
 
     // Handle touch events for swipe on mobile
@@ -9,7 +10,7 @@
 
     carousel.on('touchmove', function (e) {
         endX = e.originalEvent.touches[0].clientX;
-        e.preventDefault(); // Prevent page from scrolling while swiping
+        e.preventDefault();
     });
 
     carousel.on('touchend', function () {
@@ -22,17 +23,33 @@
     });
 
     carousel.on('mousemove', function (e) {
-        if (startX !== undefined) {
+        if (startX) {
             endX = e.clientX;
         }
     });
 
     carousel.on('mouseup', function () {
         handleSwipe();
+        startX = null;
     });
 
+    $('.best_seller_img').hover(
+        function () {
+            var hoverImage = $(this).attr('data-hover');
+            $(this).stop(true, true).fadeOut(200, function () {
+                $(this).attr('src', hoverImage).fadeIn(200);
+            });
+        },
+        function () {
+            var defaultImage = $(this).attr('data-default');
+            $(this).stop(true, true).fadeOut(200, function () {
+                $(this).attr('src', defaultImage).fadeIn(200);
+            });
+        }
+    );
+
     function handleSwipe() {
-        if (startX !== undefined && endX !== undefined) {
+        if (startX && endX) {
             if (endX - startX > threshold) {
                 carousel.carousel('prev'); // swipe right to go to the previous item
             } else if (startX - endX > threshold) {
