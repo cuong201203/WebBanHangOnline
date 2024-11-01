@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.Ajax.Utilities;
+using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Data.Entity;
+using System.Web;
 using System.Web.Mvc;
 using WebBanHangOnline.Models;
 using WebBanHangOnline.Models.EF;
@@ -67,9 +69,9 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                model.Alias = WebBanHangOnline.Models.Common.Filter.FilterChar(model.Title);
                 model.ModifiedDate = DateTime.Now;
                 model.ModifiedBy = User.Identity.Name;
+                model.Alias = WebBanHangOnline.Models.Common.Filter.FilterChar(model.Title);                               
 
                 db.SystemConfigs.Attach(model);
                 db.Entry(model).Property(x => x.Title).IsModified = true;
@@ -82,13 +84,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                 var configs = db.SystemConfigs.OrderBy(x => x.Position).ToList();
                 for (int i = 0; i < configs.Count; i++)
                 {
-                    if (configs[i].Id == model.Id) continue;
-                    if (configs[i].Id != model.Id && configs[i].Position == model.Position)
-                    {
-                        if (i > 0 && configs[i - 1].Position + 1 < configs[i].Position) configs[i].Position--;
-                        else configs[i].Position++;
-                    }
-                    else configs[i].Position = i + 1;
+                    configs[i].Position = i + 1;
                 }
                 db.SaveChanges();
 

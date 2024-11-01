@@ -3,9 +3,10 @@
     $('body').on('click', '.btnAddToCart', function (e) {
         e.preventDefault();
         var id = $(this).data('id');
-        var quantity = parseInt($('#quantity').text());
-        if (isNaN(quantity)) {
-            quantity = 1;
+        var quantity = 1;
+        var tQuantity = $('#quantity_value').text();
+        if (tQuantity != '') {
+            quantity = parseInt(tQuantity);
         }
         addToCart(id, quantity);
     });
@@ -38,11 +39,11 @@
                 type: 'POST',
                 data: { id: id },
                 success: function (result) {
-                    $('#cartItemCount').html(result.count);
+                    $('#checkout_items').html(result.count);
                     $('#trow_' + id).remove();
                     updateTotalPrice();
                     updateSTT();
-                    if ($('#cartItemCount').html() === '0') {
+                    if ($('#checkout_items').html() === '0') {
                         loadCart();
                         $('.btnDeleteAll, .btnOrder').hide();
                     }
@@ -60,7 +61,7 @@
                 type: 'POST',
                 success: function (result) {
                     // location.reload();
-                    $('#cartItemCount').html(0);
+                    $('#checkout_items').html(0);
                     loadCart();
                     $('.btnDeleteAll, .btnOrder').hide();
                 }
@@ -134,9 +135,9 @@
     // Checkout
     $('body').on('change', '#typePayment', function () {
         var type = $(this).val();
-        $('#loadFormPayment').hide();
+        $('#load_form_payment').hide();
         if (type == "2") {
-            $('#loadFormPayment').show();
+            $('#load_form_payment').show();
         }
     });
 
@@ -195,14 +196,14 @@ function loadCart() {
         url: '/ShoppingCart/ItemCart',
         type: 'POST',
         success: function (result) {
-            $('#loadItemCart').html(result);
+            $('#load_item_cart').html(result);
         }
     });
 }
 
 function failure(result) {
     if (!result.success) {
-        $("#checkOutReturn").html("Bạn mua hàng thất bại! Xin vui lòng thử lại!");
+        $("#show_success").html("Bạn mua hàng thất bại! Xin vui lòng thử lại!");
     }
 }
 
@@ -215,7 +216,7 @@ function addToCart(id, quantity) {
             if (result.redirectToLogin) {
                 window.location.href = result.redirectToLogin;
             } else if (result.success) {
-                $('#cartItemCount').html(result.count);
+                $('#checkout_items').html(result.count);
                 alert("Thêm sản phẩm thành công");
             } else {
                 alert("Đã có lỗi xảy ra.");

@@ -1,9 +1,4 @@
-﻿$(window).ready(function () {
-    $('.header').show();
-    $('.hamburger_menu').show();
-});
-
-$(document).ready(function () {
+﻿$(document).ready(function () {
     // Update cart items amount display
     showCount();
 
@@ -98,7 +93,7 @@ function showCount() {
         url: '/ShoppingCart/ShowCount',
         type: 'GET',
         success: function (result) {
-            $('#cartItemCount').html(result.count);
+            $('#checkout_items').html(result.count);
         }
     });
 }

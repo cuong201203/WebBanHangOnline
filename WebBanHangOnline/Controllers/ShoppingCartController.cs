@@ -29,8 +29,8 @@ namespace WebBanHangOnline.Controllers
         public ActionResult Index()
         {
             var cart = GetCurrentCart();
-            ViewBag.CheckCart = cart.Items.Any(); // Kiểm tra xem giỏ hàng có bất kỳ sản phẩm nào không
-            return View(cart.Items); // Truyền danh sách sản phẩm cho View
+            ViewBag.CheckCart = cart.items.Any(); // Kiểm tra xem giỏ hàng có bất kỳ sản phẩm nào không
+            return View(cart.items); // Truyền danh sách sản phẩm cho View
         }
 
         public ActionResult Cart()
@@ -43,14 +43,15 @@ namespace WebBanHangOnline.Controllers
         public ActionResult ItemCart()
         {
             var cart = GetCurrentCart();
-            return PartialView("_ItemCart", cart.Items);
+            return PartialView("_ItemCart",cart.items);
         }
 
         public ActionResult ShowCount()
         {
             var cart = GetCurrentCart();
-            return Json(new { count = cart.Items.Count }, JsonRequestBehavior.AllowGet);
+            return Json(new { count = cart.items.Count }, JsonRequestBehavior.AllowGet);
         }
+
 
         [AllowAnonymous]
         [HttpPost]
@@ -80,7 +81,7 @@ namespace WebBanHangOnline.Controllers
                 cart.AddToCart(item, quantity);
                 cart.SaveCart(db);
                 db.SaveChanges();
-                return Json(new { success = true, count = cart.Items.Count });
+                return Json(new { success = true, count = cart.items.Count });
             }
             return Json(new { success = false });
         }
@@ -91,7 +92,7 @@ namespace WebBanHangOnline.Controllers
             var cart = GetCurrentCart();
             cart.Remove(id);
             cart.SaveCart(db);
-            return Json(new { success = true, count = cart.Items.Count });
+            return Json(new { success = true, count = cart.items.Count });
         }
 
         [HttpPost]
@@ -121,12 +122,8 @@ namespace WebBanHangOnline.Controllers
         {
             var cart = GetCurrentCart();
             var selectedProductIds = (List<int>)Session["SelectedProductIds"];
-            if (selectedProductIds != null) 
-            { 
-                var selectedItems = cart.Items.Where(x => selectedProductIds.Contains(x.ProductId)).ToList();
-                return PartialView("_ItemCheckOut", selectedItems);
-            }            
-            return PartialView("_ItemCheckOut");
+            var selectedItems = cart.items.Where(x => selectedProductIds.Contains(x.ProductId)).ToList();
+            return PartialView("_ItemCheckOut", selectedItems);
         }
 
         [HttpPost]
@@ -143,7 +140,6 @@ namespace WebBanHangOnline.Controllers
         public ActionResult CheckOut()
         {
             var cart = GetCurrentCart();
-            System.Diagnostics.Debug.WriteLine(Session["SelectedProductIds"]);
             ViewBag.CheckCart = cart;
             Response.Cache.SetCacheability(HttpCacheability.NoCache);
             Response.Cache.SetNoStore();
@@ -161,7 +157,7 @@ namespace WebBanHangOnline.Controllers
                 var selectedProductIds = (List<int>)Session["SelectedProductIds"];
                 if (cart != null && selectedProductIds != null)
                 {
-                    var selectedItems = cart.Items.Where(x => selectedProductIds.Contains(x.ProductId)).ToList();
+                    var selectedItems = cart.items.Where(x => selectedProductIds.Contains(x.ProductId)).ToList();
 
                     Order order = new Order
                     {
@@ -224,7 +220,6 @@ namespace WebBanHangOnline.Controllers
                         cart.ClearItemCart(selectedProductIds);
                         cart.SaveCart(db);
                         cart.UpdateProductQuantity(order, db);
-                        Session["SelectedProductIds"] = null;
                         return Json(new { success = true , redirectUrl = "/ShoppingCart/CodReturn" });                     
                     } 
                     else
@@ -236,7 +231,6 @@ namespace WebBanHangOnline.Controllers
                         return Json(new { success = true, redirectUrl });
                     }                    
                 }
-                return Json(new { success = false, redirectUrl = "/gio-hang" });
             }
             return View(model);
         }
@@ -281,7 +275,6 @@ namespace WebBanHangOnline.Controllers
                     cart.ClearItemCart(selectedProductIds);
                     cart.SaveCart(db);
                     cart.UpdateProductQuantity(order, db);
-                    Session["SelectedProductIds"] = null;
                     // Successful transaction
                     ViewBag.Amount = vnp_Amount;
                     ViewBag.InnerText = "Giao dịch được thực hiện thành công. Cảm ơn quý khách đã sử dụng dịch vụ";                                       

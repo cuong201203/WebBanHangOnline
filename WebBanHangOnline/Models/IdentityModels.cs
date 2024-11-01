@@ -31,6 +31,7 @@ namespace WebBanHangOnline.Models
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
+            Database.Log = s => System.Diagnostics.Debug.WriteLine(s);
         }
 
         public DbSet<Category> Categories { get; set; }
