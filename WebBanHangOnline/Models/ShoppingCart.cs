@@ -3,25 +3,24 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
-using System.Web.Mvc;
 using WebBanHangOnline.Models.EF;
 
 namespace WebBanHangOnline.Models
 {
     public class ShoppingCart
     {
-        public List<ShoppingCartItem> items { get; set; }
+        public List<ShoppingCartItem> Items { get; set; }
         public string UserId { get; set; } // Thêm UserId để xác định giỏ hàng của người dùng
 
         public ShoppingCart(string userId = null)
         {
-            this.items = new List<ShoppingCartItem>();
+            this.Items = new List<ShoppingCartItem>();
             this.UserId = userId;
         }
 
         public void AddToCart(ShoppingCartItem item, int Quantity)
         {
-            var checkExist = items.FirstOrDefault(x => x.ProductId == item.ProductId);
+            var checkExist = Items.FirstOrDefault(x => x.ProductId == item.ProductId);
             if (checkExist != null)
             {
                 checkExist.Quantity += Quantity;
@@ -29,22 +28,22 @@ namespace WebBanHangOnline.Models
             }
             else
             {
-                items.Add(item);
+                Items.Add(item);
             }
         }
 
         public void Remove(int id)
         {
-            var checkExist = items.SingleOrDefault(x => x.ProductId == id);
+            var checkExist = Items.SingleOrDefault(x => x.ProductId == id);
             if (checkExist != null)
             {
-                items.Remove(checkExist);
+                Items.Remove(checkExist);
             }
         }
 
         public void UpdateItemCartQuantity(int id, int quantity)
         {
-            var checkExist = items.SingleOrDefault(x => x.ProductId == id);
+            var checkExist = Items.SingleOrDefault(x => x.ProductId == id);
             if (checkExist != null)
             {
                 checkExist.Quantity = quantity;
@@ -70,23 +69,23 @@ namespace WebBanHangOnline.Models
 
         public int GetTotalPrice()
         {
-            return items.Sum(x => x.TotalPrice);
+            return Items.Sum(x => x.TotalPrice);
         }
 
         public int GetTotalQuantity()
         {
-            return items.Sum(x => x.Quantity);
+            return Items.Sum(x => x.Quantity);
         }
 
         public void ClearItemCart(List<int> selectedProductIds) 
         {
-            items.RemoveAll(x => selectedProductIds.Contains((int)x.GetType().GetProperty("ProductId").GetValue(x, null)));
+            Items.RemoveAll(x => selectedProductIds.Contains((int)x.GetType().GetProperty("ProductId").GetValue(x, null)));
 
         }
 
         public void ClearAllCart()
         {
-            items.Clear();
+            Items.Clear();
         }
 
         // Hàm lưu giỏ hàng vào cơ sở dữ liệu hoặc session
@@ -103,7 +102,7 @@ namespace WebBanHangOnline.Models
                 Cart dbCart = new Cart
                 {
                     UserId = UserId,
-                    CartItems = this.items.Select(i => new CartItem
+                    CartItems = this.Items.Select(i => new CartItem
                     {
                         ProductId = i.ProductId,
                         ProductName = i.ProductName,
@@ -134,7 +133,7 @@ namespace WebBanHangOnline.Models
                 if (dbCart != null)
                 {
                     ShoppingCart cart = new ShoppingCart(userId);
-                    cart.items = dbCart.CartItems.Join(
+                    cart.Items = dbCart.CartItems.Join(
                         db.Products,
                         cartItem => cartItem.ProductId,
                         product => product.Id,

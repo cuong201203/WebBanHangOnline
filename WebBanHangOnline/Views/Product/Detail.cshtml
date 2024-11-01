@@ -232,7 +232,7 @@
                 <div class="product_price">@string.Format("{0:N0}", Model.Price)<u>đ</u></div>
                 }
                 <ul class="star_rating">
-                    @if (ViewBag.CountReview > 0)
+                @if (ViewBag.CountReview > 0)
                 {
                     var fullStars = Math.Floor(ViewBag.AverageRating);
                     var halfStar = ViewBag.AverageRating % 1 >= 0.5;
@@ -269,7 +269,7 @@
                         }
                         else
                         {
-                        <span id="quantity_value">1</span>
+                        <span id="quantity">1</span>
                         }
                         <span class="plus"><i class="fa fa-plus" aria-hidden="true"></i></span>
                     </div>
@@ -280,9 +280,13 @@
                 @if (Model.Quantity > 0)
                 {
                     <div class="quantity-left">Còn: <span>@Model.Quantity</span></div>
-                }
-                    &nbsp;||&nbsp;
+                    <text>&nbsp;||&nbsp;</text>
                     <div class="quantity-sold">Đã bán: <span>@Model.SoldQuantity</span></div>
+                }
+                else 
+                {
+                    <div class="quantity-sold" style="padding-left: 0;">Đã bán: <span>@Model.SoldQuantity</span></div>
+                }
                 </div>
             </div>
         </div>

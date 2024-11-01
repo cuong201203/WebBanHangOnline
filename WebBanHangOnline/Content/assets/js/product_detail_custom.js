@@ -255,7 +255,7 @@ jQuery(document).ready(function($)
 	{
 		var plus = $('.plus');
 		var minus = $('.minus');
-		var value = $('#quantity_value');
+		var value = $('#quantity');
 		if (plus.length && minus.length) {
 			var leftQuantity = parseInt($('.quantity-left').find('span').text());
 

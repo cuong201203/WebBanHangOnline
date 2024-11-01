@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/x-icon" href="~/Uploads/images/favicon.ico">
     <link rel="stylesheet" type="text/css" href="~/Content/assets/styles/bootstrap4/bootstrap.min.css">
-    <link href="~/Content/assets/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="~/Content/assets/plugins/font-awesome-4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="~/Content/assets/plugins/OwlCarousel/owl.carousel.css">
     <link rel="stylesheet" type="text/css" href="~/Content/assets/plugins/OwlCarousel/owl.theme.default.css">
     <link rel="stylesheet" type="text/css" href="~/Content/assets/plugins/OwlCarousel/animate.css">
@@ -17,6 +17,14 @@
     @*@Styles.Render("~/Content/css")*@    
 
     <style>
+        .header {
+            display: none;
+        }
+
+        .hamburger_menu {
+            display: none;
+        }
+
         .back-to-top {
             display: none;
             position: fixed;
@@ -59,13 +67,9 @@
 </head>
 <body>
     <div class="super_container">
-
         <!-- Header -->
-
         <header class="header trans_300">
-
             <!-- Top Navigation -->
-
             <div class="top_nav">
                 <div class="container">
                     <div class="row">
@@ -114,7 +118,6 @@
             </div>
 
             <!-- Main Navigation -->
-
             <div class="main_nav_container" style="z-index: 100;">
                 <div class="container">
                     <div class="row">
@@ -140,7 +143,7 @@
                                     <li class="checkout">
                                         <a href="/gio-hang">
                                             <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                                            <span id="checkout_items" class="checkout_items">0</span>
+                                            <span id="cartItemCount" class="checkout_items">0</span>
                                         </a>
                                     </li>
                                 </ul>
@@ -153,8 +156,6 @@
                 </div>
             </div>
         </header>
-
-        <div class="fs_menu_overlay"></div>
 
         <div class="hamburger_menu">
             <div class="hamburger_close"><i class="fa fa-times" aria-hidden="true"></i></div>
@@ -183,20 +184,22 @@
                             <li><a href="/Account/OrderHistory"><i class="fa fa-shopping-bag" aria-hidden="true"></i>Đơn mua</a></li>
                             <li><a href="#" id="logoffLink"><i class="fa fa-sign-out" aria-hidden="true"></i>Đăng xuất</a></li>
                         </ul>
-                        }
+                    }
                     </li>
                     @Html.Action("MenuTop", "Menu")
                 </ul>
             </div>
         </div>
 
-        @RenderBody()
-        <!-- Newsletter -->
-        @Html.Action("Subscribe", "Home")
+        <div class="fs_menu_overlay"></div>
+
+        <div class="body">
+            @RenderBody()            
+        </div>
 
         <!-- Footer -->
-
         <footer class="footer">
+            @Html.Action("Subscribe", "Home")
             <div class="container" @*style="border-top: 1px solid lightgray;"*@>
                 <div class="row" style="margin-top: -10px;">
                     <div class="col-lg-6">
@@ -215,7 +218,7 @@
                                 @*<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>*@
                                 <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
                                 @*<li><a href="#"><i class="fa fa-skype" aria-hidden="true"></i></a></li>
-                                <li><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>*@
+                            <li><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>*@
                             </ul>
                         </div>
                     </div>
