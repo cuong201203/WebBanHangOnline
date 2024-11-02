@@ -40,7 +40,7 @@
                 sortType: sortType
             },
             success: function (data) {
-                $('#product-grid').html(data);
+                $('#productGrid').html($('<div></div>').html(data).find('#productGrid').html());
                 $('.category-name').text(cateName);
                 history.pushState(null, '', url);
             },

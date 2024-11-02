@@ -9,119 +9,13 @@ namespace WebBanHangOnline.Models
 {
     public class ShoppingCart
     {
+        public string UserId { get; set; }
         public List<ShoppingCartItem> Items { get; set; }
-        public string UserId { get; set; } // Thêm UserId để xác định giỏ hàng của người dùng
 
         public ShoppingCart(string userId = null)
         {
             this.Items = new List<ShoppingCartItem>();
             this.UserId = userId;
-        }
-
-        public void AddToCart(ShoppingCartItem item, int Quantity)
-        {
-            var checkExist = Items.FirstOrDefault(x => x.ProductId == item.ProductId);
-            if (checkExist != null)
-            {
-                checkExist.Quantity += Quantity;
-                checkExist.TotalPrice = checkExist.Price * checkExist.Quantity;
-            }
-            else
-            {
-                Items.Add(item);
-            }
-        }
-
-        public void Remove(int id)
-        {
-            var checkExist = Items.SingleOrDefault(x => x.ProductId == id);
-            if (checkExist != null)
-            {
-                Items.Remove(checkExist);
-            }
-        }
-
-        public void UpdateItemCartQuantity(int id, int quantity)
-        {
-            var checkExist = Items.SingleOrDefault(x => x.ProductId == id);
-            if (checkExist != null)
-            {
-                checkExist.Quantity = quantity;
-                checkExist.TotalPrice = checkExist.Price * checkExist.Quantity;
-            }
-        }
-
-        public void UpdateProductQuantity(Order order, ApplicationDbContext db)
-        {
-            foreach (var detail in order.OrderDetails)
-            {
-                var product = db.Products.FirstOrDefault(p => p.Id == detail.ProductId);
-
-                if (product != null)
-                {
-                    product.Quantity = Math.Max(product.Quantity - detail.Quantity, 0);
-                    product.SoldQuantity += detail.Quantity;
-                    db.Entry(product).State = EntityState.Modified;
-                }
-            }
-            db.SaveChanges();
-        }
-
-        public int GetTotalPrice()
-        {
-            return Items.Sum(x => x.TotalPrice);
-        }
-
-        public int GetTotalQuantity()
-        {
-            return Items.Sum(x => x.Quantity);
-        }
-
-        public void ClearItemCart(List<int> selectedProductIds) 
-        {
-            Items.RemoveAll(x => selectedProductIds.Contains((int)x.GetType().GetProperty("ProductId").GetValue(x, null)));
-
-        }
-
-        public void ClearAllCart()
-        {
-            Items.Clear();
-        }
-
-        // Hàm lưu giỏ hàng vào cơ sở dữ liệu hoặc session
-        public void SaveCart(ApplicationDbContext db)
-        {
-            if (!string.IsNullOrEmpty(UserId))
-            {
-                // Lưu giỏ hàng vào cơ sở dữ liệu cho người dùng đăng nhập
-                var existingCart = db.Carts.Include("CartItems").SingleOrDefault(c => c.UserId == UserId);
-                if (existingCart != null)
-                {
-                    db.Carts.Remove(existingCart);
-                }
-                Cart dbCart = new Cart
-                {
-                    UserId = UserId,
-                    CartItems = this.Items.Select(i => new CartItem
-                    {
-                        ProductId = i.ProductId,
-                        ProductName = i.ProductName,
-                        Alias = i.Alias,
-                        ProductImg = i.ProductImg,
-                        CategoryName = i.CategoryName,
-                        Price = i.Price,
-                        Quantity = i.Quantity,
-                        TotalPrice = i.TotalPrice
-                    }).ToList()
-                };
-                db.Carts.Add(dbCart);
-                db.SaveChanges();
-            }
-            else
-            {
-                // Lưu giỏ hàng vào session cho người dùng không đăng nhập
-                HttpContext.Current.Session["Cart"] = this;
-            }
         }
 
         // Hàm tải giỏ hàng từ cơ sở dữ liệu hoặc session
@@ -153,6 +47,120 @@ namespace WebBanHangOnline.Models
                 }
             }
             return (ShoppingCart)HttpContext.Current.Session["Cart"] ?? new ShoppingCart();
+        }
+
+        public void AddToCart(ShoppingCartItem item, ApplicationDbContext db)
+        {
+            var cart = db.Carts.Include("CartItems").SingleOrDefault(c => c.UserId == UserId);
+            var cartItem = cart.CartItems.SingleOrDefault(x => x.ProductId == item.ProductId);            
+            if (cartItem != null)
+            {
+                cartItem.Quantity += item.Quantity;
+                cartItem.Quantity = Math.Min(item.LeftQuantity, cartItem.Quantity);
+                cartItem.TotalPrice = cartItem.Price * cartItem.Quantity;
+                db.SaveChanges();
+
+                var _cartItem = Items.SingleOrDefault(x => x.ProductId == item.ProductId);
+                _cartItem.Quantity = cartItem.Quantity;
+                _cartItem.TotalPrice = cartItem.TotalPrice;
+            }
+            else
+            {
+                cart.CartItems.Add(new CartItem
+                {
+                    CartId = cart.Id,
+                    ProductId = item.ProductId,
+                    ProductName = item.ProductName,
+                    Alias = item.Alias,
+                    ProductImg = item.ProductImg,
+                    CategoryName = item.CategoryName,
+                    Price = item.Price,
+                    Quantity = item.Quantity,
+                    TotalPrice = item.TotalPrice
+                });
+                db.SaveChanges();
+
+                Items.Add(item);
+            }
+        }
+
+        public void Remove(int id, ApplicationDbContext db)
+        {
+            var cart = db.Carts.Include("CartItems").SingleOrDefault(c => c.UserId == UserId);
+            var cartItem = cart.CartItems.SingleOrDefault(x => x.ProductId == id && x.CartId == cart.Id);
+            if (cartItem != null)
+            {
+                db.CartItems.Remove(cartItem);
+                db.SaveChanges();
+
+                Items.Remove(Items.SingleOrDefault(x => x.ProductId == id));
+            }
+        }
+
+        public void UpdateItemCartQuantity(int id, int quantity, ApplicationDbContext db)
+        {
+            var cart = db.Carts.Include("CartItems").SingleOrDefault(c => c.UserId == UserId);
+            var cartItem = cart.CartItems.SingleOrDefault(x => x.ProductId == id);
+            if (cartItem != null)
+            {
+                cartItem.Quantity = quantity;
+                cartItem.TotalPrice = cartItem.Price * cartItem.Quantity;
+                db.SaveChanges();
+
+                var _cartItem = Items.SingleOrDefault(x => x.ProductId == id);
+                _cartItem.Quantity = quantity;
+                _cartItem.TotalPrice = cartItem.TotalPrice;
+            }
+        }
+
+        public void UpdateProductQuantity(Order order, ApplicationDbContext db)
+        {
+            foreach (var detail in order.OrderDetails)
+            {
+                var product = db.Products.FirstOrDefault(p => p.Id == detail.ProductId);
+
+                if (product != null)
+                {
+                    product.Quantity = Math.Max(product.Quantity - detail.Quantity, 0);
+                    product.SoldQuantity += detail.Quantity;
+                    db.Entry(product).State = EntityState.Modified;
+                }
+            }
+            db.SaveChanges();
+        }
+
+        public int GetTotalPrice()
+        {
+            return Items.Sum(x => x.TotalPrice);
+        }
+
+        public int GetTotalQuantity()
+        {
+            return Items.Sum(x => x.Quantity);
+        }
+
+        public void ClearItemCart(List<int> selectedProductIds, ApplicationDbContext db) 
+        {
+            Items.RemoveAll(x => selectedProductIds.Contains((int)x.GetType().GetProperty("ProductId").GetValue(x, null)));
+
+            var cart = db.Carts.Include("CartItems").SingleOrDefault(c => c.UserId == UserId);
+            foreach (var id in selectedProductIds)
+            {
+                db.CartItems.Remove(cart.CartItems.SingleOrDefault(x => x.ProductId == id && x.CartId == cart.Id));
+            }
+            db.SaveChanges();
+        }
+
+        public void ClearAllCart(ApplicationDbContext db)
+        {
+            Items.Clear();
+            var cart = db.Carts.Include("CartItems").SingleOrDefault(c => c.UserId == UserId);
+            foreach (var cartItem in cart.CartItems.ToList())
+            {
+                db.CartItems.Remove(cartItem);
+            }
+
+            db.SaveChanges();
         }
     }
 

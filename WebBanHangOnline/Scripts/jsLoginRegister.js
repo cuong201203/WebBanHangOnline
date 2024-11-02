@@ -19,6 +19,13 @@ $(document).ready(function () {
                     $('.success-line').eq(0).hide();
                     $('#register-validation-summary').hide();
                 }
+            },
+            error: function (xhr) {
+                if (xhr.status === 500) {
+                    alert('Bạn đã đăng nhập ở tab khác. Hãy thử tải lại trang.');
+                } else {
+                    alert('Error: ' + xhr.status);
+                }
             }
         })
     });

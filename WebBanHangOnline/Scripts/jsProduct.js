@@ -23,7 +23,7 @@
 				sortType: sortType
 			},
 			success: function (data) {
-				$('#product-grid').html(data);
+				$('#productGrid').html($('<div></div>').html(data).find('#productGrid').html());
 				$('html, body').animate({ scrollTop: 150 }, '300');
 				history.pushState(null, '', url);
 				applyCSSforProductGrid();
@@ -56,7 +56,7 @@
 				sortType: sortType
 			},
 			success: function (data) {
-				$('#product-grid').html(data);
+				$('#productGrid').html($('<div></div>').html(data).find('#productGrid').html());
 				history.pushState(null, '', url);
 				applyCSSforProductGrid();
 			},
@@ -76,7 +76,7 @@
 			url: url,
 			type: 'GET',
 			success: function (data) {
-				$('#product-grid').html(data);
+				$('#productGrid').html($('<div></div>').html(data).find('#productGrid').html());
 				history.pushState(null, '', url);
 				applyCSSforProductGrid();
 			},

@@ -142,16 +142,16 @@
 
     $("#checkOutForm").on('submit', function (e) {
         e.preventDefault();
+        $('.success-line').show();
         $.ajax({
             type: this.method,
             url: this.url,
             data: $(this).serialize(),
             success: function (response) {
-                if (response.success) {
-                    window.location.href = response.redirectUrl;
-                } else {
-                    alert("Có lỗi xảy ra");
-                }
+                window.location.href = response.redirectUrl;
+            },
+            error: function () {
+                $('.success-line').hide();
             }
         })
     });

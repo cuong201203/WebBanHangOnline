@@ -76,7 +76,8 @@
                             <th>Mã đơn hàng</th>
                             <th>Tên khách hàng</th>
                             <th>SĐT</th>
-                            <th>Tiền</th>
+                            <th>Tổng tiền</th>
+                            <th>Hình thức thanh toán</th>
                             <th>Trạng thái</th>
                             <th>Ngày tạo</th>
                             <th>Tạo bởi</th>
@@ -95,8 +96,9 @@
                                     <td>@item.CustomerName</td>
                                     <td>@item.Phone</td>
                                     <td>@string.Format("{0:N0}", item.TotalAmount)<u>đ</u></td>
-                                    <td>@(item.TypePayment == 1 ? "Chờ thanh toán" : "Đã thanh toán")</td>
-                                    <td>@item.CreatedDate.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                                    <td>@(item.TypePayment == 1 ? "COD" : "Chuyển khoản")</td>
+                                    <td>@(item.Status == 0 ? "Chờ thanh toán" : item.Status == 1 ? "Đã thanh toán" : "Đã hủy")</td>
+                                    <td style="width: 30px;">@item.CreatedDate.ToString("dd/MM/yyyy HH:mm:ss")</td>
                                     <td>@item.CreatedBy</td>
                                     <td>
                                         <a href="/Admin/Order/View/@item.Id" class="btn btn-sm btn-primary">Xem</a>
@@ -145,7 +147,8 @@
                 <div class="form-group">
                     <label>Trạng thái</label>
                     <select class="form-control" id="ddTrangThai">
-                        <option value="2">Đã thanh toán</option>
+                        <option value="1">Đã thanh toán</option>
+                        <option value="2">Đã hủy</option>
                     </select>
                 </div>
             </div>
@@ -158,93 +161,5 @@
 </div>
 
 @section scripts{
-    <script>
-        function loadData(url) {
-            $.ajax({
-                url: url,
-                type: 'GET',
-                data: {
-                    searchText: $('input[name="searchText"]').val(),
-                    fromDate: $('#fromDate').val(),
-                    toDate: $('#toDate').val(),
-                    page: $(this).data('page')
-                },
-                success: function (data) {
-                    var tempDiv = $('<div></div>').html(data);
-                    var myTableContent = tempDiv.find('#myTable').html();
-                    $('#myTable').html(myTableContent);
-                },
-                error: function () {
-                    alert("Lỗi khi tải thông tin.");
-                }
-            });
-        }
-
-        $(document).off('click').on('click', '.pagination a', function (e) {
-            e.preventDefault();
-            if ($(this).parent().hasClass('active')) {
-                return;
-            }
-            var url = $(this).attr('href');
-            loadData(url);
-        });
-
-        $(document).ready(function () {
-            $('#btnSearch').on('click', function (e) {
-                e.preventDefault();
-                var url = '/Admin/Order';
-                loadData(url);
-            });
-
-            $('body').on('click', '.btnCapNhat', function () {
-                var id = $(this).data('id');
-                $('#txtOrderId').val(id);
-                $('#modal-default').modal('show');
-            });
-
-            $('body').on('click', '#btnLuu', function () {
-                var id = $('#txtOrderId').val();
-                var tt = $('#ddTrangThai').val();
-                $.ajax({
-                    url: '/Admin/Order/UpdateTT',
-                    type: 'POST',
-                    data: { id: id, trangThai: tt },
-                    success: function (result) {
-                        if (result.success) {
-                            location.reload();
-                        }
-                    }
-                });
-            });
-
-            $('#fromDate').change(function () {
-                var fromDate = new Date($(this).val());
-                var toDate = new Date($('#toDate').val());
-
-                if (fromDate > toDate) {
-                    $('#toDate').val($(this).val());
-                }
-            });
-
-            $('#toDate').change(function () {
-                var fromDate = new Date($('#fromDate').val());
-                var toDate = new Date($(this).val());
-
-                if (toDate < fromDate) {
-                    $('#fromDate').val($(this).val());
-                }
-            });
-
-            $('.nav-link').eq(0).on('click change', function () {
-                var body = $('body');
-                if (body.hasClass('sidebar-closed')) {
-                    body.removeClass('sidebar-closed sidebar-collapse').addClass('sidebar-open');
-                    $('.content-wrapper').css('min-height', '527px');
-                } else {
-                    body.removeClass('sidebar-open').addClass('sidebar-closed sidebar-collapse');
-                    $('.content-wrapper').css('min-height', '851.5px');
-                }
-            });
-        });
-    </script>
+    <script src="~/Areas/Admin/Scripts/jsOrder.js"></script>
 }

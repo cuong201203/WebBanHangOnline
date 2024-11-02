@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using WebBanHangOnline.Models;
+using WebBanHangOnline.Models.EF;
 
 namespace WebBanHangOnline.Areas.Admin.Controllers
 {
@@ -118,6 +119,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
 
             if (user == null)
             {
+                // Case sai username
                 return Json(new { success = false, errors = new List<string> { "Tên đăng nhập hoặc mật khẩu của bạn không đúng! Vui lòng thử lại!" } });
             }
 
@@ -136,12 +138,13 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return Json(new { success = true, redirectUrl = returnUrl ?? Url.Action("Index", "Home") });
-                // Muốn dùng case này thì chỉnh shouldLockout: true
-                case SignInStatus.LockedOut:
+                    return Json(new { success = true, redirectUrl = returnUrl ?? Url.Action("Index", "Home") });                
+                case SignInStatus.LockedOut: // Muốn dùng case này thì chỉnh shouldLockout: true
                     return Json(new { success = false, errors = new List<string> { "Bạn đã đăng nhập thất bại 5 lần! Vui lòng thử lại sau 5 phút!" } });
                 case SignInStatus.RequiresVerification:
                     return Json(new { success = false, errors = new List<string> { "Xác minh tài khoản của bạn!" } });
+                case SignInStatus.Failure: // Case sai password
+                    return Json(new { success = false, errors = new List<string> { "Tên đăng nhập hoặc mật khẩu của bạn không đúng! Vui lòng thử lại!" } });
                 default:
                     return Json(new { success = false, errors = ReturnErrors() });
             }
@@ -194,11 +197,11 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                 if (result.Succeeded)
                 {
                     UserManager.AddToRole(user.Id, "Admin");
-
-                    // Tạo giỏ hàng cho người dùng mới
-                    var cart = new ShoppingCart(user.Id);
-                    cart.SaveCart(db); // Lưu giỏ hàng vào cơ sở dữ liệu
-
+                    db.Carts.Add(new Cart
+                    {
+                        UserId = user.Id
+                    });
+                    db.SaveChanges();
                     // Redirect sau khi tạo tài khoản thành công
                     return Json(new { success = true });
                 }
@@ -321,6 +324,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             }
 
             var result = UserManager.Delete(user);
+            db.Carts.Remove(db.Carts.SingleOrDefault(x => x.UserId == id));
             if (result.Succeeded)
             {
                 return Json(new { success = true });

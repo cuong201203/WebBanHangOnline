@@ -86,8 +86,14 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
+                        <label>Hình thức thanh toán</label>
+                        <p class="form-control">@(Model.TypePayment == 1 ? "COD" : "Chuyển khoản")</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
                         <label>Trạng thái</label>
-                        <p class="form-control">@(Model.TypePayment == 1 ? "Chờ thanh toán" : "Đã thanh toán")</p>
+                        <p class="form-control">@(Model.Status == 0 ? "Chờ thanh toán" : Model.Status == 1 ? "Đã thanh toán" : "Đã hủy")</p>
                     </div>
                 </div>
             </div>
@@ -98,16 +104,14 @@
                         <p class="form-control">@Model.CreatedBy</p>
                     </div>
                 </div>
-                <div class="col-md-6">
-
-                </div>
+                <div class="col-md-6"></div>
             </div>
             <div class="row">
                 <div class="col-12">
                     <label>Danh sách sản phẩm</label>
                 </div>
                 <div class="col-12">
-                    @Html.Action("_ItemsOrdered", "Order", new { id = Model.Id })
+                    @Html.Action("ItemsOrdered", "Order", new { id = Model.Id })
                 </div>
             </div>
             <div class="form-group">

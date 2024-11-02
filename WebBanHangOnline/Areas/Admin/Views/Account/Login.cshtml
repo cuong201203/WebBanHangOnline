@@ -53,13 +53,11 @@
 </div>
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
     <script src="~/Scripts/jquery.validate.min.js"></script>
-    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>   
     <script type="text/javascript">
         $(document).ready(function () {
-            $("#loginForm").submit(function (e) {
+            $("#loginForm").on('submit', function (e) {
                 e.preventDefault();
                 $('.success-line').show();
                 $("#validation-summary").hide();
@@ -89,3 +87,4 @@
         });
     </script>
 }
+

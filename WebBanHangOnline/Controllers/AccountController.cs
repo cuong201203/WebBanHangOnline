@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Globalization;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -12,10 +10,9 @@ using WebBanHangOnline.Models;
 
 using Microsoft.AspNet.Identity.EntityFramework;
 using PagedList;
-using System.Web.UI;
 using System.Collections.Generic;
 using ClientApp.Attributes;
-using CKFinder.Connector;
+using WebBanHangOnline.Models.EF;
 
 namespace WebBanHangOnline.Controllers
 {
@@ -90,6 +87,11 @@ namespace WebBanHangOnline.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return Json(new { success = false, errors = ReturnErrors() });
+            }
+
             if (!ModelState.IsValid)
             {
                 return Json(new { success = false, errors = ReturnErrors() });
@@ -102,12 +104,13 @@ namespace WebBanHangOnline.Controllers
                 return Json(new { success = false, errors = new List<string> { "Tên đăng nhập hoặc mật khẩu của bạn không đúng! Vui lòng thử lại!" } });
             }
 
-            if (user != null && !user.EmailConfirmed)
+            var roles = await UserManager.GetRolesAsync(user.Id);
+            if (!roles.Contains("Admin") && !user.EmailConfirmed)
             {
                 return Json(new { success = false, errors = new List<string> { "Tài khoản của bạn chưa được xác thực email!" } });
-            }
+            }              
 
-            if (user != null && !user.IsActive)
+            if (!user.IsActive)
             {
                 return Json(new { success = false, errors = new List<string> { "Tài khoản của bạn bị khóa!" } });
             }
@@ -145,6 +148,11 @@ namespace WebBanHangOnline.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return Json(new { success = false, errors = ReturnErrors() });
+            }
+
             if (ModelState.IsValid)
             {
                 var existingUser = await UserManager.FindByNameAsync(model.UserName);
@@ -172,7 +180,11 @@ namespace WebBanHangOnline.Controllers
                 if (result.Succeeded)
                 {
                     await UserManager.AddToRoleAsync(user.Id, "Customer");
-
+                    db.Carts.Add(new Cart
+                    {
+                        UserId = user.Id
+                    });
+                    db.SaveChanges();
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     string token = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -399,10 +411,6 @@ namespace WebBanHangOnline.Controllers
                 var pagedItems = items.ToPagedList(page, pageSize);
                 ViewBag.PageSize = pageSize;
                 ViewBag.Page = page;
-                if (Request.IsAjaxRequest())
-                {
-                    return PartialView("_OrderHistory", pagedItems);
-                }
                 return View(pagedItems);
             }
             return View();
@@ -412,6 +420,25 @@ namespace WebBanHangOnline.Controllers
         {
             var item = db.Orders.Find(id);
             return View(item);
+        }
+
+        [HttpPost]
+        public ActionResult CancelOrder(string code)
+        {
+            var order = db.Orders.SingleOrDefault(x => x.Code == code);
+            if (order == null)
+            {
+                return HttpNotFound();
+            }
+
+            if ((DateTime.Now - order.CreatedDate).TotalHours < 24)
+            {
+                // 0: Chưa thanh toán; 1: Đã thanh toán; 2: Hủy
+                order.Status = 2;
+                db.SaveChanges();
+                return Json(new { success = true });
+            }
+            return Json(new { success = false });
         }
 
         //

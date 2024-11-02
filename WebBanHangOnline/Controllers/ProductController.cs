@@ -73,11 +73,6 @@ namespace WebBanHangOnline.Controllers
                     pagedItems = items.OrderBy(x => x.CreatedDate).ToPagedList(page, pageSize); break;
             }
             ViewBag.SortType = sortType;
-
-            if (Request.IsAjaxRequest())
-            {
-                return PartialView("_ProductCategory", pagedItems);
-            }
             return View(pagedItems);
         }
 
