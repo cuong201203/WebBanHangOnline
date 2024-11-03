@@ -107,33 +107,7 @@
 <!-- /.content -->
 
 @section scripts{
-    @Scripts.Render("~/bundles/jqueryval")
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-
-    <script>
-        $(document).ready(function () {
-            $(document).on('submit', '#addForm', function (e) {
-                e.preventDefault();
-                $.ajax({
-                    url: this.action,
-                    type: this.method,
-                    data: $(this).serialize(),
-                    success: function (response) {
-                        if (response.success) {
-                            alert("Thêm danh mục thành công");
-                            window.location.href = '/Admin/Category';
-                        } else {
-                            alert("Thêm danh mục thất bại");
-                        }
-                    }
-                })
-            })
-
-            $('#positionTxtBox').on('change', function () {
-                var pos = Math.min(parseInt($(this).attr('max')), Math.max(parseInt($(this).attr('min')), parseInt($(this).val())));
-                $(this).val(pos);
-            })
-        })
-    </script>
+    <script src="~/Areas/Admin/Scripts/jsCategory.js"></script>
 }

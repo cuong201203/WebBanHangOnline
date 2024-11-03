@@ -97,7 +97,7 @@
 
             <div id="validation-summary" style="display: none; padding: 0;" class="col-md-12">
                 <div class="alert alert-danger" role="alert" style="width: fit-content;">
-                    <ul id="validation-errors" class="text-black" style=" list-style-type: none; padding: 0; margin : 0;"></ul>
+                    <ul id="validation-error" class="text-black" style=" list-style-type: none; padding: 0; margin : 0;"></ul>
                 </div>
             </div>
 
@@ -111,35 +111,7 @@
 </section>
 
 @section scripts{
-    @Scripts.Render("~/bundles/jqueryval")
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-
-    <script>
-        $(document).ready(function () {
-            $(document).on('submit', '#editForm', function (e) {
-                e.preventDefault();
-                $.ajax({
-                    url: this.action,
-                    type: this.method,
-                    data: $(this).serialize(),
-                    success: function (response) {
-                        if (response.success) {
-                            $('validation-summary').hide();
-                            alert("Sửa cấu hình thành công");
-                            window.location.href = '/Admin/Account';
-                        } else if (response.errors && response.errors.length > 0) {
-                            $('#validation-summary').show();
-                            $('#validation-errors').empty();
-                            $.each(response.errors, function (index, error) {
-                                $('#validation-errors').append('<li>' + error + '</li>');
-                            });
-                        } else {
-                            $('#validation-summary').hide();
-                        }
-                    }
-                })
-            })
-        })
-    </script>
+    <script src="~/Areas/Admin/Scripts/jsAccount.js"></script>
 }

@@ -142,7 +142,7 @@
                                     <div class="tab-pane" id="timeline">
                                         <div class="row">
                                             <div class="col-md-12 text-right">
-                                                <input type="button" class="btn btn-primary" id="iTaiAnh" onclick="BrowseServer()" value="Tải ảnh" />
+                                                <input type="button" class="btn btn-primary" id="iTaiAnh" onclick="browseServer()" value="Tải ảnh" />
                                             </div>
                                             <div class="col-md-12">
                                                 <table class="table table-hover" id="tbAnhSanPham">
@@ -156,10 +156,8 @@
                                                             <th></th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody id="tbHtml">
-                                                    </tbody>
+                                                    <tbody id="tbHtml"><tbody>
                                                 </table>
-
                                                 <input type="hidden" id="tCurrentId" value="0" />
                                             </div>
                                         </div>
@@ -215,82 +213,8 @@
 <!-- /.content -->
 
 @section scripts{
+    <script src="~/Areas/Admin/Scripts/jsProduct.js"></script>
     <script>
-        $(document).ready(function () {
-            CKEDITOR.replace('txtDetail', {
-                customConfig: '/content/ckeditor/config.js',
-                extraAllowedContent: 'span',
-            });
-
-            $('body').on('click', '.btnXoaAnh', function () {
-                var conf = confirm("Bạn muốn xóa bản ghi này?");
-                if (conf === true) {
-                    var _id = $(this).data('id');
-                    $('#trow_' + _id).remove();
-                    var temp = $('#tCurrentId').val();
-                    var currentId = parseInt(temp) - 1;
-                    $('#tCurrentId').val(currentId);
-                }
-            });
-        });
-        function BrowseServer(field) {
-            var finder = new CKFinder();
-            finder.selectActionFunction = function (fileUrl) {
-                addImageProduct(fileUrl);
-            };
-            finder.popup();
-        }
-        function addImageProduct(url) {
-            var temp = $('#tCurrentId').val();
-            var currentId = parseInt(temp) + 1;
-            var str = "";
-            if (currentId == 1) {
-                str += `
-                    <tr id="trow_${currentId}">
-                        <td>${currentId}</td>
-                        <td>
-                            <img width="100" src="${url}" />
-                            <input type="hidden" value="${url}" name="Images" />
-                        </td>
-                        <td class="text-center">
-                            <input type="radio" name="rDefault" value="${currentId}" checked="checked" />
-                        </td>
-                        <td class="text-center">
-                            <input type="radio" name="rHover" value="${currentId}" checked="checked" />
-                        </td>
-                        <td class="text-center">
-                            <input type="radio" name="rFeature" value="${currentId}" checked="checked" />
-                        </td>
-                        <td>
-                            <a href="#" data-id="${currentId}" class="btn btn-sm btn-danger btnXoaAnh">Xóa</a>
-                        </td>
-                    </tr>
-                `;
-            } else {
-                str += `
-                    <tr id="trow_${currentId}">
-                        <td>${currentId}</td>
-                        <td>
-                            <img width="100" src="${url}" />
-                            <input type="hidden" value="${url}" name="Images" />
-                        </td>
-                        <td class="text-center">
-                            <input type="radio" name="rDefault" value="${currentId}" />
-                        </td>
-                        <td class="text-center">
-                            <input type="radio" name="rHover" value="${currentId}" />
-                        </td>
-                        <td class="text-center">
-                            <input type="radio" name="rFeature" value="${currentId}" />
-                        </td>
-                        <td>
-                            <a href="#" data-id="${currentId}" class="btn btn-sm btn-danger btnXoaAnh">Xóa</a>
-                        </td>
-                    </tr>
-                `;
-            }
-            $('#tbHtml').append(str);
-            $('#tCurrentId').val(currentId);
-        }
+        ckEditor();
     </script>
 }

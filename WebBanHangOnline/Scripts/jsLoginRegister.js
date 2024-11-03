@@ -1,23 +1,41 @@
-﻿var loginHtml, forgotPasswordHtml;
+﻿function applyJS() {
+    $('#registerForm input').on('input', function () {
+        $('.success-line').eq(0).hide();
+        $('.validation-summary').eq(0).hide();
+    });
+
+    $('#loginForm input').on('input', function () {
+        $('.success-line').eq(1).hide();
+        $('.validation-summary').eq(1).hide();
+    });
+
+    $('#forgotPasswordForm input').on('input', function () {
+        $('.success-line').eq(1).hide();
+        $('.validation-summary').eq(1).hide();
+    });
+}
+
+var loginHtml, forgotPasswordHtml;
 $(document).ready(function () {
+    applyJS();
+
+    // Register
     $(document).on('submit', '#registerForm', function (e) {
         e.preventDefault();
-        $('.success-line').eq(0).text("Bạn hãy chờ chút ...").show();
+        if (!$('.validation-summary').eq(0).is(':visible')) {
+            $('.success-line').eq(0).text("Bạn hãy chờ chút ...").show();
+        }
         $.ajax({
             url: this.action,
             type: this.method,
             data: $(this).serialize(),
             success: function (response) {
                 if (response.success) {
-                    $('#register-validation-summary').hide();
                     $('.success-line').eq(0).text("Quý khách vui lòng kiểm tra link xác thực được gửi tới email đã đăng ký!").show();
                 } else if (response.error) {
                     $('.success-line').eq(0).hide();
-                    $('#register-validation-summary').show();
-                    $('#register-validation-error').text(response.error);
-                } else {
-                    $('.success-line').eq(0).hide();
-                    $('#register-validation-summary').hide();
+                    $('.validation-summary').eq(0).show();
+                    $('.validation-error').eq(0).text(response.error);
                 }
             },
             error: function (xhr) {
@@ -28,29 +46,26 @@ $(document).ready(function () {
                 }
             }
         })
-    });
+    });    
 
+    // Login
     $(document).on('submit', '#loginForm', function (e) {
         e.preventDefault();
-        $('.success-line').eq(1).show();
+        if (!$('.validation-summary').eq(1).is(':visible')) {
+            $('.success-line').eq(1).show();
+        }
         $.ajax({
             url: this.action,
             type: this.method,
             data: $(this).serialize(),
             success: function (response) {
                 if (response.success) {
-                    $('#login-validation-summary').hide();
-                    window.location.href = document.referrer || '/';
-                } else if (response.errors && response.errors.length > 0) {
-                    $('.success-line').eq(1).hide();
-                    $('#login-validation-summary').show();
-                    $('#login-validation-errors').empty();
+                    window.location.href = (document.referrer.includes('/Account/ConfirmEmail') || !document.referrer) ? '/' : document.referrer;
+                } else if (response.errors) {
+                    $('.validation-summary').eq(1).show();
                     $.each(response.errors, function (index, error) {
-                        $('#login-validation-errors').append('<li>' + error + '</li>');
+                        $('.validation-error').eq(1).append('<li>' + error + '</li>');
                     });
-                } else {
-                    $('.success-line').eq(1).hide();
-                    $('#login-validation-summary').hide();
                 }
             },
             error: function (xhr) {
@@ -61,8 +76,9 @@ $(document).ready(function () {
                 }
             }
         })
-    });
+    });    
 
+    // Forgot Password
     $(document).on('click', '.forgotPasswordLink', function (e) {
         e.preventDefault();
         $.ajax({
@@ -70,26 +86,28 @@ $(document).ready(function () {
             type: 'GET',
             success: function (view) {
                 $('.login-container .field-validation-error').text('');
-                $('#login-validation-summary').hide();
+                $('.validation-summary').hide();
                 loginHtml = $('.login-content').html();
-                $('.success-line').eq(1).show();
                 $('.login-container h2').hide();
                 $('.login-content').html(view);
                 $('html, body').animate({ scrollTop: 150 }, '300');
+                applyJS();
             }
         })
     });
 
     $(document).on('submit', '#forgotPasswordForm', function (e) {
         e.preventDefault();
-        $('.success-line').eq(1).show();
+        if (!$('.validation-summary').eq(1).is(':visible')) {
+            $('.success-line').eq(1).show();
+        }
         $.ajax({
             url: this.action,
             type: this.method,
             data: $(this).serialize(),
             success: function (response) {
                 $('.login-container .field-validation-error').text('');
-                $('#fp-validation-summary').hide();
+                $('.validation-summary').eq(1).hide();
                 forgotPasswordHtml = $('.login-content').html();
                 if (response.success) {
                     $.ajax({
@@ -100,46 +118,47 @@ $(document).ready(function () {
                             $('html, body').animate({ scrollTop: 150 }, '300');
                         }
                     })
-                } else if (response.errors && response.errors.length > 0) {
+                } else if (response.errors) {
                     $('.success-line').eq(1).hide();
-                    $('#fp-validation-summary').show();
-                    $('#fp-validation-errors').empty();
+                    $('.validation-summary').eq(1).show();
+                    $('.validation-error').eq(1).empty();
                     $.each(response.errors, function (index, error) {
-                        $('#fp-validation-errors').append('<li>' + error + '</li>');
+                        $('.validation-error').eq(1).append('<li>' + error + '</li>');
                     });
-                } else {
-                    $('#fp-validation-summary').hide();
                 }
             }
-        });
+        });        
+    });
 
-        $(document).on('submit', '#resetPasswordForm', function (e) {
-            e.preventDefault();
+    // Reset Password
+    $(document).on('submit', '#resetPasswordForm', function (e) {
+        e.preventDefault();
+        if (!$('.validation-summary').is(':visible')) {
             $('.success-line').show();
-            $.ajax({
-                url: this.action,
-                type: this.method,
-                data: $(this).serialize(),
-                success: function (response) {
-                    if (response.success) {
-                        $.ajax({
-                            url: '/Account/ResetPasswordConfirmation',
-                            type: 'GET',
-                            success: function (view) {
-                                $('.reset-password-container').html(view);
-                                $('html, body').animate({ scrollTop: 0 }, '300');
-                            }
-                        })
-                    } else if (response.error) {
-                        $('.success-line').hide();
-                        $('#validation-summary').show();
-                        $('#validation-error').text(response.error);
-                    } else {
-                        $('#validation-summary').hide();
-                    }
+        }        
+        $.ajax({
+            url: this.action,
+            type: this.method,
+            data: $(this).serialize(),
+            success: function (response) {
+                if (response.success) {
+                    $.ajax({
+                        url: '/Account/ResetPasswordConfirmation',
+                        type: 'GET',
+                        success: function (view) {
+                            $('.reset-password-container').html(view);
+                            $('html, body').animate({ scrollTop: 0 }, '300');
+                        }
+                    })
+                } else if (response.error) {
+                    $('.success-line').hide();
+                    $('.validation-summary').show();
+                    $('.validation-error').text(response.error);
+                } else {
+                    $('.validation-summary').hide();
                 }
-            })
-        });
+            }
+        })
     });
 
     $(document).on('click', '.returnLoginLink', function (e) {
@@ -147,12 +166,14 @@ $(document).ready(function () {
         $('.login-container h2').show();
         $('.success-line').eq(1).hide();
         $('html, body').animate({ scrollTop: 150 }, '300');
+        applyJS();
     });
 
     $(document).on('click', '.returnFPLink', function (e) {
         $('.login-content').html(forgotPasswordHtml);
         $('.success-line').eq(1).hide();
         $('html, body').animate({ scrollTop: 150 }, '300');
+        applyJS();
     });
 
     $('.register-content').hide();

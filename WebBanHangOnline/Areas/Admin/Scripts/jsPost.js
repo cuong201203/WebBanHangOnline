@@ -1,14 +1,4 @@
-﻿function adjustCheckBoxes() {
-    $('.cbkItem').on('change', function () {
-        if ($('.cbkItem:checked').length !== $('.cbkItem').length) {
-            $('#selectAll').prop('checked', false);
-        } else if ($('.cbkItem:checked').length === $('.cbkItem').length) {
-            $('#selectAll').prop('checked', true);
-        }
-    });
-}
-
-function browseServer(field) {
+﻿function browseServer(field) {
     var finder = new CKFinder();
     finder.selectActionFunction = function (fileUrl) {
         document.getElementById(field).value = fileUrl;
@@ -17,14 +7,12 @@ function browseServer(field) {
 }
 
 $(document).ready(function () {
-    adjustCheckBoxes();
-
     $('body').on('click', '.btnDelete', function () {
         var id = $(this).data('id');
         var conf = confirm('Bạn có muốn xóa bản ghi này không?');
         if (conf === true) {
             $.ajax({
-                url: '/Admin/ProductCategory/Delete',
+                url: '/Admin/Post/Delete',
                 type: 'POST',
                 data: { id: id },
                 success: function (result) {
@@ -41,7 +29,7 @@ $(document).ready(function () {
         var btn = $(this);
         var id = btn.data('id');
         $.ajax({
-            url: '/Admin/ProductCategory/IsActive',
+            url: '/Admin/Post/IsActive',
             type: 'POST',
             data: { id: id },
             success: function (result) {
@@ -94,7 +82,7 @@ $(document).ready(function () {
             var conf = confirm('Bạn có muốn xóa (các) bản ghi này không?');
             if (conf === true) {
                 $.ajax({
-                    url: '/Admin/ProductCategory/DeleteAll',
+                    url: '/Admin/Post/DeleteAll',
                     type: 'POST',
                     data: { ids: str },
                     success: function (result) {
@@ -102,8 +90,13 @@ $(document).ready(function () {
                             location.reload();
                         }
                     }
-                });
+                })
             }
         }
+    });
+
+    CKEDITOR.replace('txtDetail', {
+        customConfig: '/content/ckeditor/config.js',
+        extraAllowedContent: 'span',
     });
 });

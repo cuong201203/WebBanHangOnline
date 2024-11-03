@@ -1,4 +1,4 @@
-﻿$(window).ready(function () {
+﻿$(window).on('load', function () {
     $('.header').show();
     $('.hamburger_menu').show();
 });
@@ -7,7 +7,7 @@ $(document).ready(function () {
     // Update cart items amount display
     showCount();
 
-    $(document).on('click', '#logoffLink', function (e) {
+    $('#logoffLink').on('click', function (e) {
         e.preventDefault();
         var confirmation = confirm("Bạn có chắc muốn đăng xuất?");
         if (confirmation) {

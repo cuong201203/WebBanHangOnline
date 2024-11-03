@@ -53,9 +53,9 @@
             <div class="bs-stepper-content">
                 @using (Html.BeginForm("Add", "News", FormMethod.Post, new { }))
                 {
-                    @Html.AntiForgeryToken()
-                    @Html.ValidationSummary(true)
-                    <!-- your steps content here -->
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+ <!-- your steps content here -->
                 <div id="logins-part" class="content active dstepper-block" role="tabpanel" aria-labelledby="logins-part-trigger">
                     <div class="form-group">
                         <label for="">Tiêu đề</label>
@@ -69,7 +69,7 @@
                                 @Html.TextBoxFor(x => x.Image, new { @id = "txtImage", @class = "form-control" })
                             </div>
                             <div class="input-group-append">
-                                <input type="button" value="Tải ảnh" onclick="BrowseServer('txtImage')" />
+                                <input type="button" value="Tải ảnh" onclick="browseServer('txtImage')" />
                             </div>
                         </div>
                     </div>
@@ -90,17 +90,17 @@
                         @Html.CheckBoxFor(x => x.IsHome, new { @checked = "checked" })
                     </div>
                     @*<div class="form-group">
-                        <label for="">Tiêu đề SEO</label>
-                        @Html.TextAreaFor(x => x.SeoTitle, new { @class = "form-control" })
-                    </div>
-                    <div class="form-group">
-                        <label for="">Mô tả SEO</label>
-                        @Html.TextAreaFor(x => x.SeoDescription, new { @class = "form-control" })
-                    </div>
-                    <div class="form-group">
-                        <label for="">Từ khóa SEO</label>
-                        @Html.TextAreaFor(x => x.SeoKeywords, new { @class = "form-control" })
-                    </div>*@
+                            <label for="">Tiêu đề SEO</label>
+                            @Html.TextAreaFor(x => x.SeoTitle, new { @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            <label for="">Mô tả SEO</label>
+                            @Html.TextAreaFor(x => x.SeoDescription, new { @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            <label for="">Từ khóa SEO</label>
+                            @Html.TextAreaFor(x => x.SeoKeywords, new { @class = "form-control" })
+                        </div>*@
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary">Lưu</button>
                         <a href="/Admin/News" class="btn btn-danger">Quay lại</a>
@@ -120,19 +120,8 @@
 <!-- /.content -->
 
 @section scripts{
+    <script src="~/Areas/Admin/Scripts/jsNews.js"></script>
     <script>
-        $(document).ready(function () {
-            CKEDITOR.replace('txtDetail', {
-                customConfig: '/content/ckeditor/config.js',
-                extraAllowedContent: 'span',
-            });
-        });
-        function BrowseServer(field) {
-            var finder = new CKFinder();
-            finder.selectActionFunction = function (fileUrl) {
-                document.getElementById(field).value = fileUrl;
-            };
-            finder.popup();
-        }
+        ckEditor();
     </script>
 }

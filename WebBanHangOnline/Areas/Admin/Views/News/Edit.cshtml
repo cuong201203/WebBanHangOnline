@@ -52,49 +52,49 @@
         <div class="card-body">
             @if (Model != null)
             {
-                <div class="bs-stepper-content">
-                    @using (Html.BeginForm("Edit", "News", FormMethod.Post, new { }))
+            <div class="bs-stepper-content">
+                @using (Html.BeginForm("Edit", "News", FormMethod.Post, new { }))
                     {
-                        @Html.AntiForgeryToken()
-                        @Html.ValidationSummary(true)
-                        @Html.HiddenFor(x => x.Id)
-                        @Html.HiddenFor(x => x.CategoryId)
-                        @Html.HiddenFor(x => x.CreatedDate)
-                        <!-- your steps content here -->
-                    <div id="logins-part" class="content active dstepper-block" role="tabpanel" aria-labelledby="logins-part-trigger">
-                        <div class="form-group">
-                            <label for="">Tiêu đề</label>
-                            @Html.TextBoxFor(x => x.Title, new { @class = "form-control", @placeholder = "Tiêu đề" })
-                            @Html.ValidationMessageFor(x => x.Title, null, new { @class = "text-danger" })
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputFile">Ảnh</label>
-                            <div class="input-group">
-                                <div class="custom-file">
-                                    @Html.TextBoxFor(x => x.Image, new { @id = "txtImage", @class = "form-control" })
-                                </div>
-                                <div class="input-group-append">
-                                    <input type="button" value="Tải ảnh" onclick="BrowseServer('txtImage')" />
-                                </div>
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                @Html.HiddenFor(x => x.Id)
+                @Html.HiddenFor(x => x.CategoryId)
+                @Html.HiddenFor(x => x.CreatedDate)
+ <!-- your steps content here -->
+                <div id="logins-part" class="content active dstepper-block" role="tabpanel" aria-labelledby="logins-part-trigger">
+                    <div class="form-group">
+                        <label for="">Tiêu đề</label>
+                        @Html.TextBoxFor(x => x.Title, new { @class = "form-control", @placeholder = "Tiêu đề" })
+                        @Html.ValidationMessageFor(x => x.Title, null, new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputFile">Ảnh</label>
+                        <div class="input-group">
+                            <div class="custom-file">
+                                @Html.TextBoxFor(x => x.Image, new { @id = "txtImage", @class = "form-control" })
+                            </div>
+                            <div class="input-group-append">
+                                <input type="button" value="Tải ảnh" onclick="browseServer('txtImage')" />
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="">Mô tả</label>
-                            @Html.TextAreaFor(x => x.Description, new { @class = "form-control" })
-                        </div>
-                        <div class="form-group">
-                            <label for="">Chi tiết</label>
-                            @Html.TextAreaFor(x => x.Detail, new { @class = "form-control", @id = "txtDetail" })
-                        </div>
-                        <div class="form-group">
-                            <label for="">Hiển thị</label>
-                            @Html.CheckBoxFor(x => x.IsActive)
-                        </div>
-                        <div class="form-group">
-                            <label for="">Home</label>
-                            @Html.CheckBoxFor(x => x.IsHome)
-                        </div>
-                        @*<div class="form-group">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Mô tả</label>
+                        @Html.TextAreaFor(x => x.Description, new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <label for="">Chi tiết</label>
+                        @Html.TextAreaFor(x => x.Detail, new { @class = "form-control", @id = "txtDetail" })
+                    </div>
+                    <div class="form-group">
+                        <label for="">Hiển thị</label>
+                        @Html.CheckBoxFor(x => x.IsActive)
+                    </div>
+                    <div class="form-group">
+                        <label for="">Home</label>
+                        @Html.CheckBoxFor(x => x.IsHome)
+                    </div>
+                    @*<div class="form-group">
                             <label for="">Tiêu đề SEO</label>
                             @Html.TextAreaFor(x => x.SeoTitle, new { @class = "form-control" })
                         </div>
@@ -106,13 +106,13 @@
                             <label for="">Từ khóa SEO</label>
                             @Html.TextAreaFor(x => x.SeoKeywords, new { @class = "form-control" })
                         </div>*@
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Lưu</button>
-                            <a href="/Admin/News" class="btn btn-danger">Quay lại</a>
-                        </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Lưu</button>
+                        <a href="/Admin/News" class="btn btn-danger">Quay lại</a>
                     </div>
-                    }
                 </div>
+                    }
+            </div>
             }
         </div>
         <!-- /.card-body -->
@@ -126,19 +126,8 @@
 <!-- /.content -->
 
 @section scripts{
+    <script src="~/Areas/Admin/Scripts/jsNews.js"></script>
     <script>
-        $(document).ready(function () {
-            CKEDITOR.replace('txtDetail', {
-                customConfig: '/content/ckeditor/config.js',
-                extraAllowedContent: 'span',
-            });
-        });
-        function BrowseServer(field) {
-            var finder = new CKFinder();
-            finder.selectActionFunction = function (fileUrl) {
-                document.getElementById(field).value = fileUrl;
-            };
-            finder.popup();
-        }
+        ckEditor();
     </script>
 }

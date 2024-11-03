@@ -73,7 +73,7 @@
                                     @Html.TextBoxFor(x => x.Image, new { @id = "txtImage", @class = "form-control" })
                                 </div>
                                 <div class="input-group-append">
-                                    <input type="button" value="Tải ảnh" onclick="BrowseServer('txtImage')" />
+                                    <input type="button" value="Tải ảnh" onclick="browseServer('txtImage')" />
                                 </div>
                             </div>
                         </div>
@@ -106,19 +106,5 @@
 <!-- /.content -->
 
 @section scripts{
-    <script>
-        $(document).ready(function () {
-            CKEDITOR.replace('txtDetail', {
-                customConfig: '/content/ckeditor/config.js',
-                extraAllowedContent: 'span',
-            });
-        });
-        function BrowseServer(field) {
-            var finder = new CKFinder();
-            finder.selectActionFunction = function (fileUrl) {
-                document.getElementById(field).value = fileUrl;
-            };
-            finder.popup();
-        }
-    </script>
+    <script src="~/Areas/Admin/Scripts/jsAdv.js"></script>
 }

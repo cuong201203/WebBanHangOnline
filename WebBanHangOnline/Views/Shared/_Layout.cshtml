@@ -194,7 +194,7 @@
         <div class="fs_menu_overlay"></div>
 
         <!-- Main -->
-        @RenderBody()            
+        @RenderBody()
 
         <!-- Footer -->
         <footer class="footer">
@@ -217,7 +217,7 @@
                                 @*<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>*@
                                 <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
                                 @*<li><a href="#"><i class="fa fa-skype" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>*@
+                                    <li><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>*@
                             </ul>
                         </div>
                     </div>
@@ -238,7 +238,6 @@
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jqueryval")
-    @RenderSection("scripts", required: false)
     <script src="~/Content/assets/styles/bootstrap4/popper.js"></script>
     <script src="~/Content/assets/styles/bootstrap4/bootstrap.min.js"></script>
     <script src="~/Content/assets/plugins/jquery-ui.custom/jquery-ui.js"></script>
@@ -248,5 +247,6 @@
     <script src="~/Content/assets/js/custom.js"></script>
     <script src="~/Scripts/jsLayout.js"></script>
     <script src="~/Scripts/jsMenu.js"></script>
+    @RenderSection("scripts", required: false)
 </body>
 </html>

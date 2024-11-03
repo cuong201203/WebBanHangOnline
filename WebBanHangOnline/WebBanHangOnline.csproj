@@ -360,13 +360,15 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Admin\Scripts\jsAccount.js" />
     <Content Include="Areas\Admin\Scripts\jsAdv.js" />
     <Content Include="Areas\Admin\Scripts\jsCategory.js" />
+    <Content Include="Areas\Admin\Scripts\jsLayout.js" />
     <Content Include="Areas\Admin\Scripts\jsNews.js" />
     <Content Include="Areas\Admin\Scripts\jsOrder.js" />
+    <Content Include="Areas\Admin\Scripts\jsPost.js" />
     <Content Include="Areas\Admin\Scripts\jsProduct.js" />
     <Content Include="Areas\Admin\Scripts\jsProductCategory.js" />
-    <Content Include="Areas\Admin\Scripts\jsRole.js" />
     <Content Include="Areas\Admin\Scripts\jsStatistical.js" />
     <Content Include="Areas\Admin\Scripts\jsSystemConfig.js" />
     <Content Include="Content\assets\images\banner_1.jpg" />
@@ -3693,6 +3695,7 @@
     <Content Include="Scripts\jsLayout.js" />
     <Content Include="Scripts\jsLoginRegister.js" />
     <Content Include="Scripts\jsMenu.js" />
+    <Content Include="Scripts\jsNews.js" />
     <Content Include="Scripts\jsProduct.js" />
     <Content Include="Scripts\jsShopping.js" />
     <Content Include="Scripts\jsUser.js" />
