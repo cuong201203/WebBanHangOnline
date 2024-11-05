@@ -56,21 +56,20 @@
                 @using (Html.BeginForm("Edit", "SystemConfig", FormMethod.Post, new { id = "editForm" }))
                 {
                 @Html.AntiForgeryToken()
-                @Html.ValidationSummary(true)
                 @Html.HiddenFor(x => x.Id)
- <!-- your steps content here -->
-                <div id="logins-part" class="content active dstepper-block" role="tabpanel" aria-labelledby="logins-part-trigger">
+                <!-- your steps content here -->
+                <div class="content active dstepper-block" role="tabpanel" aria-labelledby="logins-part-trigger">
                     <div class="form-group">
-                        <label for="">Tên cấu hình hệ thống</label>
+                        <label>Tên cấu hình hệ thống</label>
                         @Html.TextBoxFor(x => x.Title, new { @class = "form-control", @placeholder = "Tên danh mục" })
                         @Html.ValidationMessageFor(x => x.Title, null, new { @class = "text-danger" })
                     </div>
                     @*<div class="form-group">
-                            <label for="">Mô tả</label>
+                            <label>Mô tả</label>
                             @Html.TextAreaFor(x => x.Description, new { @class = "form-control" })
                         </div>*@
                     <div class="form-group">
-                        <label for="">Thứ tự</label>
+                        <label>Thứ tự</label>
                         @Html.TextBoxFor(x => x.Position, new {
                                         @class = "form-control",
                                         id = "positionTxtBox",
@@ -82,15 +81,15 @@
                         @Html.ValidationMessageFor(x => x.Position, null, new { @class = "text-danger" })
                     </div>
                     @*<div class="form-group">
-                            <label for="">Tiêu đề SEO</label>
+                            <label>Tiêu đề SEO</label>
                             @Html.TextAreaFor(x => x.SeoTitle, new { @class = "form-control" })
                         </div>
                         <div class="form-group">
-                            <label for="">Mô tả SEO</label>
+                            <label>Mô tả SEO</label>
                             @Html.TextAreaFor(x => x.SeoDescription, new { @class = "form-control" })
                         </div>
                         <div class="form-group">
-                            <label for="">Từ khóa SEO</label>
+                            <label>Từ khóa SEO</label>
                             @Html.TextAreaFor(x => x.SeoKeywords, new { @class = "form-control" })
                         </div>*@
                     <div class="form-group">

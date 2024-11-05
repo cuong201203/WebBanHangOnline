@@ -70,50 +70,50 @@
                             <div class="tab-content">
                                 <div class="active tab-pane" id="activity">
                                     <div class="form-group">
-                                        <label for="">Tên sản phẩm</label>
+                                        <label>Tên sản phẩm</label>
                                         @Html.TextBoxFor(x => x.Title, new { @class = "form-control", @placeholder = "Tên sản phẩm" })
                                         @Html.ValidationMessageFor(x => x.Title, null, new { @class = "text-danger" })
                                     </div>
                                     <div class="form-group">
-                                        <label for="">Danh mục</label>
+                                        <label>Danh mục</label>
                                         @Html.DropDownListFor(x => x.ProductCategoryId, ViewBag.ProductCategory as SelectList, "Chọn danh mục sản phẩm", new { @class = "form-control" })
                                         @Html.ValidationMessageFor(x => x.ProductCategoryId, null, new { @class = "text-danger" })
                                     </div>
                                     <div class="form-group">
-                                        <label for="">Mô tả</label>
+                                        <label>Mô tả</label>
                                         @Html.TextAreaFor(x => x.Description, new { @class = "form-control", @placeholder = "Mô tả" })
                                         @Html.ValidationMessageFor(x => x.Description, null, new { @class = "text-danger" })
                                     </div>
                                     <div class="form-group">
-                                        <label for="">Chi tiết sản phẩm</label>
+                                        <label>Chi tiết sản phẩm</label>
                                         @Html.TextAreaFor(x => x.Detail, new { @class = "form-control", @id = "txtDetail" })
                                         @Html.ValidationMessageFor(x => x.Detail, null, new { @class = "text-danger" })
                                     </div>
                                     <div class="row">
                                         <div class="col-4">
                                             <div class="form-group">
-                                                <label for="">Số lượng</label>
+                                                <label>Số lượng</label>
                                                 @Html.TextBoxFor(x => x.Quantity, new { @class = "form-control", @placeholder = "Số lượng" })
                                                 @Html.ValidationMessageFor(x => x.Quantity, null, new { @class = "text-danger" })
                                             </div>
                                         </div>
                                         <div class="col-4">
                                             <div class="form-group">
-                                                <label for="">Giá bán</label>
+                                                <label>Giá bán</label>
                                                 @Html.TextBoxFor(x => x.Price, new { @class = "form-control", @placeholder = "Giá bán..." })
                                                 @Html.ValidationMessageFor(x => x.Price, null, new { @class = "text-danger" })
                                             </div>
                                         </div>
                                         @*<div class="col-3">
                                                 <div class="form-group">
-                                                    <label for="">Giá khuyến mãi</label>
+                                                    <label>Giá khuyến mãi</label>
                                                     @Html.TextBoxFor(x => x.PriceSale, new { @class = "form-control", @placeholder = "Giá khuyến mãi" })
                                                     @Html.ValidationMessageFor(x => x.PriceSale, null, new { @class = "text-danger" })
                                                 </div>
                                             </div>*@
                                         <div class="col-4">
                                             <div class="form-group">
-                                                <label for="">Giá gốc</label>
+                                                <label>Giá gốc</label>
                                                 @Html.TextBoxFor(x => x.OriginalPrice, new { @class = "form-control", @placeholder = "Giá gốc..." })
                                                 @Html.ValidationMessageFor(x => x.OriginalPrice, null, new { @class = "text-danger" })
                                             </div>

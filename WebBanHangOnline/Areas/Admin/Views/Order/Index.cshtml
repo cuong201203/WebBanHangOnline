@@ -102,7 +102,10 @@
                                     <td>@item.CreatedBy</td>
                                     <td>
                                         <a href="/Admin/Order/View/@item.Id" class="btn btn-sm btn-primary">Xem</a>
-                                        <a href="#" data-id="@item.Id" class="btn btn-sm btn-danger btnCapNhat">Cập nhật</a>
+                                        @if (item.Status != 2)
+                                        {
+                                        <a href="#" data-id="@item.Id" class="btn btn-sm btn-danger btnUpdate">Cập nhật</a>
+                                        }
                                     </td>
                                 </tr>
                                 i++;
@@ -143,10 +146,10 @@
                 </button>
             </div>
             <div class="modal-body">
-                <input type="hidden" id="txtOrderId" value="0" />
+                <input type="hidden" id="orderId" value="0" />
                 <div class="form-group">
                     <label>Trạng thái</label>
-                    <select class="form-control" id="ddTrangThai">
+                    <select class="form-control" id="status">
                         <option value="1">Đã thanh toán</option>
                         <option value="2">Đã hủy</option>
                     </select>
@@ -154,7 +157,7 @@
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
-                <button type="button" class="btn btn-primary" id="btnLuu">Lưu</button>
+                <button type="button" class="btn btn-primary" id="btnSave">Lưu</button>
             </div>
         </div>
     </div>

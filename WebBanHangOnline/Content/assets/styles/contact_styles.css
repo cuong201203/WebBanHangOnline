@@ -622,7 +622,7 @@ section
 	width: 20px;
 	height: 20px;
 	border-radius: 50%;
-	background: #fe4c50;
+	background: #c5a25d;
 	font-size: 12px;
 	color: #FFFFFF;
 }
@@ -1223,7 +1223,7 @@ textarea:hover
 	width: 160px;
 	height: 46px;
 	border: none;
-	background: #fe4c50;
+	background: #c5a25d;
 	color: #FFFFFF;
 	font-size: 14px;
 	font-weight: 500;
@@ -1232,7 +1232,7 @@ textarea:hover
 }
 .newsletter_submit_btn:hover
 {
-	background: #FE7C7F;
+	background: #c5a5a5;
 }
 
 /*********************************

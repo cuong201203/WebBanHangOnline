@@ -25,8 +25,7 @@ $(document).ready(function () {
         if ($(this).parent().hasClass('active')) {
             return;
         }
-        var url = $(this).attr('href');
-        loadData(url);
+        loadData($(this).attr('href'));
     });
 
     $('#btnSearch').on('click', function (e) {
@@ -35,19 +34,19 @@ $(document).ready(function () {
         loadData(url);
     });
 
-    $('body').on('click', '.btnCapNhat', function () {
-        var id = $(this).data('id');
-        $('#txtOrderId').val(id);
+    $('body').on('click', '.btnUpdate', function () {
+        $('#orderId').val($(this).data('id'));
         $('#modal-default').modal('show');
     });
 
-    $('body').on('click', '#btnLuu', function () {
-        var id = $('#txtOrderId').val();
-        var tt = $('#ddTrangThai').val();
+    $('body').on('click', '#btnSave', function () {
         $.ajax({
-            url: '/Admin/Order/UpdateTT',
+            url: '/Admin/Order/UpdateStatus',
             type: 'POST',
-            data: { id: id, trangThai: tt },
+            data: {
+                id: $('#orderId').val(),
+                status: $('#status').val()
+            },
             success: function (result) {
                 if (result.success) {
                     location.reload();

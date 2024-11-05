@@ -26,7 +26,7 @@
                     <h3 class="">Thanh toán</h3>
                     @if (ViewBag.Amount != null)
                     {
-                    <p>
+                    <p class="mb-0">
                         Bạn đã thanh toán thành công với số tiền thanh toán (VND):
                         <span class="font-weight-bold">
                             @string.Format("{0:N0}", ViewBag.Amount)<u>đ</u>
@@ -39,7 +39,7 @@
             @if (ViewBag.Amount != null) 
             {
                 <div class="row d-flex justify-content-center">
-                    <a href="/danh-muc-san-pham/tat-ca" class="btn red_button text-white px-4">TIẾP TỤC MUA SẮM</a>
+                    <a href="/danh-muc-san-pham/tat-ca" class="btn green_button text-white px-4">TIẾP TỤC MUA SẮM</a>
                 </div>
             }
             <hr />

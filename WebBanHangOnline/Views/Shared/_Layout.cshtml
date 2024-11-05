@@ -25,6 +25,11 @@
             display: none;
         }
 
+        .search-result {
+            color: black;
+            font-family: Tahoma, Geneva, Verdana, sans-serif;
+        }
+
         .back-to-top {
             display: none;
             position: fixed;
@@ -38,11 +43,14 @@
             color: white;
             cursor: pointer;
             padding: 15px;
-            border-radius: 4px;
+            border-radius: 999px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: box-shadow 0.3s ease;
         }
 
         .back-to-top:hover {
-            background-color: #555;
+            background-color: #c5a5a5;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4);
         }
 
         .fa-bars:hover {
@@ -51,7 +59,7 @@
 
         .pagination > li > a,
         .pagination > li > span {
-            color: #fe4c50;
+            color: #c5a25d;
         }
 
         .pagination > .active > a,
@@ -60,8 +68,8 @@
         .pagination > .active > span:hover,
         .pagination > .active > a:focus,
         .pagination > .active > span:focus {
-            background-color: #fe4c50;
-            border-color: #fe4c50;
+            background-color: #c5a25d;
+            border-color: #c5a25d;
         }
     </style>
 </head>
@@ -94,7 +102,7 @@
                                         else
                                         {
                                         <a href="/Account/Profile" class="text-white font-weight-bold">
-                                            Xin chào <span style="color: red;">@User.Identity.Name</span>
+                                            Xin chào <span style="color: #c5a25d;">@User.Identity.Name</span>
                                             <i class="fa fa-angle-down"></i>
                                         </a>
                                         <ul class="account_selection rounded" style="width: 170px; z-index: 101;">
@@ -176,7 +184,7 @@
                         else
                         {
                         <a href="#" class="text-black font-weight-bold">
-                            Xin chào <span style="color: red;">@User.Identity.Name</span>
+                            Xin chào <span style="color: #c5a25d;">@User.Identity.Name</span>
                             <i class="fa fa-angle-down"></i>
                         </a>
                         <ul class="menu_selection">

@@ -39,10 +39,11 @@
         margin-top: 21px !important;
     }
 
-    .product_detail_container .product_price {
+    .product_detail_container .product_price,
+    .product_detail_container .original_price {
         display: inline-block !important;
         font-size: 24px !important;
-        color: #fe4c50 !important;
+        color: #c5a25d !important;
         font-weight: 500 !important;
         line-height: 30px !important;
         margin-top: 2px !important;
@@ -51,6 +52,7 @@
     .product_detail_container .star_rating {
         display: inline-block !important;
         margin-left: 33px !important;
+        font-size: 18px;
     }
 
     .product_detail_container .star_rating li {
@@ -85,6 +87,7 @@
         width: 100% !important;
         height: 40px !important;
         margin-top: 23px !important;
+        font-size: 15px;
     }
 
     .product_detail_container .quantity_selector {
@@ -136,7 +139,12 @@
 
     .product-components__details {
         padding: 15px;
-        font-family: Arial !important;
+        font-family: Segoe UI !important;
+    }
+
+    strong {
+        color: #282828;
+        font-family: Segoe UI;
     }
 
     .tab_1_content > strong {
@@ -148,7 +156,7 @@
         padding: 10px 5px 5px 5px;
         font-weight: bold;
         font-size: 15px;
-        color: #fe4f46;
+        color: #c5a25d;
     }
 
     .quantity-left {
@@ -273,10 +281,10 @@
                         }
                         <span class="plus"><i class="fa fa-plus" aria-hidden="true"></i></span>
                     </div>
-                    <div class="red_button add_to_cart_button"><a href="#" class="btnAddToCart" data-id="@Model.Id">thêm vào giỏ</a></div>
+                    <div class="green_button add_to_cart_button"><a href="#" class="btnAddToCart" data-id="@Model.Id">thêm vào giỏ</a></div>
                     @*<div class="product_favorite d-flex flex-column align-items-center justify-content-center"></div>*@
                 </div>
-                <div class="col-md-6 offset-md-2 d-flex align-items-center">
+                <div class="col-md-6 offset-md-2 d-flex align-items-center" style="color: #c5a25d">
                 @if (Model.Quantity > 0)
                 {
                     <div class="quantity-left">Còn: <span>@Model.Quantity</span></div>
@@ -285,7 +293,7 @@
                 }
                 else 
                 {
-                    <div class="quantity-sold" style="padding-left: 0;">Đã bán: <span>@Model.SoldQuantity</span></div>
+                <div class="quantity-sold" style="padding-left: 0;">Đã bán: <span>@Model.SoldQuantity</span></div>
                 }
                 </div>
             </div>
@@ -298,7 +306,7 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <div class="tabs_container" style="margin: 30px 0 30px 0;;">
+                <div class="tabs_container" style="margin: 30px 0 30px 0;">
                     <ul class="tabs d-flex flex-sm-row flex-column align-items-left align-items-md-center justify-content-center">
                         <li class="tab active" data-active-tab="tab_1"><span>Chi tiết sản phẩm</span></li>
                         @*<li class="tab" data-active-tab="tab_2"><span>Additional Information</span></li>*@

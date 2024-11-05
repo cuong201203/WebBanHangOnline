@@ -58,7 +58,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult UpdateTT(int id, int trangThai)
+        public ActionResult UpdateStatus(int id, int trangThai)
         {
             var item = db.Orders.Find(id);
             if (item != null)

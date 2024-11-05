@@ -35,44 +35,58 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                 endDate = DateTime.ParseExact(toDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
             }
 
-            var query = from o in db.Orders
-                        join od in db.OrderDetails on o.Id equals od.OrderId
-                        join p in db.Products on od.ProductId equals p.Id
-                        where DbFunctions.TruncateTime(o.CreatedDate) >= startDate && DbFunctions.TruncateTime(o.CreatedDate) <= endDate
-                        select new
+            var query = db.Orders
+                        .Join(db.OrderDetails,
+                              o => o.Id,
+                              od => od.OrderId,
+                              (o, od) => new { o, od })
+                        .Join(db.Products,
+                              combined => combined.od.ProductId,
+                              p => p.Id,
+                              (combined, p) => new { combined.o, combined.od, p })
+                        .Where(x => DbFunctions.TruncateTime(x.o.CreatedDate) >= startDate &&
+                                    DbFunctions.TruncateTime(x.o.CreatedDate) <= endDate)
+                        .Select(x => new
                         {
-                            CreatedDate = o.CreatedDate,
-                            Quantity = od.Quantity,
-                            Price = od.Price,
-                            OriginalPrice = p.OriginalPrice,
-                        };
+                            x.o.CreatedDate,
+                            x.od.Quantity,
+                            x.od.Price,
+                            x.p.OriginalPrice
+                        });
 
-            var result = query.GroupBy(x => DbFunctions.TruncateTime(x.CreatedDate)).Select(x => new
-            {
-                Date = x.Key.Value,
-                TotalBuy = x.Sum(y => y.Quantity * y.OriginalPrice),
-                TotalSell = x.Sum(y => y.Quantity * y.Price),
-            }).Select(x => new
-            {
-                Date = x.Date,
-                Revenue = x.TotalSell,
-                //Profit = x.TotalSell - x.TotalBuy,
-            }).OrderBy(x => x.Date).ToList(); // Sort by date ascending
+            var result = query.GroupBy(x => DbFunctions.TruncateTime(x.CreatedDate))
+                        .Select(x => new
+                        {
+                            Date = x.Key.Value,
+                            TotalBuy = x.Sum(y => y.Quantity * y.OriginalPrice),
+                            TotalSell = x.Sum(y => y.Quantity * y.Price),
+                        }).Select(x => new
+                        {
+                            x.Date,
+                            Revenue = x.TotalSell,
+                            //Profit = x.TotalSell - x.TotalBuy,
+                        }).OrderBy(x => x.Date).ToList(); // Sort by date ascending
 
             // Fill in missing dates with zero revenue and profit
             var dateRange = Enumerable.Range(0, 1 + endDate.Subtract(startDate).Days)
                                       .Select(offset => startDate.AddDays(offset))
                                       .ToList();
 
-            var finalResult = from date in dateRange
-                              join data in result on date equals data.Date into gj
-                              from subData in gj.DefaultIfEmpty()
-                              select new
-                              {
-                                  Date = date,
-                                  Revenue = subData?.Revenue ?? 0,
-                                  //Profit = subData?.Profit ?? 0
-                              };
+            var finalResult = dateRange
+                             .GroupJoin(
+                                 result,
+                                 date => date,
+                                 data => data.Date,
+                                 (date, gj) => new { date, gj })
+                             .SelectMany(
+                                 x => x.gj.DefaultIfEmpty(),
+                                 (x, subData) => new
+                                 {
+                                     Date = x.date,
+                                     Revenue = subData?.Revenue ?? 0,
+                                    // Profit = subData?.Profit ?? 0
+                                 });
+
 
             // Group by viewMode
             var groupedResult = GroupByMode(finalResult, viewMode);
@@ -92,7 +106,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                                    Revenue = g.Sum(d => d.Revenue),
                                    //Profit = g.Sum(d => d.Profit)
                                })
-                               .OrderBy(d => d.Date); // Sort by date ascending
+                               .OrderByDescending(d => d.Date); // Sort by date ascending
 
                 case "year":
                     return data.GroupBy(d => d.Date.Year)
@@ -102,28 +116,43 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                                    Revenue = g.Sum(d => d.Revenue),
                                    //Profit = g.Sum(d => d.Profit)
                                })
-                               .OrderBy(d => d.Date); // Sort by date ascending
+                               .OrderByDescending(d => d.Date); // Sort by date ascending
 
                 case "day":
                 default:
-                    return data;
+                    return data.OrderByDescending(d => d.Date); ;
             }
         }
 
         public ActionResult GetProductStatistics(string sortField = "soldQuantity", string sortOrder = "desc")
         {
-            var query = from p in db.Products
-                        join od in db.OrderDetails on p.Id equals od.ProductId into productSales
-                        from od in productSales.DefaultIfEmpty()
-                        group od by new { p.Id, p.Title, p.Quantity, ProductImage = p.ProductImage.FirstOrDefault(x => x.IsDefault) != null ? p.ProductImage.FirstOrDefault(x => x.IsDefault).Image : "/Uploads/images/No_Image_Available.jpg" } into g
-                        select new
+            var query = db.Products
+                        .GroupJoin(
+                            db.OrderDetails,
+                            p => p.Id,
+                            od => od.ProductId,
+                            (p, productSales) => new { p, productSales })
+                        .SelectMany(
+                            x => x.productSales.DefaultIfEmpty(),
+                            (x, od) => new { x.p, od })
+                        .GroupBy(
+                            x => new
+                            {
+                                x.p.Id,
+                                x.p.Title,
+                                x.p.Quantity,
+                                ProductImage = x.p.ProductImage.FirstOrDefault(img => img.IsDefault) != null
+                                    ? x.p.ProductImage.FirstOrDefault(img => img.IsDefault).Image
+                                    : "/Uploads/images/No_Image_Available.jpg"
+                            })
+                        .Select(g => new
                         {
                             ProductId = g.Key.Id,
-                            ProductImage = g.Key.ProductImage,
+                            g.Key.ProductImage,
                             ProductName = g.Key.Title,
-                            SoldQuantity = g.Sum(x => x == null ? 0 : x.Quantity),  // Tổng số lượng đã bán
-                            RemainingQuantity = g.Key.Quantity  // Số lượng còn lại trong kho
-                        };
+                            SoldQuantity = g.Sum(x => x.od == null ? 0 : x.od.Quantity),
+                            RemainingQuantity = g.Key.Quantity
+                        });
 
             // Sorting
             switch (sortField)

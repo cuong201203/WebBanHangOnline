@@ -614,7 +614,7 @@ section
 	width: 20px;
 	height: 20px;
 	border-radius: 50%;
-	background: #fe4c50;
+	background: #c5a25d;
 	font-size: 12px;
 	color: #FFFFFF;
 }
@@ -1188,24 +1188,38 @@ section
 	margin-bottom: 50px;
 	border-bottom: solid 1px #ebebeb;
 }
+.sidebar_section input
+{
+	border: 0;
+	color: #f6931f;
+	font-weight: bold;
+}
 .sidebar_title h5
 {
 	font-size: 18px;
-	margin-bottom: 21px;
+	margin-bottom: 10px;
+}
+.sidebar_categories li 
+{
+	transition: all 0.3s ease;
 }
 .sidebar_categories li.active a
 {
-	color: #fe4c50;
+	color: #c5a25d;
+	font-size: 18px;
+	transition: color 0.3s ease, font-size 0.3s ease;
 }
 .sidebar_categories li.active:hover a
 {
-	color: #fe4c50;
+	color: #c5a25d;
+	font-size: 18px;
 }
 .sidebar_categories li a
 {
 	font-size: 14px;
 	line-height: 40px;
 	color: #51545f;
+	transition: color 0.3s ease;
 }
 .sidebar_categories li a:hover
 {
@@ -1219,6 +1233,10 @@ section
 {
 	margin-left: 7px !important;
 }
+.ui-slider-range, .ui-slider-handle
+{
+	background-color: #c5a25d !important;
+}
 #amount
 {
 	margin-top: 8px;
@@ -1226,10 +1244,9 @@ section
 	font-size: 16px !important;
 	font-weight: 500 !important;
 }
-.filter_button
-{
+.filter_button {
 	height: 30px;
-	background: #1e1e27;
+	background: #c5a5a5;
 	text-align: center;
 	margin-top: 25px;
 	cursor: pointer;
@@ -1241,7 +1258,7 @@ section
 }
 .filter_button:hover
 {
-	background: #34343f;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 .filter_button span
 {
@@ -1252,11 +1269,13 @@ section
 	color: #FFFFFF;
 }
 .filter_button.active {
-	background-color: #fe4c50;
-
+	background-color: #c5a25d;
 }
-.checkboxes li
-{
+input[type="checkbox"]:checked {
+	color: white;
+	accent-color: #c5a25d;
+}
+.checkboxes li {
 	height: 40px;
 	line-height: 40px;
 }
@@ -1429,7 +1448,7 @@ section
 }
 .product_bubble_green
 {
-	background: #51a042;
+	background: #c5a25d;
 }
 .product_bubble_left
 {
@@ -1629,7 +1648,7 @@ section
 	width: 160px;
 	height: 46px;
 	border: none;
-	background: #fe4c50;
+	background: #c5a25d;
 	color: #FFFFFF;
 	font-size: 14px;
 	font-weight: 500;
@@ -1638,7 +1657,7 @@ section
 }
 .newsletter_submit_btn:hover
 {
-	background: #FE7C7F;
+	background: #c5a5a5;
 }
 
 /*********************************

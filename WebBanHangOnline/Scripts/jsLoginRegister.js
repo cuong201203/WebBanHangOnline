@@ -33,9 +33,11 @@ $(document).ready(function () {
                 if (response.success) {
                     $('.success-line').eq(0).text("Quý khách vui lòng kiểm tra link xác thực được gửi tới email đã đăng ký!").show();
                 } else if (response.error) {
-                    $('.success-line').eq(0).hide();
-                    $('.validation-summary').eq(0).show();
-                    $('.validation-error').eq(0).text(response.error);
+                    setTimeout(function () {
+                        $('.success-line').eq(0).hide();
+                        $('.validation-summary').eq(0).show();
+                        $('.validation-error').eq(0).text(response.error);
+                    }, 100) 
                 }
             },
             error: function (xhr) {
@@ -62,10 +64,15 @@ $(document).ready(function () {
                 if (response.success) {
                     window.location.href = (document.referrer.includes('/Account/ConfirmEmail') || !document.referrer) ? '/' : document.referrer;
                 } else if (response.errors) {
-                    $('.validation-summary').eq(1).show();
-                    $.each(response.errors, function (index, error) {
-                        $('.validation-error').eq(1).append('<li>' + error + '</li>');
-                    });
+                    setTimeout(function () {
+                        setTimeout(function () {
+                            $('.validation-summary').eq(1).show();
+                            $('.validation-error').eq(1).empty();
+                            $.each(response.errors, function (index, error) {
+                                $('.validation-error').eq(1).append('<li>' + error + '</li>');
+                            });
+                        }, 100)
+                    }, 100)
                 }
             },
             error: function (xhr) {
@@ -119,7 +126,6 @@ $(document).ready(function () {
                         }
                     })
                 } else if (response.errors) {
-                    $('.success-line').eq(1).hide();
                     $('.validation-summary').eq(1).show();
                     $('.validation-error').eq(1).empty();
                     $.each(response.errors, function (index, error) {
@@ -133,9 +139,7 @@ $(document).ready(function () {
     // Reset Password
     $(document).on('submit', '#resetPasswordForm', function (e) {
         e.preventDefault();
-        if (!$('.validation-summary').is(':visible')) {
-            $('.success-line').show();
-        }        
+        $('.success-line').show();     
         $.ajax({
             url: this.action,
             type: this.method,
@@ -152,10 +156,9 @@ $(document).ready(function () {
                     })
                 } else if (response.error) {
                     $('.success-line').hide();
-                    $('.validation-summary').show();
-                    $('.validation-error').text(response.error);
+                    alert(response.error);
                 } else {
-                    $('.validation-summary').hide();
+                    $('.success-line').hide();
                 }
             }
         })

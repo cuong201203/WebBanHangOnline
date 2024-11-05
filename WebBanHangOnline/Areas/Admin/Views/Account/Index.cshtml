@@ -55,7 +55,7 @@
                     @using (Html.BeginForm("Index", "Account", FormMethod.Get, new { }))
                     {
                     <div class="input-group input-group-sm">
-                        @Html.TextBox("searchText", null, new { @class = "form-control", @placeholder = "Tìm kiếm tài khoản theo tên đăng nhập hoặc họ tên..." })
+                        @Html.TextBox("searchText", null, new { @class = "form-control", @placeholder = "Tìm kiếm tài khoản theo tên đăng nhập, họ tên, quyền..." })
                         <span class="input-group-append">
                             <button id="btnSearch" class="btn btn-info btn-flat">Tìm kiếm</button>
                         </span>
@@ -84,7 +84,7 @@
                             var i = 1;
                             foreach (var user in Model)
                             {
-                                var role = ViewBag.UserRoles.ContainsKey(user.Id) ? ViewBag.UserRoles[user.Id] : "No Role";
+                                var role = ViewBag.UserRoles[user.Id];
                                 var strCheckActive = user.IsActive ? "<i class='fa fa-check text-success'></i>" : "<i class='fa fa-times text-danger'></i>";
                         <tr id="trow_@user.Id">
                             <td>@i</td>
@@ -102,7 +102,10 @@
                             </td>
                             <td>
                                 <a href="/Admin/Account/Edit/@user.Id" class="btn btn-sm btn-primary">Sửa</a>
-                                <a href="#" data-id="@user.Id" class="btn btn-sm btn-danger @(role == "Customer" ? "disabled-button" : "") btnDelete">Xóa</a>
+                                @if (role != "Customer")
+                                {
+                                <a href="#" data-id="@user.Id" class="btn btn-sm btn-danger btnDelete">Xóa</a>
+                                }
                             </td>
                         </tr>
                                 i++;

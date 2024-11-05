@@ -61,9 +61,9 @@
                         @*@Html.HiddenFor(x => x.CategoryId)*@
                         @Html.HiddenFor(x => x.CreatedDate)
                         <!-- your steps content here -->
-                        <div id="logins-part" class="content active dstepper-block" role="tabpanel" aria-labelledby="logins-part-trigger">
+                        <div class="content active dstepper-block" role="tabpanel" aria-labelledby="logins-part-trigger">
                             <div class="form-group">
-                                <label for="">Tiêu đề</label>
+                                <label>Tiêu đề</label>
                                 @Html.TextBoxFor(x => x.Title, new { @class = "form-control", @placeholder = "Tiêu đề" })
                                 @Html.ValidationMessageFor(x => x.Title, null, new { @class = "text-danger" })
                             </div>
@@ -79,15 +79,15 @@
                                 </div>
                             </div>
                             @*<div class="form-group">
-                                <label for="">Tiêu đề SEO</label>
+                                <label>Tiêu đề SEO</label>
                                 @Html.TextAreaFor(x => x.SeoTitle, new { @class = "form-control" })
                             </div>
                             <div class="form-group">
-                                <label for="">Mô tả SEO</label>
+                                <label>Mô tả SEO</label>
                                 @Html.TextAreaFor(x => x.SeoDescription, new { @class = "form-control" })
                             </div>
                             <div class="form-group">
-                                <label for="">Từ khóa SEO</label>
+                                <label>Từ khóa SEO</label>
                                 @Html.TextAreaFor(x => x.SeoKeywords, new { @class = "form-control" })
                             </div>*@
                             <div class="form-group">

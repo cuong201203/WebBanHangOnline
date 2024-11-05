@@ -160,17 +160,18 @@ namespace WebBanHangOnline.Controllers
 
                     Order order = new Order
                     {
+                        Code = "DH" + new Random().Next(1000, 9999),
+                        CustomerId = User.Identity.IsAuthenticated ? User.Identity.GetUserId() : null,
                         CustomerName = model.CustomerName,
                         Phone = model.Phone,
                         Address = model.Address,
                         Email = model.Email,
                         TotalAmount = selectedItems.Sum(x => (x.Price * x.Quantity)),
                         TypePayment = model.TypePayment,
+                        Status = 0,
                         CreatedDate = DateTime.Now,
                         ModifiedDate = DateTime.Now,
-                        CreatedBy = User.Identity.GetUserName(),
-                        CustomerId = User.Identity.IsAuthenticated ? User.Identity.GetUserId() : null,
-                        Code = "DH" + new Random().Next(1000, 9999)
+                        CreatedBy = User.Identity.GetUserName()
                     };
 
                     selectedItems.ForEach(x => order.OrderDetails.Add(new OrderDetail
@@ -261,22 +262,26 @@ namespace WebBanHangOnline.Controllers
 
                 bool checkSignature = vnPay.ValidateSignature(vnp_SecureHash, vnp_HashSecret);
                 if (checkSignature && vnp_ResponseCode == "00" && vnp_TransactionStatus == "00")
-                {
-                    var order = (Order)TempData["Order"];
-                    var email = TempData["Email"].ToString();
-                    var mailContent = TempData["MailContent"].ToString();
-                    db.Orders.Add(order);
-                    db.SaveChanges();
-                    WebBanHangOnline.Common.Common.SendMail("ShopOnline", "Đơn hàng #" + order.Code, mailContent, email);
+                {        
+                    if (TempData["Order"] != null) 
+                    {
+                        var order = (Order)TempData["Order"];
+                        var email = TempData["Email"].ToString();
+                        var mailContent = TempData["MailContent"].ToString();
+                        order.Status = 1;
+                        db.Orders.Add(order);
+                        db.SaveChanges();
+                        WebBanHangOnline.Common.Common.SendMail("ShopOnline", "Đơn hàng #" + order.Code, mailContent, email);
 
-                    var cart = GetCurrentCart();
-                    var selectedProductIds = (List<int>)Session["SelectedProductIds"];
-                    cart.ClearItemCart(selectedProductIds, db);
-                    cart.UpdateProductQuantity(order, db);
-                    Session["SelectedProductIds"] = null;
+                        var cart = GetCurrentCart();
+                        var selectedProductIds = (List<int>)Session["SelectedProductIds"];
+                        cart.ClearItemCart(selectedProductIds, db);
+                        cart.UpdateProductQuantity(order, db);
+                        Session["SelectedProductIds"] = null;                      
+                    }
                     // Successful transaction
                     ViewBag.Amount = vnp_Amount;
-                    ViewBag.InnerText = "Giao dịch được thực hiện thành công. Cảm ơn quý khách đã sử dụng dịch vụ";                                       
+                    ViewBag.InnerText = "Giao dịch được thực hiện thành công. Cảm ơn quý khách đã sử dụng dịch vụ";
                 }
                 else
                 {

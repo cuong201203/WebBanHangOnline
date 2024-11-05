@@ -624,7 +624,7 @@ section
 	width: 20px;
 	height: 20px;
 	border-radius: 50%;
-	background: #fe4c50;
+	background: #c5a25d;
 	font-size: 12px;
 	color: #FFFFFF;
 }
@@ -878,6 +878,41 @@ section
 	line-height: 40px;
 	width: 100%;
 }
+.green_button 
+{
+	display: -webkit-inline-box;
+	display: -moz-inline-box;
+	display: -ms-inline-flexbox;
+	display: -webkit-inline-flex;
+	display: inline-flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: auto;
+	height: 40px;
+	background: #c5a25d;
+	border-radius: 3px;
+	-webkit-transition: all 0.3s ease;
+	-moz-transition: all 0.3s ease;
+	-ms-transition: all 0.3s ease;
+	-o-transition: all 0.3s ease;
+	transition: all 0.3s ease;
+}
+.green_button:hover
+{
+	background: #c5a5a5 !important;
+}
+.green_button a
+{
+	display: block;
+	color: #FFFFFF;
+	text-transform: uppercase;
+	font-size: 14px;
+	font-weight: 500;
+	text-align: center;
+	line-height: 40px;
+	width: 100%;
+}
 .shop_now_button
 {
 	width: 140px;
@@ -991,14 +1026,20 @@ section
 {
 
 }
+.grid_sorting_button:hover
+{
+	color: #FFFFFF;
+	background: #c5a5a5 !important;
+}
 .grid_sorting_button.active:hover
 {
-	background: #FE7C7F !important;
+	color: #FFFFFF;
+	background: #c5a25d !important;
 }
 .grid_sorting_button.active
 {
 	color: #FFFFFF;
-	background: #fe4c50;
+	background: #c5a25d;
 }
 
 /*********************************
@@ -1141,7 +1182,7 @@ section
 }
 .product_bubble_green
 {
-	background: #51a042;
+	background: #c5a25d;
 }
 .product_bubble_left
 {
@@ -1257,7 +1298,7 @@ section
 	transform: translateX(-50%);
 	width: 60px;
 	height: 5px;
-	background: #fe4c50;
+	background: #c5a25d;
 	content: '';
 }
 .timer
@@ -1610,7 +1651,7 @@ section
 	width: 160px;
 	height: 46px;
 	border: none;
-	background: #fe4c50;
+	background: #c5a25d;
 	color: #FFFFFF;
 	font-size: 14px;
 	font-weight: 500;
@@ -1619,7 +1660,7 @@ section
 }
 .newsletter_submit_btn:hover
 {
-	background: #FE7C7F;
+	background: #c5a5a5;
 }
 
 /*********************************

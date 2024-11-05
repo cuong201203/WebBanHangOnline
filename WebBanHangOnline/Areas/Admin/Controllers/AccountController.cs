@@ -62,10 +62,12 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         public ActionResult Index(string searchText, int page = 1)
         {
             int pageSize = 10;
-            var users = db.Users.OrderByDescending(x => x.CreatedDate).AsQueryable();
+            var users = db.Users.OrderByDescending(x => x.CreatedDate).ToList();
             if (!string.IsNullOrEmpty(searchText))
             {
-                users = users.Where(x => x.UserName.Contains(searchText) || x.FullName.Contains(searchText));
+                users = users.Where(x => x.UserName.Contains(searchText) ||
+                                    x.FullName.Contains(searchText) ||
+                                    UserManager.GetRoles(x.Id).Any(role => role.Contains(searchText))).ToList();
             }
             var pagedItems = users.ToPagedList(page, pageSize);
             var userRoles = new Dictionary<string, string>(); // Dictionary to hold user roles

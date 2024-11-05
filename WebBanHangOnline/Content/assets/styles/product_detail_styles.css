@@ -620,7 +620,7 @@ section
 	width: 20px;
 	height: 20px;
 	border-radius: 50%;
-	background: #fe4c50;
+	background: #c5a25d;
 	font-size: 12px;
 	color: #FFFFFF;
 }
@@ -879,10 +879,6 @@ section
 	background: #fe4c50;
 	content: '';
 }
-.product_details_title p
-{
-	color: #;
-}
 
 /*********************************
 4. Breadcrumbs
@@ -990,7 +986,7 @@ section
 }
 .product_details_title
 {
-	font-weight: 500px;
+	font-weight: 500;
 	line-height: 30px;
 }
 .product_details_title p
@@ -1189,8 +1185,8 @@ section
 }
 .tab.active span
 {
-	color: #fe4c50;
-	border-bottom: solid 1px #fe4c50;
+	color: #c5a25d;
+	border-bottom: solid 1px #c5a25d;
 }
 .tab_container
 {
@@ -1520,12 +1516,12 @@ section
 	font-weight: 400;
 	color: #b9b4c7 !important;
 }
-.newsletter_submit_btn
+.newsletter_submit_btn 
 {
 	width: 160px;
 	height: 46px;
 	border: none;
-	background: #fe4c50;
+	background: #c5a25d;
 	color: #FFFFFF;
 	font-size: 14px;
 	font-weight: 500;
@@ -1534,7 +1530,7 @@ section
 }
 .newsletter_submit_btn:hover
 {
-	background: #FE7C7F;
+	background: #c5a5a5;
 }
 
 /*********************************

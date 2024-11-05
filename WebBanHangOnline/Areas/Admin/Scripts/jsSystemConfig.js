@@ -1,5 +1,6 @@
 ﻿$(document).ready(function () {
-    $('body').on('click', '.btnDelete', function () {
+    $('body').on('click', '.btnDelete', function (e) {
+        e.preventDefault();
         var id = $(this).data('id');
         var conf = confirm('Bạn có muốn xóa bản ghi này không?');
         if (conf === true) {
@@ -13,10 +14,19 @@
                         $('#myTable tbody tr').each(function (index) {
                             $(this).find('#configPos').text(index + 1);
                         });
+
+                        var maxPos = parseInt($('.position').attr('max')) - 1;
+                        $('.position').attr('max', maxPos);
+                        $('.position').attr('placeholder', `Nhập số từ 1 - ${maxPos}`);
                     }
                 }
             });
         }
+    });
+
+    $('body').on('click', '.btnAdd', function (e) {
+        e.preventDefault();
+        $('#modal-default-add').modal('show');
     });
 
     $('body').on('submit', '#addForm', function (e) {
@@ -34,7 +44,16 @@
                 }
             }
         })
-    })
+    });
+
+    $('body').on('click', '.btnEdit', function (e) {
+        e.preventDefault();
+        var row = $('#trow_' + $(this).data('id') + ' td');
+        $('#modal-default-edit #systemConfigId').val($(this).data('id'));
+        $('#modal-default-edit #title').val(row.eq(0).text());
+        $('#modal-default-edit #position').val(row.eq(1).text());
+        $('#modal-default-edit').modal('show');
+    });
 
     $('body').on('submit', '#editForm', function (e) {
         e.preventDefault();
@@ -51,9 +70,9 @@
                 }
             }
         })
-    })
+    });
 
-    $('#positionTxtBox').on('change', function () {
+    $('.position').on('change', function () {
         var pos = Math.min(parseInt($(this).attr('max')), Math.max(parseInt($(this).attr('min')), parseInt($(this).val())));
         $(this).val(pos);
     })

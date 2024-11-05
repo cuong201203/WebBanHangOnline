@@ -15,12 +15,13 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         public ActionResult Index()
         {
             var items = db.SystemConfigs.OrderBy(x => x.Position);
+            ViewBag.MaxPosition = items.Count();
             return View(items);
         }
 
         public ActionResult Add()
         {
-            int? maxPosition = db.SystemConfigs.Max(c => (int?)c.Position);
+            int? maxPosition = db.SystemConfigs.Count();
             ViewBag.MaxPosition = maxPosition ?? 0;
             return View();
         }
@@ -56,27 +57,29 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         public ActionResult Edit(int id)
         {
             var item = db.SystemConfigs.Find(id);
-            int maxPosition = db.SystemConfigs.Max(c => c.Position);
-            ViewBag.MaxPosition = maxPosition;
-            return View(item);
+            return Json(new { success = true,
+                              id = item.Id,
+                              title = item.Title,
+                              pos = item.Position,
+                              maxPos = db.SystemConfigs.Count()
+                            }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(SystemConfig model)
         {
+            
             if (ModelState.IsValid)
             {
-                model.Alias = WebBanHangOnline.Models.Common.Filter.FilterChar(model.Title);
-                model.ModifiedDate = DateTime.Now;
-                model.ModifiedBy = User.Identity.Name;
+                var item = db.SystemConfigs.SingleOrDefault(x => x.Id == model.Id);
+                int prevPos = item.Position;
 
-                db.SystemConfigs.Attach(model);
-                db.Entry(model).Property(x => x.Title).IsModified = true;
-                db.Entry(model).Property(x => x.Position).IsModified = true;
-                db.Entry(model).Property(x => x.Alias).IsModified = true;
-                db.Entry(model).Property(x => x.ModifiedDate).IsModified = true;
-                db.Entry(model).Property(x => x.ModifiedBy).IsModified = true;
+                item.Title = model.Title;
+                item.Position = model.Position;
+                item.Alias = WebBanHangOnline.Models.Common.Filter.FilterChar(model.Title);
+                item.ModifiedDate = DateTime.Now;
+                item.ModifiedBy = User.Identity.Name;                
                 db.SaveChanges();
 
                 var configs = db.SystemConfigs.OrderBy(x => x.Position).ToList();
@@ -85,8 +88,8 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                     if (configs[i].Id == model.Id) continue;
                     if (configs[i].Id != model.Id && configs[i].Position == model.Position)
                     {
-                        if (i > 0 && configs[i - 1].Position + 1 < configs[i].Position) configs[i].Position--;
-                        else configs[i].Position++;
+                        if (prevPos < model.Position) configs[i].Position--;
+                        else configs[i].Position++;                        
                     }
                     else configs[i].Position = i + 1;
                 }

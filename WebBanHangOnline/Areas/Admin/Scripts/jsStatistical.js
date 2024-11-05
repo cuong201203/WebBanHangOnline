@@ -48,7 +48,9 @@ function loadStatisticalData(fromDate, toDate, viewMode) {
             var isYearView = viewMode === 'year';
 
             $.each(result.Data, function (i, item) {
-                var strDate = isMonthView ? moment(item.Date).format('MM/YYYY') : isYearView ? moment(item.Date).format('YYYY') : moment(item.Date).format('DD/MM/YYYY');
+                var strDate = isMonthView ? moment(item.Date).format('MM/YYYY')
+                            : isYearView ? moment(item.Date).format('YYYY')
+                            : moment(item.Date).format('DD/MM/YYYY');
                 arrDate.push(strDate);
                 arrRevenue.push(item.Revenue);
                 arrProfit.push(item.Profit);
@@ -122,17 +124,18 @@ function loadStatisticalData(fromDate, toDate, viewMode) {
                 options: barChartOptions
             });
 
-            loadData(result.Data, viewMode);
+            loadRevenue(result.Data, viewMode);
         }
     });
 }
 
-function loadData(data, viewMode) {
+function loadRevenue(data, viewMode) {
     var strHtml = '';
-    data.sort((a, b) => new Date(a.Date) - new Date(b.Date)); // Sắp xếp theo ngày
     $('#headerDate').text(viewMode === 'month' ? 'Tháng' : viewMode === 'year' ? 'Năm' : 'Ngày');
     $.each(data, function (i, item) {
-        var strDate = viewMode === 'month' ? moment(item.Date).format('MM/YYYY') : viewMode === 'year' ? moment(item.Date).format('YYYY') : moment(item.Date).format('DD/MM/YYYY');
+        var strDate = viewMode === 'month' ? moment(item.Date).format('MM/YYYY')
+                    : viewMode === 'year' ? moment(item.Date).format('YYYY')
+                    : moment(item.Date).format('DD/MM/YYYY');
         var formattedRevenue = item.Revenue.toLocaleString('vi-VN') + "<u>đ</u>";
         //var formattedProfit = item.Profit.toLocaleString('vi-VN') + "<u>đ</u>";
         strHtml += "<tr>";
@@ -142,7 +145,7 @@ function loadData(data, viewMode) {
         //strHtml += "<td>" + formattedProfit + "</td>";
         strHtml += "</tr>";
     });
-    $('#loadData').html(strHtml);
+    $('#loadRevenue').html(strHtml);
 }
 
 $(document).ready(function () {
@@ -185,7 +188,7 @@ function loadProductStatistics(sortField = 'soldQuantity', sortOrder = 'desc') {
                 strHtml += '<td>' + item.RemainingQuantity + '</td>';
                 strHtml += '</tr>';
             });
-            $('#productData').html(strHtml);
+            $('#loadProductStatistic').html(strHtml);
         }
     });
 }

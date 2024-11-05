@@ -1,7 +1,5 @@
-﻿$(window).on('load', function () {
-    $('.header').show();
-    $('.hamburger_menu').show();
-});
+﻿$('.header').show();
+$('.hamburger_menu').show();
 
 $(document).ready(function () {
     // Update cart items amount display
@@ -27,7 +25,7 @@ $(document).ready(function () {
                     $('#search_results').html(''); // Xóa kết quả cũ
                     if (data.length > 0) {
                         data.forEach(function (item) {
-                            $('#search_results').append('<p><a style="color: black; font-family: Tahoma, Geneva, Verdana, sans-serif;" href="/chi-tiet/' + item.Alias + '-p' + item.Id + '">' + item.Title + '</a></p>');
+                            $('#search_results').append('<p><a class="search-result" href="/chi-tiet/' + item.Alias + '-p' + item.Id + '">' + item.Title + '</a></p>');
                         });
                         $("#no_results").hide();
                     } else {

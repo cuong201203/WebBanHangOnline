@@ -21,13 +21,9 @@
         <tbody>
         @foreach (var item in Model)
         {
-            <tr id="trow_@item.ProductId" style="@(item.LeftQuantity == 0 ? "background-color: #ededed;" : "")">
+            <tr id="trow_@item.ProductId">
                 <td>
-                @if (item.LeftQuantity == 0)
-                {
-                    <input type="checkbox" disabled />
-                }
-                else 
+                @if (item.LeftQuantity > 0)
                 {
                     <input type="checkbox" checked class="cbkItem" data-price="@item.TotalPrice" value="@item.ProductId" />
                 }
@@ -37,7 +33,7 @@
                     <img src="@item.ProductImg" width="60" />
                 </td>
                 <td>
-                    <a href="/chi-tiet/@item.Alias-p@(item.ProductId)">
+                    <a href="/chi-tiet/@item.Alias-p@(item.ProductId)" style="color: #c5a25d">
                         @item.ProductName
                     </a>
                 </td>
@@ -65,7 +61,7 @@
                 <td class="text-center font-weight-bold total-price" id="totalPrice_@item.ProductId">@string.Format("{0:N0}", item.TotalPrice)<u>đ</u></td>
                 }
                 <td>
-                    <a href="#" data-id="@item.ProductId" class="btn btn-sm btn-danger btnDelete">Xóa</a>
+                    <a href="#" data-id="@item.ProductId" class="btn btn-sm btn-danger btnDelete" style="background: #fe4c50; border: none;">Xóa</a>
                 </td>
             </tr>
             i++;
@@ -83,6 +79,6 @@ else
 {
 <h3 class="text-center">Giỏ hàng của bạn đang trống!</h3>
 <div class="row d-flex justify-content-center">
-    <a href="/danh-muc-san-pham/tat-ca" class="btn red_button text-white px-4">MUA NGAY</a>
+    <a href="/danh-muc-san-pham/tat-ca" class="btn green_button text-white px-4">MUA NGAY</a>
 </div>
 }
