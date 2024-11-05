@@ -102,7 +102,7 @@
                                     <td>@item.CreatedBy</td>
                                     <td>
                                         <a href="/Admin/Order/View/@item.Id" class="btn btn-sm btn-primary">Xem</a>
-                                        @if (item.Status != 2)
+                                        @if (item.Status == 0)
                                         {
                                         <a href="#" data-id="@item.Id" class="btn btn-sm btn-danger btnUpdate">Cập nhật</a>
                                         }

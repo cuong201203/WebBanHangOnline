@@ -102,8 +102,42 @@ $(document).ready(function () {
                             location.reload();
                         }
                     }
-                });
+                })
             }
         }
+    });
+
+    $('body').on('submit', '#addForm', function (e) {
+        e.preventDefault();
+        $.ajax({
+            url: this.action,
+            type: this.method,
+            data: $(this).serialize(),
+            success: function (response) {
+                if (response.success) {
+                    alert("Thêm danh mục sản phẩm thành công");
+                    window.location.href = '/Admin/ProductCategory';
+                } else {
+                    alert("Thêm danh mục sản phẩm thất bại");
+                }
+            }
+        })
+    });
+
+    $('body').on('submit', '#editForm', function (e) {
+        e.preventDefault();
+        $.ajax({
+            url: this.action,
+            type: this.method,
+            data: $(this).serialize(),
+            success: function (response) {
+                if (response.success) {
+                    alert("Cập nhật danh mục sản phẩm thành công");
+                    window.location.href = '/Admin/ProductCategory';
+                } else {
+                    alert("Cập nhật danh mục sản phẩm thất bại");
+                }
+            }
+        })
     });
 });

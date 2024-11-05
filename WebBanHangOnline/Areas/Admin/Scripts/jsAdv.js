@@ -130,8 +130,42 @@ $(document).ready(function () {
                             location.reload();
                         }
                     }
-                });
+                })
             }
         }
+    });
+
+    $('body').on('submit', '#addForm', function (e) {
+        e.preventDefault();
+        $.ajax({
+            url: this.action,
+            type: this.method,
+            data: $(this).serialize(),
+            success: function (response) {
+                if (response.success) {
+                    alert("Thêm quảng cáo thành công");
+                    window.location.href = '/Admin/Adv';
+                } else {
+                    alert("Thêm quảng cáo thất bại");
+                }
+            }
+        })
+    });
+
+    $('body').on('submit', '#editForm', function (e) {
+        e.preventDefault();
+        $.ajax({
+            url: this.action,
+            type: this.method,
+            data: $(this).serialize(),
+            success: function (response) {
+                if (response.success) {
+                    alert("Cập nhật quảng cáo thành công");
+                    window.location.href = '/Admin/Adv';
+                } else {
+                    alert("Cập nhật quảng cáo thất bại");
+                }
+            }
+        })
     });
 });

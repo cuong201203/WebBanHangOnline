@@ -50,17 +50,17 @@
 
         </div>
         <div class="card-body">
-            @if (Model != null)
-            {
+        @if (Model != null)
+        {
             <div class="bs-stepper-content">
-                @using (Html.BeginForm("Edit", "News", FormMethod.Post, new { }))
-                    {
+            @using (Html.BeginForm("Edit", "News", FormMethod.Post, new { id = "editForm" }))
+            {
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true)
                 @Html.HiddenFor(x => x.Id)
                 @Html.HiddenFor(x => x.CategoryId)
                 @Html.HiddenFor(x => x.CreatedDate)
- <!-- your steps content here -->
+                <!-- your steps content here -->
                 <div class="content active dstepper-block" role="tabpanel" aria-labelledby="logins-part-trigger">
                     <div class="form-group">
                         <label>Tiêu đề</label>
@@ -111,9 +111,9 @@
                         <a href="/Admin/News" class="btn btn-danger">Quay lại</a>
                     </div>
                 </div>
-                    }
-            </div>
             }
+            </div>
+        }
         </div>
         <!-- /.card-body -->
         <div class="card-footer">
@@ -126,6 +126,8 @@
 <!-- /.content -->
 
 @section scripts{
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/Areas/Admin/Scripts/jsNews.js"></script>
     <script>
         ckEditor();

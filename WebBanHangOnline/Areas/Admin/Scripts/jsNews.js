@@ -167,6 +167,40 @@ $(document).ready(function () {
         }
     });
 
+    $('body').on('submit', '#addForm', function (e) {
+        e.preventDefault();
+        $.ajax({
+            url: this.action,
+            type: this.method,
+            data: $(this).serialize(),
+            success: function (response) {
+                if (response.success) {
+                    alert("Thêm tin tức thành công");
+                    window.location.href = '/Admin/News';
+                } else {
+                    alert("Thêm tin tức thất bại");
+                }
+            }
+        })
+    });
+
+    $('body').on('submit', '#editForm', function (e) {
+        e.preventDefault();
+        $.ajax({
+            url: this.action,
+            type: this.method,
+            data: $(this).serialize(),
+            success: function (response) {
+                if (response.success) {
+                    alert("Cập nhật tin tức thành công");
+                    window.location.href = '/Admin/News';
+                } else {
+                    alert("Cập nhật tin tức thất bại");
+                }
+            }
+        })
+    });
+
     $('.nav-link').eq(0).on('click change', function () {
         var body = $('body');
         if (body.hasClass('sidebar-closed')) {

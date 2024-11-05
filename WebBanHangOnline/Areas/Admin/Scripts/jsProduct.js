@@ -93,6 +93,12 @@ function addImageProduct(url) {
     $('#tCurrentId').val(currentId);
 }
 
+function updateSTT() {
+    $('.row_index').each(function (index) {
+        $(this).text(index + 1);
+    });
+}
+
 $(document).ready(function () {
     adjustCheckBoxes();
 
@@ -128,12 +134,6 @@ $(document).ready(function () {
             });
         }
     });
-
-    function updateSTT() {
-        $('.row_index').each(function (index) {
-            $(this).text(index + 1);
-        });
-    }
 
     $('body').on('click', '.btnActive', function (e) {
         e.preventDefault();
@@ -222,7 +222,7 @@ $(document).ready(function () {
                             location.reload();
                         }
                     }
-                });
+                })
             }
         }
     });
@@ -240,5 +240,51 @@ $(document).ready(function () {
             var currentId = parseInt(temp) - 1;
             $('#tCurrentId').val(currentId);
         }
+    });
+
+    $('body').on('submit', '#addForm', function (e) {
+        e.preventDefault();
+        if ($('#addForm .input-validation-error').length) {
+            $('.nav-item a[href="#activity"]').tab('show');
+            return;
+        }
+        $.ajax({
+            url: this.action,
+            type: this.method,
+            data: $(this).serialize(),
+            success: function (response) {
+                if (response.success) {
+                    alert("Thêm sản phẩm thành công");
+                    window.location.href = '/Admin/Product';
+                } else {
+                    alert("Thêm sản phẩm thất bại");
+                    $('.nav-item a[href="#activity"]').tab('show');
+                    $('#btnSave').trigger('click');
+                }
+            }
+        })
+    });
+
+    $('body').on('submit', '#editForm', function (e) {
+        e.preventDefault();
+        if ($('#editForm .input-validation-error').length) {
+            $('.nav-item a[href="#activity"]').tab('show');
+            return;
+        }
+        $.ajax({
+            url: this.action,
+            type: this.method,
+            data: $(this).serialize(),
+            success: function (response) {
+                if (response.success) {
+                    alert("Cập nhật sản phẩm thành công");
+                    window.location.href = '/Admin/Product';
+                } else {
+                    alert("Cập nhật sản phẩm thất bại");
+                    $('.nav-item a[href="#activity"]').tab('show');
+                    $('#btnSave').trigger('click');
+                }
+            }
+        })
     });
 });

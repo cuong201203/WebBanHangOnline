@@ -90,10 +90,10 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                 model.Alias = WebBanHangOnline.Models.Common.Filter.FilterChar(model.Title);
                 db.Products.Add(model);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return Json(new { success = true });            
             }
             ViewBag.ProductCategory = new SelectList(db.ProductCategories.ToList(), "Id", "Title");
-            return View(model);
+            return Json(new { success = false });
         }
 
         public ActionResult Edit(int id)
@@ -187,13 +187,13 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
 
                     db.Entry(item).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
-                    return RedirectToAction("Index");
+                    return Json(new { success = true });
                 }
             }
 
             // Nếu có lỗi hoặc không hợp lệ, hiển thị lại view
             ViewBag.ProductCategory = new SelectList(db.ProductCategories.ToList(), "Id", "Title");
-            return View(model);
+            return Json(new { success = false });
         }
 
         [HttpPost]

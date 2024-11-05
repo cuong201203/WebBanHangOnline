@@ -48,9 +48,9 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                 model.Alias = WebBanHangOnline.Models.Common.Filter.FilterChar(model.Title);
                 db.News.Add(model);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return Json(new { success = true });
             }
-            return View(model);
+            return Json(new { success = false });
         }
 
         public ActionResult Edit(int id)
@@ -71,9 +71,9 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                 db.News.Attach(model);
                 db.Entry(model).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return Json(new { success = true });
             }
-            return View(model);
+            return Json(new { success = false });
         }
 
         [HttpPost]
