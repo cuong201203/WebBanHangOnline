@@ -17,11 +17,7 @@
     @*@Styles.Render("~/Content/css")*@    
 
     <style>
-        .header {
-            display: none;
-        }
-
-        .hamburger_menu {
+        .header, .hamburger_menu {
             display: none;
         }
 
@@ -39,7 +35,7 @@
             font-size: 18px;
             border: none;
             outline: none;
-            background-color: #c5a25d;
+            background: #c5a25d;
             color: white;
             cursor: pointer;
             padding: 15px;
@@ -49,27 +45,13 @@
         }
 
         .back-to-top:hover {
-            background-color: #c5a5a5;
+            color: white;
+            background: #a0854e;
             box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4);
         }
 
         .fa-bars:hover {
             cursor: pointer;
-        }
-
-        .pagination > li > a,
-        .pagination > li > span {
-            color: #c5a25d;
-        }
-
-        .pagination > .active > a,
-        .pagination > .active > span,
-        .pagination > .active > a:hover,
-        .pagination > .active > span:hover,
-        .pagination > .active > a:focus,
-        .pagination > .active > span:focus {
-            background-color: #c5a25d;
-            border-color: #c5a25d;
         }
     </style>
 </head>
@@ -240,7 +222,7 @@
             </div>
         </footer>
     </div>
-    <a href="#" class="btn btn-primary back-to-top">↑ Lên đầu</a>
+    <a href="#" class="btn back-to-top">↑ Lên đầu</a>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

@@ -127,11 +127,11 @@
 	{
 		width: 33.33333333%;
 	}
-	.benefit_col
+	.benefit-col
 	{
 		margin-bottom: 30px;
 	}
-	.benefit_col:last-child
+	.benefit-col:last-child
 	{
 		margin-bottom: 0px;
 	}
@@ -203,7 +203,7 @@
 	{
 		font-size: 12px;
 	}
-	.new_arrivals_title
+	.new-arrivals-title
 	{
 		margin-top: 44px;
 	}
@@ -243,7 +243,7 @@
 	{
 		height: 305px;
 	}
-	.benefit_col
+	.benefit-col
 	{
 		margin-bottom: 15px;
 	}
@@ -394,19 +394,19 @@
 	{
 		height: auto;
 	}
-	.product_name a
+	.product-name a
 	{
 		font-size: 12px;
 	}
-	.add_to_cart_button
+	.add-to-cart-button
 	{
 		margin-top: 20px;
 
-		/* Fix add_to_cart_button responsive mobile - cuong */
+		/* Fix add-to-cart-button responsive mobile - cuong */
 		visibility: visible;
 		opacity: 1;
 	}
-	.section_title::after
+	.section-title::after
 	{
 	    top: calc(100% + 8px);
 	    height: 3px;

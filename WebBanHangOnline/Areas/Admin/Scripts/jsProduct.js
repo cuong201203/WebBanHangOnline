@@ -278,7 +278,7 @@ $(document).ready(function () {
             success: function (response) {
                 if (response.success) {
                     alert("Cập nhật sản phẩm thành công");
-                    window.location.href = '/Admin/Product';
+                    window.location.href = document.referrer;
                 } else {
                     alert("Cập nhật sản phẩm thất bại");
                     $('.nav-item a[href="#activity"]').tab('show');

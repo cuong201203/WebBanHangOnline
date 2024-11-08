@@ -122,7 +122,7 @@
 	{
 		margin-bottom: 23px;
 	}
-	.shop_now_button
+	.shop-now-button
 	{
 		margin-top: 26px;
 	}
@@ -168,7 +168,7 @@
 	{
 		width: 25%;
 	}
-	.deal_ofthe_week_col
+	.deal-of-the-week-col
 	{
 		display: -webkit-box;
 		display: -moz-box;
@@ -184,14 +184,14 @@
 		width: 100%;
 		height: 100%;
 	}
-	.deal_ofthe_week_content
+	.deal-of-the-week-content
 	{
 		position: relative;
 		top: auto;
 		left: auto;
 		height: auto;
 	}
-	.deal_ofthe_week_img
+	.deal-of-the-week-img
 	{
 		text-align: center;
 	}
@@ -209,11 +209,11 @@
 		margin-top: 1px;
 		font-size: 14px;
 	}
-	.benefit_col
+	.benefit-col
 	{
 		margin-bottom: 30px;
 	}
-	.benefit_col:last-child
+	.benefit-col:last-child
 	{
 		margin-bottom: 0px;
 	}
@@ -301,7 +301,7 @@
 	{
 		margin-bottom: 20px;
 	}
-	.shop_now_button
+	.shop-now-button
 	{
 		margin-top: 23px;
 	}
@@ -314,7 +314,7 @@
 		margin-bottom: 30px;
 		height: 210px;
 	}
-	.new_arrivals_title
+	.new-arrivals-title
 	{
 		margin-top: 44px;
 	}
@@ -327,22 +327,22 @@
 	{
 		height: 305px;
 	}
-	.grid_sorting_button
+	.grid-sorting-button
 	{
 		font-size: 13px;
 		padding-left: 20px;
 		padding-right: 20px;
 		min-width: 80px;
 	}
-	.product_slider_container
+	.product-slider-container
 	{
 		height: auto;
 	}
-	.product_slider_item .product-item
+	.product-slider-item .product-item
 	{
 		height: 380px;
 	}
-	.benefit_col
+	.benefit-col
 	{
 		margin-bottom: 15px;
 	}
@@ -503,7 +503,7 @@
 	{
 		font-size: 24px;
 	}
-	.shop_now_button
+	.shop-now-button
 	{
 		margin-top: 15px;
 		width: 100px;
@@ -517,7 +517,7 @@
 	{
 		height: calc((100vw - 30px) / 2.6);
 	}
-	.grid_sorting_button
+	.grid-sorting-button
 	{
 		font-size: 12px;
 		padding-left: 10px;
@@ -534,19 +534,19 @@
 	{
 		height: auto;
 	}
-	.product_name a
+	.product-name a
 	{
 		font-size: 12px;
 	}
-	.add_to_cart_button
+	.add-to-cart-button
 	{
 		margin-top: 20px;
 
-		/* Fix add_to_cart_button responsive mobile - cuong */
+		/* Fix add-to-cart-button responsive mobile - cuong */
 		visibility: visible;
 		opacity: 1;
 	}
-	.deal_ofthe_week_img
+	.deal-of-the-week-img
 	{
 		height: 400px;
 	}
@@ -559,7 +559,7 @@
 		width: 50px;
 		height: 50px;
 	}
-	.section_title::after
+	.section-title::after
 	{
 	    top: calc(100% + 8px);
 	    height: 3px;
@@ -574,25 +574,25 @@
 		margin-top: -9px;
 		font-size: 10px;
 	}
-	.deal_ofthe_week_button
+	.deal-of-the-week-button
 	{
 		margin-top: 36px;
 	}
 
-	.product_slider_item .product-item
+	.product-slider-item .product-item
 	{
 		width: 100%;
 		height: auto;
 	}
-	.product_slider_item .product-item:hover::after
+	.product-slider-item .product-item:hover::after
 	{
 		box-shadow: none;
 	}
-	.product_slider_item .product-item .product
+	.product-slider-item .product-item .product
 	{
 		height: auto;
 	}
-	.product_slider_item .product-item .product_info
+	.product-slider-item .product-item .product-info
 	{
 		padding-bottom: 30px;
 	}
@@ -680,8 +680,8 @@
 		margin-bottom: 30px;
 	}
 
-	/* Fix product_slider_nav responsive mobile - cuong */
-	.product_slider_nav {
+	/* Fix product-slider-nav responsive mobile - cuong */
+	.product-slider-nav {
 		visibility: visible;
 		opacity: 1;
 	}

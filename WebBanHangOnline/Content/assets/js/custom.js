@@ -273,9 +273,9 @@ jQuery(document).ready(function($)
 
     function initFixProductBorder()
     {
-    	if ($('.product_filter').length)
+    	if ($('.product-filter').length)
     	{
-			var products = $('.product_filter:visible');
+			var products = $('.product-filter:visible');
     		var wdth = window.innerWidth;
 
     		// reset border
@@ -361,14 +361,14 @@ jQuery(document).ready(function($)
 	*/
 
 	function initIsotopeFiltering() {
-		if ($('.grid_sorting_button').length) {
-			$('.grid_sorting_button').click(function () {
+		if ($('.grid-sorting-button').length) {
+			$('.grid-sorting-button').click(function () {
 				// putting border fix inside of setTimeout because of the transition duration
 				setTimeout(function () {
 					initFixProductBorder();
 				}, 500);
 
-				$('.grid_sorting_button.active').removeClass('active');
+				$('.grid-sorting-button.active').removeClass('active');
 				$(this).addClass('active');
 
 				var selector = $(this).attr('data-filter');
@@ -394,9 +394,9 @@ jQuery(document).ready(function($)
 
     function initSlider()
     {
-    	if ($('.product_slider').length)
+    	if ($('.product-slider').length)
     	{
-    		var slider1 = $('.product_slider');
+    		var slider1 = $('.product-slider');
 
     		slider1.owlCarousel({
     			loop:false,
@@ -413,17 +413,17 @@ jQuery(document).ready(function($)
 				}
     		});
 
-    		if ($('.product_slider_nav_left').length)
+    		if ($('.product-slider-nav-left').length)
     		{
-    			$('.product_slider_nav_left').on('click', function()
+    			$('.product-slider-nav-left').on('click', function()
     			{
     				slider1.trigger('prev.owl.carousel');
     			});
     		}
 
-    		if ($('.product_slider_nav_right').length)
+    		if ($('.product-slider-nav-right').length)
     		{
-    			$('.product_slider_nav_right').on('click', function()
+    			$('.product-slider-nav-right').on('click', function()
     			{
     				slider1.trigger('next.owl.carousel');
     			});

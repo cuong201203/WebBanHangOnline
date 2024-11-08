@@ -878,7 +878,7 @@ section
 	line-height: 40px;
 	width: 100%;
 }
-.green_button 
+.green-button 
 {
 	display: -webkit-inline-box;
 	display: -moz-inline-box;
@@ -898,11 +898,11 @@ section
 	-o-transition: all 0.3s ease;
 	transition: all 0.3s ease;
 }
-.green_button:hover
+.green-button:hover
 {
-	background: #c5a5a5 !important;
+	background: #a0854e !important;
 }
-.green_button a
+.green-button a
 {
 	display: block;
 	color: #FFFFFF;
@@ -913,7 +913,7 @@ section
 	line-height: 40px;
 	width: 100%;
 }
-.shop_now_button
+.shop-now-button
 {
 	width: 140px;
 	margin-top: 32px;
@@ -981,11 +981,11 @@ section
 5. New Arrivals
 *********************************/
 
-.new_arrivals
+.new-arrivals
 {
 	width: 100%;
 }
-.new_arrivals_title
+.new-arrivals-title
 {
 	margin-top: 74px;
 }
@@ -994,14 +994,14 @@ section
 5.1 New Arrivals Sorting
 *********************************/
 
-.new_arrivals_sorting
+.new-arrivals-sorting
 {
 	display: inline-block;
 	border-radius: 3px;
 	margin-top: 59px;
 	overflow: visible;
 }
-.grid_sorting_button
+.grid-sorting-button
 {
 	height: 40px;
 	min-width: 102px;
@@ -1018,28 +1018,29 @@ section
 	float: left;
 	margin-left: -1px;
 }
-.grid_sorting_button:first-child
+.grid-sorting-button:first-child
 {
 	margin-left: 0px;
 }
-.grid_sorting_button:last-child
+.grid-sorting-button:last-child
 {
 
 }
-.grid_sorting_button:hover
-{
-	color: #FFFFFF;
-	background: #c5a5a5 !important;
-}
-.grid_sorting_button.active:hover
+.grid-sorting-button:hover
 {
 	color: #FFFFFF;
 	background: #c5a25d !important;
 }
-.grid_sorting_button.active
+.grid-sorting-button.active:hover
 {
 	color: #FFFFFF;
-	background: #c5a25d;
+	background: #a0854e !important;
+	cursor: default;
+}
+.grid-sorting-button.active
+{
+	color: #FFFFFF;
+	background: #a0854e;
 }
 
 /*********************************
@@ -1086,66 +1087,63 @@ section
 	height: 340px;
 	border-right: solid 1px #e9e9e9;
 }
-.product_image
+.product-image
 {
 	width: 100%;
 }
-.product_image img
+.product-image img
 {
 	width: 100%;
 }
-.product_info
+.product-info
 {
 	text-align: center;
 	padding-left: 10px;
 	padding-right: 10px;
 }
-.product_name
+.product-name
 {
 	margin-top: 27px;
 }
-.product_name a
+.product-name a
 {
 	color: #1e1e27;
 	line-height: 20px;
 }
-.product_name:hover a
+.product-name:hover a
 {
 	color: #b5aec4;
 }
-.discount .product_info .product_price
+.discount .product-info .product-price
 {
 	font-size: 14px;
 }
-.product_price
+.product-price
 {
 	font-size: 16px;
 	color: #fe4c50;
 	font-weight: 600;
 }
-.product_price span
+.product-price span
 {
 	font-size: 12px;
 	margin-left: 10px;
 	color: #b5aec4;
 	text-decoration: line-through;
 }
-.product_bubble
-{
+.product-bubble {
 	position: absolute;
 	top: 15px;
 	width: 50px;
 	height: 22px;
 	border-radius: 3px;
 	text-transform: uppercase;
-}
-.product_bubble span
-{
-	font-size: 12px;
+	background: #909090;
+	font-size: 8px;
 	font-weight: 600;
 	color: #FFFFFF;
 }
-/*.product_bubble_right::after
+/*.product-bubble-right::after
 {
 	content: ' ';
 	position: absolute;
@@ -1157,7 +1155,7 @@ section
 	bottom: -6px;
 	border: 6px solid;
 }
-.product_bubble_left::after
+.product-bubble-left::after
 {
 	content: ' ';
 	position: absolute;
@@ -1168,31 +1166,31 @@ section
 	bottom: -6px;
 	border: 6px solid;
 }
-.product_bubble_red::after
+.product-bubble-red::after
 {
 	border-color: transparent transparent transparent #fe4c50;
 }
-.product_bubble_left::after
+.product-bubble-left::after
 {
 	border-color: #51a042 #51a042 transparent transparent;
 }*/
-.product_bubble_red
+.product-bubble-red
 {
 	background: #fe4c50;
 }
-.product_bubble_green
+.product-bubble-green
 {
 	background: #c5a25d;
 }
-.product_bubble_left
+.product-bubble-left
 {
 	left: 15px;
 }
-.product_bubble_right
+.product-bubble-right
 {
 	right: 15px;
 }
-.add_to_cart_button
+.add-to-cart-button
 {
 	width: 100%;
 	visibility: hidden;
@@ -1203,12 +1201,12 @@ section
 	-o-transition: all 0.3s ease;
 	transition: all 0.3s ease;
 }
-.add_to_cart_button a
+.add-to-cart-button a
 {
 	font-size: 12px;
 	font-weight: 600;
 }
-.product-item:hover .add_to_cart_button
+.product-item:hover .add-to-cart-button
 {
 	visibility: visible;
 	opacity: 1;
@@ -1224,7 +1222,7 @@ section
 	visibility: hidden;
 	opacity: 0;
 }
-.favorite_left
+.favorite-left
 {
 	left: 15px;
 }
@@ -1258,34 +1256,34 @@ section
 6. Deal of the week
 *********************************/
 
-.deal_ofthe_week
+.deal-of-the-week
 {
 	width: 100%;
 	margin-top: 41px;
 	background: #f2f2f2;
 }
-.deal_ofthe_week_img
+.deal-of-the-week-img
 {
 	height: 540px;
 }
-.deal_ofthe_week_img img
+.deal-of-the-week-img img
 {
 	height: 100%;
 }
-.deal_ofthe_week_content
+.deal-of-the-week-content
 {
 	height: 100%;
 }
-.section_title
+.section-title
 {
 	display: inline-block;
 	text-align: center;
 }
-.section_title h2
+.section-title h2
 {
 	display: inline-block;
 }
-.section_title::after
+.section-title::after
 {
 	display: block;
 	position: absolute;
@@ -1332,13 +1330,13 @@ section
 	font-weight: 500;
 	color: #51545f;
 }
-.deal_ofthe_week_button
+.deal-of-the-week-button
 {
 	width: 140px;
 	background: #1e1e27;
 	margin-top: 52px;
 }
-.deal_ofthe_week_button:hover
+.deal-of-the-week-button:hover
 {
 	background: #2b2b34 !important;
 }
@@ -1347,13 +1345,13 @@ section
 7. Best Sellers
 *********************************/
 
-.product_slider_container
+.product-slider-container
 {
 	width: 100%;
 	height: 340px;
 	margin-top: 73px;
 }
-.product_slider_container::after
+.product-slider-container::after
 {
 	display: block;
 	position: absolute;
@@ -1365,19 +1363,19 @@ section
 	content: '';
 	z-index: 1;
 }
-.product_slider
+.product-slider
 {
 	overflow: visible !important;
 }
-.product_slider_item .product-item
+.product-slider-item .product-item
 {
 	height: 340px;
 }
-.product_slider_item
+.product-slider-item
 {
 	width: 20%;
 }
-.product_slider_item .product-item
+.product-slider-item .product-item
 {
 	width: 100% !important;
 }
@@ -1386,7 +1384,7 @@ section
 7.1 Slider Nav
 *********************************/
 
-.product_slider_nav
+.product-slider-nav
 {
 	position: absolute;
 	width: 30px;
@@ -1407,22 +1405,22 @@ section
 	-o-transition: all 300ms ease;
 	transition: all 300ms ease;
 }
-.product_slider_container:hover .product_slider_nav
+.product-slider-container:hover .product-slider-nav
 {
 	visibility: visible;
 	opacity: 1;
 }
-.product_slider_nav i
+.product-slider-nav i
 {
 	color: #FFFFFF;
 	font-size: 12px;
 }
-.product_slider_nav_left
+.product-slider-nav-left
 {
 	top: 50%;
 	left: 0;
 }
-.product_slider_nav_right
+.product-slider-nav-right
 {
 	top: 50%;
 	right: 0;
@@ -1436,44 +1434,44 @@ section
 {
 	margin-top: 74px;
 }
-.benefit_row
+.benefit-row
 {
 	padding-left: 15px;
 	padding-right: 15px;
 }
-.benefit_col
+.benefit-col
 {
 	padding-left: 0px;
 	padding-right: 0px;
 }
-.benefit_item
+.benefit-item
 {
 	height: 100px;
 	background: #f3f3f3;
 	border-right: solid 1px #FFFFFF;
 	padding-left: 25px;
 }
-.benefit_col:last-child .benefit_item
+.benefit-col:last-child .benefit-item
 {
 	border-right: none;
 }
-.benefit_icon i
+.benefit-icon i
 {
 	font-size: 30px;
 	color: #fe4c50;
 }
-.benefit_content
+.benefit-content
 {
 	padding-left: 22px;
 }
-.benefit_content h6
+.benefit-content h6
 {
 	text-transform: uppercase;
 	line-height: 18px;
 	font-weight: 500;
 	margin-bottom: 0px;
 }
-.benefit_content p
+.benefit-content p
 {
 	font-size: 12px;
 	line-height: 18px;
@@ -1660,7 +1658,7 @@ section
 }
 .newsletter_submit_btn:hover
 {
-	background: #c5a5a5;
+	background: #a0854e;
 }
 
 /*********************************

@@ -88,7 +88,7 @@
 })
 
 function applyCSSforProductGrid() {
-	$('.product_image img').hover(
+	$('.product-image img').hover(
 		function () {
 			var hoverSrc = $(this).data('src-hover');
 			$(this).stop().fadeTo(300, 0.5, function () {
@@ -108,10 +108,10 @@ function applyCSSforProductGrid() {
 		layoutMode: 'fitRows',
 		getSortData: {
 			price: function (itemElement) {
-				var priceEle = $(itemElement).find('.product_price').text().replace('đ', '');
+				var priceEle = $(itemElement).find('.product-price').text().replace('đ', '');
 				return parseFloat(priceEle);
 			},
-			name: '.product_name'
+			name: '.product-name'
 		},
 		animationOptions: {
 			duration: 750,

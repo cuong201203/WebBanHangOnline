@@ -109,7 +109,7 @@ jQuery(document).ready(function($)
 			url: url,
 			type: 'GET',
 			success: function (data) {
-				$('#load_review').html(data); // Cập nhật nội dung đánh giá
+				$('#loadReview').html(data); // Cập nhật nội dung đánh giá
 			},
 			error: function () {
 				alert("Lỗi khi tải đánh giá.");
@@ -208,10 +208,10 @@ jQuery(document).ready(function($)
 
 	function initThumbnail()
 	{
-		if ($('.single_product_thumbnails ul li').length)
+		if ($('.single-product-thumbnails ul li').length)
 		{
-			var thumbs = $('.single_product_thumbnails ul li');
-			var singleImage = $('.single_product_image_background');
+			var thumbs = $('.single-product-thumbnails ul li');
+			var singleImage = $('.single-product-image-background');
 
 			thumbs.each(function()
 			{
@@ -226,7 +226,7 @@ jQuery(document).ready(function($)
 			});
 		}	
 
-		$('.product_image img').hover(
+		$('.product-image img').hover(
 			function () {
 				// Khi hover vào ảnh
 				var hoverSrc = $(this).data('src-hover');
@@ -281,9 +281,9 @@ jQuery(document).ready(function($)
 
 	function initStarRating()
 	{
-		if ($('.user_star_rating li').length)
+		if ($('.user_star-rating li').length)
 		{
-			var stars = $('.user_star_rating li');
+			var stars = $('.user_star-rating li');
 			var dem = 0;
 
 			stars.each(function()
@@ -341,7 +341,7 @@ jQuery(document).ready(function($)
 		if ($('.tabs').length)
 		{
 			var tabs = $('.tabs li');
-			var tabContainers = $('.tab_container');
+			var tabContainers = $('.tab-container');
 
 			tabs.each(function()
 			{

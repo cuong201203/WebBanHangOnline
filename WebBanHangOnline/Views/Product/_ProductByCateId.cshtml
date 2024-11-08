@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<WebBanHangOnline.Models.EF.Product>
 
 <style>
-    .best_sellers, .add_to_cart_button {
+    .best-sellers, .add-to-cart-button {
         margin-left: 0 !important;
     }
 </style>
@@ -32,37 +32,35 @@
             hoverImage = defaultImage;
         }
 
-        <div class="product-item @item.ProductCategory.Alias" style="border-right: 5px solid white;">
-            <div class="product discount product_filter">
-                <div class="product_image">
-                    <a href="/chi-tiet/@item.Alias-p@(item.Id)">
-                        <img src="@defaultImage" alt="@item.Title" data-src="@defaultImage" data-src-hover="@hoverImage">
-                    </a>
-                </div>
-                @if (item.Quantity == 0)
-                {
-                <div class="product_bubble product_bubble_right d-flex flex-column align-items-center" style="background: #909090;"><span style="font-size: 8px;">hết hàng</span></div>
-                }
-                else
-                {
-                <div class="product_bubble product_bubble_green product_bubble_right d-flex flex-column align-items-center"><span style="font-size: 8px;">còn @item.Quantity</span></div>
-                }
-                <div class="product_bubble product_bubble_right d-flex flex-column align-items-center" style="background: #909090; margin-top: 25px;">
-                    <span style="font-size: 8px;">đã bán @item.SoldQuantity</span>
-                </div>
-                <div class="product_info">
-                    <h6 class="product_name"><a href="/chi-tiet/@item.Alias-p@(item.Id)">@item.Title</a></h6>
-                    @if (item.PriceSale > 0)
-                    {
-                    <div class="product_price">@string.Format("{0:N0}", item.PriceSale)<u>đ</u><span>@string.Format("{0:N0}", item.Price)<u>đ</u></span></div>
-                    }
-                    else
-                    {
-                    <div class="product_price">@string.Format("{0:N0}", item.Price)<u>đ</u></div>
-                    }
-                </div>
-            </div>
-            <div class="green_button add_to_cart_button"><a href="#" class="btnAddToCart" data-id="@item.Id">thêm vào giỏ</a></div>
+<div class="product-item @item.ProductCategory.Alias" style="border-right: 5px solid white;">
+    <div class="product discount product-filter">
+        <div class="product-image">
+            <a href="/chi-tiet/@item.Alias-p@(item.Id)">
+                <img src="@defaultImage" alt="@item.Title" data-src="@defaultImage" data-src-hover="@hoverImage">
+            </a>
         </div>
+        @if (item.Quantity == 0)
+        {
+        <div class="product-bubble product-bubble-right d-flex flex-column align-items-center">hết hàng</div>
+        }
+        else
+        {
+        <div class="product-bubble product-bubble-green product-bubble-right d-flex flex-column align-items-center">còn @item.Quantity</div>
+        }
+        <div class="product-bubble product-bubble-right d-flex flex-column align-items-center mt-4">đã bán @item.SoldQuantity</div>
+        <div class="product-info">
+            <h6 class="product-name"><a href="/chi-tiet/@item.Alias-p@(item.Id)">@item.Title</a></h6>
+            @if (item.PriceSale > 0)
+            {
+            <div class="product-price">@string.Format("{0:N0}", item.PriceSale)<u>đ</u><span>@string.Format("{0:N0}", item.Price)<u>đ</u></span></div>
+            }
+            else
+            {
+            <div class="product-price">@string.Format("{0:N0}", item.Price)<u>đ</u></div>
+            }
+        </div>
+    </div>
+    <div class="green-button add-to-cart-button"><a href="#" class="btnAddToCart" data-id="@item.Id">thêm vào giỏ</a></div>
+</div>
     }
 }
