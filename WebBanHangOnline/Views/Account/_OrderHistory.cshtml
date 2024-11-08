@@ -38,9 +38,9 @@
                 <td>
                     <a href="/@item.Code-o@(item.Id)" class="btn green-button text-white">Xem chi tiết</a>
                     @*0: Chưa thanh toán*@
-                    @if (item.Status == 0)
+                    @if (item.Status == 0 && (DateTime.Now - item.CreatedDate).TotalHours <= 24)
                     {
-                    <a href="@Url.Action("CancelOrder", "Account", new { code = item.Code })" data-code="@item.Code" class="btn red_button text-white btnCancelOrder">Hủy đơn</a>
+                    <a href="@Url.Action("CancelOrder", "Account", new { code = item.Code })" data-code="@item.Code" class="btn red-button text-white btnCancelOrder">Hủy đơn</a>
                     }
                 </td>
             </tr>

@@ -816,7 +816,7 @@ section
 {
 	color: #fe4c50;
 }
-.red_button
+.red-button
 {
 	display: -webkit-inline-box;
 	display: -moz-inline-box;
@@ -836,11 +836,11 @@ section
 	-o-transition: all 0.3s ease;
 	transition: all 0.3s ease;
 }
-.red_button:hover
+.red-button:hover
 {
 	background: #FE7C7F !important;
 }
-.red_button a
+.red-button a
 {
 	display: block;
 	color: #FFFFFF;
