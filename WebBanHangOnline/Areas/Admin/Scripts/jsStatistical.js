@@ -180,12 +180,21 @@ function loadProductStatistics(sortField = 'soldQuantity', sortOrder = 'desc') {
         success: function (result) {
             var strHtml = '';
             $.each(result.Data, function (index, item) {
+                // Chuyển đổi ExpiredDate từ /Date(<timestamp>)/ sang đối tượng Date
+                var expiredDate = new Date(parseInt(item.ExpiredDate.replace("/Date(", "").replace(")/", "")));
+
+                // Định dạng lại ExpiredDate thành "dd//MM/yyyy"
+                var formattedDate = expiredDate.getDate().toString().padStart(2, '0') + '/' +
+                    (expiredDate.getMonth() + 1).toString().padStart(2, '0') + '/' +
+                    expiredDate.getFullYear();
+
                 strHtml += '<tr>';
                 strHtml += '<td>' + (index + 1) + '</td>';
                 strHtml += '<td><img src="' + item.ProductImage + '" style="width: 50px; height: 50px;" /></td>';
                 strHtml += '<td>' + item.ProductName + '</td>';
                 strHtml += '<td>' + item.SoldQuantity + '</td>';
                 strHtml += '<td>' + item.RemainingQuantity + '</td>';
+                strHtml += '<td>' + formattedDate + '</td>';
                 strHtml += '</tr>';
             });
             $('#loadProductStatistic').html(strHtml);

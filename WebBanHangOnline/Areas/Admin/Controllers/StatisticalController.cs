@@ -141,6 +141,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                                 x.p.Id,
                                 x.p.Title,
                                 x.p.Quantity,
+                                x.p.ExpiredDate,
                                 ProductImage = x.p.ProductImage.FirstOrDefault(img => img.IsDefault) != null
                                     ? x.p.ProductImage.FirstOrDefault(img => img.IsDefault).Image
                                     : "/Uploads/images/No_Image_Available.jpg"
@@ -151,7 +152,8 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                             g.Key.ProductImage,
                             ProductName = g.Key.Title,
                             SoldQuantity = g.Sum(x => x.od == null ? 0 : x.od.Quantity),
-                            RemainingQuantity = g.Key.Quantity
+                            RemainingQuantity = g.Key.Quantity,
+                            ExpiredDate = g.Key.ExpiredDate
                         });
 
             // Sorting
@@ -165,6 +167,9 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                     break;
                 case "productName":
                     query = sortOrder == "desc" ? query.OrderByDescending(x => x.ProductName) : query.OrderBy(x => x.ProductName);
+                    break;
+                case "expiredDate":
+                    query = sortOrder == "desc" ? query.OrderByDescending(x => x.ExpiredDate) : query.OrderBy(x => x.ExpiredDate);
                     break;
             }
 
