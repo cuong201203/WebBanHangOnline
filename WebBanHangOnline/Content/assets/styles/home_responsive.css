@@ -95,7 +95,7 @@
 	{
 		margin-top: 5px;
 	}
-	.blog_title
+	.blog-title
 	{
 		font-size: 20px;
 	}
@@ -217,19 +217,19 @@
 	{
 		margin-bottom: 0px;
 	}
-	.blog_item_col
+	.blog-item-col
 	{
 		margin-bottom: 30px;
 	}
-	.blog_item_col:last-child
+	.blog-item-col:last-child
 	{
 		margin-bottom: 0px;
 	}
-	.blog_item
+	.blog-item
 	{
 		height: 440px;
 	}
-	.blog_title
+	.blog-title
 	{
 		font-size: 24px;
 	}
@@ -346,7 +346,7 @@
 	{
 		margin-bottom: 15px;
 	}
-	.blog_item
+	.blog-item
 	{
 		height: 372px;
 	}
@@ -380,7 +380,7 @@
 	{
 		height: 380px;
 	}
-	.blog_item
+	.blog-item
 	{
 		height: calc((100vw - 30px) / 1.37);
 	}
@@ -596,15 +596,15 @@
 	{
 		padding-bottom: 30px;
 	}
-	.blog_title
+	.blog-title
 	{
 		font-size: 16px;
 	}
-	.blog_meta
+	.blog-meta
 	{
 		font-size: 10px;
 	}
-	.blog_more
+	.blog-more
 	{
 		font-size: 12px;
 		margin-top: 5px;

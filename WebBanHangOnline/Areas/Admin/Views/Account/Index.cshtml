@@ -101,7 +101,7 @@
                                 <a href="#" data-id="@user.Id" class="btnActive">@Html.Raw(strCheckActive)</a>
                             </td>
                             <td>
-                                <a href="/Admin/Account/Edit/@user.Id" class="btn btn-sm btn-primary">Sửa</a>
+                                <a href="/Admin/Account/Edit/@user.Id" class="btn btn-sm btn-primary">@(role != "Customer" ? "Sửa" : "Xem")</a>
                                 @if (role != "Customer")
                                 {
                                 <a href="#" data-id="@user.Id" class="btn btn-sm btn-danger btnDelete">Xóa</a>

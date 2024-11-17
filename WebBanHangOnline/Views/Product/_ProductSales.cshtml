@@ -15,21 +15,21 @@
             <div class="col">
                 <div class="product-slider-container" style="height: 100%;">
                     <div class="owl-carousel owl-theme product-slider">
-                        @foreach (var item in Model)
-                        {
-                            var defaultImage = "";
-                            var hoverImage = "";
-                            var img = item.ProductImage.FirstOrDefault(x => x.IsDefault);
-                            var hoverImg = item.ProductImage.FirstOrDefault(x => x.IsHover);
+                    @foreach (var item in Model)
+                    {
+                        var defaultImage = "";
+                        var hoverImage = "";
+                        var img = item.ProductImage.FirstOrDefault(x => x.IsDefault);
+                        var hoverImg = item.ProductImage.FirstOrDefault(x => x.IsHover);
 
-                            if (img != null)
-                            {
-                                defaultImage = img.Image;
-                            }
-                            if (hoverImg != null)
-                            {
-                                hoverImage = hoverImg.Image;
-                            }
+                        if (img != null)
+                        {
+                            defaultImage = img.Image;
+                        }
+                        if (hoverImg != null)
+                        {
+                            hoverImage = hoverImg.Image;
+                        }
 
                         <div class="owl-item product-slider-item">
                             <div class="product-item women" style="border-right: 5px solid white;">
@@ -64,7 +64,7 @@
                                 <div class="green-button add-to-cart-button"><a href="#" class="btnAddToCart" data-id="@item.Id">thêm vào giỏ</a></div>
                             </div>
                         </div>
-                        }
+                    }
                     </div>
 
                     <!-- Slider Navigation -->

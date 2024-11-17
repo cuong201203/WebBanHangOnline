@@ -140,6 +140,12 @@
         }
     });
 
+    $('#typePayment').on('mouseover', '*', function () {
+        $(this).css('background-color', '#c5a25d').css('color', '#fff');
+    }).on('mouseout', '*', function () {
+        $(this).css('background-color', '').css('color', '');
+    });
+
     $("#checkOutForm").on('submit', function (e) {
         e.preventDefault();
         $('.success-line').show();

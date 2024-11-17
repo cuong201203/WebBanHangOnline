@@ -3778,7 +3778,7 @@
     <Content Include="Views\Home\_Subscribe.cshtml" />
     <Content Include="Views\ShoppingCart\VnPayReturn.cshtml" />
     <Content Include="Views\ShoppingCart\_ItemCheckOut.cshtml" />
-    <Content Include="Views\Product\_ProductByCateId.cshtml" />
+    <Content Include="Views\Product\_ProductNew.cshtml" />
     <Content Include="Views\Product\_ProductCategory.cshtml" />
     <Content Include="Views\Account\_OrderHistory.cshtml" />
     <Content Include="Views\Product\_ProductFeature.cshtml" />

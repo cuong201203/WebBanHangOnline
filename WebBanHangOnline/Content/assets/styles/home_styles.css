@@ -1405,6 +1405,10 @@ section
 	-o-transition: all 300ms ease;
 	transition: all 300ms ease;
 }
+.product-slider-nav:hover
+{
+	background-color: #bba6a6;
+}
 .product-slider-container:hover .product-slider-nav
 {
 	visibility: visible;
@@ -1487,16 +1491,16 @@ section
 {
 	margin-top: 72px;
 }
-.blogs_container
+.blogs-container
 {
 	margin-top: 53px;
 }
-.blog_item
+.blog-item
 {
 	height: 255px;
 	width: 100%;
 }
-.blog_background
+.blog-background
 {
 	position: absolute;
 	top: 0;
@@ -1507,7 +1511,7 @@ section
 	background-size: cover;
 	background-position: center center;
 }
-.blog_content
+.blog-content
 {
 	position: absolute;
 	top: 30px;
@@ -1531,19 +1535,19 @@ section
 	-o-transition: all 300ms ease;
 	transition: all 300ms ease;
 }
-.blog_item:hover .blog_content
+.blog-item:hover .blog-content
 {
 	visibility: visible;
 	opacity: 1;
 	transform: scale(1);
 }
-.blog_title
+.blog-title
 {
 	font-weight: 500;
 	line-height: 1.25;
 	margin-bottom: 0px;
 }
-.blog_meta
+.blog-meta
 {
 	font-size: 12px;
 	line-height: 30px;
@@ -1554,16 +1558,15 @@ section
 	margin-top: 3px;
 	letter-spacing: 1px;
 }
-.blog_more
-{
-	font-size: 14px;
+.blog-more {
+	font-size: 18px;
 	line-height: 16px;
 	font-weight: 500;
-	color: #fe4c50;
-	border-bottom: solid 1px #fe4c50;
+	color: #c5a25d;
+	border-bottom: solid 1px #c5a25d;
 	margin-top: 12px;
 }
-.blog_more:hover
+.blog-more:hover
 {
 	color: #FE7C7F;
 }

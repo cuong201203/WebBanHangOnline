@@ -77,17 +77,16 @@ namespace WebBanHangOnline.Controllers
             return View(pagedItems);
         }
 
-        public ActionResult ProductByCateId()
+        public ActionResult ProductNew()
         {
             var todayPlus10Days = DateTime.Today.AddDays(10);
             var items = db.Products
                 .Where(x => x.ExpiredDate > todayPlus10Days && x.IsActive)
                 .GroupBy(x => x.ProductCategory.Title)
-                .SelectMany(g => g
-                    .OrderByDescending(x => x.CreatedDate)
-                    .Take(10))
+                .SelectMany(g => g.OrderByDescending(x => x.CreatedDate).Take(10))
+                .OrderByDescending(x => x.CreatedDate)
                 .ToList();
-            return PartialView("_ProductByCateId", items);
+            return PartialView("_ProductNew", items);
         }
 
         public ActionResult ProductSales()

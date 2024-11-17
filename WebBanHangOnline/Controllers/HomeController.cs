@@ -26,8 +26,12 @@ namespace WebBanHangOnline.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Subscribes.Add(new Subscribe { Email = req.Email, CreatedDate = DateTime.Now});
-                db.SaveChanges();
+                var item = db.Subscribes.SingleOrDefault(s => s.Email.Equals(req.Email));
+                if (item == null)
+                {
+                    db.Subscribes.Add(new Subscribe { Email = req.Email, CreatedDate = DateTime.Now });
+                    db.SaveChanges();
+                }
                 return Json(true);           
             }
             return PartialView("_Subscribe");

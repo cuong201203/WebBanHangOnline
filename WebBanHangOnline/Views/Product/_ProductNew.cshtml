@@ -8,6 +8,7 @@
 
 @if (Model != null && Model.Any())
 {
+    var i = 1;
     foreach (var item in Model)
     {
         var defaultImage = "";
@@ -32,7 +33,7 @@
             hoverImage = defaultImage;
         }
 
-<div class="product-item @item.ProductCategory.Alias" style="border-right: 5px solid white;">
+<div class="product-item @(i <= 10 ? "all" : "") @item.ProductCategory.Alias" style="border-right: 5px solid white;">
     <div class="product discount product-filter">
         <div class="product-image">
             <a href="/chi-tiet/@item.Alias-p@(item.Id)">
@@ -62,5 +63,6 @@
     </div>
     <div class="green-button add-to-cart-button"><a href="#" class="btnAddToCart" data-id="@item.Id">thêm vào giỏ</a></div>
 </div>
+        i++;
     }
 }

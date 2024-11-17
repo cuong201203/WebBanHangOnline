@@ -23,10 +23,10 @@
     <h2 id="title">@ViewBag.Title</h2>
     <hr class="mb-5" />
     <div class="news-list">
-        @if (Model != null && Model.Any())
+    @if (Model != null && Model.Any())
+    {
+        foreach (var item in Model)
         {
-            foreach (var item in Model)
-            {
         <div class="row pb-5">
             <div class="col-md-5">
                 <div>
@@ -46,8 +46,8 @@
                 </div>
             </div>
         </div>
-            }
         }
+    }
         <div class="d-flex justify-content-center">
             @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
         </div>
