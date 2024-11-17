@@ -9,7 +9,7 @@ using WebBanHangOnline.Models.EF;
 
 namespace WebBanHangOnline.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Admin, Employee")]
+    [Authorize(Roles = "Admin")]
     public class ProductController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -126,6 +126,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                     item.OriginalPrice = model.OriginalPrice;
                     item.Price = model.Price;
                     item.PriceSale = model.PriceSale;
+                    item.ExpiredDate = model.ExpiredDate;
                     item.SeoTitle = model.SeoTitle;
                     item.SeoDescription = model.SeoDescription;
                     item.SeoKeywords = model.SeoKeywords;

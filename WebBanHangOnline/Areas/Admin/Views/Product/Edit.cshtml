@@ -90,14 +90,14 @@
                                         @Html.ValidationMessageFor(x => x.Detail, null, new { @class = "text-danger" })
                                     </div>
                                     <div class="row">
-                                        <div class="col-4">
+                                        <div class="col-3">
                                             <div class="form-group">
                                                 <label>Số lượng</label>
                                                 @Html.TextBoxFor(x => x.Quantity, new { @class = "form-control", @placeholder = "Số lượng" })
                                                 @Html.ValidationMessageFor(x => x.Quantity, null, new { @class = "text-danger" })
                                             </div>
                                         </div>
-                                        <div class="col-4">
+                                        <div class="col-3">
                                             <div class="form-group">
                                                 <label>Giá bán</label>
                                                 @Html.TextBoxFor(x => x.Price, new { @class = "form-control", @placeholder = "Giá bán..." })
@@ -111,16 +111,23 @@
                                                 @Html.ValidationMessageFor(x => x.PriceSale, null, new { @class = "text-danger" })
                                             </div>
                                         </div>*@
-                                        <div class="col-4">
+                                        <div class="col-3">
                                             <div class="form-group">
                                                 <label>Giá gốc</label>
                                                 @Html.TextBoxFor(x => x.OriginalPrice, new { @class = "form-control", @placeholder = "Giá gốc..." })
                                                 @Html.ValidationMessageFor(x => x.OriginalPrice, null, new { @class = "text-danger" })
                                             </div>
                                         </div>
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label>Ngày hết hạn</label>
+                                                @Html.TextBoxFor(x => x.ExpiredDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @min = DateTime.Today.ToString("yyyy-MM-dd") })
+                                                @Html.ValidationMessageFor(x => x.ExpiredDate, null, new { @class = "text-danger" })
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-4">
+                                        <div class="col-3">
                                             <div class="form-group">
                                                 <div class="custom-control custom-checkbox">
                                                     @Html.CheckBoxFor(x => x.IsActive, new { @class = "custom-control-input", @id = "IsActiveCheckBox", @checked = "checked" })
@@ -128,15 +135,13 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-4">
+                                        <div class="col-3">
                                             <div class="form-group">
                                                 <div class="custom-control custom-checkbox">
                                                     @Html.CheckBoxFor(x => x.IsFeature, new { @class = "custom-control-input", @id = "IsFeatureCheckbox" })
                                                     <label for="IsFeatureCheckbox" class="custom-control-label">Nổi bật</label>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-4">
                                         </div>
                                     </div>
                                 </div>

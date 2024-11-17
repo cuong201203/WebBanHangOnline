@@ -332,6 +332,10 @@
     <Compile Include="Migrations\202411011822453_UpdateOrder3.Designer.cs">
       <DependentUpon>202411011822453_UpdateOrder3.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202411170529142_AddExpiredDateToProduct.cs" />
+    <Compile Include="Migrations\202411170529142_AddExpiredDateToProduct.designer.cs">
+      <DependentUpon>202411170529142_AddExpiredDateToProduct.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CommonAbstract.cs" />
@@ -3888,6 +3892,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202411011822453_UpdateOrder3.resx">
       <DependentUpon>202411011822453_UpdateOrder3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411170529142_AddExpiredDateToProduct.resx">
+      <DependentUpon>202411170529142_AddExpiredDateToProduct.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

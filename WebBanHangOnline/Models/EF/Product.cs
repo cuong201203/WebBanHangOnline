@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Web.Mvc;
@@ -56,6 +57,9 @@ namespace WebBanHangOnline.Models.EF
         public bool IsFeature { get; set; }
         public bool IsHot { get; set; }
         public bool IsActive { get; set; }
+
+        [Required(ErrorMessage = "Ngày hết hạn không được để trống!")]
+        public DateTime ExpiredDate { get; set; }
 
         [StringLength(250)]
         public string SeoTitle { get; set; }

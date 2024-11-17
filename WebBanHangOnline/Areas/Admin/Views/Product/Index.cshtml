@@ -73,6 +73,7 @@
                             <th>Số lượng</th>
                             <th>Giá</th>
                             <th>Ngày tạo</th>
+                            <th>Ngày hết hạn</th>
                             <th class="text-center">Hiển thị</th>
                             <th class="text-center">Nổi bật</th>
                             <th style="width: 150px;"></th>
@@ -97,6 +98,7 @@
                             <td>@item.Quantity</td>
                             <td>@string.Format("{0:N0}", item.Price)<u>đ</u></td>
                             <td>@item.CreatedDate.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                            <td>@item.ExpiredDate.ToString("dd/MM/yyyy")</td>
                             <td class="text-center">
                                 <a href="#" data-id="@item.Id" class="btnActive">@Html.Raw(strCheck)</a>
                             </td>

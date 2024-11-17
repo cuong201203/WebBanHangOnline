@@ -36,7 +36,8 @@ namespace WebBanHangOnline.Controllers
         public ActionResult ProductCategory(string alias, float? priceMin, float? priceMax, int? id, int page = 1, string sortType = "original-order")
         {
             int pageSize = 8;
-            IEnumerable<Product> items = db.Products.ToList();           
+            var todayPlus10Days = DateTime.Today.AddDays(10);
+            IEnumerable<Product> items = db.Products.Where(x => x.ExpiredDate > todayPlus10Days).ToList();
 
             if (id != null)
             {
@@ -78,8 +79,9 @@ namespace WebBanHangOnline.Controllers
 
         public ActionResult ProductByCateId()
         {
+            var todayPlus10Days = DateTime.Today.AddDays(10);
             var items = db.Products
-                .Where(x => x.IsActive)
+                .Where(x => x.ExpiredDate > todayPlus10Days && x.IsActive)
                 .GroupBy(x => x.ProductCategory.Title)
                 .SelectMany(g => g
                     .OrderByDescending(x => x.CreatedDate)
@@ -90,7 +92,8 @@ namespace WebBanHangOnline.Controllers
 
         public ActionResult ProductSales()
         {
-            var topProducts = db.Products.OrderByDescending(x => x.SoldQuantity).Take(8).ToList();
+            var todayPlus10Days = DateTime.Today.AddDays(10);
+            var topProducts = db.Products.Where(x => x.ExpiredDate > todayPlus10Days).OrderByDescending(x => x.SoldQuantity).Take(8).ToList();
             var productList = new List<Product>();
 
             foreach (var topProduct in topProducts)
@@ -119,17 +122,24 @@ namespace WebBanHangOnline.Controllers
 
         public ActionResult ProductRelated(int categoryId, int productId)
         {
+            var todayPlus10Days = DateTime.Today.AddDays(10);
+
             var items = db.Products
-                .Where(x => x.ProductCategoryId == categoryId && x.Id != productId && x.IsActive)
-                .OrderByDescending(x => x.CreatedDate)
-                .ToList();
+                          .Where(x => x.ExpiredDate > todayPlus10Days
+                                  && x.ProductCategoryId == categoryId
+                                  && x.Id != productId
+                                  && x.IsActive)
+                          .OrderByDescending(x => x.CreatedDate)
+                          .ToList();
 
             return PartialView("_ProductRelated", items);
         }
 
         public ActionResult ProductFeature()
         {
-            var item = db.Products.Where(x => x.IsFeature).OrderByDescending(x => x.CreatedDate).ToList();
+            var todayPlus10Days = DateTime.Today.AddDays(10);
+
+            var item = db.Products.Where(x => x.ExpiredDate > todayPlus10Days && x.IsFeature).OrderByDescending(x => x.CreatedDate).ToList();
             return PartialView("_ProductFeature", item);
         }
 
