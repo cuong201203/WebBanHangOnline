@@ -88,7 +88,31 @@ namespace WebBanHangOnline.Controllers
 
         public ActionResult ProductSales()
         {
-            var topProducts = db.Products.OrderByDescending(x => x.SoldQuantity).Take(8).ToList();
+            var cutoffDate = DateTime.Now.AddDays(-30);
+            var productSales = db.Products
+                                .Join(
+                                    db.OrderDetails.Join(
+                                        db.Orders.Where(o => o.CreatedDate >= cutoffDate),
+                                        od => od.OrderId,
+                                        o => o.Id,
+                                        (od, o) => od
+                                    ),
+                                    p => p.Id,
+                                    od => od.ProductId,
+                                    (p, od) => new { p, od.Quantity }
+                                )
+                                .GroupBy(x => x.p)
+                                .Select(g => new
+                                {
+                                    Product = g.Key,
+                                    TotalSold = g.Sum(x => x.Quantity)
+                                })
+                                .OrderByDescending(x => x.TotalSold)
+                                .Take(8)
+                                .ToList();
+            ViewBag.ProductCounts = productSales.ToDictionary(x => x.Product.Id, x => x.TotalSold);
+            var topProducts = productSales.Select(x => x.Product).ToList();
+
             var productList = new List<Product>();
 
             foreach (var topProduct in topProducts)

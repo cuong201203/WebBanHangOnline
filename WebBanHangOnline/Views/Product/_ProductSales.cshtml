@@ -52,6 +52,7 @@
                                     <div class="product-bubble product-bubble-right product-bubble-green d-flex flex-column align-items-center">còn @item.Quantity</div>
                                     }
                                     <div class="product-bubble product-bubble-right d-flex flex-column align-items-center mt-4">đã bán @item.SoldQuantity</div>
+                                    <div class="product-bubble product-bubble-left product-bubble-green d-flex flex-column align-items-center text-center p-1" style="height: fit-content; line-height: 1.5;">đã bán @ViewBag.ProductCounts[item.Id] trong 30 ngày</div>
                                     <div class="product-info">
                                         <h6 class="product-name"><a href="/chi-tiet/@item.Alias-p@(item.Id)">@item.Title</a></h6>
                                         @if (item.PriceSale > 0)
