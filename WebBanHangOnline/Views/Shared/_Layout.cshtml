@@ -17,7 +17,7 @@
     @*@Styles.Render("~/Content/css")*@    
 
     <style>
-        .header, .hamburger_menu {
+        .header, .hamburger-menu {
             display: none;
         }
 
@@ -46,7 +46,7 @@
 
         .back-to-top:hover {
             color: white;
-            background: #a0854e;
+            background: #937a47;
             box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4);
         }
 
@@ -60,15 +60,15 @@
         <!-- Header -->
         <header class="header trans_300">
             <!-- Top Navigation -->
-            <div class="top_nav">
+            <div class="top-nav">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="top_nav_left">hotline: 19009300</div>
+                            <div class="top-nav_left">hotline: 19009300</div>
                         </div>
                         <div class="col-md-6 text-right">
-                            <div class="top_nav_right">
-                                <ul class="top_nav_menu">
+                            <div class="top-nav_right">
+                                <ul class="top-nav_menu">
                                     <li class="account">
                                         @if (!Request.IsAuthenticated)
                                         {
@@ -137,7 +137,7 @@
                                         </a>
                                     </li>
                                 </ul>
-                                <div class="hamburger_container">
+                                <div class="hamburger-container">
                                     <i class="fa fa-bars" aria-hidden="true"></i>
                                 </div>
                             </nav>
@@ -147,11 +147,11 @@
             </div>
         </header>
 
-        <div class="hamburger_menu">
-            <div class="hamburger_close"><i class="fa fa-times" aria-hidden="true"></i></div>
-            <div class="hamburger_menu_content text-right">
-                <ul class="top_nav_menu">
-                    <li class="menu_item has-children">
+        <div class="hamburger-menu">
+            <div class="hamburger-close"><i class="fa fa-times" aria-hidden="true"></i></div>
+            <div class="hamburger-menu_content text-right">
+                <ul class="top-nav_menu">
+                    <li class="menu-item has-children">
                         @if (!Request.IsAuthenticated)
                         {
                         <a href="#">
@@ -181,7 +181,7 @@
             </div>
         </div>
 
-        <div class="fs_menu_overlay"></div>
+        <div class="fs-menu-overlay"></div>
 
         <!-- Main -->
         @RenderBody()
@@ -237,7 +237,6 @@
     <script src="~/Content/assets/js/custom.js"></script>
     <script src="~/Scripts/jsLayout.js"></script>
     <script src="~/Scripts/jsMenu.js"></script>
-    <script src="~/Scripts/jsProduct.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

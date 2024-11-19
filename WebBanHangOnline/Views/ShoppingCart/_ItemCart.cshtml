@@ -23,7 +23,7 @@
         {
             <tr id="trow_@item.ProductId">
                 <td>
-                @if (item.LeftQuantity > 0)
+                @if (item.LeftQuantity > 0 && !item.IsExpired)
                 {
                     <input type="checkbox" checked class="cbkItem" data-price="@item.TotalPrice" value="@item.ProductId" />
                 }
@@ -40,19 +40,19 @@
                 <td>@item.CategoryName</td>
                 <td class="text-center">@string.Format("{0:N0}", item.Price)<u>đ</u></td>
                 <td class="text-center">
-                @if (@item.LeftQuantity == 0)
+                @if (item.LeftQuantity == 0 || item.IsExpired)
                 {
-                    <input type="number" min="0" disabled class="form-control quantity-input" value="0" data-price="0" />
+                    <input type="text" disabled class="form-control quantity-input text-center" style="font-size: 12px;" value="Hết hàng" />
                 }
                 else
                 {
                     <input type="number" min="1" max="@item.LeftQuantity" class="form-control quantity-input" id="@item.ProductId" value="@item.Quantity" data-price="@item.Price" />
-                }                            
                     <div id="quantity-left">
                         Còn: @item.LeftQuantity
                     </div>
+                }
                 </td>
-                @if (item.LeftQuantity == 0) 
+                @if (item.LeftQuantity == 0 || item.IsExpired) 
                 {
                 <td class="text-center font-weight-bold total-price" id="totalPrice_@item.ProductId">0<u>đ</u></td>
                 }

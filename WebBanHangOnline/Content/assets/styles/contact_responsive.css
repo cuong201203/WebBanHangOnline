@@ -87,7 +87,7 @@
 {
 	h1{font-size: 48px;}
 	h2{font-size: 36px;}
-	.top_nav
+	.top-nav
 	{
 		display: none;
 	}
@@ -95,7 +95,7 @@
 	{
 		display: none;
 	}
-	.hamburger_container
+	.hamburger-container
 	{
 		display: block;
 	}
@@ -205,7 +205,7 @@
 	{
 		font-size: 13px;
 	}
-	.hamburger_menu
+	.hamburger-menu
 	{
 		right: -100%;
 		width: 100%;
@@ -350,33 +350,33 @@
 	{
 		font-size: 12px;
 	}
-	.hamburger_container
+	.hamburger-container
 	{
 		margin-left: 25px;
 	}
-	.hamburger_container i
+	.hamburger-container i
 	{
 		font-size: 16px;
 	}
-	.hamburger_close
+	.hamburger-close
 	{
 		top: 14px;
 		right: 4px;
 	}
-	.hamburger_close i
+	.hamburger-close i
 	{
 		font-size: 20px;
 	}
-	.hamburger_menu_content
+	.hamburger-menu_content
 	{
 		padding-right: 15px;
 		padding-top: 70px;
 	}
-	.menu_item
+	.menu-item
 	{
 		border-bottom-color: rgba(181, 174, 196, 0.5);
 	}
-	.menu_item > a
+	.menu-item > a
 	{
 		font-size: 12px;
 		line-height: 35px;

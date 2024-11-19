@@ -234,7 +234,7 @@ section
 	-o-transition: all 500ms ease;
 	transition: all 500ms ease;
 }
-.fill_height
+.fill-height
 {
 	height: 100%;
 }
@@ -258,13 +258,13 @@ section
 	background: #FFFFFF;
 	z-index: 10;
 }
-.top_nav
+.top-nav
 {
 	width: 100%;
 	height: 50px;
 	background: #1e1e27;
 }
-.top_nav_left
+.top-nav_left
 {
 	height: 50px;
 	line-height: 50px;
@@ -623,12 +623,12 @@ section
 3.5 Hamburger Menu
 *********************************/
 
-.hamburger_container
+.hamburger-container
 {
 	display: none;
 	margin-left: 40px;
 }
-.hamburger_container i
+.hamburger-container i
 {
 	font-size: 24px;
 	color: #1e1e27;
@@ -638,11 +638,11 @@ section
 	-o-transition: all 300ms ease;
 	transition: all 300ms ease;
 }
-.hamburger_container:hover i
+.hamburger-container:hover i
 {
 	color: #b5aec4;
 }
-.hamburger_menu
+.hamburger-menu
 {
 	position: fixed;
 	top: 0;
@@ -657,11 +657,11 @@ section
 	-o-transition: all 300ms ease;
 	transition: all 300ms ease;
 }
-.hamburger_menu.active
+.hamburger-menu.active
 {
 	right: 0;
 }
-.fs_menu_overlay
+.fs-menu-overlay
 {
 	position: fixed;
 	top: 0;
@@ -677,7 +677,7 @@ section
 	-o-transition: all 200ms ease;
 	transition: all 200ms ease;
 }
-.hamburger_close
+.hamburger-close
 {
 	position: absolute;
 	top: 26px;
@@ -685,7 +685,7 @@ section
 	padding: 10px;
 	z-index: 1;
 }
-.hamburger_close i
+.hamburger-close i
 {
 	font-size: 24px;
 	color: #1e1e27;
@@ -695,25 +695,25 @@ section
 	-o-transition: all 300ms ease;
 	transition: all 300ms ease;
 }
-.hamburger_close:hover i
+.hamburger-close:hover i
 {
 	color: #b5aec4;
 }
-.hamburger_menu_content
+.hamburger-menu_content
 {
 	padding-top: 100px;
 	width: 100%;
 	height: 100%;
 	padding-right: 20px;
 }
-.menu_item
+.menu-item
 {
 	display: block;
 	position: relative;
 	border-bottom: solid 1px #b5aec4;
 	vertical-align: middle;
 }
-.menu_item > a
+.menu-item > a
 {
 	display: block;
 	color: #1e1e27;
@@ -723,15 +723,15 @@ section
 	font-size: 14px;
 	text-transform: uppercase;
 }
-.menu_item > a:hover
+.menu-item > a:hover
 {
 	color: #b5aec4;
 }
-.menu_item > a > i
+.menu-item > a > i
 {
 	margin-left: 8px;
 }
-.menu_item.active .menu_selection
+.menu-item.active .menu_selection
 {
 	display: block;
 	visibility: visible;
@@ -863,7 +863,7 @@ section
 }
 .green-button:hover
 {
-	background: #a0854e!important;
+	background: #937a47 !important;
 }
 .green-button a
 {
@@ -1270,11 +1270,11 @@ section
 	color: #FFFFFF;
 }
 .filter_button.active {
-	background-color: #a0854e;
+	background-color: #937a47;
 }
 input[type="checkbox"]:checked {
 	color: white;
-	accent-color: #a0854e;
+	accent-color: #937a47;
 }
 .checkboxes li {
 	height: 40px;
@@ -1317,18 +1317,18 @@ input[type="checkbox"]:checked {
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 	color: #51545f;
 }
-.show_more
+.show-more
 {
 	display: inline-block;
 	cursor: pointer;
 }
-.show_more span
+.show-more span
 {
 	height: 40px;
 	line-height: 40px;
 	color: #fe4c50;
 }
-.show_more span:first-child
+.show-more span:first-child
 {
 	margin-right: 11px;
 }
@@ -1655,7 +1655,7 @@ input[type="checkbox"]:checked {
 }
 .newsletter_submit_btn:hover
 {
-	background: #a0854e;
+	background: #937a47;
 }
 
 /*********************************

@@ -1,5 +1,5 @@
 ﻿$('.header').show();
-$('.hamburger_menu').show();
+$('.hamburger-menu').show();
 
 $(document).ready(function () {
     // Update cart items amount display
@@ -38,17 +38,17 @@ $(document).ready(function () {
         }
     });
 
-    $('.hamburger_container').click(function () {
+    $('.hamburger-container').click(function () {
         $('.navbar_menu').eq(0).hide();
         $('.navbar_menu').eq(1).find('li').each(function () {
-            $(this).addClass('menu_item');
+            $(this).addClass('menu-item');
         });
 
         $('.navbar_menu').eq(1).removeClass('navbar_menu');
     });
 
     $(window).resize(function () {
-        if ($('.hamburger_container').css('display') === 'none') {
+        if ($('.hamburger-container').css('display') === 'none') {
             $('.navbar_menu').show();
         }
     });

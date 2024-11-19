@@ -27,12 +27,12 @@ jQuery(document).ready(function($)
 	*/
 
 	var header = $('.header');
-	var topNav = $('.top_nav')
-	var hamburger = $('.hamburger_container');
-	var menu = $('.hamburger_menu');
+	var topNav = $('.top-nav')
+	var hamburger = $('.hamburger-container');
+	var menu = $('.hamburger-menu');
 	var menuActive = false;
-	var hamburgerClose = $('.hamburger_close');
-	var fsOverlay = $('.fs_menu_overlay');
+	var hamburgerClose = $('.hamburger-close');
+	var fsOverlay = $('.fs-menu-overlay');
 
 	setHeader();
 
@@ -158,9 +158,9 @@ jQuery(document).ready(function($)
 			});
 		}
 
-		if ($('.menu_item').length)
+		if ($('.menu-item').length)
 		{
-			var items = document.getElementsByClassName('menu_item');
+			var items = document.getElementsByClassName('menu-item');
 			var i;
 
 			for(i = 0; i < items.length; i++)

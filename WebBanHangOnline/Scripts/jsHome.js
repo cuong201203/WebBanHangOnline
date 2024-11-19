@@ -2,7 +2,6 @@
     var startX, endX;
     var threshold = 100;
     var carousel = $('#customCarousel');
-    var productItems = $('.product-grid .product-item');
 
     // Handle touch events for swipe on mobile
     carousel.on('touchstart', function (e) {

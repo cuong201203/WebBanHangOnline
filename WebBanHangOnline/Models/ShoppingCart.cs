@@ -41,7 +41,8 @@ namespace WebBanHangOnline.Models
                             Price = product.Price,
                             Quantity = cartItem.Quantity,
                             LeftQuantity = product.Quantity,
-                            TotalPrice = cartItem.TotalPrice
+                            TotalPrice = cartItem.TotalPrice,
+                            IsExpired = (product.ExpiredDate - DateTime.Now).TotalDays <= 10
                         }).ToList();
                     return cart;
                 }
@@ -175,5 +176,6 @@ namespace WebBanHangOnline.Models
         public int LeftQuantity { get; set; }
         public int Price { get; set; }
         public int TotalPrice { get; set; }
+        public bool IsExpired { get; set; }
     }
 }

@@ -52,7 +52,7 @@
                                                     <img src="@defaultImage" alt="@item.Title" data-src="@defaultImage" data-src-hover="@hoverImage">
                                                 </a>
                                             </div>
-                                            @if (item.Quantity == 0)
+                                            @if (item.Quantity == 0 || (item.ExpiredDate - DateTime.Now).TotalDays <= 10)
                                             {
                                             <div class="product-bubble product-bubble-right d-flex flex-column align-items-center">Hết hàng</div>
                                             }

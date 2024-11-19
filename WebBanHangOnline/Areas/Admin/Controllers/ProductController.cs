@@ -34,7 +34,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             
             if (!string.IsNullOrEmpty(searchText))
             {
-                items = items.Where(x => x.Title.Contains(searchText) || x.ProductCategory.Title.Contains(searchText));
+                items = items.Where(x => x.Title.ToLower().Contains(searchText.ToLower()) || x.ProductCategory.Title.ToLower().Contains(searchText.ToLower()));
             }
             items = items.ToPagedList(page, pageSize);
             ViewBag.PageSize = pageSize;

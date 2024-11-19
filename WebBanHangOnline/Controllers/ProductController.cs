@@ -36,9 +36,7 @@ namespace WebBanHangOnline.Controllers
         public ActionResult ProductCategory(string alias, float? priceMin, float? priceMax, int? id, int page = 1, string sortType = "original-order")
         {
             int pageSize = 8;
-            var todayPlus10Days = DateTime.Today.AddDays(10);
-            IEnumerable<Product> items = db.Products.Where(x => x.ExpiredDate > todayPlus10Days).ToList();
-
+            IEnumerable<Product> items = db.Products.ToList();
             if (id != null)
             {
                 items = items.Where(x => x.ProductCategory.Id == id);
@@ -79,9 +77,8 @@ namespace WebBanHangOnline.Controllers
 
         public ActionResult ProductNew()
         {
-            var todayPlus10Days = DateTime.Today.AddDays(10);
             var items = db.Products
-                .Where(x => x.ExpiredDate > todayPlus10Days && x.IsActive)
+                .Where(x => x.IsActive)
                 .GroupBy(x => x.ProductCategory.Title)
                 .SelectMany(g => g.OrderByDescending(x => x.CreatedDate).Take(10))
                 .OrderByDescending(x => x.CreatedDate)
@@ -91,8 +88,7 @@ namespace WebBanHangOnline.Controllers
 
         public ActionResult ProductSales()
         {
-            var todayPlus10Days = DateTime.Today.AddDays(10);
-            var topProducts = db.Products.Where(x => x.ExpiredDate > todayPlus10Days).OrderByDescending(x => x.SoldQuantity).Take(8).ToList();
+            var topProducts = db.Products.OrderByDescending(x => x.SoldQuantity).Take(8).ToList();
             var productList = new List<Product>();
 
             foreach (var topProduct in topProducts)
@@ -100,34 +96,22 @@ namespace WebBanHangOnline.Controllers
                 var images = db.ProductImages.Where(x => x.ProductId == topProduct.Id).ToList();
                 var defaultImage = images.FirstOrDefault(x => x.IsDefault)?.Image ?? "/Uploads/images/No_Image_Available.jpg";
                 var hoverImage = images.FirstOrDefault(x => x.IsHover)?.Image ?? "/Uploads/images/No_Image_Available.jpg";
-                var product = new Product
-                {
-                    Id = topProduct.Id,
-                    Title = topProduct.Title,
-                    Quantity = topProduct.Quantity,
-                    SoldQuantity = topProduct.SoldQuantity,
-                    ProductImage = new List<ProductImage>
-                    {
-                        new ProductImage { Image = defaultImage, IsDefault = true },
-                        new ProductImage { Image = hoverImage, IsHover = true }
-                    },
-                    Price = topProduct.Price,
-                    Alias = topProduct.Alias,
-                };
-                productList.Add(product);
+                topProduct.ProductImage = new List<ProductImage>
+                                          {
+                                              new ProductImage { Image = defaultImage, IsDefault = true },
+                                              new ProductImage { Image = hoverImage, IsHover = true }
+                                          };
+                productList.Add(topProduct);
             }
             return PartialView("_ProductSales", productList);
         }
 
         public ActionResult ProductRelated(int categoryId, int productId)
         {
-            var todayPlus10Days = DateTime.Today.AddDays(10);
-
             var items = db.Products
-                          .Where(x => x.ExpiredDate > todayPlus10Days
-                                  && x.ProductCategoryId == categoryId
-                                  && x.Id != productId
-                                  && x.IsActive)
+                          .Where(x => x.ProductCategoryId == categoryId
+                                   && x.Id != productId
+                                   && x.IsActive)
                           .OrderByDescending(x => x.CreatedDate)
                           .ToList();
 
@@ -136,9 +120,7 @@ namespace WebBanHangOnline.Controllers
 
         public ActionResult ProductFeature()
         {
-            var todayPlus10Days = DateTime.Today.AddDays(10);
-
-            var item = db.Products.Where(x => x.ExpiredDate > todayPlus10Days && x.IsFeature).OrderByDescending(x => x.CreatedDate).ToList();
+            var item = db.Products.Where(x => x.IsFeature).OrderByDescending(x => x.CreatedDate).ToList();
             return PartialView("_ProductFeature", item);
         }
 

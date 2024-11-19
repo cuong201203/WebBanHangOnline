@@ -11,6 +11,7 @@
 
 @if (Model != null)
 {
+    var IsExpired = (Model.ExpiredDate - DateTime.Now).TotalDays <= 10;
 <div class="container single-product-container product-detail-container">
     <div class="row">
         <div class="col">
@@ -104,9 +105,9 @@
 
                 <div class="quantity d-flex flex-column flex-sm-row align-items-sm-center">
                     <span>Số lượng:</span>
-                    <div class="quantity-selector" @(Model.Quantity == 0 ? "style='pointer-events:none; opacity:0.5;'" : "")>
+                    <div class="quantity-selector" @(Model.Quantity == 0 ? "style='pointer-events: none; opacity: 0.5;'" : "")>
                         <span class="minus"><i class="fa fa-minus" aria-hidden="true"></i></span>
-                        @if (Model.Quantity == 0)
+                        @if (Model.Quantity == 0 || IsExpired)
                         {
                         <span class="out-of-stock">Hết hàng</span>
                         }
@@ -120,7 +121,7 @@
                     @*<div class="product_favorite d-flex flex-column align-items-center justify-content-center"></div>*@
                 </div>
                 <div class="col-md-6 offset-md-2 d-flex align-items-center">
-                @if (Model.Quantity > 0)
+                @if (Model.Quantity > 0 && !IsExpired)
                 {
                     <div class="quantity-left">Còn: <span>@Model.Quantity</span></div>
                     <text>&nbsp;||&nbsp;</text>
@@ -128,7 +129,7 @@
                 }
                 else 
                 {
-                <div class="quantity-sold" style="padding-left: 0;">Đã bán: <span>@Model.SoldQuantity</span></div>
+                <div class="quantity-sold" style="padding-left: 30px;">Đã bán: <span>@Model.SoldQuantity</span></div>
                 }
                 </div>
             </div>
