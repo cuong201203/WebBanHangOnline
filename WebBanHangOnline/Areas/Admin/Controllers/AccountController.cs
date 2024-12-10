@@ -1,5 +1,4 @@
-﻿using CKFinder.Connector;
-using Microsoft.AspNet.Identity;
+﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using PagedList;
@@ -11,6 +10,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using WebBanHangOnline.Models;
+using WebBanHangOnline.Models.EF;
 
 namespace WebBanHangOnline.Areas.Admin.Controllers
 {
@@ -62,10 +62,12 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         public ActionResult Index(string searchText, int page = 1)
         {
             int pageSize = 10;
-            var users = db.Users.OrderByDescending(x => x.CreatedDate).AsQueryable();
+            var users = db.Users.OrderByDescending(x => x.CreatedDate).ToList();
             if (!string.IsNullOrEmpty(searchText))
             {
-                users = users.Where(x => x.UserName.Contains(searchText) || x.FullName.Contains(searchText));
+                users = users.Where(x => x.UserName.Contains(searchText) ||
+                                    x.FullName.Contains(searchText) ||
+                                    UserManager.GetRoles(x.Id).Any(role => role.Contains(searchText))).ToList();
             }
             var pagedItems = users.ToPagedList(page, pageSize);
             var userRoles = new Dictionary<string, string>(); // Dictionary to hold user roles
@@ -107,7 +109,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        public async Task<ActionResult> Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -118,30 +120,32 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
 
             if (user == null)
             {
-                return Json(new { success = false, errors = new List<string> { "Tên đăng nhập hoặc mật khẩu của bạn không đúng! Vui lòng thử lại!" } });
+                // Case sai username
+                return Json(new { success = false, error = "Tên đăng nhập hoặc mật khẩu của bạn không đúng! Vui lòng thử lại!" });
             }
 
             if (!user.IsActive)
             {
-                return Json(new { success = false, errors = new List<string> { "Tài khoản của bạn bị khóa!" } });
+                return Json(new { success = false, error = "Tài khoản của bạn bị khóa!" });
             }
 
             var roles = await UserManager.GetRolesAsync(user.Id);
             if (roles.Contains("Customer"))
             {
-                return Json(new { success = false, errors = new List<string> { "Bạn không có quyền truy cập!" } });
+                return Json(new { success = false, error = "Bạn không có quyền truy cập!" });
             }
 
             var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: true);
             switch (result)
             {
                 case SignInStatus.Success:
-                    return Json(new { success = true, redirectUrl = returnUrl ?? Url.Action("Index", "Home") });
-                // Muốn dùng case này thì chỉnh shouldLockout: true
-                case SignInStatus.LockedOut:
-                    return Json(new { success = false, errors = new List<string> { "Bạn đã đăng nhập thất bại 5 lần! Vui lòng thử lại sau 5 phút!" } });
+                    return Json(new { success = true, redirectUrl = Url.Action("Index", "Home") });                
+                case SignInStatus.LockedOut: // Muốn dùng case này thì chỉnh shouldLockout: true
+                    return Json(new { success = false, error = "Bạn đã đăng nhập thất bại 5 lần! Vui lòng thử lại sau 5 phút!" });
                 case SignInStatus.RequiresVerification:
-                    return Json(new { success = false, errors = new List<string> { "Xác minh tài khoản của bạn!" } });
+                    return Json(new { success = false, error = "Xác minh tài khoản của bạn!" });
+                case SignInStatus.Failure: // Case sai password
+                    return Json(new { success = false, error = "Tên đăng nhập hoặc mật khẩu của bạn không đúng! Vui lòng thử lại!" });
                 default:
                     return Json(new { success = false, errors = ReturnErrors() });
             }
@@ -172,7 +176,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         }
 
         //
-        // POST: /Account/Register
+        // POST: /Account/Create
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -180,6 +184,18 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                var existingUser = await UserManager.FindByNameAsync(model.UserName);
+                if (existingUser != null)
+                {
+                    return Json(new { success = false, error = "Tên người dùng đã được sử dụng. Vui lòng chọn tên khác." });
+                }
+
+                var existingEmail = await UserManager.FindByEmailAsync(model.Email);
+                if (existingEmail != null)
+                {
+                    return Json(new { success = false, error = "Địa chỉ email này đã được sử dụng. Vui lòng nhập một địa chỉ email khác." });
+                }
+
                 var user = new ApplicationUser
                 {
                     UserName = model.UserName,
@@ -194,11 +210,11 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                 if (result.Succeeded)
                 {
                     UserManager.AddToRole(user.Id, "Admin");
-
-                    // Tạo giỏ hàng cho người dùng mới
-                    var cart = new ShoppingCart(user.Id);
-                    cart.SaveCart(db); // Lưu giỏ hàng vào cơ sở dữ liệu
-
+                    db.Carts.Add(new Cart
+                    {
+                        UserId = user.Id
+                    });
+                    db.SaveChanges();
                     // Redirect sau khi tạo tài khoản thành công
                     return Json(new { success = true });
                 }
@@ -255,7 +271,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
 
                 if (UserManager.GetRoles(user.Id).Contains("Customer"))
                 {
-                    return Json(new { success = false, errors = new List<string> { "Không được sửa thông tin tài khoản khách hàng!" }});
+                    return Json(new { success = false, error = "Không được sửa thông tin tài khoản khách hàng!" });
                 }
 
                 user.UserName = model.UserName;
@@ -307,26 +323,27 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         {
             if (string.IsNullOrEmpty(id))
             {
-                return Json(new { success = false, message = "ID không hợp lệ" });
+                return Json(new { success = false, error = "ID không hợp lệ" });
             }
 
             var user = UserManager.FindById(id);
             if (user == null)
             {
-                return Json(new { success = false, message = "Không có người dùng này." });
+                return Json(new { success = false, error = "Không có người dùng này." });
             }
             if (UserManager.GetRoles(user.Id).Contains("Customer"))
             {
-                return Json(new { success = false, message = "Không được xóa tài khoản khách hàng!" });
+                return Json(new { success = false, error = "Không được xóa tài khoản khách hàng!" });
             }
 
             var result = UserManager.Delete(user);
+            db.Carts.Remove(db.Carts.SingleOrDefault(x => x.UserId == id));
             if (result.Succeeded)
             {
                 return Json(new { success = true });
             }
 
-            return Json(new { success = false, message = "Có lỗi xảy ra khi xóa dữ liệu." });
+            return Json(new { success = false, error = "Có lỗi xảy ra khi xóa dữ liệu." });
         }
 
         private IAuthenticationManager AuthenticationManager

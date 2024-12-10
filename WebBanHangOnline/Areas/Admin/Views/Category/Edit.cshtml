@@ -51,45 +51,45 @@
         </div>
         <div class="card-body">
             @if (Model != null)
-            { 
+            {
             <div class="bs-stepper-content">
                 @using (Html.BeginForm("Edit", "Category", FormMethod.Post, new { id = "editForm" }))
                 {
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true)
                 @Html.HiddenFor(x => x.Id)
-                <!-- your steps content here -->
-                <div id="logins-part" class="content active dstepper-block" role="tabpanel" aria-labelledby="logins-part-trigger">
+ <!-- your steps content here -->
+                <div class="content active dstepper-block" role="tabpanel" aria-labelledby="logins-part-trigger">
                     <div class="form-group">
-                        <label for="">Tên danh mục</label>
+                        <label>Tên danh mục</label>
                         @Html.TextBoxFor(x => x.Title, new { @class = "form-control", @placeholder = "Tên danh mục" })
                         @Html.ValidationMessageFor(x => x.Title, null, new { @class = "text-danger" })
                     </div>
                     @*<div class="form-group">
-                            <label for="">Mô tả</label>
+                            <label>Mô tả</label>
                             @Html.TextAreaFor(x => x.Description, new { @class = "form-control" })
                         </div>*@
-                <div class="form-group">
-                    <label for="">Thứ tự</label>
-                    @Html.TextBoxFor(x => x.Position, new {
-                                    @class = "form-control",
-                                    id = "positionTxtBox",
-                                    placeholder = $"Nhập số từ 1 - {ViewBag.MaxPosition}",
-                                    type = "number",
-                                    min = "1",
-                                    max = ViewBag.MaxPosition
-                                    })
-                </div>
+                    <div class="form-group">
+                        <label>Thứ tự</label>
+                        @Html.TextBoxFor(x => x.Position, new {
+                                        @class = "form-control",
+                                        id = "positionTxtBox",
+                                        placeholder = $"Nhập số từ 1 - {ViewBag.MaxPosition}",
+                                        type = "number",
+                                        min = "1",
+                                        max = ViewBag.MaxPosition
+                                        })
+                    </div>
                     @*<div class="form-group">
-                            <label for="">Tiêu đề SEO</label>
+                            <label>Tiêu đề SEO</label>
                             @Html.TextAreaFor(x => x.SeoTitle, new { @class = "form-control" })
                         </div>
                         <div class="form-group">
-                            <label for="">Mô tả SEO</label>
+                            <label>Mô tả SEO</label>
                             @Html.TextAreaFor(x => x.SeoDescription, new { @class = "form-control" })
                         </div>
                         <div class="form-group">
-                            <label for="">Từ khóa SEO</label>
+                            <label>Từ khóa SEO</label>
                             @Html.TextAreaFor(x => x.SeoKeywords, new { @class = "form-control" })
                         </div>*@
                     <div class="form-group">
@@ -112,33 +112,7 @@
 <!-- /.content -->
 
 @section scripts{
-    @Scripts.Render("~/bundles/jqueryval")
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-
-    <script>
-        $(document).ready(function () {
-            $(document).on('submit', '#editForm', function (e) {
-                e.preventDefault();
-                $.ajax({
-                    url: this.action,
-                    type: this.method,
-                    data: $(this).serialize(),
-                    success: function (response) {
-                        if (response.success) {
-                            alert("Sửa danh mục thành công");
-                            window.location.href = '/Admin/Category';
-                        } else {
-                            alert("Sửa danh mục thất bại");
-                        }
-                    }
-                })
-            })
-
-            $('#positionTxtBox').on('change', function () {
-                var pos = Math.min(parseInt($(this).attr('max')), Math.max(parseInt($(this).attr('min')), parseInt($(this).val())));
-                $(this).val(pos);
-            })
-        })
-    </script>
+    <script src="~/Areas/Admin/Scripts/jsCategory.js"></script>
 }

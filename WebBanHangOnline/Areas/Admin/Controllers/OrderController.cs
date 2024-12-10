@@ -51,21 +51,21 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             return View(item);
         }
 
-        public ActionResult _ItemsOrdered(int id)
+        public ActionResult ItemsOrdered(int id)
         {
             var item = db.OrderDetails.Where(x => x.OrderId == id).ToList();
-            return PartialView(item);
+            return PartialView("_ItemsOrdered", item);
         }
 
         [HttpPost]
-        public ActionResult UpdateTT(int id, int trangThai)
+        public ActionResult UpdateStatus(int id, int status)
         {
             var item = db.Orders.Find(id);
             if (item != null)
             {
                 db.Orders.Attach(item);
-                item.TypePayment = trangThai;
-                db.Entry(item).Property(x => x.TypePayment).IsModified = true;
+                item.Status = status;
+                db.Entry(item).Property(x => x.Status).IsModified = true;
                 db.SaveChanges();
                 return Json(new { message = "Success", success = true });
             }

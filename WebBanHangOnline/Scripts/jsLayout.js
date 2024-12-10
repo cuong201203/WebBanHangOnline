@@ -1,13 +1,11 @@
-﻿$(window).ready(function () {
-    $('.header').show();
-    $('.hamburger_menu').show();
-});
+$('.header').show();
+$('.hamburger-menu').show();
 
 $(document).ready(function () {
     // Update cart items amount display
     showCount();
 
-    $(document).on('click', '#logoffLink', function (e) {
+    $('#logoffLink').on('click', function (e) {
         e.preventDefault();
         var confirmation = confirm("Bạn có chắc muốn đăng xuất?");
         if (confirmation) {
@@ -27,7 +25,7 @@ $(document).ready(function () {
                     $('#search_results').html(''); // Xóa kết quả cũ
                     if (data.length > 0) {
                         data.forEach(function (item) {
-                            $('#search_results').append('<p><a style="color: black; font-family: Tahoma, Geneva, Verdana, sans-serif;" href="/chi-tiet/' + item.Alias + '-p' + item.Id + '">' + item.Title + '</a></p>');
+                            $('#search_results').append('<p><a class="search-result" href="/chi-tiet/' + item.Alias + '-p' + item.Id + '">' + item.Title + '</a></p>');
                         });
                         $("#no_results").hide();
                     } else {
@@ -40,17 +38,17 @@ $(document).ready(function () {
         }
     });
 
-    $('.hamburger_container').click(function () {
+    $('.hamburger-container').click(function () {
         $('.navbar_menu').eq(0).hide();
         $('.navbar_menu').eq(1).find('li').each(function () {
-            $(this).addClass('menu_item');
+            $(this).addClass('menu-item');
         });
 
         $('.navbar_menu').eq(1).removeClass('navbar_menu');
     });
 
     $(window).resize(function () {
-        if ($('.hamburger_container').css('display') === 'none') {
+        if ($('.hamburger-container').css('display') === 'none') {
             $('.navbar_menu').show();
         }
     });

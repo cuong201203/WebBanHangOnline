@@ -23,45 +23,39 @@
             var hoverImage = item.ProductImage.FirstOrDefault(x => x.IsHover)?.Image ?? "";
 
     <div class="product-item @item.ProductCategory.Alias" style="border-right: 5px solid white;">
-        <div class="product discount product_filter">
-            <div class="product_image">
+        <div class="product discount product-filter">
+            <div class="product-image">
                 <a href="/chi-tiet/@item.Alias-p@(item.Id)">
                     <img src="@defaultImage" alt="@item.Title" data-src="@defaultImage" data-src-hover="@hoverImage">
                 </a>
             </div>
-            @if (item.Quantity == 0)
+            @if (item.Quantity == 0 || (item.ExpiredDate - DateTime.Now).TotalDays <= 10)
             {
-            <div class="product_bubble product_bubble_right d-flex flex-column align-items-center" style="background: #909090;">
-                <span style="font-size: 8px;">Hết hàng</span>
-            </div>
+            <div class="product-bubble product-bubble-right d-flex flex-column align-items-center">Hết hàng</div>
             }
             else
             {
-            <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center">
-                <span style="font-size: 8px;">Còn @item.Quantity</span>
-            </div>
+            <div class="product-bubble product-bubble-right product-bubble-green d-flex flex-column align-items-center">còn @item.Quantity</div>
             }
-            <div class="product_bubble product_bubble_right d-flex flex-column align-items-center" style="background: #909090; margin-top: 25px;">
-                <span style="font-size: 8px;">đã bán @item.SoldQuantity</span>
-            </div>
-            <div class="product_info">
-                <h6 class="product_name">
+            <div class="product-bubble product-bubble-right d-flex flex-column align-items-center mt-4">đã bán @item.SoldQuantity</div>
+            <div class="product-info">
+                <h6 class="product-name">
                     <a href="/chi-tiet/@item.Alias-p@(item.Id)">@item.Title</a>
                 </h6>
                 @if (item.PriceSale > 0)
                 {
-                <div class="product_price">
+                <div class="product-price">
                     @string.Format("{0:N0}", item.PriceSale)<u>đ</u>
                     <span>@string.Format("{0:N0}", item.Price)<u>đ</u></span>
                 </div>
                 }
                 else
                 {
-                <div class="product_price">@string.Format("{0:N0}", item.Price)<u>đ</u></div>
+                <div class="product-price">@string.Format("{0:N0}", item.Price)<u>đ</u></div>
                 }
             </div>
         </div>
-        <div class="red_button add_to_cart_button">
+        <div class="green-button add-to-cart-button">
             <a href="#" class="btnAddToCart" data-id="@item.Id">thêm vào giỏ</a>
         </div>
     </div>
@@ -75,95 +69,94 @@
     </div>*@
 
 @*<style>
-    .pagination-controls {
-        display: flex;
-        justify-content: center;
-        margin: 20px 0 20px 0;
-    }
+        .pagination-controls {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0 20px 0;
+        }
 
-    .pagination-controls a.page-link {
-        display: inline-block;
-        padding: 5px 10px;
-        margin: 0 5px;
-        color: #fe4c50;
-        font-size: 16px;
-        text-decoration: none;
-        border: 1px solid #fe4c50;
-        border-radius: 4px;
-        transition: background-color 0.3s, color 0.3s;
-    }
+        .pagination-controls a.page-link {
+            display: inline-block;
+            padding: 5px 10px;
+            margin: 0 5px;
+            color: #fe4c50;
+            font-size: 16px;
+            text-decoration: none;
+            border: 1px solid #fe4c50;
+            border-radius: 4px;
+            transition: background-color 0.3s, color 0.3s;
+        }
 
-    .pagination-controls a.page-link:hover {
-        background-color: #d17a7a;
-        color: #fff;
-    }
+        .pagination-controls a.page-link:hover {
+            background-color: #d17a7a;
+            color: #fff;
+        }
 
-    .pagination-controls a.page-link.active {
-        background-color: #fe4c50;
-        color: #fff;
-        font-weight: bold;
-        pointer-events: none; /* Disable clicking on active page */
-    }
+        .pagination-controls a.page-link.active {
+            background-color: #fe4c50;
+            color: #fff;
+            font-weight: bold;
+            pointer-events: none; /* Disable clicking on active page */
+        }
 
-    .pagination-controls a.page-link:focus {
-        outline: none;
-        box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
-    }
-</style>
+        .pagination-controls a.page-link:focus {
+            outline: none;
+            box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+        }
+    </style>
 
-<script>
-    $(document).ready(function () {
-        var itemSelector = '.product-item';
+    <script>
+        $(document).ready(function () {
+            var itemSelector = '.product-item';
+            var itemsPerPage = 8;
+            var currentPage = 1;
+            var currentNumberPages = 1;
 
-        var $container = $('.product-grid').isotope({
-            itemSelector: itemSelector,
-            animationOptions: {
-                duration: 750,
-                easing: 'linear',
-                queue: false
-            }
-        });
-
-        function setupPagination() {
-            var itemsLength = $container.children(itemSelector).length;
-            currentNumberPages = Math.ceil(itemsLength / itemsPerPage);
-
-            var item = 1, page = 1;
-            $container.children(itemSelector).each(function () {
-                if (item > itemsPerPage) {
-                    page++;
-                    item = 1;
+            var $container = $('.product-grid').isotope({
+                itemSelector: itemSelector,
+                animationOptions: {
+                    duration: 750,
+                    easing: 'linear',
+                    queue: false
                 }
-                $(this).addClass('page' + page);
-                item++;
             });
 
-            var $pager = $('.pagination-controls');
-            $pager.html('');
-            for (var i = 1; i <= currentNumberPages; i++) {
-                var $pageLink = $('<a href="javascript:void(0);" class="page-link">' + i + '</a>');
-                $pageLink.click(function () {
-                    var pageNum = $(this).text();
-                    changePage(pageNum);
+            function setupPagination() {
+                var itemsLength = $container.children(itemSelector).length;
+                currentNumberPages = Math.ceil(itemsLength / itemsPerPage);
+
+                var item = 1, page = 1;
+                $container.children(itemSelector).each(function () {
+                    if (item > itemsPerPage) {
+                        page++;
+                        item = 1;
+                    }
+                    $(this).addClass('page' + page);
+                    item++;
                 });
-                $pager.append($pageLink);
+
+                var $pager = $('.pagination-controls');
+                $pager.html('');
+                for (var i = 1; i <= currentNumberPages; i++) {
+                    var $pageLink = $('<a href="javascript:void(0);" class="page-link">' + i + '</a>');
+                    $pageLink.click(function () {
+                        var pageNum = $(this).text();
+                        changePage(pageNum);
+                    });
+                    $pager.append($pageLink);
+                }
             }
-        }
 
-        var itemsPerPage = 8;
-        var currentPage = 1;
-        var currentNumberPages = 1;
+            function changePage(n) {
+                currentPage = n;
+                var selector = itemSelector + '.page' + currentPage;
+                $container.isotope({ filter: selector });
 
-        function changePage(n) {
-            currentPage = n;
-            var selector = itemSelector + '.page' + currentPage;
-            $container.isotope({ filter: selector });
+                $('.pagination-controls a').removeClass('active');
+                $('.pagination-controls a:contains(' + n + ')').addClass('active');
+            }
 
-            $('.pagination-controls a').removeClass('active');
-            $('.pagination-controls a:contains(' + n + ')').addClass('active');
-        }
-
-        setupPagination();
-        changePage(1);
-    });
-</script>*@
+            setupPagination();
+            changePage(1);
+        });
+    </script>*@

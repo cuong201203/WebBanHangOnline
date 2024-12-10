@@ -43,42 +43,42 @@
             <h3 class="card-title">Danh sách cấu hình hệ thống</h3>
 
             <div class="card-tools">
-                <a href="/Admin/SystemConfig/Add" class="btn btn-primary">Thêm mới</a>
+                <a href="#" class="btn btn-primary btnAdd">Thêm mới</a>
             </div>
         </div>
         <div class="card-body">
-            <div class="table-responsive d-flex justify-content-center align-items-center" id="myTable">
-                <table class="table table-hover" style="width: 60%;">
+            <div class="table-responsive" id="myTable">
+                <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th style="padding-left: 60px;">Tên cấu hình</th>
-                            <th style="text-align: center; padding-right: 60px;">Thứ tự</th>
+                            <th style="padding-left: 40px">Tên cấu hình</th>
+                            <th style="text-align: center;">Thứ tự</th>
+                            <th style="padding-left: 40px">Ngày tạo</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @if (Model != null && Model.Any())
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var item in Model)
                         {
-                            var i = 1;
-                            foreach (var item in Model)
-                            {
                         <tr id="trow_@item.Id">
-                            <td style="padding-left: 60px;">@item.Title</td>
-                            <td id="configPos" style="text-align: center; padding-right: 60px;">@item.Position</td>
+                            <td style="padding-left: 40px">@item.Title</td>
+                            <td id="configPos" style="text-align: center;">@item.Position</td>
+                            <td style="padding-left: 40px">@item.CreatedDate.ToString("dd/MM/yyyy HH:mm:ss")</td>
                             <td>
-                                <a href="/Admin/SystemConfig/Edit/@item.Id" class="btn btn-sm btn-primary">Sửa</a>
+                                <a href="#" data-id="@item.Id" class="btn btn-sm btn-primary btnEdit">Sửa</a>
                                 <a href="#" data-id="@item.Id" class="btn btn-sm btn-danger btnDelete">Xóa</a>
                             </td>
                         </tr>
-                                i++;
-                            }
                         }
-                        else
-                        {
+                    }
+                    else
+                    {
                         <tr>
                             <td colspan="4">Không có bản ghi nào!</td>
                         </tr>
-                        }
+                    }
                     </tbody>
                 </table>
             </div>
@@ -94,28 +94,87 @@
 </section>
 <!-- /.content -->
 
-@section scripts{
-    <script>
-        $(document).ready(function () {
-            $('body').on('click', '.btnDelete', function () {
-                var id = $(this).data('id');
-                var conf = confirm('Bạn có muốn xóa bản ghi này không?');
-                if (conf === true) {
-                    $.ajax({
-                        url: '/Admin/SystemConfig/Delete',
-                        type: 'POST',
-                        data: { id: id },
-                        success: function (result) {
-                            if (result.success) {
-                                $('#trow_' + id).remove();
-                                $('#myTable tbody tr').each(function (index) {
-                                    $(this).find('#configPos').text(index + 1);
-                                });
-                            }
-                        }
-                    });
-                }
-            });
-        });
-    </script>
+<div class="modal fade" id="modal-default-add">
+    <div class="modal-dialog">
+        @using (Html.BeginForm("Add", "SystemConfig", FormMethod.Post, new { id = "addForm" }))
+        {
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Thêm cấu hình hệ thống</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body">
+                    @Html.AntiForgeryToken()
+                    <div class="content active dstepper-block" role="tabpanel" aria-labelledby="logins-part-trigger">
+                        <div class="form-group">
+                            <label>Tên cấu hình</label>
+                            <input class="form-control" data-val="true" data-val-required="Vui lòng điền vào mục này!" id="title" name="Title" type="text" value="">
+                            <span class="field-validation-valid text-danger" data-valmsg-for="Title" data-valmsg-replace="true"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>Thứ tự</label>
+                            <input class="form-control position" data-val="true" data-val-required="Vui lòng điền vào mục này!"
+                                   placeholder="Nhập số từ 1 - @(ViewBag.MaxPosition + 1)" id="position" name="Position"
+                                   type="number" min="1" max="@(ViewBag.MaxPosition + 1)" />
+                            <span class="field-validation-valid text-danger" data-valmsg-for="Position" data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                <button type="submit" class="btn btn-primary" id="btnLuu">Lưu</button>
+            </div>
+        </div>
+        }
+    </div>
+</div>
+
+<div class="modal fade" id="modal-default-edit">
+    <div class="modal-dialog">
+        @using (Html.BeginForm("Edit", "SystemConfig", FormMethod.Post, new { id = "editForm" }))
+        {
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Cập nhật cấu hình hệ thống</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" id="systemConfigId" name="Id" value="" />
+                    <div class="content active dstepper-block" role="tabpanel" aria-labelledby="logins-part-trigger">
+                        <div class="form-group">
+                            <label>Tên cấu hình</label>
+                            <input class="form-control" data-val="true" data-val-required="Vui lòng điền vào mục này!" id="title" name="Title" type="text" value="">
+                            <span class="field-validation-valid text-danger" data-valmsg-for="Title" data-valmsg-replace="true"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>Thứ tự</label>
+                            <input class="form-control position" data-val="true" data-val-required="Vui lòng điền vào mục này!"
+                                   placeholder="Nhập số từ 1 - @(ViewBag.MaxPosition)" id="position" name="Position"
+                                   type="number" min="1" max="@(ViewBag.MaxPosition)" />
+                            <span class="field-validation-valid text-danger" data-valmsg-for="Position" data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                <button type="submit" class="btn btn-primary" id="btnLuu">Lưu</button>
+            </div>
+        </div>
+        }
+    </div>
+</div>
+
+@section scripts{    
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Areas/Admin/Scripts/jsSystemConfig.js"></script>
 }

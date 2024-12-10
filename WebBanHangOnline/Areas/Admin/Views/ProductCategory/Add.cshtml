@@ -51,46 +51,46 @@
         </div>
         <div class="card-body">
             <div class="bs-stepper-content">
-                @using (Html.BeginForm("Add", "ProductCategory", FormMethod.Post, new { }))
-                {
-                    @Html.AntiForgeryToken()
-                    @Html.ValidationSummary(true)
-                    <!-- your steps content here -->
-                    <div id="logins-part" class="content active dstepper-block" role="tabpanel" aria-labelledby="logins-part-trigger">
-                        <div class="form-group">
-                            <label for="">Tiêu đề</label>
-                            @Html.TextBoxFor(x => x.Title, new { @class = "form-control", @placeholder = "Tiêu đề" })
-                            @Html.ValidationMessageFor(x => x.Title, null, new { @class = "text-danger" })
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputFile">Icon</label>
-                            <div class="input-group">
-                                <div class="custom-file">
-                                    @Html.TextBoxFor(x => x.Icon, new { @id = "txtImage", @class = "form-control" })
-                                </div>
-                                <div class="input-group-append">
-                                    <input type="button" value="Tải ảnh" onclick="BrowseServer('txtImage')" />
-                                </div>
+            @using (Html.BeginForm("Add", "ProductCategory", FormMethod.Post, new { id = "addForm" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <!-- your steps content here -->
+                <div class="content active dstepper-block" role="tabpanel" aria-labelledby="logins-part-trigger">
+                    <div class="form-group">
+                        <label>Tiêu đề</label>
+                        @Html.TextBoxFor(x => x.Title, new { @class = "form-control", @placeholder = "Tiêu đề" })
+                        @Html.ValidationMessageFor(x => x.Title, null, new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputFile">Icon</label>
+                        <div class="input-group">
+                            <div class="custom-file">
+                                @Html.TextBoxFor(x => x.Icon, new { @id = "txtImage", @class = "form-control" })
+                            </div>
+                            <div class="input-group-append">
+                                <input type="button" value="Tải ảnh" onclick="browseServer('txtImage')" />
                             </div>
                         </div>
-                        @*<div class="form-group">
-                            <label for="">Tiêu đề SEO</label>
+                    </div>
+                    @*<div class="form-group">
+                            <label>Tiêu đề SEO</label>
                             @Html.TextAreaFor(x => x.SeoTitle, new { @class = "form-control" })
                         </div>
                         <div class="form-group">
-                            <label for="">Mô tả SEO</label>
+                            <label>Mô tả SEO</label>
                             @Html.TextAreaFor(x => x.SeoDescription, new { @class = "form-control" })
                         </div>
                         <div class="form-group">
-                            <label for="">Từ khóa SEO</label>
+                            <label>Từ khóa SEO</label>
                             @Html.TextAreaFor(x => x.SeoKeywords, new { @class = "form-control" })
                         </div>*@
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Lưu</button>
-                            <a href="/Admin/ProductCategory" class="btn btn-danger">Quay lại</a>
-                        </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Lưu</button>
+                        <a href="/Admin/ProductCategory" class="btn btn-danger">Quay lại</a>
                     </div>
-                }
+                </div>
+            }
             </div>
         </div>
         <!-- /.card-body -->
@@ -104,19 +104,7 @@
 <!-- /.content -->
 
 @section scripts{
-    <script>
-        $(document).ready(function () {
-            CKEDITOR.replace('txtDetail', {
-                customConfig: '/content/ckeditor/config.js',
-                extraAllowedContent: 'span',
-            });
-        });
-        function BrowseServer(field) {
-            var finder = new CKFinder();
-            finder.selectActionFunction = function (fileUrl) {
-                document.getElementById(field).value = fileUrl;
-            };
-            finder.popup();
-        }
-    </script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Areas/Admin/Scripts/jsProductCategory.js"></script>
 }

@@ -27,13 +27,13 @@ jQuery(document).ready(function($)
 	*/
 
 	var header = $('.header');
-	var topNav = $('.top_nav')
-	var mainSlider = $('.main_slider');
-	var hamburger = $('.hamburger_container');
-	var menu = $('.hamburger_menu');
+	var topNav = $('.top-nav')
+	var mainSlider = $('.main-slider');
+	var hamburger = $('.hamburger-container');
+	var menu = $('.hamburger-menu');
 	var menuActive = false;
-	var hamburgerClose = $('.hamburger_close');
-	var fsOverlay = $('.fs_menu_overlay');
+	var hamburgerClose = $('.hamburger-close');
+	var fsOverlay = $('.fs-menu-overlay');
 
 	setHeader();
 
@@ -132,9 +132,9 @@ jQuery(document).ready(function($)
 			});
 		}
 
-		if ($('.menu_item').length)
+		if ($('.menu-item').length)
 		{
-			var items = document.getElementsByClassName('menu_item');
+			var items = document.getElementsByClassName('menu-item');
 			var i;
 
 			for(i = 0; i < items.length; i++)
@@ -273,9 +273,9 @@ jQuery(document).ready(function($)
 
     function initFixProductBorder()
     {
-    	if ($('.product_filter').length)
+    	if ($('.product-filter').length)
     	{
-			var products = $('.product_filter:visible');
+			var products = $('.product-filter:visible');
     		var wdth = window.innerWidth;
 
     		// reset border
@@ -361,14 +361,14 @@ jQuery(document).ready(function($)
 	*/
 
 	function initIsotopeFiltering() {
-		if ($('.grid_sorting_button').length) {
-			$('.grid_sorting_button').click(function () {
+		if ($('.grid-sorting-button').length) {
+			$('.grid-sorting-button').click(function () {
 				// putting border fix inside of setTimeout because of the transition duration
 				setTimeout(function () {
 					initFixProductBorder();
 				}, 500);
 
-				$('.grid_sorting_button.active').removeClass('active');
+				$('.grid-sorting-button.active').removeClass('active');
 				$(this).addClass('active');
 
 				var selector = $(this).attr('data-filter');
@@ -394,36 +394,36 @@ jQuery(document).ready(function($)
 
     function initSlider()
     {
-    	if ($('.product_slider').length)
+    	if ($('.product-slider').length)
     	{
-    		var slider1 = $('.product_slider');
+    		var slider1 = $('.product-slider');
 
     		slider1.owlCarousel({
-    			loop:false,
-    			dots:false,
-    			nav:false,
+    			loop: false,
+    			dots: false,
+    			nav: false,
     			responsive:
 				{
-					0:{items:1},
-					480:{items:2},
-					768:{items:3},
-					991:{items:4},
-					1280:{items:5},
-					1440:{items:5}
+					0: {items:1},
+					480: {items:2},
+					768: {items:3},
+					991: {items:4},
+					1280: {items:5},
+					1440: {items:5}
 				}
     		});
 
-    		if ($('.product_slider_nav_left').length)
+    		if ($('.product-slider-nav-left').length)
     		{
-    			$('.product_slider_nav_left').on('click', function()
+    			$('.product-slider-nav-left').on('click', function()
     			{
     				slider1.trigger('prev.owl.carousel');
     			});
     		}
 
-    		if ($('.product_slider_nav_right').length)
+    		if ($('.product-slider-nav-right').length)
     		{
-    			$('.product_slider_nav_right').on('click', function()
+    			$('.product-slider-nav-right').on('click', function()
     			{
     				slider1.trigger('next.owl.carousel');
     			});

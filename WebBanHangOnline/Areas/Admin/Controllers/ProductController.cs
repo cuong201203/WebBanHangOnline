@@ -9,7 +9,7 @@ using WebBanHangOnline.Models.EF;
 
 namespace WebBanHangOnline.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Admin, Employee")]
+    [Authorize(Roles = "Admin")]
     public class ProductController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -34,7 +34,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             
             if (!string.IsNullOrEmpty(searchText))
             {
-                items = items.Where(x => x.Title.Contains(searchText) || x.ProductCategory.Title.Contains(searchText));
+                items = items.Where(x => x.Title.ToLower().Contains(searchText.ToLower()) || x.ProductCategory.Title.ToLower().Contains(searchText.ToLower()));
             }
             items = items.ToPagedList(page, pageSize);
             ViewBag.PageSize = pageSize;
@@ -90,10 +90,10 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                 model.Alias = WebBanHangOnline.Models.Common.Filter.FilterChar(model.Title);
                 db.Products.Add(model);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return Json(new { success = true });            
             }
             ViewBag.ProductCategory = new SelectList(db.ProductCategories.ToList(), "Id", "Title");
-            return View(model);
+            return Json(new { success = false });
         }
 
         public ActionResult Edit(int id)
@@ -126,6 +126,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                     item.OriginalPrice = model.OriginalPrice;
                     item.Price = model.Price;
                     item.PriceSale = model.PriceSale;
+                    item.ExpiredDate = model.ExpiredDate;
                     item.SeoTitle = model.SeoTitle;
                     item.SeoDescription = model.SeoDescription;
                     item.SeoKeywords = model.SeoKeywords;
@@ -187,13 +188,13 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
 
                     db.Entry(item).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
-                    return RedirectToAction("Index");
+                    return Json(new { success = true });
                 }
             }
 
             // Nếu có lỗi hoặc không hợp lệ, hiển thị lại view
             ViewBag.ProductCategory = new SelectList(db.ProductCategories.ToList(), "Id", "Title");
-            return View(model);
+            return Json(new { success = false });
         }
 
         [HttpPost]

@@ -29,14 +29,17 @@ namespace WebBanHangOnline.Models
     {
         [Required(ErrorMessage = "Vui lòng điền vào mục này!")]
         public string UserName { get; set; }
+
         [Required(ErrorMessage = "Vui lòng điền vào mục này!")]
         public string FullName { get; set; }
+
         [Required(ErrorMessage = "Vui lòng điền vào mục này!")]
         public string Phone { get; set; }
+
         [Required(ErrorMessage = "Vui lòng điền vào mục này!")]
         public string Address { get; set; }
-        [Required(ErrorMessage = "Vui lòng điền vào mục này!")]
 
+        [Required(ErrorMessage = "Vui lòng điền vào mục này!")]
         [EmailAddress(ErrorMessage = "Sai định dạng email!")]
         [Display(Name = "Email")]
         public string Email { get; set; }

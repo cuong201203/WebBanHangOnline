@@ -4,22 +4,22 @@
 <link rel="stylesheet" type="text/css" href="~/Content/assets/styles/home_responsive.css">
 
 <style>
-    .best_sellers .add_to_cart_button {
+    .best-sellers .add-to-cart-button {
         margin-left: 0 !important;
     }
 </style>
 
 @if (Model != null && Model.Any())
 {
-    <div class="best_sellers">
+    <div class="best-sellers">
         <div class="container">
             <div class="row justify-content-center" style="padding: 50px 0 0; margin-bottom: -30px;">
-                <h4 style="border-bottom: 2px solid #fe4c50; text-align: center;">Sản Phẩm Liên Quan</h4>
+                <h4 style="border-bottom: 2px solid #c5a25d; text-align: center;">Sản Phẩm Liên Quan</h4>
             </div>
             <div class="row">
                 <div class="col px-0">
-                    <div class="product_slider_container" style="height: 100%;">
-                        <div class="owl-carousel owl-theme product_slider">
+                    <div class="product-slider-container" style="height: 100%;">
+                        <div class="owl-carousel owl-theme product-slider">
                             @foreach (var item in Model)
                             {
                                 var defaultImage = "";
@@ -44,48 +44,46 @@
                                     hoverImage = defaultImage;
                                 }
 
-                                <div class="owl-item product_slider_item">
+                                <div class="owl-item product-slider-item">
                                     <div class="product-item women" style="border-right: 5px solid white;">
                                         <div class="product discount">
-                                            <div class="product_image">
+                                            <div class="product-image">
                                                 <a href="/chi-tiet/@item.Alias-p@(item.Id)">
                                                     <img src="@defaultImage" alt="@item.Title" data-src="@defaultImage" data-src-hover="@hoverImage">
                                                 </a>
                                             </div>
-                                            @if (item.Quantity == 0)
+                                            @if (item.Quantity == 0 || (item.ExpiredDate - DateTime.Now).TotalDays <= 10)
                                             {
-                                            <div class="product_bubble product_bubble_right d-flex flex-column align-items-center" style="background: #909090;"><span style="font-size: 8px;">hết hàng</span></div>
+                                            <div class="product-bubble product-bubble-right d-flex flex-column align-items-center">Hết hàng</div>
                                             }
                                             else
                                             {
-                                            <div class="product_bubble product_bubble_red product_bubble_right d-flex flex-column align-items-center"><span style="font-size: 8px;">còn @item.Quantity</span></div>
+                                            <div class="product-bubble product-bubble-right product-bubble-green d-flex flex-column align-items-center">còn @item.Quantity</div>
                                             }
-                                            <div class="product_bubble product_bubble_right d-flex flex-column align-items-center" style="background: #909090; margin-top: 25px;">
-                                                <span style="font-size: 8px;">đã bán @item.SoldQuantity</span>
-                                            </div>
-                                            <div class="product_info">
-                                                <h6 class="product_name"><a href="/chi-tiet/@item.Alias-p@(item.Id)">@item.Title</a></h6>
+                                            <div class="product-bubble product-bubble-right d-flex flex-column align-items-center mt-4">đã bán @item.SoldQuantity</div>
+                                            <div class="product-info">
+                                                <h6 class="product-name"><a href="/chi-tiet/@item.Alias-p@(item.Id)">@item.Title</a></h6>
                                                 @if (item.PriceSale > 0)
                                                 {
-                                                <div class="product_price">@string.Format("{0:N0}", item.PriceSale)<u>đ</u><span>@string.Format("{0:N0}", item.Price)<u>đ</u></span></div>
+                                                <div class="product-price">@string.Format("{0:N0}", item.PriceSale)<u>đ</u><span>@string.Format("{0:N0}", item.Price)<u>đ</u></span></div>
                                                 }
                                                 else
                                                 {
-                                                <div class="product_price">@string.Format("{0:N0}", item.Price)<u>đ</u></div>
+                                                <div class="product-price">@string.Format("{0:N0}", item.Price)<u>đ</u></div>
                                                 }
                                             </div>
                                         </div>
-                                        <div class="red_button add_to_cart_button"><a href="#" class="btnAddToCart" data-id="@item.Id">thêm vào giỏ</a></div>
+                                        <div class="green-button add-to-cart-button"><a href="#" class="btnAddToCart" data-id="@item.Id">thêm vào giỏ</a></div>
                                     </div>
                                 </div>
                             }
                         </div>
 
                         <!-- Slider Navigation -->
-                        <div class="product_slider_nav_left product_slider_nav d-flex align-items-center justify-content-center flex-column">
+                        <div class="product-slider-nav-left product-slider-nav d-flex align-items-center justify-content-center flex-column">
                             <i class="fa fa-chevron-left" aria-hidden="true"></i>
                         </div>
-                        <div class="product_slider_nav_right product_slider_nav d-flex align-items-center justify-content-center flex-column">
+                        <div class="product-slider-nav-right product-slider-nav d-flex align-items-center justify-content-center flex-column">
                             <i class="fa fa-chevron-right" aria-hidden="true"></i>
                         </div>
                     </div>

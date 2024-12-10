@@ -61,25 +61,23 @@ namespace WebBanHangOnline.Controllers
             {
                 return Json(new { redirectToLogin = Url.Action("LoginRegister", "Account") });
             }
-            var checkProduct = db.Products.FirstOrDefault(x => x.Id == id);
-            if (checkProduct != null)
+            var product = db.Products.FirstOrDefault(x => x.Id == id);
+            if (product != null)
             {
                 var cart = GetCurrentCart();
                 ShoppingCartItem item = new ShoppingCartItem
                 {
-                    ProductId = checkProduct.Id,
-                    ProductName = checkProduct.Title,
-                    ProductImg = checkProduct.ProductImage.FirstOrDefault(x => x.IsDefault)?.Image,
-                    Alias = checkProduct.Alias,
-                    Price = (int)((checkProduct.PriceSale > 0) ? checkProduct.PriceSale : checkProduct.Price),
+                    ProductId = product.Id,
+                    ProductName = product.Title,
+                    ProductImg = product.ProductImage.FirstOrDefault(x => x.IsDefault)?.Image,
+                    Alias = product.Alias,
+                    Price = (int)((product.PriceSale > 0) ? product.PriceSale : product.Price),
                     Quantity = quantity,
-                    LeftQuantity = checkProduct.Quantity,
-                    TotalPrice = (int)((checkProduct.PriceSale > 0) ? checkProduct.PriceSale : checkProduct.Price) * quantity,
-                    CategoryName = checkProduct.ProductCategory.Title
+                    LeftQuantity = product.Quantity,
+                    TotalPrice = (int)((product.PriceSale > 0) ? product.PriceSale : product.Price) * quantity,
+                    CategoryName = product.ProductCategory.Title
                 };
-                cart.AddToCart(item, quantity);
-                cart.SaveCart(db);
-                db.SaveChanges();
+                cart.AddToCart(item, db);
                 return Json(new { success = true, count = cart.Items.Count });
             }
             return Json(new { success = false });
@@ -89,8 +87,7 @@ namespace WebBanHangOnline.Controllers
         public ActionResult Delete(int id)
         {
             var cart = GetCurrentCart();
-            cart.Remove(id);
-            cart.SaveCart(db);
+            cart.Remove(id, db);
             return Json(new { success = true, count = cart.Items.Count });
         }
 
@@ -98,8 +95,7 @@ namespace WebBanHangOnline.Controllers
         public ActionResult DeleteAll()
         {
             var cart = GetCurrentCart();
-            cart.ClearAllCart(); // Gọi phương thức xóa toàn bộ giỏ hàng
-            cart.SaveCart(db); // Lưu lại giỏ hàng sau khi xóa
+            cart.ClearAllCart(db);
             return Json(new { success = true });
         }
 
@@ -107,8 +103,7 @@ namespace WebBanHangOnline.Controllers
         public ActionResult Update(int id, int quantity)
         {
             var cart = GetCurrentCart();
-            cart.UpdateItemCartQuantity(id, quantity);
-            cart.SaveCart(db);
+            cart.UpdateItemCartQuantity(id, quantity, db);
             return Json(new { success = true });
         }
 
@@ -165,17 +160,18 @@ namespace WebBanHangOnline.Controllers
 
                     Order order = new Order
                     {
+                        Code = "DH" + new Random().Next(1000, 9999),
+                        CustomerId = User.Identity.IsAuthenticated ? User.Identity.GetUserId() : null,
                         CustomerName = model.CustomerName,
                         Phone = model.Phone,
                         Address = model.Address,
                         Email = model.Email,
                         TotalAmount = selectedItems.Sum(x => (x.Price * x.Quantity)),
                         TypePayment = model.TypePayment,
+                        Status = 0,
                         CreatedDate = DateTime.Now,
                         ModifiedDate = DateTime.Now,
-                        CreatedBy = User.Identity.GetUserName(),
-                        CustomerId = User.Identity.IsAuthenticated ? User.Identity.GetUserId() : null,
-                        Code = "DH" + new Random().Next(1000, 9999)
+                        CreatedBy = User.Identity.GetUserName()
                     };
 
                     selectedItems.ForEach(x => order.OrderDetails.Add(new OrderDetail
@@ -221,8 +217,7 @@ namespace WebBanHangOnline.Controllers
                         db.Orders.Add(order);
                         db.SaveChanges();
                         WebBanHangOnline.Common.Common.SendMail("ShopOnline", "Đơn hàng #" + order.Code, contentCustomer.ToString(), model.Email);
-                        cart.ClearItemCart(selectedProductIds);
-                        cart.SaveCart(db);
+                        cart.ClearItemCart(selectedProductIds, db);
                         cart.UpdateProductQuantity(order, db);
                         Session["SelectedProductIds"] = null;
                         return Json(new { success = true , redirectUrl = "/ShoppingCart/CodReturn" });                     
@@ -232,8 +227,7 @@ namespace WebBanHangOnline.Controllers
                         TempData["Order"] = order;
                         TempData["Email"] = model.Email;
                         TempData["MailContent"] = contentCustomer;
-                        var redirectUrl = UrlPayment(model.VnPayTypePayment, order);
-                        return Json(new { success = true, redirectUrl });
+                        return Json(new { success = true, redirectUrl = UrlPayment(model.VnPayTypePayment, order) });
                     }                    
                 }
                 return Json(new { success = false, redirectUrl = "/gio-hang" });
@@ -268,23 +262,26 @@ namespace WebBanHangOnline.Controllers
 
                 bool checkSignature = vnPay.ValidateSignature(vnp_SecureHash, vnp_HashSecret);
                 if (checkSignature && vnp_ResponseCode == "00" && vnp_TransactionStatus == "00")
-                {
-                    var order = (Order)TempData["Order"];
-                    var email = TempData["Email"].ToString();
-                    var mailContent = TempData["MailContent"].ToString();
-                    db.Orders.Add(order);
-                    db.SaveChanges();
-                    WebBanHangOnline.Common.Common.SendMail("ShopOnline", "Đơn hàng #" + order.Code, mailContent, email);
+                {        
+                    if (TempData["Order"] != null) 
+                    {
+                        var order = (Order)TempData["Order"];
+                        var email = TempData["Email"].ToString();
+                        var mailContent = TempData["MailContent"].ToString();
+                        order.Status = 1;
+                        db.Orders.Add(order);
+                        db.SaveChanges();
+                        WebBanHangOnline.Common.Common.SendMail("ShopOnline", "Đơn hàng #" + order.Code, mailContent, email);
 
-                    var cart = GetCurrentCart();
-                    var selectedProductIds = (List<int>)Session["SelectedProductIds"];
-                    cart.ClearItemCart(selectedProductIds);
-                    cart.SaveCart(db);
-                    cart.UpdateProductQuantity(order, db);
-                    Session["SelectedProductIds"] = null;
+                        var cart = GetCurrentCart();
+                        var selectedProductIds = (List<int>)Session["SelectedProductIds"];
+                        cart.ClearItemCart(selectedProductIds, db);
+                        cart.UpdateProductQuantity(order, db);
+                        Session["SelectedProductIds"] = null;                      
+                    }
                     // Successful transaction
                     ViewBag.Amount = vnp_Amount;
-                    ViewBag.InnerText = "Giao dịch được thực hiện thành công. Cảm ơn quý khách đã sử dụng dịch vụ";                                       
+                    ViewBag.InnerText = "Giao dịch được thực hiện thành công. Cảm ơn quý khách đã sử dụng dịch vụ";
                 }
                 else
                 {

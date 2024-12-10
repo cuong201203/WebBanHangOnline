@@ -62,10 +62,28 @@
         padding-left: 15px;
     }
 
-    .red_button {
+    .red-button, .green-button {
         border-radius: 20px !important;
         padding-left: 20px;
         padding-right: 20px;
+    }
+
+    .msg-container {
+        display: grid;
+    }
+
+    .validation-summary, .success-line {
+        display: none;
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    .validation-summary .alert {
+        width: fit-content
+    }
+
+    .success-line {
+        margin-bottom: 15px;
     }
 </style>
 

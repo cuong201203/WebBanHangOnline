@@ -30,7 +30,8 @@
                     <div>
                         <div class="form-group"><b>Mã đơn hàng:</b> @Model.Code</div>
                         <div class="form-group"><b>Ngày tạo:</b> @Model.CreatedDate.ToString("dd/MM/yyyy HH:mm:ss")</div>
-                        <div class="form-group"><b>Trạng thái:</b> @(Model.TypePayment == 1 ? "Chờ thanh toán" : "Đã thanh toán")</div>
+                        <div class="form-group"><b>Hình thức thanh toán:</b> @(Model.TypePayment == 1 ? "COD" : "Chuyển khoản")</div>
+                        <div class="form-group"><b>Trạng thái:</b> @(Model.Status == 0 ? "Chờ thanh toán" : Model.Status == 1 ? "Đã thanh toán" : "Đã hủy")</div>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-hover">
@@ -59,7 +60,7 @@
                                                 <img src="@item.ProductImg" width="60" />
                                             </td>
                                             <td>
-                                                <a href="/chi-tiet/@item.Alias-p@(item.ProductId)">
+                                                <a href="/chi-tiet/@item.Alias-p@(item.ProductId)" style="color: #c5a25d">
                                                     @item.ProductName
                                                 </a>
                                             </td>

@@ -95,27 +95,5 @@
 <!-- /.content -->
 
 @section scripts{
-    <script>
-        $(document).ready(function () {
-            $('body').on('click', '.btnDelete', function () {
-                var id = $(this).data('id');
-                var conf = confirm('Bạn có muốn xóa bản ghi này không?');
-                if (conf === true) {
-                    $.ajax({
-                        url: '/Admin/Category/Delete',
-                        type: 'POST',
-                        data: { id: id },
-                        success: function (result) {
-                            if (result.success) {
-                                $('#trow_' + id).remove();
-                                $('#myTable tbody tr').each(function (index) {
-                                    $(this).find('#catePos').text(index + 1);
-                                });
-                            }
-                        }
-                    });
-                }
-            });
-        });
-    </script>
+    <script src="~/Areas/Admin/Scripts/jsCategory.js"></script>
 }

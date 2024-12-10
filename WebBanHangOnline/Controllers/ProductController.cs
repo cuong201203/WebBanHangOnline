@@ -36,8 +36,7 @@ namespace WebBanHangOnline.Controllers
         public ActionResult ProductCategory(string alias, float? priceMin, float? priceMax, int? id, int page = 1, string sortType = "original-order")
         {
             int pageSize = 8;
-            IEnumerable<Product> items = db.Products.ToList();           
-
+            IEnumerable<Product> items = db.Products.ToList();
             if (id != null)
             {
                 items = items.Where(x => x.ProductCategory.Id == id);
@@ -73,23 +72,47 @@ namespace WebBanHangOnline.Controllers
                     pagedItems = items.OrderBy(x => x.CreatedDate).ToPagedList(page, pageSize); break;
             }
             ViewBag.SortType = sortType;
-
-            if (Request.IsAjaxRequest())
-            {
-                return PartialView("_ProductCategory", pagedItems);
-            }
             return View(pagedItems);
         }
 
-        public ActionResult ProductByCateId()
+        public ActionResult ProductNew()
         {
-            var items = db.Products.Where(x => x.IsActive).OrderByDescending(x => x.CreatedDate).Take(10).ToList();
-            return PartialView("_ProductByCateId", items);
+            var items = db.Products
+                .Where(x => x.IsActive)
+                .GroupBy(x => x.ProductCategory.Title)
+                .SelectMany(g => g.OrderByDescending(x => x.CreatedDate).Take(10))
+                .OrderByDescending(x => x.CreatedDate)
+                .ToList();
+            return PartialView("_ProductNew", items);
         }
 
         public ActionResult ProductSales()
         {
-            var topProducts = db.Products.OrderByDescending(x => x.SoldQuantity).Take(8).ToList();
+            var cutoffDate = DateTime.Now.AddDays(-30);
+            var productSales = db.Products
+                                .Join(
+                                    db.OrderDetails.Join(
+                                        db.Orders.Where(o => o.CreatedDate >= cutoffDate),
+                                        od => od.OrderId,
+                                        o => o.Id,
+                                        (od, o) => od
+                                    ),
+                                    p => p.Id,
+                                    od => od.ProductId,
+                                    (p, od) => new { p, od.Quantity }
+                                )
+                                .GroupBy(x => x.p)
+                                .Select(g => new
+                                {
+                                    Product = g.Key,
+                                    TotalSold = g.Sum(x => x.Quantity)
+                                })
+                                .OrderByDescending(x => x.TotalSold)
+                                .Take(8)
+                                .ToList();
+            ViewBag.ProductCounts = productSales.ToDictionary(x => x.Product.Id, x => x.TotalSold);
+            var topProducts = productSales.Select(x => x.Product).ToList();
+
             var productList = new List<Product>();
 
             foreach (var topProduct in topProducts)
@@ -97,21 +120,12 @@ namespace WebBanHangOnline.Controllers
                 var images = db.ProductImages.Where(x => x.ProductId == topProduct.Id).ToList();
                 var defaultImage = images.FirstOrDefault(x => x.IsDefault)?.Image ?? "/Uploads/images/No_Image_Available.jpg";
                 var hoverImage = images.FirstOrDefault(x => x.IsHover)?.Image ?? "/Uploads/images/No_Image_Available.jpg";
-                var product = new Product
-                {
-                    Id = topProduct.Id,
-                    Title = topProduct.Title,
-                    Quantity = topProduct.Quantity,
-                    SoldQuantity = topProduct.SoldQuantity,
-                    ProductImage = new List<ProductImage>
-                    {
-                        new ProductImage { Image = defaultImage, IsDefault = true },
-                        new ProductImage { Image = hoverImage, IsHover = true }
-                    },
-                    Price = topProduct.Price,
-                    Alias = topProduct.Alias,
-                };
-                productList.Add(product);
+                topProduct.ProductImage = new List<ProductImage>
+                                          {
+                                              new ProductImage { Image = defaultImage, IsDefault = true },
+                                              new ProductImage { Image = hoverImage, IsHover = true }
+                                          };
+                productList.Add(topProduct);
             }
             return PartialView("_ProductSales", productList);
         }
@@ -119,9 +133,11 @@ namespace WebBanHangOnline.Controllers
         public ActionResult ProductRelated(int categoryId, int productId)
         {
             var items = db.Products
-                .Where(x => x.ProductCategoryId == categoryId && x.Id != productId && x.IsActive)
-                .OrderByDescending(x => x.CreatedDate)
-                .ToList();
+                          .Where(x => x.ProductCategoryId == categoryId
+                                   && x.Id != productId
+                                   && x.IsActive)
+                          .OrderByDescending(x => x.CreatedDate)
+                          .ToList();
 
             return PartialView("_ProductRelated", items);
         }

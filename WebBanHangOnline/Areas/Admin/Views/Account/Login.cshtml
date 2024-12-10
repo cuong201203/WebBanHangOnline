@@ -4,16 +4,22 @@
     //Layout = "~/Areas/Admin/Views/Shared/_LayoutLogin.cshtml";
 }
 
+<style>
+    .msg-container {
+        display: grid;
+    }
+
+    .validation-summary, .success-line {
+        grid-column: 1;
+        grid-row: 1;
+    }
+</style>
+
 <div class="card-body login-card-body">
     <div class="login-box-msg text-black">Đăng nhập để bắt đầu phiên của bạn</div>
-    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form", id = "loginForm" }))
+    @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { role = "form", id = "loginForm" }))
     {
     @Html.AntiForgeryToken()
-    <div id="validation-summary" style="display:none;" class="col-md-12 px-0">
-        <div class="alert alert-danger" role="alert">
-            <ul id="validation-errors" class="text-black" style="list-style: none; padding-left: 0; margin-bottom: 0;"></ul>
-        </div>
-    </div>
 
     <div class="input-group">
         @Html.TextBoxFor(x => x.UserName, new { @class = "form-control", @placeholder = "Tên đăng nhập" })
@@ -35,10 +41,18 @@
     </div>
     @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
 
-    <div class="col-md-12 px-0 mt-3 d-none success-line">
-        Bạn hãy chờ chút ...
-    </div>
+    <div class="msg-container">     
+        <div class="col-md-12 px-0 mt-2 success-line" style="display: none;">
+            Bạn hãy chờ chút ...
+        </div>
 
+        <div style="display: none;" class="col-md-12 px-0 py-2 validation-summary">
+            <div class="alert alert-danger mb-0" role="alert">
+                <ul class="text-black validation-error" style="list-style: none; padding-left: 0; margin-bottom: 0;"></ul>
+            </div>
+        </div>
+    </div>
+    
     <div class="row mt-3">
         <div class="col-7">
         </div>
@@ -53,39 +67,8 @@
 </div>
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
     <script src="~/Scripts/jquery.validate.min.js"></script>
-    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $("#loginForm").submit(function (e) {
-                e.preventDefault();
-                $('.success-line').show();
-                $("#validation-summary").hide();
-                $.ajax({
-                    url: '@Url.Action("Login", "Account")',
-                    type: this.method,
-                    data: $(this).serialize(),
-                    success: function (result) {
-                        if (result.success) {
-                            window.location.href = result.redirectUrl;
-                        } else if (result.errors && result.errors.length > 0) {
-                            // Chỉ hiển thị khi có lỗi cụ thể
-                            $('.success-line').hide;
-                            $("#validation-summary").show();
-                            $("#validation-errors").empty(); // Xóa thông báo lỗi cũ
-                            $.each(result.errors, function (index, error) {
-                                $("#validation-errors").append("<li>" + error + "</li>");
-                            });
-                        } else {
-                            // Ẩn nếu không có lỗi
-                            $('.success-line').hide;
-                            $("#validation-summary").hide();
-                        }
-                    }
-                });
-            });
-        });
-    </script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>   
+    <script src="~/Areas/Admin/Scripts/jsAccount.js"></script>
 }
+

@@ -33,7 +33,11 @@
         startX = null;
     });
 
-    $('.best_seller_img').hover(
+    $('.product-grid').isotope({
+        filter: '.product-item.all'
+    });
+
+    $('.best-seller-img').hover(
         function () {
             var hoverImage = $(this).attr('data-hover');
             $(this).stop(true, true).fadeOut(200, function () {

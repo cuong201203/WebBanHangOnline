@@ -324,6 +324,18 @@
     <Compile Include="Migrations\202410311327564_UpdateProduct3.Designer.cs">
       <DependentUpon>202410311327564_UpdateProduct3.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202411011546243_UpdateOrder2.cs" />
+    <Compile Include="Migrations\202411011546243_UpdateOrder2.Designer.cs">
+      <DependentUpon>202411011546243_UpdateOrder2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411011822453_UpdateOrder3.cs" />
+    <Compile Include="Migrations\202411011822453_UpdateOrder3.Designer.cs">
+      <DependentUpon>202411011822453_UpdateOrder3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202411170529142_AddExpiredDateToProduct.cs" />
+    <Compile Include="Migrations\202411170529142_AddExpiredDateToProduct.designer.cs">
+      <DependentUpon>202411170529142_AddExpiredDateToProduct.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CommonAbstract.cs" />
@@ -352,6 +364,17 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Admin\Scripts\jsAccount.js" />
+    <Content Include="Areas\Admin\Scripts\jsAdv.js" />
+    <Content Include="Areas\Admin\Scripts\jsCategory.js" />
+    <Content Include="Areas\Admin\Scripts\jsLayout.js" />
+    <Content Include="Areas\Admin\Scripts\jsNews.js" />
+    <Content Include="Areas\Admin\Scripts\jsOrder.js" />
+    <Content Include="Areas\Admin\Scripts\jsPost.js" />
+    <Content Include="Areas\Admin\Scripts\jsProduct.js" />
+    <Content Include="Areas\Admin\Scripts\jsProductCategory.js" />
+    <Content Include="Areas\Admin\Scripts\jsStatistical.js" />
+    <Content Include="Areas\Admin\Scripts\jsSystemConfig.js" />
     <Content Include="Content\assets\images\banner_1.jpg" />
     <Content Include="Content\assets\images\banner_2.jpg" />
     <Content Include="Content\assets\images\banner_3.jpg" />
@@ -3676,6 +3699,7 @@
     <Content Include="Scripts\jsLayout.js" />
     <Content Include="Scripts\jsLoginRegister.js" />
     <Content Include="Scripts\jsMenu.js" />
+    <Content Include="Scripts\jsNews.js" />
     <Content Include="Scripts\jsProduct.js" />
     <Content Include="Scripts\jsShopping.js" />
     <Content Include="Scripts\jsUser.js" />
@@ -3754,7 +3778,7 @@
     <Content Include="Views\Home\_Subscribe.cshtml" />
     <Content Include="Views\ShoppingCart\VnPayReturn.cshtml" />
     <Content Include="Views\ShoppingCart\_ItemCheckOut.cshtml" />
-    <Content Include="Views\Product\_ProductByCateId.cshtml" />
+    <Content Include="Views\Product\_ProductNew.cshtml" />
     <Content Include="Views\Product\_ProductCategory.cshtml" />
     <Content Include="Views\Account\_OrderHistory.cshtml" />
     <Content Include="Views\Product\_ProductFeature.cshtml" />
@@ -3863,6 +3887,15 @@
     <EmbeddedResource Include="Migrations\202410311327564_UpdateProduct3.resx">
       <DependentUpon>202410311327564_UpdateProduct3.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411011546243_UpdateOrder2.resx">
+      <DependentUpon>202411011546243_UpdateOrder2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411011822453_UpdateOrder3.resx">
+      <DependentUpon>202411011822453_UpdateOrder3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202411170529142_AddExpiredDateToProduct.resx">
+      <DependentUpon>202411170529142_AddExpiredDateToProduct.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -3882,7 +3915,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>58669</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:44368/</IISUrl>
+          <IISUrl>https://cocoonvn.com:443/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

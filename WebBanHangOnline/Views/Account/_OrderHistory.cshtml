@@ -5,13 +5,14 @@
     var i = ((ViewBag.Page - 1) * ViewBag.PageSize) + 1;
 }
 
-<div id="order-list">
+<div id="orderList">
     <table class="table table-hover">
         <thead>
             <tr>
                 <th>STT</th>
                 <th>Mã đơn hàng</th>
                 <th>Ngày tạo</th>
+                <th>Hình thức thanh toán</th>
                 <th>Trạng thái</th>
                 <th>Tổng tiền</th>
                 <th></th>
@@ -24,7 +25,8 @@
                 <td>@i</td>
                 <td>@item.Code</td>
                 <td>@item.CreatedDate.ToString("dd/MM/yyyy, HH:mm:ss")</td>
-                <td>@(item.TypePayment == 1 ? "Chờ thanh toán" : "Đã thanh toán")</td>
+                <td>@(item.TypePayment == 1 ? "COD" : "Chuyển khoản")</td>
+                <td>@(item.Status == 0 ? "Chờ thanh toán" : item.Status == 1 ? "Đã thanh toán" : "Đã hủy")</td>
                 @{
                     var tongTien = 0;
                     foreach (var item_ in item.OrderDetails)
@@ -34,7 +36,12 @@
                 }
                 <td class="font-weight-bold">@string.Format("{0:N0}", tongTien)<u>đ</u></td>
                 <td>
-                    <a href="/@item.Code-o@(item.Id)" class="btn red_button text-white px-4">Xem chi tiết</a>
+                    <a href="/@item.Code-o@(item.Id)" class="btn green-button text-white">Xem chi tiết</a>
+                    @*0: Chưa thanh toán*@
+                    @if (item.Status == 0 && (DateTime.Now - item.CreatedDate).TotalHours <= 24)
+                    {
+                    <a href="@Url.Action("CancelOrder", "Account", new { code = item.Code })" data-code="@item.Code" class="btn red-button text-white btnCancelOrder">Hủy đơn</a>
+                    }
                 </td>
             </tr>
                 i++;

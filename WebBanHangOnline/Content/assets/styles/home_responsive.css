@@ -60,12 +60,12 @@
 
 @media only screen and (max-width: 1199px)
 {
-	.main_slider
+	.main-slider
 	{
 		min-height: 475px;
 		height: calc(100vw / 1.714);
 	}
-	.main_slider_content
+	.main-slider-content
 	{
 		width: 80%;
 	}
@@ -95,7 +95,7 @@
 	{
 		margin-top: 5px;
 	}
-	.blog_title
+	.blog-title
 	{
 		font-size: 20px;
 	}
@@ -118,11 +118,11 @@
 {
 	h1{font-size: 48px;}
 	h2{font-size: 36px;}
-	.main_slider_content h6
+	.main-slider-content h6
 	{
 		margin-bottom: 23px;
 	}
-	.shop_now_button
+	.shop-now-button
 	{
 		margin-top: 26px;
 	}
@@ -130,7 +130,7 @@
 	{
 		width: 25%;
 	}
-	.top_nav
+	.top-nav
 	{
 		display: none;
 	}
@@ -138,15 +138,15 @@
 	{
 		display: none;
 	}
-	.hamburger_container
+	.hamburger-container
 	{
 		display: block;
 	}
-	.main_slider
+	.main-slider
 	{
 		margin-top: 100px;
 	}
-	.main_slider_content
+	.main-slider-content
 	{
 		width: 100%;
 		padding-right: 15px;
@@ -155,11 +155,11 @@
 	{
 		height: 160px;
 	}
-	.banner_category {
+	.banner-category {
 		min-width: 160px;
 		height: fit-content
 	}
-	.banner_category a
+	.banner-category a
 	{
 		font-size: 16px;
 		line-height: 40px;
@@ -168,7 +168,7 @@
 	{
 		width: 25%;
 	}
-	.deal_ofthe_week_col
+	.deal-of-the-week-col
 	{
 		display: -webkit-box;
 		display: -moz-box;
@@ -184,14 +184,14 @@
 		width: 100%;
 		height: 100%;
 	}
-	.deal_ofthe_week_content
+	.deal-of-the-week-content
 	{
 		position: relative;
 		top: auto;
 		left: auto;
 		height: auto;
 	}
-	.deal_ofthe_week_img
+	.deal-of-the-week-img
 	{
 		text-align: center;
 	}
@@ -209,27 +209,27 @@
 		margin-top: 1px;
 		font-size: 14px;
 	}
-	.benefit_col
+	.benefit-col
 	{
 		margin-bottom: 30px;
 	}
-	.benefit_col:last-child
+	.benefit-col:last-child
 	{
 		margin-bottom: 0px;
 	}
-	.blog_item_col
+	.blog-item-col
 	{
 		margin-bottom: 30px;
 	}
-	.blog_item_col:last-child
+	.blog-item-col:last-child
 	{
 		margin-bottom: 0px;
 	}
-	.blog_item
+	.blog-item
 	{
 		height: 440px;
 	}
-	.blog_title
+	.blog-title
 	{
 		font-size: 24px;
 	}
@@ -297,15 +297,15 @@
 	h1{font-size: 36px;}
 	h2{font-size: 24px;}
 	h6{font-size: 12px;}
-	.main_slider_content h6
+	.main-slider-content h6
 	{
 		margin-bottom: 20px;
 	}
-	.shop_now_button
+	.shop-now-button
 	{
 		margin-top: 23px;
 	}
-	.red_button a
+	.red-button a
 	{
 		font-size: 12px;
 	}
@@ -314,7 +314,7 @@
 		margin-bottom: 30px;
 		height: 210px;
 	}
-	.new_arrivals_title
+	.new-arrivals-title
 	{
 		margin-top: 44px;
 	}
@@ -327,26 +327,26 @@
 	{
 		height: 305px;
 	}
-	.grid_sorting_button
+	.grid-sorting-button
 	{
 		font-size: 13px;
 		padding-left: 20px;
 		padding-right: 20px;
 		min-width: 80px;
 	}
-	.product_slider_container
+	.product-slider-container
 	{
 		height: auto;
 	}
-	.product_slider_item .product-item
+	.product-slider-item .product-item
 	{
 		height: 380px;
 	}
-	.benefit_col
+	.benefit-col
 	{
 		margin-bottom: 15px;
 	}
-	.blog_item
+	.blog-item
 	{
 		height: 372px;
 	}
@@ -366,7 +366,7 @@
 
 @media only screen and (max-width: 575px)
 {
-	.hamburger_menu
+	.hamburger-menu
 	{
 		right: -100%;
 		width: 100%;
@@ -380,7 +380,7 @@
 	{
 		height: 380px;
 	}
-	.blog_item
+	.blog-item
 	{
 		height: calc((100vw - 30px) / 1.37);
 	}
@@ -434,33 +434,33 @@
 	{
 		font-size: 12px;
 	}
-	.hamburger_container
+	.hamburger-container
 	{
 		margin-left: 25px;
 	}
-	.hamburger_container i
+	.hamburger-container i
 	{
 		font-size: 16px;
 	}
-	.hamburger_close
+	.hamburger-close
 	{
 		top: 14px;
 		right: 4px;
 	}
-	.hamburger_close i
+	.hamburger-close i
 	{
 		font-size: 20px;
 	}
-	.hamburger_menu_content
+	.hamburger-menu-content
 	{
 		padding-right: 15px;
 		padding-top: 70px;
 	}
-	.menu_item
+	.menu-item
 	{
 		border-bottom-color: rgba(181, 174, 196, 0.5);
 	}
-	.menu_item > a
+	.menu-item > a
 	{
 		font-size: 12px;
 		line-height: 35px;
@@ -488,28 +488,28 @@
 		height: 15px;
 		font-size: 10px;		
 	}
-	.main_slider
+	.main-slider
 	{
 		height: calc(100vh - 70px);
 		height: 80vw;
 		min-height: auto;
 		margin-top: 70px;
 	}
-	.main_slider_content h6
+	.main-slider-content h6
 	{
 		margin-bottom: 15px;
 	}
-	.main_slider_content h1
+	.main-slider-content h1
 	{
 		font-size: 24px;
 	}
-	.shop_now_button
+	.shop-now-button
 	{
 		margin-top: 15px;
 		width: 100px;
 		height: 35px;
 	}
-	.red_button a
+	.red-button a
 	{
 		font-size: 10px;
 	}
@@ -517,7 +517,7 @@
 	{
 		height: calc((100vw - 30px) / 2.6);
 	}
-	.grid_sorting_button
+	.grid-sorting-button
 	{
 		font-size: 12px;
 		padding-left: 10px;
@@ -534,19 +534,19 @@
 	{
 		height: auto;
 	}
-	.product_name a
+	.product-name a
 	{
 		font-size: 12px;
 	}
-	.add_to_cart_button
+	.add-to-cart-button
 	{
 		margin-top: 20px;
 
-		/* Fix add_to_cart_button responsive mobile - cuong */
+		/* Fix add-to-cart-button responsive mobile - cuong */
 		visibility: visible;
 		opacity: 1;
 	}
-	.deal_ofthe_week_img
+	.deal-of-the-week-img
 	{
 		height: 400px;
 	}
@@ -559,7 +559,7 @@
 		width: 50px;
 		height: 50px;
 	}
-	.section_title::after
+	.section-title::after
 	{
 	    top: calc(100% + 8px);
 	    height: 3px;
@@ -574,37 +574,37 @@
 		margin-top: -9px;
 		font-size: 10px;
 	}
-	.deal_ofthe_week_button
+	.deal-of-the-week-button
 	{
 		margin-top: 36px;
 	}
 
-	.product_slider_item .product-item
+	.product-slider-item .product-item
 	{
 		width: 100%;
 		height: auto;
 	}
-	.product_slider_item .product-item:hover::after
+	.product-slider-item .product-item:hover::after
 	{
 		box-shadow: none;
 	}
-	.product_slider_item .product-item .product
+	.product-slider-item .product-item .product
 	{
 		height: auto;
 	}
-	.product_slider_item .product-item .product_info
+	.product-slider-item .product-item .product-info
 	{
 		padding-bottom: 30px;
 	}
-	.blog_title
+	.blog-title
 	{
 		font-size: 16px;
 	}
-	.blog_meta
+	.blog-meta
 	{
 		font-size: 10px;
 	}
-	.blog_more
+	.blog-more
 	{
 		font-size: 12px;
 		margin-top: 5px;
@@ -680,8 +680,8 @@
 		margin-bottom: 30px;
 	}
 
-	/* Fix product_slider_nav responsive mobile - cuong */
-	.product_slider_nav {
+	/* Fix product-slider-nav responsive mobile - cuong */
+	.product-slider-nav {
 		visibility: visible;
 		opacity: 1;
 	}
