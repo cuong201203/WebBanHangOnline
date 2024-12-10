@@ -943,7 +943,7 @@ section
 	background-size: cover;
 	background-position: center center;
 }
-.banner_category {
+.banner-category {
 	height: fit-content;
 	background: #FFFFFF;
 	min-width: 180px;
@@ -952,11 +952,11 @@ section
 	transition: transform 0.3s ease, box-shadow 0.3s ease;
 	transform: translateZ(0) scale(1);
 }
-.banner_category:hover {
+.banner-category:hover {
 	transform: translateZ(30px) scale(1.1);
 	box-shadow: 0 20px 30px rgba(0, 0, 0, 0.2);
 }
-.banner_category a
+.banner-category a
 {
 	display: block;
 	color: #1e1e27;
@@ -972,7 +972,7 @@ section
 	-o-transition: color 0.3s ease;
 	transition: color 0.3s ease;
 }
-.banner_category a:hover
+.banner-category a:hover
 {
 	color: #b5aec4;
 }
@@ -1028,8 +1028,8 @@ section
 }
 .grid-sorting-button:hover
 {
-	color: #FFFFFF;
-	background: #c5a25d !important;
+	color: #937a47;
+	background: #eeeeee !important;
 }
 .grid-sorting-button.active:hover
 {

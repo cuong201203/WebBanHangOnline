@@ -58,13 +58,13 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult UpdateStatus(int id, int trangThai)
+        public ActionResult UpdateStatus(int id, int status)
         {
             var item = db.Orders.Find(id);
             if (item != null)
             {
                 db.Orders.Attach(item);
-                item.Status = trangThai;
+                item.Status = status;
                 db.Entry(item).Property(x => x.Status).IsModified = true;
                 db.SaveChanges();
                 return Json(new { message = "Success", success = true });

@@ -155,11 +155,11 @@
 	{
 		height: 160px;
 	}
-	.banner_category {
+	.banner-category {
 		min-width: 160px;
 		height: fit-content
 	}
-	.banner_category a
+	.banner-category a
 	{
 		font-size: 16px;
 		line-height: 40px;
